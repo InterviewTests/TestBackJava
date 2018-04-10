@@ -56,7 +56,7 @@ Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura
 * RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
 * DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
 * Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JNunit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
+* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
 * SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
 * Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
 * Uso do git

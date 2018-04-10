@@ -69,6 +69,6 @@ Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura
 Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
 Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
 
-O resultado deverá ser enviado para um fork deste repositório no GitHub do candidato.
++Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado.
 
 # BOA SORTE!

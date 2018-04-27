@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +22,7 @@ public class Expense implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID_EXPENSE", precision = 12, scale = 0)
 	private Long id;
 
 	@Column(name = "DESCRIPTION", nullable = false, length = 200)
@@ -28,8 +31,9 @@ public class Expense implements Serializable{
 	@Column(name = "VALUE", nullable = false)
 	private double value;
 
-	@Column(name = "USER_CODE", nullable = false)
-	private Integer userCode;
+	@ManyToOne
+	@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")
+	private User user;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "EXPENSE_DATE", nullable = false)
@@ -59,19 +63,19 @@ public class Expense implements Serializable{
 		this.value = value;
 	}
 
-	public Integer getUserCode() {
-		return userCode;
-	}
-
-	public void setUserCode(final Integer userCode) {
-		this.userCode = userCode;
-	}
-
 	public Date getExpenseDate() {
 		return expenseDate;
 	}
 
 	public void setExpenseDate(final Date expenseDate) {
 		this.expenseDate = expenseDate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
 	}
 }

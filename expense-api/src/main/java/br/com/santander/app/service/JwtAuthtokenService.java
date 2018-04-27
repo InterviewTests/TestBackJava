@@ -1,4 +1,4 @@
-package br.com.santander.app.service;
+/*package br.com.santander.app.service;
 
 import java.time.Instant;
 import java.util.Date;
@@ -10,14 +10,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.com.santander.app.model.User;
+import br.com.santander.app.support.JwtHelper;
 import br.com.santander.app.support.RedisConfiguration;
+import br.com.santander.app.support.RedisKeysHelper;
 
 @Service
 public class JwtAuthtokenService {
 
 	@Autowired
-	private RedisConfiguration redis;
-
+	private RedisConfiguration redisConfiguration;
 
 	public String createAndSaveAuthtokenFromAuthentication(final Authentication authentication) {
 		final User details = (User) authentication.getDetails();
@@ -25,15 +26,15 @@ public class JwtAuthtokenService {
 		final String authtoken = createTokenFromUsername(details);
 
 		//String tokensKey = RedisKeysHelper.generateAuthtokensKey(authentication.getPrincipal().toString());
-		final String tokenKey = "";//RedisKeysHelper.generateAuthtokenKey(authtoken);
+		final String tokenKey = RedisKeysHelper.generateAuthtokenKey(authtoken);
 
 		//redis.redisTemplate().opsForList().leftPush(tokensKey, authtoken);
-		redis.redisTemplate().opsForValue().set(tokenKey, authtoken);
+		redisConfiguration.redisTemplate().opsForValue().set(tokenKey, authtoken);
 
 		final Date expire = Date.from(Instant.now().plusSeconds(60*60*60*24*365));
 
 		//redis.redisTemplate().expireAt(tokensKey, expire);
-		redis.redisTemplate().expireAt(tokenKey, expire);
+		redisConfiguration.redisTemplate().expireAt(tokenKey, expire);
 
 		return authtoken;
 	}
@@ -46,7 +47,8 @@ public class JwtAuthtokenService {
 		header.put("user.id", user.getId());
 		header.put("user.name", user.getUserName());
 
-		return null;//JwtHelper.createHash("Auth", user.getUserName(), null, header);
+		return JwtHelper.createHash("Auth", user.getUserName(), null, header);
 	}
 
 }
+ */

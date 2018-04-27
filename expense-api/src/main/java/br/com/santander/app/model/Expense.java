@@ -1,7 +1,7 @@
 package br.com.santander.app.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "EXPENSE")
@@ -31,13 +29,12 @@ public class Expense implements Serializable{
 	@Column(name = "VALUE", nullable = false)
 	private double value;
 
-	@ManyToOne
-	@JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER")
+	@ManyToOne(targetEntity = User.class)
+	@JoinColumn(name = "ID_USER", referencedColumnName="ID_USER")
 	private User user;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "EXPENSE_DATE", nullable = false)
-	private Date expenseDate;
+	private ZonedDateTime expenseDate;
 
 	public Long getId() {
 		return id;
@@ -63,11 +60,11 @@ public class Expense implements Serializable{
 		this.value = value;
 	}
 
-	public Date getExpenseDate() {
+	public ZonedDateTime getExpenseDate() {
 		return expenseDate;
 	}
 
-	public void setExpenseDate(final Date expenseDate) {
+	public void setExpenseDate(final ZonedDateTime expenseDate) {
 		this.expenseDate = expenseDate;
 	}
 
@@ -78,4 +75,5 @@ public class Expense implements Serializable{
 	public void setUser(final User user) {
 		this.user = user;
 	}
+
 }

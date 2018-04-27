@@ -1,4 +1,4 @@
-package br.com.santander.app.support;
+/*package br.com.santander.app.support;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +16,11 @@ public class RedisConfiguration {
 
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate() {
-		final RedisTemplate<String, Object> redis = new RedisTemplate<String, Object>();
+		final RedisTemplate<String, Object> redis = new RedisTemplate<>();
 		redis.setConnectionFactory(jedisConnectionFactory());
 		redis.setDefaultSerializer(new StringRedisSerializer());
 		return redis;
 	}
 
 }
+ */

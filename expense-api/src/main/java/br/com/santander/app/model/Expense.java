@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "EXPENSE")
@@ -23,18 +24,23 @@ public class Expense implements Serializable{
 	@Column(name = "ID_EXPENSE", precision = 12, scale = 0)
 	private Long id;
 
-	@Column(name = "DESCRIPTION", nullable = false, length = 200)
-	private String description;
-
 	@Column(name = "VALUE", nullable = false)
 	private double value;
 
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "ID_USER", referencedColumnName="ID_USER")
-	private User user;
-
 	@Column(name = "EXPENSE_DATE", nullable = false)
 	private LocalDateTime expenseDate;
+
+	@Version
+	@Column(name = "VERSION", nullable = false)
+	private Integer version;
+
+	@ManyToOne(targetEntity = Category.class)
+	@JoinColumn(name = "ID_CATEGORY", referencedColumnName="ID_CATEGORY", nullable = true)
+	private Category category;
+
+	@ManyToOne(targetEntity = User.class)
+	@JoinColumn(name = "ID_USER", referencedColumnName="ID_USER", nullable = false)
+	private User user;
 
 	public Long getId() {
 		return id;
@@ -42,14 +48,6 @@ public class Expense implements Serializable{
 
 	public void setId(final Long id) {
 		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	public double getValue() {
@@ -76,4 +74,19 @@ public class Expense implements Serializable{
 		this.user = user;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(final Category category) {
+		this.category = category;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(final Integer version) {
+		this.version = version;
+	}
 }

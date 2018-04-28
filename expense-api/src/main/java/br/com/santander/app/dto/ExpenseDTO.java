@@ -9,6 +9,15 @@ public class ExpenseDTO {
 	private double value;
 	private Long idUser;
 	private LocalDateTime expenseDate;
+	private Integer version;
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(final Integer version) {
+		this.version = version;
+	}
 
 	public Long getId() {
 		return id;

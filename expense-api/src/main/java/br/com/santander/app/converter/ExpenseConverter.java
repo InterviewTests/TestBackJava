@@ -8,30 +8,37 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.santander.app.dto.ExpenseDTO;
+import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
 import br.com.santander.app.model.User;
 
 public class ExpenseConverter {
 
-	public static Expense fromDTO(final ExpenseDTO expenseDTO) {
+	public static Expense fromDTO(final ExpenseDTO dto) {
 		final Expense expense= new Expense();
 		final User user= new User();
+		final Category category= new Category();
 		expense.setUser(user);
-		expense.setId(expenseDTO.getId());
-		expense.setDescription(expenseDTO.getDescription());
-		expense.getUser().setId(expenseDTO.getIdUser());
-		expense.setExpenseDate(expenseDTO.getExpenseDate());
-		expense.setValue(expenseDTO.getValue());
+		expense.setCategory(category);
+		expense.setId(dto.getId());
+		expense.getCategory().setDescription(dto.getDescription());
+		expense.getUser().setId(dto.getIdUser());
+		expense.setExpenseDate(dto.getExpenseDate());
+		expense.setValue(dto.getValue());
+		expense.setVersion(dto.getVersion());
 		return expense;
 	}
 
-	public static ExpenseDTO toDTO(final Expense expense) {
+	public static ExpenseDTO toDTO(final Expense model) {
 		final ExpenseDTO expenseDTO= new ExpenseDTO();
-		expenseDTO.setId(expense.getId());
-		expenseDTO.setDescription(expense.getDescription());
-		expenseDTO.setIdUser(expense.getUser().getId());
-		expenseDTO.setExpenseDate(expense.getExpenseDate());
-		expenseDTO.setValue(expense.getValue());
+		expenseDTO.setId(model.getId());
+		if(model.getCategory() != null) {
+			expenseDTO.setDescription(model.getCategory().getDescription());
+		}
+		expenseDTO.setIdUser(model.getUser().getId());
+		expenseDTO.setExpenseDate(model.getExpenseDate());
+		expenseDTO.setValue(model.getValue());
+		expenseDTO.setVersion(model.getVersion());
 		return expenseDTO;
 	}
 

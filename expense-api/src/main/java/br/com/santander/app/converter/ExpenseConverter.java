@@ -1,7 +1,11 @@
 package br.com.santander.app.converter;
 
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.model.Expense;
@@ -37,5 +41,20 @@ public class ExpenseConverter {
 			results.add(toDTO(expense));
 		}
 		return results;
+	}
+
+	public static ExpenseDTO toDTO(final Map<String, String> params) throws ParseException {
+		final ExpenseDTO dto = new ExpenseDTO();
+
+		for (final Map.Entry<String, String> entry : params.entrySet()) {
+			if(entry.getKey().equalsIgnoreCase("idUser")) {
+				dto.setIdUser(Long.parseLong(entry.getValue()));
+			}
+			if(entry.getKey().equalsIgnoreCase("expenseDate")) {
+				final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+				dto.setExpenseDate(LocalDateTime.parse(entry.getValue(), formatter));
+			}
+		}
+		return dto;
 	}
 }

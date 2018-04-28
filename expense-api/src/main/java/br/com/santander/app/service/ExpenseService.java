@@ -9,4 +9,6 @@ public interface ExpenseService {
 	ExpenseDTO insert(ExpenseDTO expenseDTO);
 
 	List<ExpenseDTO> findByIdUser(Long idUser);
+
+	List<ExpenseDTO> findByFilter(ExpenseDTO expenseDTO);
 }

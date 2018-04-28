@@ -1,6 +1,6 @@
 package br.com.santander.app.dto;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 public class ExpenseDTO {
 
@@ -8,7 +8,7 @@ public class ExpenseDTO {
 	private String description;
 	private double value;
 	private Long idUser;
-	private ZonedDateTime expenseDate;
+	private LocalDateTime expenseDate;
 
 	public Long getId() {
 		return id;
@@ -42,11 +42,11 @@ public class ExpenseDTO {
 		this.idUser = idUser;
 	}
 
-	public ZonedDateTime getExpenseDate() {
+	public LocalDateTime getExpenseDate() {
 		return expenseDate;
 	}
 
-	public void setExpenseDate(final ZonedDateTime expenseDate) {
+	public void setExpenseDate(final LocalDateTime expenseDate) {
 		this.expenseDate = expenseDate;
 	}
 }

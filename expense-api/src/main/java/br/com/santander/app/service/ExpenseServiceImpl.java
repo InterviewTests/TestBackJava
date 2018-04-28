@@ -1,8 +1,6 @@
 package br.com.santander.app.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import br.com.santander.app.repository.ExpenseRepository;
 
 @Transactional(readOnly = true)
 @Service
-public class ExpenseServiceImpl implements ExpenseService{
+public class ExpenseServiceImpl implements ExpenseService {
 
 	@Autowired
 	private ExpenseRepository expenseRepository;
@@ -28,19 +26,27 @@ public class ExpenseServiceImpl implements ExpenseService{
 
 	@Override
 	public List<ExpenseDTO> findByIdUser(final Long idUser) {
-		List<ExpenseDTO> teste = null;
-		try {
-			teste = ExpenseConverter.toDTO(expenseRepository.findByDate(new SimpleDateFormat("dd/MM/yyyy").parse("27/04/2018")));
-		} catch (final ParseException e) {
-			e.printStackTrace();
-		}
-		return teste;
-		//return ExpenseConverter.toDTO(expenseRepository.findByUserIdAndExpenseDateBeforeOrderByExpenseDate(idUser, getZonedDateTimeMinus5Seconds()));
+		return ExpenseConverter.toDTO(expenseRepository.findByUserIdAndExpenseDateBeforeOrderByExpenseDate(idUser,
+				getLocalDateTimeMinus5Seconds()));
 	}
 
-	public static ZonedDateTime getZonedDateTimeMinus5Seconds() {
-		final ZonedDateTime dateReturn= ZonedDateTime.now();
-		return dateReturn.minusSeconds(5);
+	@Override
+	public List<ExpenseDTO> findByFilter(final ExpenseDTO expenseDTO) {
+		final LocalDateTime expenseDate = expenseDTO.getExpenseDate();
+		return ExpenseConverter.toDTO(expenseRepository.findByUserIdAndExpenseDateBetween(expenseDTO.getIdUser(),
+				getLocalDateTimeStartTime(expenseDate), getLocalDateEndTime(expenseDate)));
+	}
+
+	public static LocalDateTime getLocalDateTimeMinus5Seconds() {
+		return LocalDateTime.now().minusSeconds(5);
+	}
+
+	public static LocalDateTime getLocalDateTimeStartTime(final LocalDateTime expenseDate) {
+		return LocalDateTime.of(expenseDate.getYear(), expenseDate.getMonth(), expenseDate.getDayOfMonth(), 0, 0, 0);
+	}
+
+	public static LocalDateTime getLocalDateEndTime(final LocalDateTime expenseDate) {
+		return LocalDateTime.of(expenseDate.getYear(), expenseDate.getMonth(), expenseDate.getDayOfMonth(), 23, 59, 59);
 	}
 
 }

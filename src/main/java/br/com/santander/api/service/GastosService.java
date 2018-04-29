@@ -1,6 +1,6 @@
 package br.com.santander.api.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class GastosService{
 		return gastosRepository.findByCodigoUsuario(codigoUsuario);
 	}
 	
-//	public List<Gasto> pesquisarGastosPorData(Long idCliente, LocalDateTime dataGasto){
-//		return gastosRepository.findByData(idCliente, dataGasto);
-//	}
+	public List<Gasto> pesquisarGastosPorDataGasto(Long codigoUsuario, LocalDate dataGasto){
+		return gastosRepository.findByDataGasto(codigoUsuario, dataGasto);
+	}
 
 	//	public List<Gasto> pesquisarGastosUltimosCincoSegundosPorIdCliente(Long idCliente, LocalDateTime data){
 //		return gastosRepository.pesquisarGastosUltimosCincoSegundosPorIdCliente(idCliente, data);

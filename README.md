@@ -1,17 +1,55 @@
-# Show me the code
+# Instruções para utilização da API
 
-### # DESAFIO:
+### # CRIAÇÃO DO DATABASE:
 
-API REST para Gestão de Gastos!
+create database santanderapi;
+
+create table cliente (
+
+codigo_usuario int(6) unsigned auto_increment, 
+nome_cliente varchar(150) not null, 
+primary key (codigo_usuario)
+
+);
+
+create table gasto (
+
+id_gasto int(6) unsigned auto_increment, 
+descricao varchar(255), 
+valor double precision not null, 
+codigo_usuario INT(6) UNSIGNED not null,
+data_gasto DATETIME, 
+primary key (id_gasto),
+foreign key (codigo_usuario) references cliente(codigo_usuario)
+
+);
 
 ```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
+```
+
+### # BUILD DO PROJETO:
+
+Executar o comando 'mvn clean install' no diretório raiz do projeto.
+
 ```
 ```
+
+### # INICIALIZANDO O SERVIÇO:
+
+Para iniciar o serviço, executar a classe 'SantanderApiApplication.java', localizada no diretório do projeto.
+
+```
+```
+
+### # CONSUMINDO AS FUNCIONALIDADES:
+
+
+
+
+
+
+
+
 Funcionalidade: Listagem de gastos*
   Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
   Quando acesso a interface de listagem de gastos

@@ -1,6 +1,6 @@
 package br.com.santander.api.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +41,12 @@ public class GastosController {
 		return new ResponseEntity< Iterable<Gasto> >(gastosService.listarTodos(),HttpStatus.OK); 
 	}
 	
-//	@RequestMapping(value="/busca/gastosPorData/{idCliente, data}", method = RequestMethod.GET) 
-//	public ResponseEntity <List<Gasto>> buscaGastosPorData(
-//			@PathVariable Long idCliente, 
-//			@PathVariable @DateTimeFormat(pattern = "ddMMyyyy") LocalDateTime data){
-//		return new ResponseEntity <List<Gasto>>(gastosService.pesquisarGastosPorData(idCliente, data), HttpStatus.OK);
-//	}
+	@RequestMapping(value="/busca/gastosPorDataGasto/{codigoUsuario},{dataGasto}", method = RequestMethod.GET) 
+	public ResponseEntity <List<Gasto>> buscaGastosPorDataGasto(
+			@PathVariable Long codigoUsuario, 
+			@PathVariable @DateTimeFormat(pattern = "ddMMyyyy") LocalDate dataGasto){
+		return new ResponseEntity <List<Gasto>>(gastosService.pesquisarGastosPorDataGasto(codigoUsuario, dataGasto), HttpStatus.OK);
+	}
 	
 //	@RequestMapping(value="/busca/gastosRecentes/{idCliente, dataInicio, dataFim}", method = RequestMethod.GET) 
 //	public ResponseEntity <List<Gasto>> buscaGastosUltimosCincoSegundosPorIdCliente(

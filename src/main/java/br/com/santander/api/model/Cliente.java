@@ -1,26 +1,28 @@
 package br.com.santander.api.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity(name="cliente")
 public class Cliente{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID_CLIENTE")
-	private Long idCliente;
+	@Column(name = "codigo_usuario")
+	private Long codigoUsuario;
 
-	@Column(name = "NOME", nullable = false, length = 150)
+	@Column(name = "nome_cliente", nullable = false, length = 150)
 	private String nomeCliente;
 
-	public Long getIdCliente() {
-		return idCliente;
+	public Long getCodigoUsuario() {
+		return codigoUsuario;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setCodigoUsuario(Long codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 
 	public String getNomeCliente() {

@@ -11,10 +11,10 @@ import br.com.santander.api.model.Gasto;
 @Repository
 public interface GastosRepository extends JpaRepository<Gasto, Long>{
 
-	List<Gasto> pesquisarGastosUltimosCincoSegundosPorIdCliente(Long idCliente, LocalDateTime data);
-	
-	List<Gasto> pesquisarGastosPorIdCliente(Long idCliente);
+	List<Gasto> findByCodigoUsuario(Long codigoUsuario);
 
-	List<Gasto> pesquisarGastosIntervaloDatasPorIdCliente(Long idCliente, LocalDateTime dataInicio, LocalDateTime dataFim);
+//	List<Gasto> findByData(Long idCliente, LocalDateTime dataGasto);
+	
+//	List<Gasto> pesquisarGastosUltimosCincoSegundosPorIdCliente(Long idCliente, LocalDateTime data);
 	
 }

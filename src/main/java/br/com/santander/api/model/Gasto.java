@@ -1,34 +1,47 @@
 package br.com.santander.api.model;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "GASTO")
-public class Gasto{
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import br.com.santander.api.util.ConversorLocalDate;
+import br.com.santander.api.util.DeserializadorLocalDate;
+import br.com.santander.api.util.SerializadorLocalDate;
+
+@Entity(name = "gasto")
+public class Gasto implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID_GASTO")
+	@Column(name = "id_gasto")
 	private Long idGasto;
 
-	@ManyToOne(targetEntity = Cliente.class)
-	@JoinColumn(name = "ID_CLIENTE", referencedColumnName="ID_CLIENTE")
-	private Cliente cliente;
+	@Column(name="descricao")
+	private String descricao;
+	
+	@Column(name = "valor", nullable = false)
+	private double valor;
 
-	@Column(name = "DATA", nullable = false)
-	private LocalDateTime data;
+	@Column(name="codigo_usuario")
+	private Long codigoUsuario;
 
-	@Column(name = "TOTAL", nullable = false)
-	private double total;
+	@Convert(converter = ConversorLocalDate.class)
+	@JsonSerialize(using = SerializadorLocalDate.class)
+	@JsonDeserialize(using = DeserializadorLocalDate.class)
+	@Column(name= "data_gasto", columnDefinition = "DATETIME" ,nullable = true)
+	private LocalDate dataGasto;
+
 
 	public Long getIdGasto() {
 		return idGasto;
@@ -38,28 +51,36 @@ public class Gasto{
 		this.idGasto = idGasto;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Long getCodigoUsuario() {
+		return codigoUsuario;
 	}
 	
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setCodigoUsuario(Long codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 
-	public LocalDateTime getData() {
-		return data;
+	public LocalDate getDataGasto() {
+		return dataGasto;
 	}
 	
-	public void setData(final LocalDateTime data) {
-		this.data = data;
+	public void setDataGasto(final LocalDate dataGasto) {
+		this.dataGasto = dataGasto;
 	}
 
-	public double getTotal() {
-		return total;
+	public double getValor() {
+		return valor;
 	}
 
-	public void setTotal(double total) {
-		this.total = total;
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }

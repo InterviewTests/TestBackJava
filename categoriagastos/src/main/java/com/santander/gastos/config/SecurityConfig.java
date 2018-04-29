@@ -21,7 +21,6 @@ import com.santander.gastos.security.JWTAuthenticationFilter;
 import com.santander.gastos.security.JWTAuthorizationFilter;
 import com.santander.gastos.security.JWTUtil;
 
-//import com.santander.gastos.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity

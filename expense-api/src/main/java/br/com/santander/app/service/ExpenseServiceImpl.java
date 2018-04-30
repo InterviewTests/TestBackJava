@@ -1,7 +1,6 @@
 package br.com.santander.app.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.santander.app.converter.ExpenseConverter;
 import br.com.santander.app.dto.ExpenseDTO;
-import br.com.santander.app.exception.ExpenseException;
-import br.com.santander.app.exception.MultipleExpenseException;
+import br.com.santander.app.exception.OptimisticLockException;
 import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
 import br.com.santander.app.repository.CategoryRepository;
@@ -27,7 +25,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	private static final String lOCK_OPTIMISTIC = "The Expense was update by another transaction.";
+	private static final String OPTIMISTIC_lOCK = "The Expense was update by another transaction.";
 
 	@Transactional(readOnly = false)
 	@Override
@@ -42,7 +40,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	public ExpenseDTO update(final ExpenseDTO expenseDTO) {
 		final Expense expense = ExpenseConverter.fromDTO(expenseDTO);
 		expense.setCategory(categorizeExpenses(expenseDTO.getDescription()));
-		checkException(validateUpdateTask(expense));
+		validateLockOptimistic(expense);
 		return ExpenseConverter.toDTO(expenseRepository.save(expense));
 	}
 
@@ -69,21 +67,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return category;
 	}
 
-	private void checkException(final ArrayList<ExpenseException> exceptions) {
-		if (!exceptions.isEmpty()) {
-			throw new MultipleExpenseException(exceptions);
-		}
-	}
-
-	private ArrayList<ExpenseException> validateUpdateTask(final Expense expense) {
-		final ArrayList<ExpenseException> errors = new ArrayList<>();
-		validateLockOptimistic(expense, errors);
-		return errors;
-	}
-
-	private void validateLockOptimistic(final Expense expense, final ArrayList<ExpenseException> errors) {
+	private void validateLockOptimistic(final Expense expense) {
 		if (!expenseRepository.findById(expense.getId()).get().getVersion().equals(expense.getVersion())) {
-			errors.add(new ExpenseException(lOCK_OPTIMISTIC));
+			throw new OptimisticLockException(OPTIMISTIC_lOCK);
 		}
 	}
 

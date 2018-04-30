@@ -79,8 +79,29 @@ Executar a chamada ao serviço utilizando a seguinte URL: 'http://localhost:8182
 
 Funcionalidade: Listagem de gastos por Cliente
 
-Executar a chamada ao serviço utilizando a seguinte URL: 'http://localhost:8182/gastos/busca/listarGastos/PARÂMETRO*'
+Executar a chamada ao serviço utilizando a seguinte URL: 'http://localhost:8184/gastos/busca/listarGastos/PARÂMETRO*'
 
 Parâmetro: ID do cliente a ser consultado
 
-Exemplo: 'http://localhost:8182/gastos/busca/listarGastos/3'
+Exemplo: 'http://localhost:8184/gastos/busca/listarGastos/3'
+
+```
+
+Funcionalidade: Inclusão de gastos
+
+Executar a chamada ao serviço utilizando os seguintes atributos no Postman: 
+
+Method: POST
+URL: 'http://localhost:8184/gastos/cadastro/incluirGasto'
+
+Body: raw / JSON(application/json)
+
+{"id":21,
+"descricao":"Teste",
+"valor":222.22,
+"codigoUsuario":3,
+"dataGasto":07292018}
+
+```
+
+

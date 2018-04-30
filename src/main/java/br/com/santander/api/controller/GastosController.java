@@ -26,8 +26,12 @@ public class GastosController {
 	
 	@RequestMapping(value = "/cadastro/incluirGasto", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> incluirGasto(@RequestBody Gasto gasto) throws Exception {
-		gastosService.save(gasto);
-		return new ResponseEntity<String>("Pedido Cadastrado com sucesso!", HttpStatus.CREATED);
+		try {
+			gastosService.save(gasto);
+			return new ResponseEntity<String>("Pedido Cadastrado com sucesso!", HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(value= "/busca/listarGastos/{codigoUsuario}" , method= RequestMethod.GET) 

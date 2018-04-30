@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -17,7 +19,11 @@ import br.com.santander.api.util.ConversorLocalDate;
 import br.com.santander.api.util.DeserializadorLocalDate;
 import br.com.santander.api.util.SerializadorLocalDate;
 
-@Entity(name = "gasto")
+@Entity
+@Table(name = "gasto")
+@NamedQuery(name = "Gasto.gastosPorDataGasto",
+        query = "SELECT g FROM Gasto g WHERE g.dataGasto =:data_gasto AND g.codigoUsuario =:codigo_usuario"
+)
 public class Gasto implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

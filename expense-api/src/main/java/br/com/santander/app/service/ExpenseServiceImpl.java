@@ -41,6 +41,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	public ExpenseDTO update(final ExpenseDTO expenseDTO) {
 		final Expense expense = ExpenseConverter.fromDTO(expenseDTO);
+		expense.setCategory(categorizeExpenses(expenseDTO.getDescription()));
 		checkException(validateUpdateTask(expense));
 		return ExpenseConverter.toDTO(expenseRepository.save(expense));
 	}

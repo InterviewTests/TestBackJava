@@ -12,6 +12,7 @@ import br.com.santander.app.converter.ExpenseConverter;
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.exception.ExpenseException;
 import br.com.santander.app.exception.MultipleExpenseException;
+import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
 import br.com.santander.app.repository.CategoryRepository;
 import br.com.santander.app.repository.ExpenseRepository;
@@ -26,14 +27,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-
 	private static final String lOCK_OPTIMISTIC = "The Expense was update by another transaction.";
 
 	@Transactional(readOnly = false)
 	@Override
 	public ExpenseDTO insert(final ExpenseDTO expenseDTO) {
 		final Expense expense = ExpenseConverter.fromDTO(expenseDTO);
-		expense.setCategory(categoryRepository.findByDescriptionEqualsIgnoreCase(expenseDTO.getDescription()));
+		expense.setCategory(categorizeExpenses(expenseDTO.getDescription()));
 		return ExpenseConverter.toDTO(expenseRepository.save(expense));
 	}
 
@@ -53,9 +53,37 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public List<ExpenseDTO> findByFilter(final ExpenseDTO expenseDTO) {
-		final LocalDateTime expenseDate = expenseDTO.getExpenseDate();
 		return ExpenseConverter.toDTO(expenseRepository.findByUserIdAndExpenseDateBetween(expenseDTO.getIdUser(),
-				getLocalDateTimeStartTime(expenseDate), getLocalDateEndTime(expenseDate)));
+				getLocalDateTimeStartTime(expenseDTO.getExpenseDate()),
+				getLocalDateEndTime(expenseDTO.getExpenseDate())));
+	}
+
+	public Category categorizeExpenses(final String description) {
+		Category category = categoryRepository.findByDescriptionEqualsIgnoreCase(description);
+		if (description != null && category == null) {
+			category = new Category();
+			category.setDescription(description);
+			return categoryRepository.save(category);
+		}
+		return category;
+	}
+
+	private void checkException(final ArrayList<ExpenseException> exceptions) {
+		if (!exceptions.isEmpty()) {
+			throw new MultipleExpenseException(exceptions);
+		}
+	}
+
+	private ArrayList<ExpenseException> validateUpdateTask(final Expense expense) {
+		final ArrayList<ExpenseException> errors = new ArrayList<>();
+		validateLockOptimistic(expense, errors);
+		return errors;
+	}
+
+	private void validateLockOptimistic(final Expense expense, final ArrayList<ExpenseException> errors) {
+		if (!expenseRepository.findById(expense.getId()).get().getVersion().equals(expense.getVersion())) {
+			errors.add(new ExpenseException(lOCK_OPTIMISTIC));
+		}
 	}
 
 	public static LocalDateTime getLocalDateTimeMinus5Seconds() {
@@ -68,23 +96,5 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	public static LocalDateTime getLocalDateEndTime(final LocalDateTime expenseDate) {
 		return LocalDateTime.of(expenseDate.getYear(), expenseDate.getMonth(), expenseDate.getDayOfMonth(), 23, 59, 59);
-	}
-
-	private void checkException(final ArrayList<ExpenseException> exceptions) {
-		if (!exceptions.isEmpty()) {
-			throw new MultipleExpenseException(exceptions);
-		}
-	}
-
-	private ArrayList<ExpenseException> validateUpdateTask(final Expense expense) {
-		final ArrayList<ExpenseException> errors = new ArrayList<ExpenseException>();
-		validateLockOptimistic(expense, errors);
-		return errors;
-	}
-
-	private void validateLockOptimistic(final Expense expense, final ArrayList<ExpenseException> errors) {
-		if (!expenseRepository.findById(expense.getId()).get().getVersion().equals(expense.getVersion())) {
-			errors.add(new ExpenseException(lOCK_OPTIMISTIC));
-		}
 	}
 }

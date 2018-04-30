@@ -2,9 +2,11 @@ package br.com.santander.app.dto;
 
 import java.time.LocalDateTime;
 
-public class ExpenseDTO {
+import org.springframework.hateoas.ResourceSupport;
 
-	private Long id;
+public class ExpenseDTO extends ResourceSupport{
+
+	private Long code;
 	private String description;
 	private double value;
 	private Long idUser;
@@ -19,12 +21,12 @@ public class ExpenseDTO {
 		this.version = version;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getCode() {
+		return code;
 	}
 
-	public void setId(final Long id) {
-		this.id = id;
+	public void setCode(final Long code) {
+		this.code = code;
 	}
 
 	public String getDescription() {

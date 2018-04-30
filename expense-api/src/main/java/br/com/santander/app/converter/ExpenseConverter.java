@@ -20,7 +20,7 @@ public class ExpenseConverter {
 		final Category category= new Category();
 		expense.setUser(user);
 		expense.setCategory(category);
-		expense.setId(dto.getId());
+		expense.setId(dto.getCode());
 		expense.getCategory().setDescription(dto.getDescription());
 		expense.getUser().setId(dto.getIdUser());
 		expense.setExpenseDate(dto.getExpenseDate());
@@ -31,7 +31,7 @@ public class ExpenseConverter {
 
 	public static ExpenseDTO toDTO(final Expense model) {
 		final ExpenseDTO expenseDTO= new ExpenseDTO();
-		expenseDTO.setId(model.getId());
+		expenseDTO.setCode(model.getId());
 		if(model.getCategory() != null) {
 			expenseDTO.setDescription(model.getCategory().getDescription());
 		}

@@ -46,7 +46,7 @@ public class ExpenseController {
 	public ResponseEntity<?> update(@RequestBody final ExpenseDTO dto){
 		try {
 			final ExpenseDTO updated= expenseService.update(dto);
-			return new ResponseEntity<ExpenseDTO>(updated, HttpStatus.OK);
+			return new ResponseEntity<>(updated, HttpStatus.OK);
 		} catch (final RuntimeException e) {
 			return new ResponseEntity<>(new ExpenseError(1, ExpenseExceptionHandler.getExcetionError(e)), HttpStatus.EXPECTATION_FAILED);
 		}

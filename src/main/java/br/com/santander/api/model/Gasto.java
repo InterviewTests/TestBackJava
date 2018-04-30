@@ -42,7 +42,6 @@ public class Gasto implements Serializable{
 	@Column(name= "data_gasto", columnDefinition = "DATETIME" ,nullable = true)
 	private LocalDate dataGasto;
 
-
 	public Long getIdGasto() {
 		return idGasto;
 	}
@@ -63,7 +62,7 @@ public class Gasto implements Serializable{
 		return dataGasto;
 	}
 	
-	public void setDataGasto(final LocalDate dataGasto) {
+	public void setDataGasto(LocalDate dataGasto) {
 		this.dataGasto = dataGasto;
 	}
 

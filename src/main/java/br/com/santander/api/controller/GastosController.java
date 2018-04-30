@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,13 +24,10 @@ public class GastosController {
 	@Autowired
 	private GastosService gastosService;
 	
-	@RequestMapping(value = "/cadastro/incluirGasto", method = RequestMethod.POST)
-	public ResponseEntity<String> salvar(@RequestBody Gasto gasto){
-		
-		gastosService.save(gasto);
-		
-		return new ResponseEntity<String>("Gasto inserido com sucesso", HttpStatus.CREATED);
-	}
+//	@RequestMapping(value = "/cadastro/incluirGasto", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<?> incluirGasto(@RequestBody Gasto gasto) throws Exception {
+//		return new ResponseEntity<Gasto>(gastosService.incluirGasto(gasto),HttpStatus.OK); 
+//	}
 
 	@RequestMapping(value= "/busca/listarGastos/{codigoUsuario}" , method= RequestMethod.GET) 
 	public ResponseEntity<Iterable<Gasto>> listarGastosUsuario(@PathVariable Long codigoUsuario) {

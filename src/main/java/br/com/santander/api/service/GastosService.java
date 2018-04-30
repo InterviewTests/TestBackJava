@@ -15,9 +15,9 @@ public class GastosService{
 	@Autowired
 	private GastosRepository gastosRepository;
 
-	public void save(Gasto gasto){
-		gastosRepository.save(gasto);
-	}
+//	public void incluirGasto(Gasto gasto){
+//		gastosRepository.incluirGasto(gasto);
+//	}
 	
 	public Iterable<Gasto> listarTodos(){
 		return gastosRepository.findAll();

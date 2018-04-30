@@ -34,11 +34,11 @@ public class Expense implements Serializable{
 	@Column(name = "VERSION", nullable = false)
 	private Integer version;
 
-	@ManyToOne(targetEntity = Category.class)
+	@ManyToOne(optional =  true)
 	@JoinColumn(name = "ID_CATEGORY", referencedColumnName="ID_CATEGORY", nullable = true)
 	private Category category;
 
-	@ManyToOne(targetEntity = User.class)
+	@ManyToOne(optional =  false)
 	@JoinColumn(name = "ID_USER", referencedColumnName="ID_USER", nullable = false)
 	private User user;
 

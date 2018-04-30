@@ -8,6 +8,8 @@ public interface ExpenseService {
 
 	ExpenseDTO insert(ExpenseDTO expenseDTO);
 
+	ExpenseDTO update(ExpenseDTO expenseDTO);
+
 	List<ExpenseDTO> findByIdUser(Long idUser);
 
 	List<ExpenseDTO> findByFilter(ExpenseDTO expenseDTO);

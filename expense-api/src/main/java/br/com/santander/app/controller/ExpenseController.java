@@ -41,6 +41,17 @@ public class ExpenseController {
 		}
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> update(@RequestBody final ExpenseDTO dto){
+		try {
+			final ExpenseDTO updated= expenseService.update(dto);
+			return new ResponseEntity<ExpenseDTO>(updated, HttpStatus.OK);
+		} catch (final RuntimeException e) {
+			return new ResponseEntity<>(new ExpenseError(1, ExpenseExceptionHandler.getExcetionError(e)), HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+
 	@RequestMapping(value = "/{idUser}", method = RequestMethod.GET , produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> findById(@PathVariable final Long idUser){
 		try {

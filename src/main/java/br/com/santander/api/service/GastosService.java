@@ -31,8 +31,12 @@ public class GastosService{
 		return gastosRepository.findByCodigoUsuario(codigoUsuario);
 	}
 	
-	public List<Gasto> pesquisarGastosPorDataGasto(Long codigoUsuario, LocalDate dataGasto){
+	public List<Gasto> findByDataGasto(Long codigoUsuario, LocalDate dataGasto){
 		return gastosRepository.findByDataGasto(codigoUsuario, dataGasto);
+	}
+	
+	public List<Gasto> findByDataGasto(Long codigoUsuario, LocalDate dataInicio, LocalDate dataFim){
+		return gastosRepository.findByDataGasto(codigoUsuario, dataInicio, dataFim);
 	}
 
 	//	public List<Gasto> pesquisarGastosUltimosCincoSegundosPorIdCliente(Long idCliente, LocalDateTime data){

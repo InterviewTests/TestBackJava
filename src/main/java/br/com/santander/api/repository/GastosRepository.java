@@ -17,6 +17,8 @@ public interface GastosRepository extends CrudRepository<Gasto, Long>{
 
 	List<Gasto> findByDataGasto(Long codigoUsuario, LocalDate dataGasto);
 	
+	List<Gasto> findByDataGasto(Long codigoUsuario, LocalDate dataInicio, LocalDate dataFim);
+	
 //	List<Gasto> pesquisarGastosUltimosCincoSegundosPorIdCliente(Long idCliente, LocalDateTime data);
 	
 }

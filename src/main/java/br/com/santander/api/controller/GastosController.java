@@ -6,10 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,7 +41,15 @@ public class GastosController {
 	public ResponseEntity <List<Gasto>> buscaGastosPorDataGasto(
 			@PathVariable Long codigoUsuario, 
 			@PathVariable @DateTimeFormat(pattern = "ddMMyyyy") LocalDate dataGasto){
-		return new ResponseEntity <List<Gasto>>(gastosService.pesquisarGastosPorDataGasto(codigoUsuario, dataGasto), HttpStatus.OK);
+		return new ResponseEntity <List<Gasto>>(gastosService.findByDataGasto(codigoUsuario, dataGasto), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/busca/intervaloData/{codigoUsuario},{dataInicio},{dataFim}", method = RequestMethod.GET) 
+	public ResponseEntity <List<Gasto>> buscaGastosPorIntervaloData(
+			@PathVariable Long codigoUsuario, 
+			@PathVariable @DateTimeFormat(pattern = "ddMMyyyy") LocalDate dataInicio,
+			@PathVariable @DateTimeFormat(pattern = "ddMMyyyy") LocalDate dataFim){
+		return new ResponseEntity <List<Gasto>>(gastosService.findByDataGasto(codigoUsuario, dataInicio, dataFim), HttpStatus.OK);
 	}
 	
 //	@RequestMapping(value="/busca/gastosRecentes/{idCliente, dataInicio, dataFim}", method = RequestMethod.GET) 

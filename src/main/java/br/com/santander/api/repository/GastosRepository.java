@@ -11,8 +11,6 @@ import br.com.santander.api.model.Gasto;
 @Repository
 public interface GastosRepository extends CrudRepository<Gasto, Long>{
 
-//	Gasto incluirGasto(Gasto gasto);
-	
 	List<Gasto> findByCodigoUsuario(Long codigoUsuario);
 
 	List<Gasto> findByDataGasto(Long codigoUsuario, LocalDate dataGasto);

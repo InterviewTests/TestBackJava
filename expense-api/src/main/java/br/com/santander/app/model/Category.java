@@ -9,9 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 @Entity
 @Table(name = "CATEGORY")
-public class Category implements Serializable{
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = -448760385229721893L;
 
@@ -37,5 +40,24 @@ public class Category implements Serializable{
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getId()).append(getDescription()).toHashCode();
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+
+		final Category rhs = (Category) obj;
+		return new EqualsBuilder().append(getId(), rhs.getId()).append(getDescription(), rhs.getDescription())
+				.isEquals();
 	}
 }

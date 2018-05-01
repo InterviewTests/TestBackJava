@@ -10,7 +10,7 @@ public interface ExpenseService {
 
 	ExpenseDTO update(ExpenseDTO expenseDTO);
 
-	List<ExpenseDTO> findByIdUser(Long idUser);
+	List<ExpenseDTO> findExpensesByUserCode(Long userCode);
 
-	List<ExpenseDTO> findByFilter(ExpenseDTO expenseDTO);
+	List<ExpenseDTO> findExpensesByFilter(ExpenseDTO expenseDTO);
 }

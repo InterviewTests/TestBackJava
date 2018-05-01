@@ -43,13 +43,13 @@ public class ExpenseController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/{idUser}")
-	public ResponseEntity<?> findByIdUser(@PathVariable final Long idUser){
-		return new ResponseEntity<>(expenseService.findByIdUser(idUser), HttpStatus.OK);
+	@GetMapping("/{userCode}")
+	public ResponseEntity<?> findExpensesByUserCode(@PathVariable final Long userCode){
+		return new ResponseEntity<>(expenseService.findExpensesByUserCode(userCode), HttpStatus.OK);
 	}
 
 	@GetMapping("")
-	public ResponseEntity<?> findByFilter(@RequestParam final Map<String, String> params) throws ParseException{
-		return new ResponseEntity<>(expenseService.findByFilter(ExpenseConverter.toDTO(params)), HttpStatus.OK);
+	public ResponseEntity<?> findExpensesByFilter(@RequestParam final Map<String, String> params) throws ParseException{
+		return new ResponseEntity<>(expenseService.findExpensesByFilter(ExpenseConverter.toDTO(params)), HttpStatus.OK);
 	}
 }

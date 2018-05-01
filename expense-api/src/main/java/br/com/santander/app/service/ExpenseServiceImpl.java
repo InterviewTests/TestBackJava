@@ -46,16 +46,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public List<ExpenseDTO> findByIdUser(final Long idUser) {
-		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBefore(idUser, getLocalDateTimeMinus5Seconds());
+	public List<ExpenseDTO> findExpensesByUserCode(final Long userCode) {
+		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBefore(userCode, getLocalDateTimeMinus5Seconds());
 		if (expenses.isEmpty()) {
-			throw new ExpenseNotFoundException("Expenses not found for user with code: " + idUser);
+			throw new ExpenseNotFoundException("Expenses not found for user with code: " + userCode);
 		}
 		return ExpenseConverter.toDTO(expenses);
 	}
 
 	@Override
-	public List<ExpenseDTO> findByFilter(final ExpenseDTO expenseDTO) {
+	public List<ExpenseDTO> findExpensesByFilter(final ExpenseDTO expenseDTO) {
 		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBetween(expenseDTO.getUserCode(),
 				getLocalDateTimeStartTime(expenseDTO.getDate()), getLocalDateEndTime(expenseDTO.getDate()));
 		if (expenses.isEmpty()) {
@@ -65,7 +65,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return ExpenseConverter.toDTO(expenses);
 	}
 
-	public Category categorizeExpenses(final String description) {
+	private Category categorizeExpenses(final String description) {
 		Category category = categoryRepository.findByDescriptionEqualsIgnoreCase(description);
 		if (description != null && category == null) {
 			category = new Category();

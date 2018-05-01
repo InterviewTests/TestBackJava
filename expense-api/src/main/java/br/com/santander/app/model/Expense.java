@@ -13,9 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 @Entity
 @Table(name = "EXPENSE")
-public class Expense implements Serializable{
+public class Expense implements Serializable {
 
 	private static final long serialVersionUID = -8507622473380945770L;
 
@@ -37,8 +40,8 @@ public class Expense implements Serializable{
 	@Column(name = "VERSION", nullable = false)
 	private Integer version;
 
-	@ManyToOne(optional =  true)
-	@JoinColumn(name = "ID_CATEGORY", referencedColumnName="ID_CATEGORY", nullable = true)
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "ID_CATEGORY", referencedColumnName = "ID_CATEGORY", nullable = true)
 	private Category category;
 
 	public Long getId() {
@@ -87,5 +90,26 @@ public class Expense implements Serializable{
 
 	public void setUserCode(final Long userCode) {
 		this.userCode = userCode;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getId()).append(getValue()).append(getUserCode()).append(getExpenseDate())
+				.append(getVersion()).toHashCode();
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+
+		final Expense rhs = (Expense) obj;
+		return new EqualsBuilder().append(getId(), rhs.getId()).append(getValue(), rhs.getValue())
+				.append(getUserCode(), rhs.getUserCode()).append(getExpenseDate(), rhs.getExpenseDate())
+				.append(getVersion(), rhs.getVersion()).isEquals();
 	}
 }

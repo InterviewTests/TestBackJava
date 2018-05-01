@@ -1,8 +1,5 @@
 package br.com.santander.app.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 import java.net.URI;
 import java.text.ParseException;
 import java.util.Map;
@@ -48,8 +45,6 @@ public class ExpenseController {
 
 	@GetMapping("/{idUser}")
 	public ResponseEntity<?> findByIdUser(@PathVariable final Long idUser){
-		final ExpenseDTO expenseDTO = new ExpenseDTO();
-		expenseDTO.add(linkTo(methodOn(ExpenseController.class).update(expenseDTO)).withRel("update"));
 		return new ResponseEntity<>(expenseService.findByIdUser(idUser), HttpStatus.OK);
 	}
 

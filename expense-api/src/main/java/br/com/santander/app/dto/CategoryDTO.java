@@ -1,15 +1,17 @@
 package br.com.santander.app.dto;
 
-public class CategoryDTO {
+import org.springframework.hateoas.ResourceSupport;
 
-	private Long id;
+public class CategoryDTO extends ResourceSupport{
+
+	private Long code;
 	private String description;
 
-	public Long getId() {
-		return id;
+	public Long getCode() {
+		return code;
 	}
-	public void setId(final Long id) {
-		this.id = id;
+	public void setCode(final Long code) {
+		this.code = code;
 	}
 	public String getDescription() {
 		return description;

@@ -27,6 +27,9 @@ public class Expense implements Serializable{
 	@Column(name = "VALUE", nullable = false)
 	private double value;
 
+	@Column(name = "USER_CODE", nullable = false)
+	private Long userCode;
+
 	@Column(name = "EXPENSE_DATE", nullable = false)
 	private LocalDateTime expenseDate;
 
@@ -37,10 +40,6 @@ public class Expense implements Serializable{
 	@ManyToOne(optional =  true)
 	@JoinColumn(name = "ID_CATEGORY", referencedColumnName="ID_CATEGORY", nullable = true)
 	private Category category;
-
-	@ManyToOne(optional =  false)
-	@JoinColumn(name = "ID_USER", referencedColumnName="ID_USER", nullable = false)
-	private User user;
 
 	public Long getId() {
 		return id;
@@ -66,14 +65,6 @@ public class Expense implements Serializable{
 		this.expenseDate = expenseDate;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -88,5 +79,13 @@ public class Expense implements Serializable{
 
 	public void setVersion(final Integer version) {
 		this.version = version;
+	}
+
+	public Long getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(final Long userCode) {
+		this.userCode = userCode;
 	}
 }

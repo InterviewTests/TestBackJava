@@ -10,14 +10,14 @@ public class CategoryConverter {
 
 	public static Category fromDTO(final CategoryDTO dto) {
 		final Category model= new Category();
-		model.setId(dto.getId());
+		model.setId(dto.getCode());
 		model.setDescription(dto.getDescription());
 		return model;
 	}
 
 	public static CategoryDTO toDTO(final Category model) {
 		final CategoryDTO dto= new CategoryDTO();
-		dto.setId(model.getId());
+		dto.setCode(model.getId());
 		dto.setDescription(model.getDescription());
 		return dto;
 	}

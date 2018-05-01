@@ -11,7 +11,7 @@ import br.com.santander.app.model.Expense;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long>{
 
-	List<Expense> findByUserIdAndExpenseDateBeforeOrderByExpenseDate(Long idUser, LocalDateTime expenseDate);
+	List<Expense> findByUserCodeAndExpenseDateBefore(Long idUser, LocalDateTime expenseDate);
 
-	List<Expense> findByUserIdAndExpenseDateBetween(Long idUser, LocalDateTime startDate, LocalDateTime endDate);
+	List<Expense> findByUserCodeAndExpenseDateBetween(Long idUser, LocalDateTime startDate, LocalDateTime endDate);
 }

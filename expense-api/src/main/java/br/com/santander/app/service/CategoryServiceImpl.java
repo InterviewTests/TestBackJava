@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.santander.app.converter.CategoryConverter;
 import br.com.santander.app.dto.CategoryDTO;
+import br.com.santander.app.exception.CategoryNotFoundException;
+import br.com.santander.app.model.Category;
 import br.com.santander.app.repository.CategoryRepository;
 
 @Transactional(readOnly = true)
@@ -19,7 +21,11 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public List<CategoryDTO> findCategorySuggestionByDescription(final String description) {
-		return CategoryConverter.toDTO(categoryRepository.findByDescriptionContainingIgnoreCase(description));
+		final List<Category> categories = categoryRepository.findByDescriptionContainingIgnoreCase(description);
+		if(categories.isEmpty()) {
+			throw new CategoryNotFoundException("Categories not found with this description: "+ description);
+		}
+		return CategoryConverter.toDTO(categories);
 	}
 
 }

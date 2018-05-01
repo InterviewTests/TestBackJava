@@ -16,14 +16,23 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 	private static final int OPTIMISTIC_LOCK = 410;
 
-	/*
-	 * @ExceptionHandler(Exception.class) public final
-	 * ResponseEntity<ExceptionResponse> handleAllExceptions(final Exception ex,
-	 * final WebRequest request) { final ExceptionResponse exceptionResponse = new
-	 * ExceptionResponse(new Date(), ex.getMessage(),
-	 * request.getDescription(false)); return new
-	 * ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR); }
-	 */
+	private static final int NOT_FOUND = 404;
+
+	@ExceptionHandler(ExpenseNotFoundException.class)
+	public final ResponseEntity<ExceptionResponse> handleExpenseNotFoundException(final ExpenseNotFoundException ex,
+			final WebRequest request) {
+		final ExceptionResponse exceptionResponse = new ExceptionResponse(NOT_FOUND, LocalDateTime.now(),
+				ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(CategoryNotFoundException.class)
+	public final ResponseEntity<ExceptionResponse> handleCategoryNotFoundException(final CategoryNotFoundException ex,
+			final WebRequest request) {
+		final ExceptionResponse exceptionResponse = new ExceptionResponse(NOT_FOUND, LocalDateTime.now(),
+				ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
 
 	@ExceptionHandler(OptimisticLockException.class)
 	public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(final OptimisticLockException ex,

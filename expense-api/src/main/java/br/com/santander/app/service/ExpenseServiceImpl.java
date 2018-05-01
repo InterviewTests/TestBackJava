@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.santander.app.converter.ExpenseConverter;
 import br.com.santander.app.dto.ExpenseDTO;
+import br.com.santander.app.exception.ExpenseNotFoundException;
 import br.com.santander.app.exception.OptimisticLockException;
 import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
@@ -46,15 +47,22 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public List<ExpenseDTO> findByIdUser(final Long idUser) {
-		return ExpenseConverter.toDTO(expenseRepository.findByUserIdAndExpenseDateBeforeOrderByExpenseDate(idUser,
-				getLocalDateTimeMinus5Seconds()));
+		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBefore(idUser, getLocalDateTimeMinus5Seconds());
+		if (expenses.isEmpty()) {
+			throw new ExpenseNotFoundException("Expenses not found for user with code: " + idUser);
+		}
+		return ExpenseConverter.toDTO(expenses);
 	}
 
 	@Override
 	public List<ExpenseDTO> findByFilter(final ExpenseDTO expenseDTO) {
-		return ExpenseConverter.toDTO(expenseRepository.findByUserIdAndExpenseDateBetween(expenseDTO.getIdUser(),
-				getLocalDateTimeStartTime(expenseDTO.getExpenseDate()),
-				getLocalDateEndTime(expenseDTO.getExpenseDate())));
+		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBetween(expenseDTO.getUserCode(),
+				getLocalDateTimeStartTime(expenseDTO.getDate()), getLocalDateEndTime(expenseDTO.getDate()));
+		if (expenses.isEmpty()) {
+			throw new ExpenseNotFoundException("Expenses not found for user with code: " + expenseDTO.getUserCode()
+			+ " and date: " + expenseDTO.getDate());
+		}
+		return ExpenseConverter.toDTO(expenses);
 	}
 
 	public Category categorizeExpenses(final String description) {

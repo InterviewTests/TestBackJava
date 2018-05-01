@@ -9,8 +9,8 @@ public class ExpenseDTO extends ResourceSupport{
 	private Long code;
 	private String description;
 	private double value;
-	private Long idUser;
-	private LocalDateTime expenseDate;
+	private Long userCode;
+	private LocalDateTime date;
 	private Integer version;
 
 	public Integer getVersion() {
@@ -45,19 +45,19 @@ public class ExpenseDTO extends ResourceSupport{
 		this.value = value;
 	}
 
-	public Long getIdUser() {
-		return idUser;
+	public Long getUserCode() {
+		return userCode;
 	}
 
-	public void setIdUser(final Long idUser) {
-		this.idUser = idUser;
+	public void setUserCode(final Long userCode) {
+		this.userCode = userCode;
 	}
 
-	public LocalDateTime getExpenseDate() {
-		return expenseDate;
+	public LocalDateTime getDate() {
+		return date;
 	}
 
-	public void setExpenseDate(final LocalDateTime expenseDate) {
-		this.expenseDate = expenseDate;
+	public void setDate(final LocalDateTime date) {
+		this.date = date;
 	}
 }

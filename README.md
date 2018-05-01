@@ -1,76 +1,66 @@
-# Show me the code
+# Teste Backend Java
 
-### # DESAFIO:
+Resolução do teste para a vaga de desenvolvedor Java.
 
-API REST para Gestão de Gastos!
+## Requisitos 
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
+Para compilar e rodar o aplicativo você precisa de:
+
+ - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ - [Maven](https://maven.apache.org)
+ - [Redis](https://redis.io/)
  
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+## Executando o aplicativo na máquina local
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+Há várias maneiras de executar um aplicativo Spring Boot na máquina local. Nesse projeto utilizei a IDE Intellij, podendo assim executar o método main da classe br.com.zup.Application. Que vai rodar o aplicativo na porta 8080.
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+Ou simplesmente:
 
-### # Observações gerais
+```
+mvn clean install
+```
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+E para rodar o jar:
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+```
+java -jar target/TesteZup-0.1.0.jar
+```
 
-### # Importante: não há prazo de entrega, faça com qualidade!
+## Utilizando a API
 
-# BOA SORTE!
+Para incluir novo gasto, utilize o comando.
+
+```
+curl -H "Content-Type: application/json" -X POST -d "{"""descricao""":"""Descricao do Gasto""","""valor""":1234.12, """codigousuario""":"""1""", """data""":"""2018-04-27T16:20:34Z"""}" http://localhost:8080/incluir
+```
+
+Para listar os gastos atuais do usuário.
+Ex:
+Código de usuário = 1
+
+```
+curl http://localhost:8080/gastosAtuais/1
+```
+
+Para filtrar os gastos pela data do usuário.
+Ex:
+Código de usuário = 1
+Data = 27/04/1992
+
+```
+curl http://localhost:8080/gastos/1?data=27/04/1992
+```
+
+Para modificar a categoria de um gasto.
+Ex:
+Código de usuário = 1
+id do gasto = 0
+nova categoria = "novaCategoria"
+
+```
+curl -X PUT -d id=0 -d categoria=novaCategoria http://localhost:8080/gastos/1
+```
+
+### Autor
+
+* **Victor Seiji Okubo**

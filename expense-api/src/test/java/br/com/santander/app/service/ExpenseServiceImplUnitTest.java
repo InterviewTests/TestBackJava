@@ -1,6 +1,5 @@
 package br.com.santander.app.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
@@ -107,15 +106,4 @@ public class ExpenseServiceImplUnitTest {
 
 		expenseServiceImpl.update(dto);
 	}
-
-	@Test
-	public void findExpensesByIdUserTest() {
-		final Long userCode = 1L;
-		final List<Expense> listExpense = ExpenseMother.getListExpenseModelPattern();
-
-		Mockito.when(expenseRepository.findByUserCodeAndExpenseDateBefore(userCode, ExpenseServiceImpl.getLocalDateTimeMinus5Seconds())).thenReturn(listExpense);
-
-		expenseServiceImpl.findExpensesByUserCode(1L);
-	}
-
 }

@@ -1,6 +1,7 @@
 package com.santander.gastos.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,6 +38,7 @@ public class Cartao implements Serializable {
 		this.id = id;
 		this.numeroCartao = numeroCartao;
 		this.limite = limite;
+		this.movimentos = new ArrayList<Movimento>();
 	}
 
 	@Override

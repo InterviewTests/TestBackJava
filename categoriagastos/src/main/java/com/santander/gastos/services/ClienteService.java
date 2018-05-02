@@ -25,10 +25,6 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
 
-	public Cliente fromDTO(ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getTelefone(), objDto.getDocumento(),
-				pe.encode(objDto.getSenha()));
-	}
 
 	public Cliente buscarPorId(Integer id) {
 

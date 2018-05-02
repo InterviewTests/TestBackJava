@@ -27,4 +27,8 @@ public class CategoriaService {
 		return repo.findAll();
 	}
 	
+	public Optional<List<Categoria>> buscarPorNome(String nome){
+		return repo.buscarPorCatnome( nome);
+	}
+	
 }

@@ -3,11 +3,14 @@ package com.santander.gastos.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Movimento implements Serializable {
@@ -21,8 +24,10 @@ public class Movimento implements Serializable {
 	private Integer id;
 	private String descricao;
 	private double valor;
+	@ManyToOne( fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Categoria categoria;
 	private Date data;
+	@ManyToOne
 	private Cartao cartao;
 	
 	@Override
@@ -91,4 +96,9 @@ public class Movimento implements Serializable {
 	public void setCartao(Cartao cartao) {
 		this.cartao = cartao;
 	}
+	
+	public Movimento() {
+		
+	}
+	
 }

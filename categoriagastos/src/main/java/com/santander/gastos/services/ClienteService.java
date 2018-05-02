@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.santander.gastos.security.UserSS;
-import com.santander.gastos.services.UserService;
-import com.santander.gastos.services.exceptions.AuthorizationException;
-import com.santander.gastos.services.exceptions.ObjectNotFoundException;
 import com.santander.gastos.domain.Cliente;
 import com.santander.gastos.domain.enuns.Perfil;
-import com.santander.gastos.dto.ClienteDTO;
 import com.santander.gastos.repositories.ClienteRepository;
+import com.santander.gastos.security.UserSS;
+import com.santander.gastos.services.exceptions.AuthorizationException;
+import com.santander.gastos.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClienteService {

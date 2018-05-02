@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.santander.gastos.domain.Movimento;
 
+@SuppressWarnings("deprecation")
 public class GastosDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	int id;
+	@NotEmpty(message="Preenchimento da descrisão é obrigatório")
 	String descricao;
 	double valor;
+	@NotEmpty(message="Preenchimento da data é obrigatório")
 	String data;
 	Long codigoCliente;
 	CategoriaDTO categoria;

@@ -1,4 +1,4 @@
-# spring-boot-hibernate-criteria
+# expenses-api
 A simple Spring-Boot restful application.
 
 Install MYSQL database or apache xampp:
@@ -18,6 +18,7 @@ mvn spring-boot:run
 * http://localhost:9090/santander/api/v1/expenses (PUT) update. json= {"code": 1, "value": 100, "userCode": 1, "date": "2018-04-30T03:04:00", "description": "category 1", "version":0}
 
 ### # Endpoint Category
+* http://localhost:9090/santander/api/v1/categories/{description} (GET) find categories by description
 
 #### TODO
 * update database properties in application.properties (main and test)

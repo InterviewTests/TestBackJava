@@ -31,6 +31,9 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(unique=true)
+	private Long codigoUsuario;
+
 	private String nome;
 	
 	private String telefone;
@@ -91,6 +94,14 @@ public class Cliente implements Serializable {
 		this.telefone = telefone;
 	}
 
+	public Long getCodigoUsuario() {
+		return codigoUsuario;
+	}
+	
+	public void setCodigoUsuario(Long codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
+	}
+
 	public String getDocumento() {
 		return documento;
 	}
@@ -119,13 +130,14 @@ public class Cliente implements Serializable {
 		this.contas = contas;
 	}
 
-	public Cliente(Integer id, String nome, String telefone, String doc, String pwd) {
+	public Cliente(Integer id, String nome, String telefone, String doc, String pwd, Long codigo) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.documento = doc;
 		this.senha = pwd;
+		this.codigoUsuario = codigo;
 	}
 
 

@@ -1,0 +1,118 @@
+{
+	"id": "704f455b-14cc-43d1-8b50-ff9c48b360c7",
+	"name": "SantanderChallenge",
+	"description": "",
+	"auth": null,
+	"events": null,
+	"variables": [],
+	"order": [
+		"b6d01c5d-849d-4792-9d31-b4a6fa40c15a",
+		"1f4259b1-33ee-4938-b1ad-fdc6e38d15cf",
+		"26da7938-f70c-497e-94e6-78b178fa3285",
+		"05f36da2-11dd-4424-a34f-2a022bf9c797",
+		"15bb3ef0-8f34-43fc-9ae5-6661cc45b19e"
+	],
+	"folders_order": [],
+	"folders": [],
+	"requests": [
+		{
+			"id": "05f36da2-11dd-4424-a34f-2a022bf9c797",
+			"name": "GetAllClientes Pelo ID",
+			"url": "http://localhost:8082/api/v1/clientes/",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJYaWx6c01YYkZxZUB1b2N1WklKSWd4bC5jb20iLCJleHAiOjE1MjQ5NjcwMzV9.Gf-R0u75kNod1YV7Hhb29ZJ9HDD6LM_nyhXRf95r24ckVp7ryf0gLRquz1-cWEMf7T6gMuPG8qhVJcDBiOGhgQ",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "Content-Type: application/json\nAuthorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJYaWx6c01YYkZxZUB1b2N1WklKSWd4bC5jb20iLCJleHAiOjE1MjQ5NjcwMzV9.Gf-R0u75kNod1YV7Hhb29ZJ9HDD6LM_nyhXRf95r24ckVp7ryf0gLRquz1-cWEMf7T6gMuPG8qhVJcDBiOGhgQ\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "15bb3ef0-8f34-43fc-9ae5-6661cc45b19e",
+			"name": "http://localhost:8082/login",
+			"url": "http://localhost:8082/login",
+			"description": "Login",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"rawModeData": "{\n\t\"email\" : \"XilzsMXbFqe@uocuZIJIgxl.com\",\n\t\"senha\" : \"changeit1\"\n}",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "1f4259b1-33ee-4938-b1ad-fdc6e38d15cf",
+			"name": "GetAllCategorias",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "26da7938-f70c-497e-94e6-78b178fa3285",
+			"name": "GetAllCategorias Pelo ID",
+			"url": "http://localhost:8082/api/v1/categoria/1",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "b6d01c5d-849d-4792-9d31-b4a6fa40c15a",
+			"name": "GetAllClientes",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "",
+			"pathVariables": {}
+		}
+	]
+}

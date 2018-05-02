@@ -13,7 +13,7 @@ import com.santander.gastos.domain.Categoria;
 import com.santander.gastos.services.CategoriaService;
 
 @RestController
-@RequestMapping(value="/api/v1/categoria")
+@RequestMapping(value="/api/v1/categorias")
 public class CategoriaResource {
 	
 	@Autowired
@@ -34,5 +34,14 @@ public class CategoriaResource {
 		
 		return ResponseEntity.ok().body(obj) ;
 	}
+	
+	@RequestMapping(value="/nome/{categoria}",method=RequestMethod.GET)
+	public ResponseEntity<?> buscarPorNome(@PathVariable String categoria) {
+		
+		List<Categoria> obj = service.buscarPorNome(categoria).orElse(null);
+		
+		return ResponseEntity.ok().body(obj) ;
+	}
+	
 }
 	

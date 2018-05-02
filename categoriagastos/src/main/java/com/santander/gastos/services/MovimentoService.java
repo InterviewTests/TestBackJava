@@ -3,6 +3,7 @@ package com.santander.gastos.services;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -60,10 +61,7 @@ public class MovimentoService {
 		Date data = sdf.parse(objDto.getData());
 
 		Movimento mov = new Movimento(null, objDto.getDescricao(), objDto.getValor(), data);
-
-		Categoria cat = catRepo.findById(objDto.getCategoria().getId())
-				.orElse(new Categoria(objDto.getCategoria().getNome()));
-
+		
 		Cliente cli = clirepo.findByCodigoUsuario(objDto.getCodigoCliente());
 
 		if (cli == null) {
@@ -72,14 +70,24 @@ public class MovimentoService {
 
 		mov.setCartao(cli.getContas().get(0).getCartoes().get(0));
 
-		mov.setCategoria(cat);
-
+		if(objDto.getCategoria() != null) {
+			Categoria cat = catRepo.findById(objDto.getCategoria().getId())
+						.orElse(new Categoria(objDto.getCategoria().getNome()));
+			mov.setCategoria(cat);
+		}
+		
 		return mov;
 	}
 
 	public Movimento insert(Movimento obj) {
 		obj.setId(null);
-
+		
+		//Busca uma categoria para asignação automática
+		List<Movimento> movMesmaDescr = repo.findByDescricao(obj.getDescricao()).orElse(null);
+		
+		if( movMesmaDescr != null)
+			obj.setCategoria(movMesmaDescr.get(0).getCategoria());
+		
 		obj = repo.save(obj);
 		return obj;
 	}

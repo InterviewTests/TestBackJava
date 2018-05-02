@@ -1,6 +1,7 @@
 package com.santander.gastos.repositories;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,7 +12,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.santander.gastos.domain.Cliente;
 import com.santander.gastos.domain.Movimento;
 
 @Repository
@@ -52,5 +52,8 @@ public interface MovimentoRepository extends JpaRepository<Movimento, Integer> {
 											@Param("codigoCliente") Long codigoCliente);
 	@Transactional(readOnly=true)
 	Optional<Movimento> findById(Integer id);
+	
+	@Transactional(readOnly=true)
+	Optional<List<Movimento>> findByDescricao(String descricao);
 	
 }

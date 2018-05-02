@@ -1,6 +1,10 @@
 package com.santander.gastos;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +19,7 @@ import com.santander.gastos.domain.Cartao;
 import com.santander.gastos.domain.Categoria;
 import com.santander.gastos.domain.Cliente;
 import com.santander.gastos.domain.Conta;
+import com.santander.gastos.domain.Movimento;
 import com.santander.gastos.domain.enuns.TipoConta;
 import com.santander.gastos.repositories.CategoriaRepository;
 import com.santander.gastos.repositories.ClienteRepository;
@@ -69,7 +74,7 @@ public class CategoriagastosApplication implements CommandLineRunner {
 	
  	private void addClientesContasCartoes() {
 		
-		// Cria n clientes clientes
+		// Cria n clientes
 		List<Cliente> listcli = new ArrayList<Cliente>();
 		
 		for (int i=1; i <= 50; i++) {
@@ -79,8 +84,12 @@ public class CategoriagastosApplication implements CommandLineRunner {
 			String email = RandomStringUtils.randomAlphabetic(11) + "@" +RandomStringUtils.randomAlphabetic(11) + ".com" ;
 			String telefone = Integer.toString(i) ;
 			String doc = Integer.toString(i);
+			long mincod = 11111111111L;
+			long maxcod = 99999999999L;
 			
-			Cliente cli = new Cliente(null , nome , telefone, doc, pe.encode( "changeit" + i));
+			Long codigo = mincod+((long)(random.nextDouble()*(maxcod-mincod)));
+			
+			Cliente cli = new Cliente(null , nome , telefone, doc, pe.encode( "changeit" + i),codigo );
 			
 			cli.setEmail(email);
 			
@@ -99,6 +108,28 @@ public class CategoriagastosApplication implements CommandLineRunner {
 			    double limite = random.nextInt((9999 - 1111) + i);
 			    Cartao cartao = new Cartao(null, numerocartao, limite  );
 			    cartao.setConta(conta);
+			    
+			    //Cria movimentos
+			    for(int z =0; z <=11 ; z++) {
+			    	String descricao = RandomStringUtils.randomAlphabetic(10);
+					double valor = 10.01 + ( 999.9 - 10.01 ) * random.nextDouble();
+					
+					int minDay = (int) LocalDate.of(2018, 1, 1).toEpochDay();
+					int maxDay = (int) LocalDate.of(2018, 5, 1).toEpochDay();
+					long randomDay = minDay + random.nextInt(maxDay - minDay);
+					
+					LocalDate randomBirthDate = LocalDate.ofEpochDay(randomDay);
+					
+					Instant instant = Instant.from(randomBirthDate.atStartOfDay(ZoneId.of("GMT")));
+					Date date = Date.from(instant);
+					
+					Movimento movcart = new Movimento(null, descricao, valor, date);
+					
+					movcart.setCartao(cartao);
+					cartao.getMovimentos().add(movcart);
+					
+			    }
+			    
 				cartoes.add( cartao );
 			}
 			

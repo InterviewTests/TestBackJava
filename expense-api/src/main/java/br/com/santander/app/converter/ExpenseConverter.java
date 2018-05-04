@@ -1,7 +1,7 @@
 package br.com.santander.app.converter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.model.Category;
@@ -35,11 +35,10 @@ public class ExpenseConverter {
 		return expenseDTO;
 	}
 
-	public static List<ExpenseDTO> toDTO(final List<Expense> list){
-		final List<ExpenseDTO> results = new ArrayList<>();
-		for (final Expense expense : list){
-			results.add(toDTO(expense));
-		}
+	public static List<ExpenseDTO> toDTO(final List<Expense> listModel){
+		final List<ExpenseDTO> results = listModel.stream().map(model -> {
+			return toDTO(model);
+		}).collect(Collectors.toList());
 		return results;
 	}
 }

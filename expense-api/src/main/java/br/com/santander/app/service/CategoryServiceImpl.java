@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.santander.app.converter.CategoryConverter;
+import br.com.santander.app.data.repository.CategoryRepository;
 import br.com.santander.app.dto.CategoryDTO;
 import br.com.santander.app.exception.CategoryNotFoundException;
 import br.com.santander.app.model.Category;
-import br.com.santander.app.repository.CategoryRepository;
 
 @Transactional(readOnly = true)
 @Service

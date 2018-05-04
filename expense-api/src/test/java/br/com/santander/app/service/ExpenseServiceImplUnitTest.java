@@ -13,14 +13,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import br.com.santander.app.converter.ExpenseConverter;
+import br.com.santander.app.data.repository.CategoryRepository;
+import br.com.santander.app.data.repository.ExpenseRepository;
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.exception.OptimisticLockException;
 import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
 import br.com.santander.app.objectfactory.CategoryMother;
 import br.com.santander.app.objectfactory.ExpenseMother;
-import br.com.santander.app.repository.CategoryRepository;
-import br.com.santander.app.repository.ExpenseRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExpenseServiceImplUnitTest {

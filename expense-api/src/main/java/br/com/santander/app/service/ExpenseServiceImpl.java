@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.santander.app.converter.ExpenseConverter;
+import br.com.santander.app.data.repository.CategoryRepository;
+import br.com.santander.app.data.repository.ExpenseRepository;
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.exception.ExpenseNotFoundException;
 import br.com.santander.app.exception.OptimisticLockException;
 import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
-import br.com.santander.app.repository.CategoryRepository;
-import br.com.santander.app.repository.ExpenseRepository;
 
 @Transactional(readOnly = true)
 @Service

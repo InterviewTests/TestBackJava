@@ -1,8 +1,6 @@
 package br.com.santander.app.controller;
 
 import java.net.URI;
-import java.text.ParseException;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,11 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.santander.app.converter.ExpenseConverter;
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.service.ExpenseService;
 
@@ -30,14 +26,14 @@ public class ExpenseController {
 	@Autowired
 	private ExpenseService expenseService;
 
-	@PostMapping("")
+	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody final ExpenseDTO dto){
 		final ExpenseDTO savedExpense= expenseService.insert(dto);
 		final URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedExpense.getId()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 
-	@PutMapping("")
+	@PutMapping
 	public ResponseEntity<?> update(@RequestBody final ExpenseDTO dto){
 		expenseService.update(dto);
 		return ResponseEntity.noContent().build();
@@ -48,8 +44,8 @@ public class ExpenseController {
 		return new ResponseEntity<>(expenseService.findExpensesByUserCode(userCode), HttpStatus.OK);
 	}
 
-	@GetMapping("")
-	public ResponseEntity<?> findExpensesByFilter(@RequestParam final Map<String, String> params) throws ParseException{
-		return new ResponseEntity<>(expenseService.findExpensesByFilter(ExpenseConverter.toDTO(params)), HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<?> findExpensesByFilter(final ExpenseDTO dto){
+		return new ResponseEntity<>(expenseService.findExpensesByFilter(dto), HttpStatus.OK);
 	}
 }

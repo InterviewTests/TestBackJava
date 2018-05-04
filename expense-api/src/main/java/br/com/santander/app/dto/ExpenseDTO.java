@@ -2,6 +2,7 @@ package br.com.santander.app.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.ResourceSupport;
 
 public class ExpenseDTO extends ResourceSupport{
@@ -10,6 +11,7 @@ public class ExpenseDTO extends ResourceSupport{
 	private String description;
 	private double value;
 	private Long userCode;
+	@DateTimeFormat(pattern ="yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime date;
 	private Integer version;
 

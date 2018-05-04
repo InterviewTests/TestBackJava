@@ -13,11 +13,11 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import br.com.santander.app.converter.CategoryConverter;
+import br.com.santander.app.data.repository.CategoryRepository;
 import br.com.santander.app.dto.CategoryDTO;
 import br.com.santander.app.exception.CategoryNotFoundException;
 import br.com.santander.app.model.Category;
 import br.com.santander.app.objectfactory.CategoryMother;
-import br.com.santander.app.repository.CategoryRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceImplUnitTest {

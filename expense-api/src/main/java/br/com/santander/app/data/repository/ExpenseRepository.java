@@ -1,4 +1,4 @@
-package br.com.santander.app.repository;
+package br.com.santander.app.data.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;

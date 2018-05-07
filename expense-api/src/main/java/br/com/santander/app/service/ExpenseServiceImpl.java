@@ -1,9 +1,11 @@
 package br.com.santander.app.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,23 +48,25 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public List<ExpenseDTO> findExpensesByUserCode(final Long userCode) {
-		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBefore(userCode, getLocalDateTimeMinus5Seconds());
-		if (expenses.isEmpty()) {
+	public Page<ExpenseDTO> findExpensesByUserCode(final Long userCode, final Pageable pageable) {
+		final Page<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBefore(userCode, getLocalDateTimeMinus5Seconds(), pageable);
+		if (expenses.getContent().isEmpty()) {
 			throw new ExpenseNotFoundException("Expenses not found for user with code: " + userCode);
 		}
-		return ExpenseConverter.toDTO(expenses);
+		return new PageImpl<>(ExpenseConverter.toDTO(expenses.getContent()), pageable,
+				expenses.getTotalElements());
 	}
 
 	@Override
-	public List<ExpenseDTO> findExpensesByFilter(final ExpenseDTO expenseDTO) {
-		final List<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBetween(expenseDTO.getUserCode(),
-				getLocalDateTimeStartTime(expenseDTO.getDate()), getLocalDateEndTime(expenseDTO.getDate()));
-		if (expenses.isEmpty()) {
+	public Page<ExpenseDTO> findExpensesByFilter(final ExpenseDTO expenseDTO, final Pageable pageable) {
+		final Page<Expense> expenses = expenseRepository.findByUserCodeAndExpenseDateBetween(expenseDTO.getUserCode(),
+				getLocalDateTimeStartTime(expenseDTO.getDate()), getLocalDateEndTime(expenseDTO.getDate()), pageable);
+		if (expenses.getContent().isEmpty()) {
 			throw new ExpenseNotFoundException("Expenses not found for user with code: " + expenseDTO.getUserCode()
 			+ " and date: " + expenseDTO.getDate());
 		}
-		return ExpenseConverter.toDTO(expenses);
+		return new PageImpl<>(ExpenseConverter.toDTO(expenses.getContent()), pageable,
+				expenses.getTotalElements());
 	}
 
 	private Category categorizeExpenses(final String description) {

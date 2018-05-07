@@ -3,6 +3,7 @@ package br.com.santander.app.controller;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,12 +41,12 @@ public class ExpenseController {
 	}
 
 	@GetMapping("/{userCode}")
-	public ResponseEntity<?> findExpensesByUserCode(@PathVariable final Long userCode){
-		return new ResponseEntity<>(expenseService.findExpensesByUserCode(userCode), HttpStatus.OK);
+	public ResponseEntity<?> findExpensesByUserCode(@PathVariable final Long userCode, final Pageable pageable){
+		return new ResponseEntity<>(expenseService.findExpensesByUserCode(userCode, pageable), HttpStatus.OK);
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findExpensesByFilter(final ExpenseDTO dto){
-		return new ResponseEntity<>(expenseService.findExpensesByFilter(dto), HttpStatus.OK);
+	public ResponseEntity<?> findExpensesByFilter(final ExpenseDTO dto, final Pageable pageable){
+		return new ResponseEntity<>(expenseService.findExpensesByFilter(dto, pageable), HttpStatus.OK);
 	}
 }

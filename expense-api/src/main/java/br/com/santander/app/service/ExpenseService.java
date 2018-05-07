@@ -1,6 +1,7 @@
 package br.com.santander.app.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import br.com.santander.app.dto.ExpenseDTO;
 
@@ -10,7 +11,7 @@ public interface ExpenseService {
 
 	ExpenseDTO update(ExpenseDTO expenseDTO);
 
-	List<ExpenseDTO> findExpensesByUserCode(Long userCode);
+	Page<ExpenseDTO> findExpensesByUserCode(Long userCode, Pageable pageable);
 
-	List<ExpenseDTO> findExpensesByFilter(ExpenseDTO expenseDTO);
+	Page<ExpenseDTO> findExpensesByFilter(ExpenseDTO expenseDTO, Pageable pageable);
 }

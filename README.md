@@ -13,7 +13,7 @@ mvn spring-boot:run
 ### # Endpoints Expenses
 
 * http://localhost:9090/santander/api/v1/expenses/{id} (GET) find expenses by userCode 5 seconds ago
-* http://localhost:9090/santander/api/v1/expenses?userCode=1&date=2018-04-30 00:00 (GET) find expenses by filter
+* http://localhost:9090/santander/api/v1/expenses?userCode=1&date=2018-04-30T00:00:00 (GET) find expenses by filter
 * http://localhost:9090/santander/api/v1/expenses (POST) insert. json= {"value": 100, "userCode": 1, "date": "2018-04-30T03:04:00"}
 * http://localhost:9090/santander/api/v1/expenses (PUT) update. json= {"code": 1, "value": 100, "userCode": 1, "date": "2018-04-30T03:04:00", "description": "category 1", "version":0}
 

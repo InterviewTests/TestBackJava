@@ -1,4 +1,4 @@
-package br.com.santander.app.data.repository;
+package br.com.santander.app.repository;
 
 import java.util.List;
 

@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.santander.app.converter.ExpenseConverter;
-import br.com.santander.app.data.repository.CategoryRepository;
-import br.com.santander.app.data.repository.ExpenseRepository;
 import br.com.santander.app.dto.ExpenseDTO;
 import br.com.santander.app.exception.ExpenseNotFoundException;
 import br.com.santander.app.exception.OptimisticLockException;
-import br.com.santander.app.model.Category;
 import br.com.santander.app.model.Expense;
+import br.com.santander.app.repository.ExpenseRepository;
 
 @Transactional(readOnly = true)
 @Service
@@ -26,7 +24,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	private ExpenseRepository expenseRepository;
 
 	@Autowired
-	private CategoryRepository categoryRepository;
+	private CategoryService categoryService;
 
 	private static final String OPTIMISTIC_lOCK = "The Expense was update by another transaction.";
 
@@ -34,7 +32,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	public ExpenseDTO insert(final ExpenseDTO expenseDTO) {
 		final Expense expense = ExpenseConverter.fromDTO(expenseDTO);
-		expense.setCategory(categorizeExpenses(expenseDTO.getDescription()));
+		expense.setCategory(categoryService.categorizeExpenses(expenseDTO.getDescription()));
 		return ExpenseConverter.toDTO(expenseRepository.save(expense));
 	}
 
@@ -42,7 +40,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	@Override
 	public ExpenseDTO update(final ExpenseDTO expenseDTO) {
 		final Expense expense = ExpenseConverter.fromDTO(expenseDTO);
-		expense.setCategory(categorizeExpenses(expenseDTO.getDescription()));
+		expense.setCategory(categoryService.categorizeExpenses(expenseDTO.getDescription()));
 		validateLockOptimistic(expense);
 		return ExpenseConverter.toDTO(expenseRepository.save(expense));
 	}
@@ -67,16 +65,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 		}
 		return new PageImpl<>(ExpenseConverter.toDTO(expenses.getContent()), pageable,
 				expenses.getTotalElements());
-	}
-
-	private Category categorizeExpenses(final String description) {
-		Category category = categoryRepository.findByDescriptionEqualsIgnoreCase(description);
-		if (description != null && category == null) {
-			category = new Category();
-			category.setDescription(description);
-			return categoryRepository.save(category);
-		}
-		return category;
 	}
 
 	private void validateLockOptimistic(final Expense expense) {

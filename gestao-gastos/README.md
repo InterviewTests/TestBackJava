@@ -19,4 +19,4 @@ CREATE KEYSPACE IF NOT EXISTS sample WITH replication = {'class':'SimpleStrategy
  
  - Após compilada a aplicação basta executar como aplicão java a classe /gestao-gastos/src/main/java/br/com/santander/Main.java;
  
- - Os testes SOAPUI encontram-se na raiz do projeto com o nome "REST-Test-Santander-soapui-project.xml", basta importar o projeto no SOAPUI
+ - Os testes SOAPUI encontram-se na raiz do projeto com o nome "REST-Test-Santander-soapui-project.xml", basta importar o projeto no SOAPUI.

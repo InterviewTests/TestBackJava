@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +22,12 @@ import br.com.santander.vo.CartaoVO;
 import br.com.santander.vo.GastoVO;
 
 @RestController
-public class GastoResource {
+public class GastoController {
 
 	@Autowired
 	private GastoService gastoService;
 
-	public GastoResource() {
+	public GastoController() {
 
 	}
 	
@@ -115,27 +116,17 @@ public class GastoResource {
 		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(gastosRetorno), HttpStatus.OK);
 	}
 	
-	//TODO: reconstruir o codigo comentado a baixo para adequar as demais funcionalidades restantes
-	/**
-	@RequestMapping(value = "/gastos/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
-		GastoEntity curso = gastos.remove(id);
+	@RequestMapping(value = "/gastos/adiciona/{numeroCartao}", method = RequestMethod.POST)
+	public ResponseEntity<GastoVO> update(@PathVariable("numeroCartao") Long numeroCartao, @RequestBody GastoVO gastoVO) {
 
-		if (curso == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if (gastoVO == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
+		
+		CartaoVO cartaoVO = new CartaoVO(numeroCartao, gastoVO);
+		
+		gastoService.save(cartaoVO);
 
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<GastoVO>(gastoVO, HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/gastos", method = RequestMethod.POST)
-	public ResponseEntity<GastoEntity> update(@RequestBody GastoEntity gasto) {
-
-		if (gasto != null) {
-			gastos.put(gasto.getCodigoUsuario(), gasto);
-		}
-
-		return new ResponseEntity<GastoEntity>(gasto, HttpStatus.OK);
-	}
-	*/
 }

@@ -81,7 +81,7 @@ public class GastoServiceImpl implements GastoService {
 
 	@Override
 	public List<CartaoVO> findByData(String dateAsString) {
-		Date data = DateUtils.stringToDate(dateAsString, DateUtils.FORMATO_UTC_BASE);
+		Date data = DateUtils.stringToDate(dateAsString);
 		List<Gasto> gastos = gastosRepository.findByData(DateUtils.getDataInicio(data), DateUtils.getDataFim(data));
 		List<CartaoVO> cartoes = new CartaoModelToVOBuilder(gastos).build();
 		

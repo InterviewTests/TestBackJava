@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.santander.utils.DateUtils;
+
 public class GastoVO implements Serializable{
 
 	private static final long serialVersionUID = -8948650565344019434L;
@@ -93,8 +95,13 @@ public class GastoVO implements Serializable{
 	/**
 	 * @return the data
 	 */
-	public Date getData() {
+	@JsonIgnore
+	public Date getDataAsDate() {
 		return data;
+	}
+	
+	public String getData() {
+		return DateUtils.dateToString(data);
 	}
 
 	/**

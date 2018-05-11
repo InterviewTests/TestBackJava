@@ -10,10 +10,10 @@ public class DateUtils {
 	public static final String FORMATO_UTC_BASE = "yyyy-MM-dd";
 	public static final String FORMATO_UTC_COMPLEtO = "yyyy-MM-dd HH:mm:ss.SSSZ";
 	
-	public static Date stringToDate(String dateAsString, String formatoApresentacao) {
+	public static Date stringToDate(String dateAsString) {
 		Date dataRetorno = null;
 		if (dateAsString != null) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat(formatoApresentacao);
+			SimpleDateFormat dateFormat = new SimpleDateFormat(FORMATO_UTC_BASE);
 			try {
 				dataRetorno = (Date) dateFormat.parse(dateAsString);
 			} catch (ParseException e) {
@@ -24,6 +24,16 @@ public class DateUtils {
 		return dataRetorno;
 	}
 	
+	public static String dateToString(Date date) {
+		String dataRetorno = null;
+		
+		if (date != null) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat(FORMATO_UTC_BASE);
+			dataRetorno = dateFormat.format(date);
+		}
+		
+		return dataRetorno;
+	}
 	
 	public static Date getDataInicio(Date data) {
 		

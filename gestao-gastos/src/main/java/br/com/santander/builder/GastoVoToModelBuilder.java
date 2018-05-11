@@ -19,7 +19,7 @@ public class GastoVoToModelBuilder {
 	public Gasto build() {
 		UUID id = gastoVO.getCodigoGasto() != null ? gastoVO.getCodigoGasto() : UUID.randomUUID();
 		
-		Gasto gastoRetorno = new Gasto(id, numeroCartao, gastoVO.getDescricao(), gastoVO.getValor(), gastoVO.getCodigoUsuario(), gastoVO.getData());
+		Gasto gastoRetorno = new Gasto(id, numeroCartao, gastoVO.getDescricao(), gastoVO.getValor(), gastoVO.getCodigoUsuario(), gastoVO.getDataAsDate());
 		
 		return gastoRetorno;
 	}

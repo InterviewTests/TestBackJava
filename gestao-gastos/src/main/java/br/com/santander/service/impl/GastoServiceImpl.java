@@ -8,69 +8,63 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.santander.builder.CartaoModelToVOBuilder;
+import br.com.santander.builder.GastoPorCartaoModelToVOBuilder;
 import br.com.santander.builder.GastoVoToModelBuilder;
-import br.com.santander.model.Gasto;
-import br.com.santander.repository.GastosRepository;
+import br.com.santander.model.GastoPorCartao;
+import br.com.santander.repository.GastoRepository;
 import br.com.santander.service.GastoService;
 import br.com.santander.utils.DateUtils;
-import br.com.santander.vo.CartaoVO;
 import br.com.santander.vo.GastoVO;
 
+/**Classe de implementação do serviço de Gasto
+ * 
+ * @author AntonioJolvino
+ *
+ */
 @Service
 public class GastoServiceImpl implements GastoService {
 	
 	@Autowired
-	private GastosRepository gastosRepository;
-
-	@Override
-	public List<CartaoVO> findAll() {
-		List<Gasto> gastosModel = ((List<Gasto>) gastosRepository.findAll());
-		
-		if(gastosModel != null) {
-			return new CartaoModelToVOBuilder(gastosModel).build();
-		}
-		
-		return new ArrayList<CartaoVO>(); 
+	private GastoRepository gastosRepository;
+	
+	public GastoVO findById(UUID codigoGasto) {
+		GastoPorCartao gastoModel = gastosRepository.findById(codigoGasto).orElse(null);
+		if(gastoModel != null) {
+			return new GastoPorCartaoModelToVOBuilder(gastoModel).build();
+		} else {
+			return null;
+		} 
 	}
 
 	@Override
 	public void deleteAll() {
 		gastosRepository.deleteAll();
-		
-	}
-
-	@Override
-	public CartaoVO save(CartaoVO cartaoVO) {
-		List<Gasto> gastosSalvos = new ArrayList<Gasto>();
-		
-		for (GastoVO gastoVO : cartaoVO.getGastos()) {
-			Gasto gastoModel = new GastoVoToModelBuilder(cartaoVO.getNumeroCartao(), gastoVO).build();
-			Gasto gastoSalvo = gastosRepository.save(gastoModel);
-			if(gastoSalvo != null) {
-				gastosSalvos.add(gastoSalvo);
-			}
-		}
-		
-		List<CartaoVO> cartoesSalvos = new CartaoModelToVOBuilder(gastosSalvos).build();
-		
-		if(!cartoesSalvos.isEmpty()) {
-			cartoesSalvos.get(0);
-		}
-		
-		return null;
 	}
 	
 	@Override
 	public void save(Long numeroCarto, GastoVO gastoVO) {
 		
-		Gasto gastoModel = new GastoVoToModelBuilder(numeroCarto, gastoVO).build();
+		GastoPorCartao gastoModel = new GastoVoToModelBuilder(numeroCarto, gastoVO).build();
 		
 		gastosRepository.save(gastoModel);
 	}
+	
+	@Override
+	public GastoVO atualizaCategoria(UUID codigoGasto, String categoria) {
+		GastoPorCartao gastoModel = gastosRepository.findById(codigoGasto).orElse(null);
+		if(gastoModel == null) {
+			return null;
+		}
+		
+		gastoModel.setCategoria(categoria);
+		
+		GastoPorCartao gastoSalvo = gastosRepository.save(gastoModel);
+		
+		return new GastoPorCartaoModelToVOBuilder(gastoSalvo).build();
+	}
 
 	@Override
-	public void delete(Gasto gasto) {
+	public void delete(GastoPorCartao gasto) {
 		gastosRepository.delete(gasto);
 	}
 
@@ -80,28 +74,36 @@ public class GastoServiceImpl implements GastoService {
 	}
 
 	@Override
-	public List<CartaoVO> findByData(String dateAsString) {
+	public List<GastoVO> findByDataECartao(String dateAsString, Long numeroCartao) {
 		Date data = DateUtils.stringToDate(dateAsString);
-		List<Gasto> gastos = gastosRepository.findByData(DateUtils.getDataInicio(data), DateUtils.getDataFim(data));
-		List<CartaoVO> cartoes = new CartaoModelToVOBuilder(gastos).build();
+		List<GastoPorCartao> gastosModel = gastosRepository.findByDataECartao(DateUtils.getDataInicio(data), DateUtils.getDataFim(data), numeroCartao);
+		List<GastoVO> gastosVO = new GastoPorCartaoModelToVOBuilder(gastosModel).buildList();
 		
-		return cartoes;
+		return gastosVO;
 	}
 
 	@Override
-	public CartaoVO findByNumeroCartao(Long numeroCartao) {
-		List<Gasto> gastos = gastosRepository.findByNumeroCartao(numeroCartao);
+	public List<GastoVO> findByNumeroCartao(Long numeroCartao) {
+		List<GastoPorCartao> gastosModel = gastosRepository.findByNumeroCartao(numeroCartao);
 		
-		List<CartaoVO> cartoes = new CartaoModelToVOBuilder(gastos).build();
+		List<GastoVO> gastosVO = new GastoPorCartaoModelToVOBuilder(gastosModel).buildList();
 		
-		if(!cartoes.isEmpty()) {
-			return cartoes.get(0);
+		if(!gastosVO.isEmpty()) {
+			return gastosVO;
 		}
-		
 		return null;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println((new Date(1526000468498L)));
+
+	@Override
+	public List<GastoVO> findAll() {
+		List<GastoPorCartao> gastosModel = ((List<GastoPorCartao>) gastosRepository.findAll());
+		
+		List<GastoVO> gastosVO = new ArrayList<GastoVO>();
+
+		if(gastosModel != null && !gastosModel.isEmpty()) {
+			gastosVO = new GastoPorCartaoModelToVOBuilder(gastosModel).buildList();
+		}
+		
+		return gastosVO;
 	}
 }

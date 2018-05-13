@@ -8,7 +8,7 @@ import java.util.Date;
 public class DateUtils {
 
 	public static final String FORMATO_UTC_BASE = "yyyy-MM-dd";
-	public static final String FORMATO_UTC_COMPLEtO = "yyyy-MM-dd HH:mm:ss.SSSZ";
+	public static final String FORMATO_UTC_COMPLETO = "yyyy-MM-dd HH:mm:ss.SSSZ";
 	
 	public static Date stringToDate(String dateAsString) {
 		Date dataRetorno = null;

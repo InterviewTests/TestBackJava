@@ -2,9 +2,13 @@ package br.com.santander.builder;
 
 import java.util.UUID;
 
-import br.com.santander.model.Gasto;
+import br.com.santander.model.GastoPorCartao;
 import br.com.santander.vo.GastoVO;
-
+/**
+ * Builder responsável por construir um objeto de modelo do Gasto a partir do VO
+ * @author AntonioJolvino
+ *
+ */
 public class GastoVoToModelBuilder {
 	
 	private Long numeroCartao;
@@ -16,10 +20,18 @@ public class GastoVoToModelBuilder {
 		this.gastoVO = gastoVO;
 	}
 	
-	public Gasto build() {
-		UUID id = gastoVO.getCodigoGasto() != null ? gastoVO.getCodigoGasto() : UUID.randomUUID();
+	public GastoPorCartao build() {
+		UUID id;
+		if(gastoVO.getCodigoGasto() == null) {
+			String sNumeroCartao = numeroCartao != null ? numeroCartao.toString() : "";
+			String descricao = gastoVO.getDescricao() != null ? gastoVO.getDescricao() : "";
+			String chave = sNumeroCartao + descricao;
+			id = UUID.nameUUIDFromBytes(chave.getBytes());
+		} else {
+			id = gastoVO.getCodigoGasto();
+		}
 		
-		Gasto gastoRetorno = new Gasto(id, numeroCartao, gastoVO.getDescricao(), gastoVO.getValor(), gastoVO.getCodigoUsuario(), gastoVO.getDataAsDate());
+		GastoPorCartao gastoRetorno = new GastoPorCartao(id, numeroCartao, gastoVO.getCategoria(),gastoVO.getDescricao(), gastoVO.getValor(), gastoVO.getCodigoUsuario(), gastoVO.getData());
 		
 		return gastoRetorno;
 	}

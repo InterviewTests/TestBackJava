@@ -15,17 +15,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.santander.service.CartaoService;
 import br.com.santander.service.GastoService;
+import br.com.santander.service.UsuarioService;
 import br.com.santander.vo.CartaoVO;
 import br.com.santander.vo.GastoVO;
+import br.com.santander.vo.UsuarioVO;
 
+/**
+ * Controller responsável por disponibilizar os serviços REST responsável por manter os gastos por cartão
+ * @author AntonioJolvino
+ *
+ */
 @RestController
 public class GastoController {
 
 	@Autowired
 	private GastoService gastoService;
+	
+	@Autowired
+	private CartaoService cartaoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	public GastoController() {
 
@@ -36,28 +51,43 @@ public class GastoController {
 	 */
 	@PostConstruct
 	public void montaBaseParaInicialTestesDasConsultas() {
-		List<CartaoVO> todosCartoes = gastoService.findAll();
 		
-		if(todosCartoes.isEmpty()) {
-			GastoVO g1 = new GastoVO(UUID.randomUUID(), "Mercado Joanim", new BigDecimal("523.86"), 123456L, Calendar.getInstance().getTime());
-			GastoVO g2 = new GastoVO(UUID.randomUUID(), "Comida Japonesa", new BigDecimal("65.90"), 123456L, Calendar.getInstance().getTime());
-			GastoVO g3 = new GastoVO(UUID.randomUUID(), "Posto Combustivel", new BigDecimal("151.36"), 123456L, Calendar.getInstance().getTime());
-			GastoVO g4 = new GastoVO(UUID.randomUUID(), "Estacionamento", new BigDecimal("200.00"), 123456L, Calendar.getInstance().getTime());
-			GastoVO g5 = new GastoVO(UUID.randomUUID(), "Financiamento Casa", new BigDecimal("5000.00"), 123456L, Calendar.getInstance().getTime());
+		Long codigoUsuario;
+		
+		Long numeroCartao;
+		
+		List<UsuarioVO> usuarios = usuarioService.findAll();
+		if(usuarios.isEmpty()) {
+			codigoUsuario = 12345L;
+			UsuarioVO usuarioBase = new UsuarioVO(codigoUsuario, "UsuarioTeste", "senha", true, Calendar.getInstance().getTime());
+			usuarioService.save(usuarioBase);
+		} else {
+			codigoUsuario = usuarios.get(0).getCodigoUsuario();
+		}
+		
+		List<CartaoVO> cartoes = cartaoService.findAll();
+		if(cartoes.isEmpty()) {
+			numeroCartao = 1111222233334444L;
+			CartaoVO cartaoBase = new CartaoVO(numeroCartao, codigoUsuario, Calendar.getInstance().getTime());
+			cartaoService.save(cartaoBase);
+		} else {
+			numeroCartao = cartoes.get(0).getNumeroCartao();
+		}
+		
+		
+		List<GastoVO> gastos = gastoService.findAll();
+		
+		if(gastos.isEmpty()) {
+			GastoVO g1 = new GastoVO(UUID.randomUUID(), 1L, "Mercado Joanim", new BigDecimal("523.86"), codigoUsuario, Calendar.getInstance().getTime());
+			GastoVO g2 = new GastoVO(UUID.randomUUID(), 1L, "Comida Japonesa", new BigDecimal("65.90"), codigoUsuario, Calendar.getInstance().getTime());
 			
-			CartaoVO c1 = new CartaoVO();
-			c1.setNumeroCartao(5555444466662222L);
-			c1.getGastos().add(g1);
-			c1.getGastos().add(g3);
-			c1.getGastos().add(g4);
+			GastoVO g3 = new GastoVO(UUID.randomUUID(), 1L, "Loja Fisica", "Posto Combustivel", new BigDecimal("151.36"), codigoUsuario, Calendar.getInstance().getTime());
+			GastoVO g4 = new GastoVO(UUID.randomUUID(), 1L, "Loja Virtual", "Mercado Livre", new BigDecimal("253.81"), codigoUsuario, Calendar.getInstance().getTime());
 			
-			CartaoVO c2 = new CartaoVO();
-			c2.setNumeroCartao(3333222288889999L);
-			c2.getGastos().add(g2);
-			c2.getGastos().add(g5);
-			
-			gastoService.save(c1);
-			gastoService.save(c2);
+			gastoService.save(numeroCartao, g1);
+			gastoService.save(numeroCartao, g2);
+			gastoService.save(numeroCartao, g3);
+			gastoService.save(numeroCartao, g4);
 		}
 	}
 
@@ -65,20 +95,15 @@ public class GastoController {
 	 * Retorna todos os gastos registrados na base
 	 * @return
 	 */
-	@RequestMapping(value = "/gastos", method = RequestMethod.GET)
+	@RequestMapping(value = "/santander/gastos", method = RequestMethod.GET)
 	public ResponseEntity<List<GastoVO>> listarTodosGastos() {
-		List<CartaoVO> todosCartoes = gastoService.findAll();
+		List<GastoVO> todosGastos = gastoService.findAll();
 		
-		if (todosCartoes == null || todosCartoes.isEmpty()) {
+		if (todosGastos == null || todosGastos.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		List<GastoVO> gastosRetorno = new ArrayList<GastoVO>();
-		for (CartaoVO cartaoVO : todosCartoes) {
-			gastosRetorno.addAll(cartaoVO.getGastos());
-		}
 
-		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(gastosRetorno), HttpStatus.OK);
+		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(todosGastos), HttpStatus.OK);
 	}
 
 	/**
@@ -86,14 +111,25 @@ public class GastoController {
 	 * @param numeroCartao
 	 * @return
 	 */
-	@RequestMapping(value = "/gastos/numerocartao/{numeroCartao}", method = RequestMethod.GET)
-	public ResponseEntity<List<GastoVO>> buscarPorNumeroCartao(@PathVariable("numeroCartao") Long numeroCartao) {
-		CartaoVO cartaoVO = gastoService.findByNumeroCartao(numeroCartao);
-		if (cartaoVO == null) {
+	@RequestMapping(value = "/santander/{idUsuario}/gastos/numerocartao", method = RequestMethod.GET)
+	public ResponseEntity<List<GastoVO>> buscarPorNumeroCartao(
+			@PathVariable("idUsuario") Long idUsuario, 
+			@RequestParam(value="numeroCartao", required=true) Long numeroCartao) {
+		
+		if(usuarioService.findById(idUsuario) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		if(cartaoService.findById(numeroCartao) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		List<GastoVO> gastos = gastoService.findByNumeroCartao(numeroCartao);
+		if (gastos == null || gastos.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(cartaoVO.getGastos()), HttpStatus.OK);
+		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(gastos), HttpStatus.OK);
 	}
 	
 	/**
@@ -101,32 +137,80 @@ public class GastoController {
 	 * @param data
 	 * @return
 	 */
-	@RequestMapping(value = "/gastos/datagasto/{data}", method = RequestMethod.GET)
-	public ResponseEntity<List<GastoVO>> buscarPorData(@PathVariable("data") String data) {
-		List<CartaoVO> cartoesPorData = gastoService.findByData(data);
-		if (cartoesPorData == null || cartoesPorData.isEmpty()) {
+	@RequestMapping(value = "/santander/{idUsuario}/gastos/datagasto", method = RequestMethod.GET)
+	public ResponseEntity<List<GastoVO>> buscarPorData(
+			@PathVariable("idUsuario") Long idUsuario,
+			@RequestParam(value="numeroCartao", required=true) Long numeroCartao,
+			@RequestParam(value="data", required=true) String data) {
+		
+		if(usuarioService.findById(idUsuario) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		if(cartaoService.findById(numeroCartao) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		List<GastoVO> gastosPorData = gastoService.findByDataECartao(data, numeroCartao);
+		if (gastosPorData == null || gastosPorData.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		List<GastoVO> gastosRetorno = new ArrayList<GastoVO>();
-		for (CartaoVO cartaoVO : cartoesPorData) {
-			gastosRetorno.addAll(cartaoVO.getGastos());
-		}
-		
-		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(gastosRetorno), HttpStatus.OK);
+		return new ResponseEntity<List<GastoVO>>(new ArrayList<GastoVO>(gastosPorData), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/gastos/adiciona/{numeroCartao}", method = RequestMethod.POST)
-	public ResponseEntity<GastoVO> update(@PathVariable("numeroCartao") Long numeroCartao, @RequestBody GastoVO gastoVO) {
+	/**
+	 * Salva o gasto para um cartão especificado
+	 * @param idUsuario
+	 * @param numeroCartao
+	 * @param gastoVO
+	 * @return
+	 */
+	@RequestMapping(value = "/santander/{idUsuario}/gastos/adiciona", method = RequestMethod.POST)
+	public ResponseEntity<GastoVO> adicionaGasto(
+			@PathVariable("idUsuario") Long idUsuario,
+			@RequestParam(value="numeroCartao", required=true) Long numeroCartao,
+			@RequestBody GastoVO gastoVO) {
 
+		if(usuarioService.findById(idUsuario) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		if(cartaoService.findById(numeroCartao) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
 		if (gastoVO == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
-		CartaoVO cartaoVO = new CartaoVO(numeroCartao, gastoVO);
-		
-		gastoService.save(cartaoVO);
+		gastoService.save(numeroCartao, gastoVO);
 
 		return new ResponseEntity<GastoVO>(gastoVO, HttpStatus.OK);
+	}
+	
+	/**
+	 * Atualiza a categoria de um gasto especificado
+	 * @param idUsuario
+	 * @param codigoGasto
+	 * @param categoria
+	 * @return
+	 */
+	@RequestMapping(value = "/santander/{idUsuario}/gastos/atualiza", method = RequestMethod.PUT)
+	public ResponseEntity<GastoVO> adicionaGasto(
+			@PathVariable("idUsuario") Long idUsuario,
+			@RequestParam(value="codigoGasto", required=true) UUID codigoGasto,
+			@RequestParam(value="categoria", required=true) String categoria){
+		
+		if(usuarioService.findById(idUsuario) == null) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		GastoVO gastoAtualizado = gastoService.atualizaCategoria(codigoGasto, categoria);
+		
+		if(gastoAtualizado == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<GastoVO>(gastoAtualizado, HttpStatus.OK);
 	}
 }

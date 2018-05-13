@@ -1,31 +1,40 @@
-package br.com.santander.vo;
+package br.com.santander.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-public class CartaoVO implements Serializable{
+import com.datastax.driver.core.DataType.Name;;
 
-	private static final long serialVersionUID = -8234688822182429854L;
+@Table(value = "cartoes")
+public class Cartao implements Serializable {
 
-	@JsonProperty(value ="numerocartao", required = true)
+	private static final long serialVersionUID = 8883878302678919902L;
+
+	@PrimaryKeyColumn(name = "numerocartao", type = PrimaryKeyType.PARTITIONED)
 	private Long numeroCartao;
-	
-	@JsonProperty(value ="codigousuario", required = true)
+
+	@Column(value = "codigousuario")
 	private Long codigoUsuario;
-	
-	@JsonProperty(value ="datacontrato", required = true)
+
+	@CassandraType(type=Name.TIMESTAMP)
+	@Column(value = "datacontrato")
 	private Date dataContrato;
-	
-	public CartaoVO(Long numeroCartao, Long codigoUsuario, Date dataContrato) {
+
+	public Cartao(Long numeroCartao, Long codigoUsuario, Date dataContrato) {
 		super();
 		this.numeroCartao = numeroCartao;
 		this.codigoUsuario = codigoUsuario;
 		this.dataContrato = dataContrato;
 	}
 
-	public CartaoVO () {
+	public Cartao() {
+
 	}
 
 	/**
@@ -69,5 +78,4 @@ public class CartaoVO implements Serializable{
 	public void setDataContrato(Date dataContrato) {
 		this.dataContrato = dataContrato;
 	}
-	
 }

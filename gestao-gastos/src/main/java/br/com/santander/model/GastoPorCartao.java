@@ -16,19 +16,23 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import com.datastax.driver.core.DataType.Name;
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Table(value = "gastos")
-public class Gasto implements Serializable {
+import br.com.santander.utils.DateUtils;;
 
-	private static final long serialVersionUID = 441976184757996052L;
+@Table(value = "gastos_por_cartao")
+public class GastoPorCartao implements Serializable {
 
-	@JsonIgnore
+	private static final long serialVersionUID = 2420033343083903029L;
+
 	@PrimaryKeyColumn(name = "codigogasto", type = PrimaryKeyType.PARTITIONED)
 	private UUID codigoGasto;
 	
 	@Column(value = "numerocartao")
 	private Long numeroCartao;
+	
+	@Column(value = "categoria")
+	private String categoria;
 
 	@Column(value = "descricao")
 	private String descricao;
@@ -43,9 +47,18 @@ public class Gasto implements Serializable {
 	@Column(value = "data")
 	private Date data;
 
-	private static final String DATE_FORMAT = "dd-MM-yyyy";
+	public GastoPorCartao(UUID codigoGasto, Long numeroCartao, String categoria, String descricao, BigDecimal valor, Long codigoUsuario, Date data) {
+		super();
+		this.codigoGasto = codigoGasto;
+		this.numeroCartao = numeroCartao;
+		this.categoria = categoria;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.codigoUsuario = codigoUsuario;
+		this.data = data;
+	}
 	
-	public Gasto(UUID codigoGasto, Long numeroCartao,String descricao, BigDecimal valor, Long codigoUsuario, Date data) {
+	public GastoPorCartao(UUID codigoGasto, Long numeroCartao, String descricao, BigDecimal valor, Long codigoUsuario, Date data) {
 		super();
 		this.codigoGasto = codigoGasto;
 		this.numeroCartao = numeroCartao;
@@ -55,7 +68,7 @@ public class Gasto implements Serializable {
 		this.data = data;
 	}
 
-	public Gasto() {
+	public GastoPorCartao() {
 
 	}
 
@@ -143,7 +156,7 @@ public class Gasto implements Serializable {
 
 	@JsonAlias(value="data")
 	public String getDataUTC() {
-		final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		final SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.FORMATO_UTC_BASE);
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 		final String utcTime = sdf.format(data);
 
@@ -161,13 +174,27 @@ public class Gasto implements Serializable {
 
 	public void setData(String dataUTC) {
 		if (dataUTC != null) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+			SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.FORMATO_UTC_BASE);
 			try {
 				data = (Date) dateFormat.parse(dataUTC);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * @return the categoria
+	 */
+	public String getCategoria() {
+		return categoria;
+	}
+
+	/**
+	 * @param categoria the categoria to set
+	 */
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 
 }

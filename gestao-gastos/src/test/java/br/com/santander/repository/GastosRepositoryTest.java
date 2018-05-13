@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import br.com.santander.model.Gasto;
+import br.com.santander.model.GastoPorCartao;
 import br.com.santander.utils.DateUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,7 +25,7 @@ import br.com.santander.utils.DateUtils;
 public class GastosRepositoryTest {
 
 	@Autowired
-	private GastosRepository gastosRepository;
+	private GastoRepository gastosRepository;
 	
 	@Before
 	public void setUp() throws Exception {}
@@ -42,13 +42,13 @@ public class GastosRepositoryTest {
 	@Test
 	public void testPercistence() {
 		
-		Gasto g1 = new Gasto(UUID.randomUUID(), NUMERO_CARTAO, DESCRICAO, VALOR, CODIGO_USUARIO, DATA);
+		GastoPorCartao g1 = new GastoPorCartao(UUID.randomUUID(), NUMERO_CARTAO, null, DESCRICAO, VALOR, CODIGO_USUARIO, DATA);
 		
 		gastosRepository.save(g1);
 		
 		assertNotNull(g1.getCodigoGasto());
 		
-		Gasto novoGasto = gastosRepository.findById(g1.getCodigoGasto()).orElse(null);
+		GastoPorCartao novoGasto = gastosRepository.findById(g1.getCodigoGasto()).orElse(null);
 		
 		assertEquals(NUMERO_CARTAO, novoGasto.getNumeroCartao());
 		assertEquals(DESCRICAO, novoGasto.getDescricao());
@@ -64,19 +64,19 @@ public class GastosRepositoryTest {
 	@Test
 	public void testConsultaData() {
 		
-		Gasto g1 = new Gasto(UUID.randomUUID(), NUMERO_CARTAO, DESCRICAO, VALOR, CODIGO_USUARIO, DATA);
+		GastoPorCartao g1 = new GastoPorCartao(UUID.randomUUID(), NUMERO_CARTAO, null, DESCRICAO, VALOR, CODIGO_USUARIO, DATA);
 		
 		gastosRepository.save(g1);
 		
 		assertNotNull(g1.getCodigoGasto());
 		
-		List<Gasto> findByData = gastosRepository.findByData(DateUtils.getDataInicio(DATA), DateUtils.getDataFim(DATA));
+		List<GastoPorCartao> findByData = gastosRepository.findByDataECartao(DateUtils.getDataInicio(DATA), DateUtils.getDataFim(DATA), NUMERO_CARTAO);
 		
 		assertEquals(false, findByData.isEmpty());
 		
 		//Exclui registro utilizado para teste
 		
-		Gasto gastoExcluir = gastosRepository.findById(g1.getCodigoGasto()).orElse(null);
+		GastoPorCartao gastoExcluir = gastosRepository.findById(g1.getCodigoGasto()).orElse(null);
 		
 		gastosRepository.delete(gastoExcluir);
 		
@@ -88,19 +88,19 @@ public class GastosRepositoryTest {
 	@Test
 	public void testConsultaNumeroCartao() {
 		
-		Gasto g1 = new Gasto(UUID.randomUUID(), NUMERO_CARTAO, DESCRICAO, VALOR, CODIGO_USUARIO, DATA);
+		GastoPorCartao g1 = new GastoPorCartao(UUID.randomUUID(), NUMERO_CARTAO, null, DESCRICAO, VALOR, CODIGO_USUARIO, DATA);
 		
 		gastosRepository.save(g1);
 		
 		assertNotNull(g1.getCodigoGasto());
 		
-		List<Gasto> findByNumeroCartao = gastosRepository.findByNumeroCartao(g1.getNumeroCartao());
+		List<GastoPorCartao> findByNumeroCartao = gastosRepository.findByNumeroCartao(g1.getNumeroCartao());
 		
 		assertEquals(false, findByNumeroCartao.isEmpty());
 		
 		//Exclui registro utilizado para teste
 		
-		Gasto gastoExcluir = gastosRepository.findById(g1.getCodigoGasto()).orElse(null);
+		GastoPorCartao gastoExcluir = gastosRepository.findById(g1.getCodigoGasto()).orElse(null);
 		
 		gastosRepository.delete(gastoExcluir);
 		

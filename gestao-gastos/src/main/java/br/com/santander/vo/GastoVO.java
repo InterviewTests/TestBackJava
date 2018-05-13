@@ -6,30 +6,54 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.santander.utils.DateUtils;
 
 public class GastoVO implements Serializable{
 
-	private static final long serialVersionUID = -8948650565344019434L;
+	private static final long serialVersionUID = -5988306464921345407L;
 
-	@JsonIgnore
+	@JsonProperty(value ="codigoGasto", required = false)
 	private UUID codigoGasto;
 	
+	@JsonProperty(value ="numeroCartao", required = false)
+	private Long numeroCartao;
+	
+	@JsonProperty(value ="categoria", required = false)
+	private String categoria;
+	
+	@JsonProperty(value ="descricao", required = true)
 	private String descricao;
 
+	@JsonProperty(value ="valor", required = true)
 	private BigDecimal valor;
 
+	@JsonProperty(value ="codigoUsuario", required = true)
 	private Long codigoUsuario;
 	
+	@JsonProperty(value ="data", required = true)
 	private Date data;
 	
 	public GastoVO() {}
 
-	public GastoVO(UUID codigoGasto, String descricao, BigDecimal valor, Long codigoUsuario,
+	public GastoVO(UUID codigoGasto, Long numeroCartao, String descricao, BigDecimal valor, Long codigoUsuario,
 			Date data) {
 		super();
 		this.codigoGasto = codigoGasto;
+		this.numeroCartao = numeroCartao;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.codigoUsuario = codigoUsuario;
+		this.data = data;
+	}
+
+	public GastoVO(UUID codigoGasto, Long numeroCartao, String categoria, String descricao, BigDecimal valor,
+			Long codigoUsuario, Date data) {
+		super();
+		this.codigoGasto = codigoGasto;
+		this.numeroCartao = numeroCartao;
+		this.categoria = categoria;
 		this.descricao = descricao;
 		this.valor = valor;
 		this.codigoUsuario = codigoUsuario;
@@ -48,6 +72,20 @@ public class GastoVO implements Serializable{
 	 */
 	public void setCodigoGasto(UUID codigoGasto) {
 		this.codigoGasto = codigoGasto;
+	}
+
+	/**
+	 * @return the numeroCartao
+	 */
+	public Long getNumeroCartao() {
+		return numeroCartao;
+	}
+
+	/**
+	 * @param numeroCartao the numeroCartao to set
+	 */
+	public void setNumeroCartao(Long numeroCartao) {
+		this.numeroCartao = numeroCartao;
 	}
 
 	/**
@@ -95,12 +133,12 @@ public class GastoVO implements Serializable{
 	/**
 	 * @return the data
 	 */
-	@JsonIgnore
-	public Date getDataAsDate() {
+	
+	public Date getData() {
 		return data;
 	}
-	
-	public String getData() {
+	@JsonIgnore
+	public String getDataAsString() {
 		return DateUtils.dateToString(data);
 	}
 
@@ -109,5 +147,19 @@ public class GastoVO implements Serializable{
 	 */
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	/**
+	 * @return the categoria
+	 */
+	public String getCategoria() {
+		return categoria;
+	}
+
+	/**
+	 * @param categoria the categoria to set
+	 */
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 }

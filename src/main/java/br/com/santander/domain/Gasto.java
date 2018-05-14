@@ -1,23 +1,31 @@
 package br.com.santander.domain;
 
-import org.springframework.data.cassandra.core.mapping.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
 
-@Table
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Gasto {
-    private UUID id;
+
+    @Id
+    private String id;
+    @NotNull(message = "Deve ser fornecida uma descrição para o gasto.")
     private String descricao;
+    @NotNull(message = "O valor do gasto deve ser informado")
     private Double valor;
+    @NotNull(message = "É necessário informar o código do usuário")
     private long codigousuario;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date data;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,14 +1,11 @@
 package br.com.santander.controller;
 
-import br.com.santander.ServletInitializer;
 import br.com.santander.domain.Gasto;
 import br.com.santander.service.GastoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -23,11 +20,13 @@ public class GastosController {
     private GastoService gastoService;
 
     @RequestMapping(value = "/incluir", method = RequestMethod.POST)
-    public ResponseEntity<Void> incluir(@Valid @RequestBody Gasto gasto) {
+    public ResponseEntity<List<Gasto>> incluir(@Valid @RequestBody Gasto gasto) {
         gasto = gastoService.incluir(gasto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{usuario}").buildAndExpand(gasto.getCodigousuario()).toUri();
-        return ResponseEntity.created(uri).build();
+        return listarGastos(gasto.getCodigoUsuario());
     }
 
-    public ResponseEntity<List<Gasto>> listarGastos(long )
+    @RequestMapping(value = "/listar/{user}", method = RequestMethod.GET)
+    public ResponseEntity<List<Gasto>> listarGastos(@PathVariable(value = "user") long user){
+        return ResponseEntity.status(HttpStatus.OK).body(gastoService.listarGastos(user));
+    }
 }

@@ -17,7 +17,7 @@ public class Gasto {
     @NotNull(message = "O valor do gasto deve ser informado")
     private Double valor;
     @NotNull(message = "É necessário informar o código do usuário")
-    private long codigousuario;
+    private long codigoUsuario;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date data;
 
@@ -45,12 +45,12 @@ public class Gasto {
         this.valor = valor;
     }
 
-    public long getCodigousuario() {
-        return codigousuario;
+    public long getCodigoUsuario() {
+        return codigoUsuario;
     }
 
-    public void setCodigousuario(long codigousuario) {
-        this.codigousuario = codigousuario;
+    public void setCodigoUsuario(long codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
     public Date getData() {

@@ -1,0 +1,209 @@
+<!DOCTYPE html >
+<html ng-app="TestBackJava">
+<head>
+<meta charset="ISO-8859-1">
+<title>SantanderTecnologia</title>
+<script src="js/jquery.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/angular-messages.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap-table.min.js"></script>
+<script src="js/bootstrap-table-pt-BR.min.js"></script>
+<script src="js/bootstrap3-typeahead.js"></script>
+<script src="js/index.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/testbackjava.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-table.css">
+
+</head>
+<body ng-controller="HomeController">
+	<div class="container-fluid">
+		<div class="row vertical-align-center header">
+			<div class="col-sm-4">
+				<img ng-src="{{logo}}" alt="Description" />
+			</div>
+			<div class="col-sm-4"></div>
+			<div ng-show="!userLogado.isLogado" class="col-sm-4 input-group right">
+				<form name="loginForm">
+					<div class="vertical-align-bottom">
+						<div class="col-sm-3">
+							C&oacute;digo: <input class="form-control" type="text" value="{{user.codigoUsuario}}" name="codigoUsuario" ng-model="user.codigoUsuario" ng-required="true" ng-minlength="1" ng-maxlength="6" placeholder="000000" />
+						</div>
+						<div class="col-sm-4">
+							Password: <input class="form-control" type="password" value="{{user.senha}} " name="senha" ng-model="user.senha" ng-required="true" ng-minlength="1" ng-maxlength="6" placeholder="Password" />
+						</div>
+						<div class="col-md-2 align-middle">
+							<button class="btn btn-md" ng-click="entrar(user)">Entrar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div ng-show="userLogado.isLogado" class="col-sm-4 input-group right">
+				<div class="vertical-align-bottom">
+					<div class="col-sm-3">{{userLogado.nome}}</div>
+					<div class="col-sm-4"></div>
+					<div class="col-md-2 align-middle">
+						<button class="btn btn-md" ng-click="sair()">Sair</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-show="message.message" class="alert alert-danger">
+		<span>{{message.message}}</span>
+	</div>
+	<div id="divMessage" class="alert alert-danger hide">
+		<span id="message"></span>
+	</div>
+	<div ng-show="userLogado.isLogado">
+		<div class="menu">
+			<ul class="nav">
+				<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"> Funcionalides <b class="caret"></b>
+				</a>
+					<div class="dropdown-menu col-sm-2">
+						<div class="row-fluid">
+							<div class="span4">
+								<ul>
+									<li class="nav-header"><a ng-click=listarGastos(filtro)> Listagem de gastos </a></li>
+									<li class="nav-header"><a ng-click=mostrarGastosPorFiltro()> Filtro </a></li>
+								</ul>
+							</div>
+						</div>
+					</div></li>
+			</ul>
+		</div>
+	</div>
+	<!-- Filtro -->
+	<div ng-show="dataGastos || filtroGastos">
+		<form name="filtroForm">
+			<div class="container-fluid">
+				<fieldset class="scheduler-border">
+					<legend class="scheduler-border">Filtro:</legend>
+					<div class="row mBottom">
+						<div class="col-sm-1">
+							<label> Data:</label>
+						</div>
+						<div class="col-sm-2">
+							<input type="date" name="data" ng-model="filtro.data" value="{{filtro.data}}" maxlength="10">
+							<button class="btn btn-md" ng-click="listarGastos(filtro)">Filtrar</button>
+						</div>
+					</div>
+				</fieldset>
+				<hr>
+			</div>
+		</form>
+	</div>
+
+	<div ng-show="dataGastos">
+		<div class="container-fluid">
+			<table id="table" class="table table-bordered table-striped " data-id-field="id" data-unique-id-field="id" data-pagination="true" data-page-size="10" data-sort-name="data" data-sort-order="desc">
+				<thead>
+					<tr>
+						<th data-field="id"        data-visible="false">Id</th>
+						<th data-field="data"      data-halign="center" data-align="center" data-sortable="true" data-formatter="dateFormat">Data</th>
+						<th data-field="descricao" data-halign="center" data-align="venter" data-sortable="true">Descri&ccedil;&atilde;o</th>
+						<th data-field="valor"     data-halign="center" data-align="right" data-sortable="true" data-formatter="fixedFormat">Valor</th>
+						<th data-field="categoria" data-halign="center" data-align="left" data-sortable="true" data-formatter="categoriaFormat">Categoria</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="modal" class="modal fade" role="dialog" tabindex="-1" data-toggle="modal">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Detalhes</h4>
+				</div>
+				<div class="modal-body">
+					<div class="fluid input-group form-horizontal" style="width: 100%;">
+						<div class="row">
+							<div class="col-sm-2 ">
+								<label>Usu&aacute;rio</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="text" value="{{userLogado.nome}}" class="form-control" disabled />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2 ">
+								<label>ID &Uacute;nico</label>
+							</div>
+							<div class="col-sm-10">
+								<input id="id" name="id" type="text" value="" class="form-control" disabled />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Data</label>
+							</div>
+							<div class="col-sm-10">
+								<input id="data" type="text" value="" class="form-control" disabled />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Descri&ccedil;&atilde;o</label>
+							</div>
+							<div class="col-sm-10">
+								<input id="descricao" type="text" value="" class="form-control" disabled />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12 text-center">
+								<hr>
+							</div>
+						</div>
+						<form categoriaForm>
+						<div class="row">
+							<div class="col-sm-2">
+								<label>Categoria</label>
+							</div>
+							<div class="col-sm-10">
+								<input id="categoria" name="categoria" class="form-control typeahead" data-provide="typeahead" type="text" value="{{categoria}}" ng-model="categoria" ng-required="true" ng-minlength="1" ng-maxlength="50" placeholder="Seja o primeiro a incluir uma nova categoria!" />
+							</div>
+						</div>
+
+						<div id="divSugestoes" class="row hidden">
+							<div class="col-sm-2">
+								<label>Sugest&otilde;es:</label>
+							</div>
+							<div class="col-sm-10">
+								<select id="sugestoes" class="form-control"></select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 text-center">
+								<br>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6  text-center">
+								<button class="btn btn-md" ng-click="categorizar(categoria)">Salvar</button>
+							</div>
+							<div class="col-sm-6  text-center">
+								<button class="btn btn-md" data-dismiss="modal">Cancelar</button>
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+</body>
+
+<script src="js/app.js"></script>
+
+</html>

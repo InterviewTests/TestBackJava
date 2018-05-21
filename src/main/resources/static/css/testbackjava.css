@@ -1,0 +1,27 @@
+div.header {
+	clear: both;
+	color: white;
+	background-color: red; 
+}
+
+div.vertical-align-center {
+    display: flex;
+    align-items: center;
+}
+
+div.vertical-align-bottom {
+    display: flex;
+    align-items: flex-end;
+}
+
+div.hidden {
+	overflow: hidden;
+}
+div.right {
+	position: absolute;
+	right: 0px;
+}
+
+div.menu {
+	background-color: linen;
+}

@@ -1,9 +1,11 @@
 package br.com.santander.card.sale.http.dto;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class CreateSaleRequest {
+public class CreateSaleRequest implements Serializable {
 
 	private String descricao;
 	private double valor;

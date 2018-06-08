@@ -1,8 +1,10 @@
 package br.com.santander.card.sale;
 
-import javax.persistence.Entity;
+import java.io.Serializable;
 
-@Entity
-public class Sale {
-
+public class Sale implements Serializable {
+	private String descricao;
+	private double valor;
+	private long codigousuario;
+	private String data;
 }

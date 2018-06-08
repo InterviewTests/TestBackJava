@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 @Log
-@Component
-@RequiredArgsConstructor
 public class InsertSupplier implements Supplier<Object> {
 
 	private final Channel channel;
@@ -23,6 +21,12 @@ public class InsertSupplier implements Supplier<Object> {
 	
 	@Autowired
 	private InsertCommand command;
+	
+	public InsertSupplier(Channel channel, long tag, Sale sale) {
+		this.channel = channel;
+		this.tag = tag;
+		this.sale = sale;
+	}
 	
 	@Override
 	public Object get() {

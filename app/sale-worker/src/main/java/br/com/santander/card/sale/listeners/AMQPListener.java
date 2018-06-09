@@ -10,14 +10,17 @@ import javax.annotation.PostConstruct;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 
+import br.com.santander.card.sale.CategoryService;
 import br.com.santander.card.sale.InsertSupplier;
 import br.com.santander.card.sale.Sale;
 import lombok.extern.java.Log;
@@ -28,7 +31,13 @@ public class AMQPListener {
 	@Autowired
 	private ObjectMapper mapper;
 	
+	@Autowired
+	private ApplicationContext context;
+	
 	private ExecutorService executor = null;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@PostConstruct
 	private void init() {
@@ -38,22 +47,33 @@ public class AMQPListener {
 	@RabbitListener(queues="queue.sales")
     public void recievedMessage(final String json, final Channel channel, final @Header(AmqpHeaders.DELIVERY_TAG) long tag) {
 		log.info("# received: "+json);
-		Sale sale;
+		log.info("#Channel@recievedMessage: "+channel);
+		Sale sale = null;
 		try {
 			sale = mapper.readValue(json, Sale.class);
-			CompletableFuture.supplyAsync(
-					new InsertSupplier(channel, tag, sale),
-					executor
+			
+			String category = categoryService.findFirstByDescription(sale.getDescricao());
+			sale.setCategoria(category);
+			
+			CompletableFuture<Long> cf = CompletableFuture.supplyAsync(
+				(InsertSupplier)context.getBean("insertSupplier", tag, sale),
+				executor
 			);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
+			cf.thenAccept(t->{
+				log.info("#Channel@thenAccept: "+channel);
+			});
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		
     }
+	
+	@Bean("insertSupplier")
+	@Scope("prototype")
+	private InsertSupplier insertSupplier(long tag, Sale sale) {
+		return new InsertSupplier(tag, sale);
+	}
 
 }

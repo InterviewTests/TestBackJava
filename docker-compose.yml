@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+
+  eureka:
+    build: ./core/core.registry
+    container_name: eureka
+    ports:
+      - 8761:8761
+    networks:
+      - teste-network
+
+
+  zuul:
+    build: ./core/core.gateway
+    container_name: zuul
+    ports:
+      - 8443:8443
+    environment:
+      EUREKA_IP: eureka
+    depends_on:
+      - eureka
+    networks:
+      - teste-network
+  
+
+  mysql:
+    image: mysql:8.0.11
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sandater
+    ports:
+      - 3306:3306
+    networks:
+      - teste-network
+
+
+  solr:
+    image: andrehenriques/sorl:v1
+    ports:
+      - 8983:8983
+    networks:
+      - teste-network
+
+
+  rabbitmq: 
+    image: rabbitmq:3.6.15-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - teste-network
+
+networks:
+    teste-network:
+        driver: bridge

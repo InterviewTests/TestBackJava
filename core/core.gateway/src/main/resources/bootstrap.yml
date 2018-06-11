@@ -1,0 +1,29 @@
+server:
+  port: 8443
+  ssl:
+    key-alias: andrehenriques-key-santander
+    key-password: changeit
+    key-store: classpath:ssl-server.jks
+    key-store-provide: SUN
+    key-store-type: JKS
+spring:
+  application:
+    name: gateway-server
+zuul:
+  routes:
+    sale-api:
+      path: /**
+  ribbon-isolation-strategy: semaphore
+  semaphore:
+    max-semaphores: 300
+    
+eureka:
+ client:
+   serviceUrl:
+     defaultZone: http://${EUREKA_IP}:8761/eureka/
+ instance:
+   prefer-ip-address: true
+   ip-address: ${EUREKA_IP}
+    
+
+  

@@ -1,6 +1,8 @@
 package br.com.santander.card.sale.listeners;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,7 +43,9 @@ public class AMQPListener {
 	
 	@PostConstruct
 	private void init() {
-		this.executor = Executors.newFixedThreadPool(100);	
+		 TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
+		this.executor = Executors.newFixedThreadPool(100);
+
 	}
 	
 	@RabbitListener(queues="queue.sales")
@@ -50,6 +54,7 @@ public class AMQPListener {
 		log.info("#Channel@recievedMessage: "+channel);
 		Sale sale = null;
 		try {
+			
 			sale = mapper.readValue(json, Sale.class);
 			
 			String category = categoryService.findFirstByDescription(sale.getDescricao());

@@ -12,7 +12,11 @@ spring:
 zuul:
   routes:
     sale-api:
-      path: /**
+      path: sale-api/**
+      stripPrefix: false
+    client-api:
+      path: client-api/**
+      stripPrefix: false
   ribbon-isolation-strategy: semaphore
   semaphore:
     max-semaphores: 300
@@ -20,10 +24,7 @@ zuul:
 eureka:
  client:
    serviceUrl:
-     defaultZone: http://${EUREKA_IP}:8761/eureka/
- instance:
-   prefer-ip-address: true
-   ip-address: ${EUREKA_IP}
+     defaultZone: http://${EUREKA_IP:localhost}:8761/eureka/
     
 
   

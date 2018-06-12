@@ -18,14 +18,14 @@ public class SaleSQLQuery {
 	private EntityManager entityManager;
 	
 	public List<Sale> findAllByUserCode(final Long usercode) {
-		List<Sale> sales = entityManager.createQuery("SELECT s FROM Sale c WHERE c.codigousuario = :codigousuario", Sale.class)
+		List<Sale> sales = entityManager.createQuery("SELECT s FROM Sale s WHERE s.codigousuario = :codigousuario", Sale.class)
 				.setParameter("codigousuario", usercode)
 				.getResultList();
 		return sales;
 	}
 	
 	public List<Sale> findAllByDate(final Long usercode, final Date date) {
-		List<Sale> sales = entityManager.createQuery("SELECT s FROM Sale c WHERE c.codigousuario = :codigousuario AND c.date = :date", Sale.class)
+		List<Sale> sales = entityManager.createQuery("SELECT s FROM Sale s WHERE s.codigousuario = :codigousuario AND s.date = :date", Sale.class)
 				.setParameter("codigousuario", usercode)
 				.setParameter("date", date)
 				.getResultList();
@@ -33,12 +33,19 @@ public class SaleSQLQuery {
 	}
 	
 	public List<Sale> findAllByDates(final Long usercode, final Date dateStart, final Date dateEnd) {
-		List<Sale> sales = entityManager.createQuery("SELECT s FROM Sale c WHERE c.codigousuario = :codigousuario AND c.date = :date", Sale.class)
+		List<Sale> sales = entityManager.createQuery("SELECT s FROM Sale s WHERE s.codigousuario = :codigousuario AND s.date = :date", Sale.class)
 				.setParameter("codigousuario", usercode)
 				.setParameter("dateStart", dateStart)
 				.setParameter("dateEnd", dateEnd)
 				.getResultList();
 		return sales;
+	}
+
+	public Sale findById(Long saleId) {
+		Sale sale = entityManager.createQuery("SELECT s FROM Sale s WHERE s.id = :id", Sale.class)
+		.setParameter("id", saleId)
+		.getSingleResult();
+		return sale;
 	}
 	
 }

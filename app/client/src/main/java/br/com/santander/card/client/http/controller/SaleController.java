@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.santander.card.client.model.entity.Sale;
+import br.com.santander.card.client.service.CategoryService;
 import br.com.santander.card.client.service.SaleService;
 
 @RestController
@@ -19,6 +20,9 @@ public class SaleController {
 	
 	@Autowired
 	private SaleService saleService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@RequestMapping("/")
 	public ResponseEntity all(@PathVariable("user") final Long userCode) {
@@ -38,12 +42,15 @@ public class SaleController {
 		Date dateStart = null;
 		Date dateEnd = null;
 		List<Sale> sales = saleService.findByUsarAndDates(userCode, dateStart, dateEnd);
-		return null;
+		return ResponseEntity.ok(sales);
 	}
 	
-	@PutMapping("/{saleId}")
-	public ResponseEntity assingCategory(@PathVariable("user") final Long userCode, @PathVariable("id") final Long saleId) {
-		return null;
+	@PutMapping("/{saleId}/{category}")
+	public ResponseEntity assingCategory(@PathVariable("user") final Long userCode, @PathVariable("saleId") final Long saleId, @PathVariable("category") final String category) {
+		Sale sale = saleService.findById(saleId);
+		sale.setCategoria(category);
+		saleService.updateCategoryFromSale(sale);
+		return ResponseEntity.ok(sale);
 	}
 	
 }

@@ -1,76 +1,106 @@
-# Show me the code
+# Tutorial
 
-### # DESAFIO:
+## Requisitos
 
-API REST para Gestão de Gastos!
+* Git
+* Maven
+* Docker
+* Docker Compose
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+## Serviços que rodarão no Docker
+Serão criados os serviços abaixo:
+* Mysql
+* Solr
+* RabbitMq
+* Eureka
+* Zuul
+* Sale-Api
+* Sale-Worker
+* Client-Api
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+### Mysql
+    Persistencia da compras realizadas
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+### Solr
+    Indexação de categoria/descrição
 
-### # Observações gerais
+### RabbitMq
+    As requisições que chegam no rest são encaminhados para a fila do Rabbit com o objetivo de não superlotar o servidor de request, evitando assim que requestes sejam rejeitados.
+    Como existe um requisito não funcional referente à 100k de request por segundos, foi pessado nessa nesse esquema.
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+### Eureka
+    É um serviço desevolvolvido pela Netflix para **service discovery**.
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+### Zuul
+    É um proxy reverso também desevolvolvido pela Netflix que atua também como um **load balance**, trabalha junto com o Eureka para descoberta e agreção dos nós. Dando a possibilidad de criar um cluster
+    com facilidade.
+    Foi implementado o SSL, então do client ao proxy a comuniação é segura, do proxy à aplicação a comunicação **Não** é segura.
 
-### # Importante: não há prazo de entrega, faça com qualidade!
+### Sale-Api
+    Rest responsável por receber as requisições referente à integração de gasto de carão e encaminha para o **RabbitMq**
 
-# BOA SORTE!
+### Sale-Worker
+    Worker responsável por receber as mensagens do rabbit e persistir o gasto. É nesse worker onde é feito a consulta no Solr se aquela des já está indexada, cajo verdadeiro será **cacheado** para futuras consultas.
+
+### Client-Api
+    Rest que disponibiliza endpoints de consultas de gastos bem como a edição da categoria. Também é disponibilizado um endpoint para autoconplete referente à categoria.
+
+### TODO
+    #### Segurança implementado em Spring Security
+        * Autenticação baseada e login e senha, para o serviço **Client-Api**
+        * Auorização baseada em oauth2 para os sistemas credenciados
+        * Jwt persistido no redis com o objetivo de gerenciar os mesmos.
+    #### Melhorar o domínio
+
+
+## Execução do ambiente
+  No diretório raiz exite um arquivo **build.sh** com ele podemos fazer o build do código e gerar as imagens e container bem como fazer o deploy no Docker, **MAS OS SERVIÇOS NÃO _INICIAM_, PARA ISSO RODAREMOS OUTROS CÓDIGOS DO DOCKER-COMPOSE**
+  
+  Esse script foi criado para linux
+  ```
+    sh build.sh
+  ```
+
+  ### Entre as chamadas tem que haver um tempo para o serviço levantar.
+ ```
+  docker-compose start eureka mysql solr rabbitmq
+  docker-compose start zuul
+  docker-compose start sale-worker
+  docker-compose start sale-api client-api
+```
+
+
+# Cadastrar uma compra
+```
+curl -X POST \
+  https://localhost:8443/sale \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -d '{
+	"descricao":"Papelaria",
+	"valor":20.52,
+	"codigousuario":1200,
+	"data":"2018-06-06T01:37:56"
+}'
+```
+
+# Listar os gastos
+```
+curl -X GET \
+  https://localhost:8443/client-api/{codigo-do-usuario}/sale/ \
+  -H 'cache-control: no-cache' \
+```
+
+# Auto complete
+```
+curl -X GET \
+  'https://localhost:8443/client-api/categories?q=Texto' \
+  -H 'cache-control: no-cache' \
+```
+
+# Editar a categoria
+```
+curl -X PUT \
+  https://localhost:8443/client-api/{codigo-do-uauario}/sale/{codigo-da-compra}/Opac \
+  -H 'cache-control: no-cache' \
+```

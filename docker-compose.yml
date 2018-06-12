@@ -2,13 +2,36 @@ version: "3"
 
 services:
 
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: santander
+    ports:
+      - 3306:3306
+
+
+  solr:
+    image: andrehenriques/solr:v1
+    container_name: solr
+    ports:
+      - 8983:8983
+
+
+  rabbitmq: 
+    image: rabbitmq:3.6.15-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+
   eureka:
     build: ./core/core.registry
     container_name: eureka
     ports:
       - 8761:8761
-    networks:
-      - teste-network
 
 
   zuul:
@@ -20,38 +43,38 @@ services:
       EUREKA_IP: eureka
     depends_on:
       - eureka
-    networks:
-      - teste-network
-  
 
-  mysql:
-    image: mysql:8.0.11
+
+  sale-worker:
+    build: ./app/sale-worker
+    environment:
+      MYSQL_IP: mysql
+      SOLR_IP: solr
+      RABBITMQ_IP: rabbitmq
+
+
+  sale-api:
+    build: ./app/sale
+    environment:
+      EUREKA_IP: eureka
+      RABBITMQ_IP: rabbitmq
+    depends_on:
+      - rabbitmq
+      - sale-worker 
+
+      
+  client-api:
+    build: ./app/client
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: sandater
-    ports:
-      - 3306:3306
-    networks:
-      - teste-network
-
-
-  solr:
-    image: andrehenriques/sorl:v1
-    ports:
-      - 8983:8983
-    networks:
-      - teste-network
-
-
-  rabbitmq: 
-    image: rabbitmq:3.6.15-management-alpine
-    container_name: rabbitmq
-    ports:
-      - 15672:15672
-      - 5672:5672
-    networks:
-      - teste-network
-
-networks:
-    teste-network:
-        driver: bridge
+      EUREKA_IP: eureka
+      MYSQL_IP: mysql
+      SOLR_IP: solr
+      RABBITMQ_IP: rabbitmq
+    depends_on:
+      - rabbitmq
+      - mysql
+      - solr
+      - eureka
+      - sale-worker # Esse serviço cria as tabelas no banco e a fila

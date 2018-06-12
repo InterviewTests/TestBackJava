@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,12 @@ public class CategoryService {
 	
 	private HttpSolrClient solr;
 	
+	@Value("${sorl.ip-adress}")
+	private String solrIp;
+	
 	@PostConstruct
 	private void init() {
-		String urlString = "http://localhost:8983/solr/categorycore";
+		String urlString = String.format("http://%s:8983/solr/santander-core", solrIp);
 		solr = new HttpSolrClient.Builder(urlString).build();
 		solr.setParser(new XMLResponseParser());
 	}

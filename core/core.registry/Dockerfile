@@ -1,7 +1,10 @@
 FROM java:8-jre-alpine
 
-ADD target/core.registry-0.0.1-SNAPSHOT.jar opt/
+RUN mkdir -p /opt/registry
 
-WORKDIR /opt/
+ADD target/core.registry-0.0.1-SNAPSHOT.jar opt/registry
+ADD target/classes/application.properties opt/registry
 
-ENTRYPOINT [ "java", "-jar", "core.registry-0.0.1-SNAPSHOT.jar" ]
+WORKDIR /opt/registry
+
+ENTRYPOINT ["java", "-jar", "core.registry-0.0.1-SNAPSHOT.jar"]

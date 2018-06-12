@@ -1,9 +1,11 @@
 FROM java:8-jre-alpine
 
-ADD target/core.gateway-0.0.1-SNAPSHOT.jar opt/
-ADD target/classes/ssl-server.jks opt/
-ADD target/classes/bootstrap.yml opt/
+RUN mkdir -p /opt/gateway
 
-WORKDIR /opt/
+ADD target/core.gateway-0.0.1-SNAPSHOT.jar opt/gateway
+ADD target/classes/ssl-server.jks opt/gateway
+ADD target/classes/bootstrap.yml opt/gateway
 
-ENTRYPOINT [ "java", "-jar", "core.gateway-0.0.1-SNAPSHOT.jar" ]
+WORKDIR /opt/gateway
+
+ENTRYPOINT ["java", "-jar", "core.gateway-0.0.1-SNAPSHOT.jar"]

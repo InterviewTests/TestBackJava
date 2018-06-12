@@ -1,14 +1,22 @@
-cd app/client
+cd core/core.registry
+mvn clean compile package -DskipTests                                                    
+
+
+cd ../core.gateway                                                                               
 mvn clean compile package -DskipTests
 
-cd ../sale
+
+cd ../../app/sale-worker
 mvn clean compile package -DskipTests
 
-cd ../sale-worker
+
+cd ../sale-api
 mvn clean compile package -DskipTests
 
-cd ../../core/core.registry
+
+cd ../client-api
 mvn clean compile package -DskipTests
 
-cd ../core.gateway
-mvn clean compile package -DskipTests
+cd ../..
+
+docker-compose up --no-start

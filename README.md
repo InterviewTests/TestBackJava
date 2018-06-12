@@ -26,17 +26,25 @@ Serão criados os serviços abaixo:
 ### Solr
     Indexação de categoria/descrição
 
+    *Justificativa:* Solr é uma das melhores ferramentas de indexação de documento.
+
 ### RabbitMq
     As requisições que chegam no rest são encaminhados para a fila do Rabbit com o objetivo de não superlotar o servidor de request, evitando assim que requestes sejam rejeitados.
     Como existe um requisito não funcional referente à 100k de request por segundos, foi pessado nessa nesse esquema.
 
+    *Justificativa:* A chamada do bando diretamente do serviço bloqueará as as outras chamadas, muito mais quando se trata de consulta de categoria e depois escrita em banco. Deixaremos a consulta e persistencia para os *workers*.
+
 ### Eureka
     É um serviço desevolvolvido pela Netflix para **service discovery**.
+
+    *Justificativa:* O uso do Zuul, para criar os cluster
 
 ### Zuul
     É um proxy reverso também desevolvolvido pela Netflix que atua também como um **load balance**, trabalha junto com o Eureka para descoberta e agreção dos nós. Dando a possibilidad de criar um cluster
     com facilidade.
     Foi implementado o SSL, então do client ao proxy a comuniação é segura, do proxy à aplicação a comunicação **Não** é segura.
+    
+    *Justificativa:* O sistema terá um volume de 100k de request/seg, dessa forma o sistema terá que está em cluster com um loadbalance.
 
 ### Sale-Api
     Rest responsável por receber as requisições referente à integração de gasto de carão e encaminha para o **RabbitMq**

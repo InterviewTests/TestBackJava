@@ -18,7 +18,7 @@ public class Spending {
     private BigDecimal valor;
 
     @Column(name = "CODIGO_USUARIO")
-    private Integer codigousuario;
+    private Long codigoUsuario;
 
     @Column(name = "DATA ")
     private String data;
@@ -47,12 +47,12 @@ public class Spending {
         this.valor = valor;
     }
 
-    public Integer getCodigousuario() {
-        return codigousuario;
+    public Long getCodigoUsuario() {
+        return codigoUsuario;
     }
 
-    public void setCodigousuario(Integer codigousuario) {
-        this.codigousuario = codigousuario;
+    public void setCodigoUsuario(Long codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
     public String getData() {

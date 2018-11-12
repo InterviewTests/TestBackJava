@@ -1,6 +1,5 @@
 package com.santander.gestaogastos.controller;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
 
@@ -17,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.santander.gestaogastos.exception.GastosException;
 import com.santander.gestaogastos.model.Categoria;
 import com.santander.gestaogastos.model.Gasto;
 import com.santander.gestaogastos.model.Response;
-import com.santander.gestaogastos.service.CategoriaServicoImpl;
-import com.santander.gestaogastos.service.GastosServicoImpl;
+import com.santander.gestaogastos.serviceImpl.CategoriaServicoImpl;
+import com.santander.gestaogastos.serviceImpl.GastosServicoImpl;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "API PARA CONTROLE DE GASTOS")
 @Controller
 @RequestMapping("/gestaogastos")
 public class GastoController {
@@ -37,20 +39,16 @@ public class GastoController {
 	@Autowired
 	private GastosServicoImpl gastosService;
 	
+	@ApiOperation(value = "Retorna a lista de todos os gastos")
 	@RequestMapping(value="/gastos", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Gasto>> listarGastos() {
 		
 		logger.info("Retornando todos os Gastos");
 		
-		List<Gasto> gastosDoCliente = gastosService.listaGastos();
-		
- 		if (!gastosDoCliente.isEmpty()) {
- 	       return ResponseEntity.ok().body(gastosDoCliente);
- 	    }else{
- 	    	return ResponseEntity.notFound().build();
- 	    }		
+ 	    return ResponseEntity.ok().body(gastosService.listaGastos());
 	}
 	
+	@ApiOperation(value = "Remoçao do gasto")
 	@RequestMapping(value = "/gastos/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Response> removeGastoPorId(@PathVariable("id") Integer id) throws GastosException {
 		logger.info("Gasto id para ser excluido " + id);
@@ -66,33 +64,25 @@ public class GastoController {
 		return new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto foi excluido"), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Pesquisa do gasto")
 	@RequestMapping(value = "/gastos/{id}", method = RequestMethod.GET)
  	public @ResponseBody ResponseEntity<Gasto> detalhar(@PathVariable("id") Integer id) throws GastosException {
 		
 		logger.info("Gasto id para ser retornado " + id);
  		
-		Gasto gasto = (Gasto) this.gastosService.pesquisarGasto(id);
-	 		
- 		if (gasto!=null) {
-   	       return ResponseEntity.ok().body(gasto);
-   	    }else{
-   	    	throw new GastosException("Gasto não existe");
-   	    }
+   	    return ResponseEntity.ok().body((Gasto) this.gastosService.pesquisarGasto(id));
  	}
 	
+	@ApiOperation(value = "Pesquisa do gasto através da data")
 	@RequestMapping(value = "/gastos/{data}", method = RequestMethod.GET)
  	public @ResponseBody ResponseEntity<List<Gasto>> listarGastosPorData( @PathVariable("data") String data) throws ParseException {
- 		List<Gasto> gastosDoClientePorData = this.gastosService.gastosDoClientePorData(data);
- 		
- 		if (!gastosDoClientePorData.isEmpty()) {
-  	       return ResponseEntity.ok().body(gastosDoClientePorData);
-  	    }else{
-  	    	return ResponseEntity.notFound().build();
-  	    }
+
+       return ResponseEntity.ok().body(this.gastosService.gastosDoClientePorData(data));
  	}
 
+	@ApiOperation(value = "Atualiza do gasto")
 	@SuppressWarnings("null")
-	@RequestMapping(value = "/gastos", method = RequestMethod.PATCH)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ResponseEntity<Response> updateGastoComCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) {
 
 		Gasto gasto = (Gasto) this.gastosService.pesquisarGasto(id);
@@ -109,19 +99,16 @@ public class GastoController {
 		return new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto foi alterado"), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Cadastro do gasto")
 	@PostMapping(value = "/gastos", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Gasto> cadastrarGasto(@RequestBody Gasto gasto) {
-		Gasto gastoCriado = this.gastosService.salvarGasto(gasto);
- 		
- 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gastoCriado.getId()).toUri();
-
- 		return ResponseEntity.created(location).build();
+ 		return new ResponseEntity<Gasto>(this.gastosService.salvarGasto(gasto), HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "Cadastro da categoria")
 	@PostMapping(value = "/categoria", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
  	public ResponseEntity<Categoria> cadastrarCategoriaDoGasto(@RequestBody Categoria categoria) {
- 		Categoria categoriaCriada = this.categoriaService.salvarCategoria(categoria);
- 		return new ResponseEntity<Categoria>(categoriaCriada, HttpStatus.CREATED);
+ 		return new ResponseEntity<Categoria>(this.categoriaService.salvarCategoria(categoria), HttpStatus.CREATED);
  	}
 	
 	

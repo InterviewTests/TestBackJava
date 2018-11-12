@@ -1,4 +1,4 @@
-package com.santander.gestaogastos.service;
+package com.santander.gestaogastos.serviceImpl;
 
 import java.util.List;
 
@@ -6,35 +6,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.santander.gestaogastos.model.Categoria;
-import com.santander.gestaogastos.model.Gasto;
 import com.santander.gestaogastos.repository.CategoriaRepositorio;
+import com.santander.gestaogastos.service.CategoriaServico;
 
 @Service
 public class CategoriaServicoImpl implements CategoriaServico <Categoria> {
 	
 	@Autowired
-	private CategoriaRepositorio categoriaDAO;
+	private CategoriaRepositorio categoriaReposiorio;
 	
 	@Override
 	public Categoria salvarCategoria(Categoria categoriaIn) {
-		return this.categoriaDAO.save(categoriaIn);		
+		Categoria categoria = new Categoria(categoriaReposiorio);
+		
+		return categoria.salvarCategoria(categoriaIn);		
 	}
 
 	@Override
 	public <E> List<Categoria> listaCategoria() {
-		List<Categoria> categorias = categoriaDAO.findAll();
-		return categorias;
+		Categoria categoria = new Categoria(categoriaReposiorio);
+		
+		return categoria.listaCategoria();
 	}
 
 	@Override
 	public <E> Object pesquisarCategoria(Integer id) {
-		return this.categoriaDAO.getOne(id);
+		Categoria categoria = new Categoria(categoriaReposiorio);
+		
+		return categoria.pesquisarCategoria(id);
 	}
 
 	@Override
 	public void removeCategoria(Categoria categoriaIn) {
-		this.categoriaDAO.delete(categoriaIn);	
+		Categoria categoria = new Categoria(categoriaReposiorio);
 		
+		categoria.removeCategoria(categoriaIn);	
 	}
 
 }

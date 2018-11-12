@@ -74,3 +74,17 @@ Faça um fork desse desse repositório em seu Github e nos envie um Pull Request
 ### # Importante: não há prazo de entrega, faça com qualidade!
 
 # BOA SORTE!
+
+
+
+
+## SOLUÇÃO
+
++ 1 -  Realizei o primeiro commit contendo boa parte da solução.
++ 2 - Criei a primeiro a parte de infraestutura. Contendo a parte de model da solução, com as classe que representam.
++ 3 - Criei as classe que representam os repositórios, para gerenciar (listar, buscar, alterar e inserir) as informações no banco de dados
++ 4 - Optei por utilizar o biblioteca LOMBOK para deixar as classes do Model mais funcionais e menos verboso.
++ 5 - Optei por utilizar o banco de dados H2 para promover facilidade de uso e utilização da aplicação.
++ 6 - Optei por contruir um modelo relacional a fim de manter a integridade referencial das informações. Tendo em vista a relação entre os gastos e categoria dos mesmos.
++ 7 - Alteracao das entidades para implemntação do DDD (Domain Driven Design).
++ 8 - Utilizei o Mockito+JUnit para a realização dos testes e Cobertura de código.

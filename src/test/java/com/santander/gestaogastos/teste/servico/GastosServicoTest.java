@@ -86,7 +86,7 @@ public class GastosServicoTest {
 		gastoList.add(gasto2);
 		gastoList.add(gasto3);
 		
-		when(gasto.listaGastos()).thenReturn(gastoList);
+		when(gastosRepository.findAll()).thenReturn(gastoList);
 		
 		List<Gasto> result = gasto.listaGastos();
 		assertEquals(3, result.size());
@@ -111,7 +111,7 @@ public class GastosServicoTest {
 		gasto1.setUsuario(usuario);
 		gasto1.setData(new Date());
 		
-		when(gasto1.pesquisarGasto(1)).thenReturn(gasto1);
+		when(gastosRepository.getOne(1)).thenReturn(gasto1);
 		
 		Gasto result  = (Gasto) gasto1.pesquisarGasto(new Integer(1));
 		assertEquals(new Integer(1), result.getId());
@@ -138,7 +138,7 @@ public class GastosServicoTest {
 		gasto1.setUsuario(usuario);
 		gasto1.setData(new Date());
 		
-		when(gasto1.salvarGasto(gasto1)).thenReturn(gasto1);
+		when(gastosRepository.save(gasto1)).thenReturn(gasto1);
 		Gasto result = gasto1.salvarGasto(gasto1);
 		assertEquals(new Integer(4), result.getId());
 		assertEquals("Gasto teste 4", result.getDescricao());
@@ -156,16 +156,17 @@ public class GastosServicoTest {
 		usuario.setNome("user");
 		usuario.setRole("admin");
 		
-		Gasto gasto1 = new Gasto(gastosRepository);
-		gasto1.setId(4);
-		gasto1.setDescricao("Gasto teste ");
-		gasto1.setValor(new BigDecimal(1));
-		gasto1.setCategoria(categoria);
-		gasto1.setUsuario(usuario);
-		gasto1.setData(new Date());
-		gasto1.removeGasto(gasto1);
+		Gasto gasto = new Gasto(gastosRepository);
+		gasto.setId(4);
+		gasto.setDescricao("Gasto teste ");
+		gasto.setValor(new BigDecimal(1));
+		gasto.setCategoria(categoria);
+		gasto.setUsuario(usuario);
+		gasto.setData(new Date());
 		
-        verify(gasto1, times(1)).removeGasto(gasto1);
+		gasto.removeGasto(gasto);
+		
+        verify(gastosRepository, times(1)).delete(gasto);
 	}
 	
 	

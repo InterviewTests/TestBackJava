@@ -12,8 +12,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Immutable;
 
 import com.santander.gestaogastos.exception.GastosException;
@@ -26,6 +24,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Entity
+@Immutable
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Usuario {
 	
@@ -35,9 +34,8 @@ public class Usuario {
 	private String nome;
 	private String role;
 	
-	@OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
 	@Immutable
+	@OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
 	private List<Gasto> gastos;
 	
 	@Transient

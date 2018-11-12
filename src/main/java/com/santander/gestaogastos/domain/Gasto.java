@@ -79,22 +79,11 @@ public class Gasto implements Serializable {
  		return this.gastosRepositorio.save(gastoIn);
  	}
  	
-	public Gasto pesquisarGasto(Integer id) throws GastosException {	
-
-		if (this.gastosRepositorio.getOne(id) == null) {
-			throw new GastosException("Gasto para ser excluido não existe !");
-		}
-		
+	public Gasto pesquisarGasto(Integer id) throws GastosException {			
 		return this.gastosRepositorio.getOne(id);
 	}
 	
 	public void removeGasto(Gasto gastoIn) throws GastosException {
-		
-		Gasto gasto = (Gasto) this.pesquisarGasto(id);
-
-		if (gasto != null) {
-			throw new GastosException("Gasto para ser excluido não existe !");
-		}
 		
 		this.gastosRepositorio.delete(gastoIn);
 		
@@ -112,7 +101,7 @@ public class Gasto implements Serializable {
 	
 	public void validate () throws GastosException {
 		
-		if (this.descricao != null && !"".equals(this.descricao)) {
+		if (this.descricao == null && "".equals(this.descricao)) {
 			throw new GastosException(" É necessário informar as descrição do gasto");
 		}
 

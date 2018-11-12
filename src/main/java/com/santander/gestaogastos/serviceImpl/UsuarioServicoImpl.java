@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.santander.gestaogastos.domain.Usuario;
 import com.santander.gestaogastos.exception.GastosException;
-import com.santander.gestaogastos.model.Usuario;
 import com.santander.gestaogastos.repository.UsuarioRepositorio;
 import com.santander.gestaogastos.service.UsuarioServico;
 

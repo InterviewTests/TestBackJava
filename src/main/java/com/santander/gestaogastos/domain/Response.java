@@ -1,4 +1,4 @@
-package com.santander.gestaogastos.model;
+package com.santander.gestaogastos.domain;
 
 public class Response {
 

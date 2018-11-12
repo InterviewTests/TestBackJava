@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.santander.gestaogastos.domain.Categoria;
+import com.santander.gestaogastos.domain.Gasto;
+import com.santander.gestaogastos.domain.Response;
 import com.santander.gestaogastos.exception.GastosException;
-import com.santander.gestaogastos.model.Categoria;
-import com.santander.gestaogastos.model.Gasto;
-import com.santander.gestaogastos.model.Response;
 import com.santander.gestaogastos.serviceImpl.CategoriaServicoImpl;
 import com.santander.gestaogastos.serviceImpl.GastosServicoImpl;
 

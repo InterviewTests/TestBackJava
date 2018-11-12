@@ -1,4 +1,4 @@
-package com.santander.gestaogastos.model;
+package com.santander.gestaogastos.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,7 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.Immutable;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -42,10 +44,12 @@ public class Gasto implements Serializable {
 	private BigDecimal valor;
 	
 	@ManyToOne
+	@Immutable
 	@JoinColumn(name = "id_categoria")
  	private Categoria categoria;
 	
 	@ManyToOne
+	@Immutable
  	@JoinColumn(name = "id_usuario")
  	private Usuario usuario;
  	
@@ -53,7 +57,7 @@ public class Gasto implements Serializable {
  	@Temporal(TemporalType.TIMESTAMP)
  	private Date data;
  	
- 	
+ 	@Transient
  	private GastosRepositorio gastosRepositorio;
  	
  	public Gasto() {

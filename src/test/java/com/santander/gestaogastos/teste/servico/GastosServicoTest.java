@@ -17,10 +17,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.santander.gestaogastos.domain.Categoria;
+import com.santander.gestaogastos.domain.Gasto;
+import com.santander.gestaogastos.domain.Usuario;
 import com.santander.gestaogastos.exception.GastosException;
-import com.santander.gestaogastos.model.Categoria;
-import com.santander.gestaogastos.model.Gasto;
-import com.santander.gestaogastos.model.Usuario;
 import com.santander.gestaogastos.repository.CategoriaRepositorio;
 import com.santander.gestaogastos.repository.GastosRepositorio;
 import com.santander.gestaogastos.repository.UsuarioRepositorio;

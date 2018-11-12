@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.santander.gestaogastos.domain.Gasto;
 import com.santander.gestaogastos.exception.GastosException;
-import com.santander.gestaogastos.model.Gasto;
 import com.santander.gestaogastos.repository.GastosRepositorio;
 import com.santander.gestaogastos.service.GastosServico;
 

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.santander.gestaogastos.model.Gasto;
+import com.santander.gestaogastos.domain.Gasto;
 
 public interface GastosRepositorio extends JpaRepository<Gasto, Integer> {
 	

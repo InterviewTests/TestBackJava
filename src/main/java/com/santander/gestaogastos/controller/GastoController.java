@@ -83,25 +83,30 @@ public class GastoController {
 	@ApiOperation(value = "Atualiza do gasto")
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Response> updateGastoComCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) {
+	public ResponseEntity<Response> updateGastoComCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) throws GastosException {
 
-		Gasto gasto = (Gasto) this.gastosService.pesquisarGasto(id);
-
-		if (gasto != null) {
-			return new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto Não encontrado com este ID"), HttpStatus.OK);
-		}else {
+		Gasto gasto;
+		try {
+			gasto = (Gasto) this.gastosService.pesquisarGasto(id);
 			
-			gasto.setCategoria(categoria);
-			
-			this.gastosService.salvarGasto(gasto);
+			if (gasto != null) {
+				return new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto Não encontrado com este ID"), HttpStatus.OK);
+			}else {
+				
+				gasto.setCategoria(categoria);
+				
+				this.gastosService.salvarGasto(gasto);
+			}
+		} catch (GastosException e) {
+			throw new GastosException();
 		}
-
+		
 		return new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto foi alterado"), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Cadastro do gasto")
 	@PostMapping(value = "/gastos", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Gasto> cadastrarGasto(@RequestBody Gasto gasto) {
+	public ResponseEntity<Gasto> cadastrarGasto(@RequestBody Gasto gasto) throws GastosException {
  		return new ResponseEntity<Gasto>(this.gastosService.salvarGasto(gasto), HttpStatus.CREATED);
 	}
 	

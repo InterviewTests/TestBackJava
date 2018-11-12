@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import com.santander.gestaogastos.exception.GastosException;
 import com.santander.gestaogastos.repository.CategoriaRepositorio;
 
 import lombok.Data;
@@ -40,11 +41,29 @@ public class Categoria {
 		return this.categoriaRepositorio.findAll();
 	}
 	
-	public Categoria pesquisarCategoria(Integer id) {
+	public Categoria pesquisarCategoria(Integer id) throws GastosException {
+		
+		if (this.categoriaRepositorio.getOne(id) == null) {
+			throw new GastosException("Categoria para ser excluida não existe !");
+		}
 		return this.categoriaRepositorio.getOne(id);
 	}
 	
-	public void removeCategoria(Categoria categoriaIn) {
+	public void removeCategoria(Categoria categoriaIn) throws GastosException {
+		
+		Categoria categoria = (Categoria) this.pesquisarCategoria(id);
+
+		if (categoria != null) {
+			throw new GastosException("Categoria para ser excluida não existe !");
+		}
+		
 		this.categoriaRepositorio.delete(categoriaIn);	
+	}
+	public void validate () throws GastosException {
+		
+		if (this.descricao != null && !"".equals(this.descricao)) {
+			throw new GastosException(" É necessário informar as descrição da categoria");
+		}
+
 	}
 }

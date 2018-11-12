@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.santander.gestaogastos.exception.GastosException;
 import com.santander.gestaogastos.model.Usuario;
 import com.santander.gestaogastos.repository.UsuarioRepositorio;
 import com.santander.gestaogastos.service.UsuarioServico;
@@ -15,7 +16,7 @@ public class UsuarioServicoImpl implements UsuarioServico<Usuario> {
 	
 
 	@Override
-	public Usuario salvarUsuario(Usuario usuarioIn) {
+	public Usuario salvarUsuario(Usuario usuarioIn) throws GastosException {
 		Usuario usuario = new Usuario(usuarioRepositorio);
 		
 		return usuario.salvarUsuario(usuarioIn);
@@ -29,14 +30,14 @@ public class UsuarioServicoImpl implements UsuarioServico<Usuario> {
 	}
 
 	@Override
-	public <T> Object pesquisarUsuario(Integer id) {
+	public <T> Object pesquisarUsuario(Integer id) throws GastosException {
 		Usuario usuario = new Usuario(usuarioRepositorio);
 
 		return usuario.pesquisarUsuario(id);
 	}
 
 	@Override
-	public void removeUsuario(Usuario usuarioIn) {
+	public void removeUsuario(Usuario usuarioIn) throws GastosException {
 		Usuario usuario = new Usuario(usuarioRepositorio);
 
 		usuario.removeUsuario(usuarioIn);

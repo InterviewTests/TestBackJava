@@ -81,7 +81,7 @@ Faça um fork desse desse repositório em seu Github e nos envie um Pull Request
 ## SOLUÇÃO
 
 + 1 -  Realizei o primeiro commit contendo boa parte da solução.
-+ 2 - Criei a primeiro a parte de infraestutura. Contendo a parte de model da solução, com as classe que representam.
++ 2 - Criei a primeiro a parte de infraestutura. Contendo a parte de model da solução, com as classe que representam as entidades.
 + 3 - Criei as classe que representam os repositórios, para gerenciar (listar, buscar, alterar e inserir) as informações no banco de dados
 + 4 - Optei por utilizar o biblioteca LOMBOK para deixar as classes do Model mais funcionais e menos verboso.
 + 5 - Optei por utilizar o banco de dados H2 para promover facilidade de uso e utilização da aplicação.

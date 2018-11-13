@@ -45,7 +45,8 @@ public class CategoriaDomain {
 	}
 
 	public Page<Categoria> retrieveCategoria2(@PathVariable String nome) {
-		Page<Categoria> categorias = categoriaRepository.findByNome(nome, new PageRequest(0, CATEGORIAS_PAGE_SIZE));
+		PageRequest pageRequest = new PageRequest(0, CATEGORIAS_PAGE_SIZE);
+		Page<Categoria> categorias = categoriaRepository.findByNome(nome, pageRequest);
 		return categorias;
 	}
 

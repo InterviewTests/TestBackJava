@@ -47,6 +47,10 @@ public class GastoDomain {
 		this.categoria = categoria;
 	}
 
+	public List<Gasto> retrieveAllGastos() {
+		return gastoRepository.findAll();
+	}
+
 	public Gasto retrieveGasto(long id) {
 		Optional<Gasto> gasto = gastoRepository.findById(id);
 		if (!gasto.isPresent()) {
@@ -57,7 +61,8 @@ public class GastoDomain {
 	}
 
 	public Page<Gasto> retrieveGastoByUser(Integer id) {
-		Page<Gasto> gastos = gastoRepository.findByCodigousuarioOrderByDataDesc(id, new PageRequest(0, GASTOS_PAGE_SIZE));
+		PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
+		Page<Gasto> gastos = gastoRepository.findByCodigousuarioOrderByDataDesc(id, pageRequest);
 		return gastos;
 	}
 
@@ -70,7 +75,8 @@ public class GastoDomain {
 		    System.out.println("timestamp=" + dataInferior);
 		    Timestamp dataSuperior = new Timestamp(parsedDate.getTime() + (24*60*60*1000)-1);
 		    System.out.println("timestamp=" + dataSuperior);
-			gastos = gastoRepository.findByCodigousuarioOrderByDataDesc(id, dataInferior, dataSuperior, new PageRequest(0, GASTOS_PAGE_SIZE));
+			PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
+			gastos = gastoRepository.findByCodigousuarioOrderByDataDesc(id, dataInferior, dataSuperior, pageRequest);
 		} catch(Exception e) {
 		    // look the origin of excption 
 		}

@@ -22,7 +22,9 @@ public class GastoServiceImpl implements GastoService {
 	private CategoriaRepository categoriaRepository;
 
 	public List<Gasto> retrieveAllGastos() {
-		return gastoRepository.findAll();
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
+		List<Gasto> gastos = gastoDomain.retrieveAllGastos();
+		return gastos;
 	}
 
 	public Gasto retrieveGasto(long id) {

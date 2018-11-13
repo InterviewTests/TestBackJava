@@ -86,8 +86,8 @@ public class Gasto {
 
 	@Override
     public String toString() {
-        return String.format("Gasto{descricao=%s, valor=%s, codigousuario=%s, data=%s}"
-        		, getDescricao(), getValor(), getCodigousuario(), getData());
+        return String.format("Gasto{id=%s, descricao=%s, valor=%s, codigousuario=%s, data=%s}"
+        		, getId(), getDescricao(), getValor(), getCodigousuario(), getData());
     }
 
 }

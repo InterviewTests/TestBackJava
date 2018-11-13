@@ -63,10 +63,7 @@ public class GestaoApplicationTests {
 		gasto.setCodigousuario(1);
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
-		gasto.setId(2L);
-		gasto.setDescricao("UPDATE GASTO 111111");
-		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
-		
+		gasto.setId(null);
 		gasto.setDescricao("gasto 1");
 		gasto.setCategoria(new Categoria(null, "Categoria 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
@@ -136,7 +133,7 @@ public class GestaoApplicationTests {
 		gasto.setCodigousuario(1);
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
-		gasto.setId(2L);
+		gasto.setId(1L);
 		gasto.setDescricao("UPDATE GASTO 111111");
 		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
 		Gasto aa = gastoService.updateGasto(gasto, gasto.getId());

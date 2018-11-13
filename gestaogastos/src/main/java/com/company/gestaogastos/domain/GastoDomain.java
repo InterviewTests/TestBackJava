@@ -86,7 +86,8 @@ public class GastoDomain {
 			if (gasto.getCategoria().getId() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
 				Optional<Categoria> categoria = categoriaRepository.findById(gasto.getCategoria().getId());
-				if (categoria != null && !categoria.isEmpty())
+//				if (categoria != null && !categoria.isEmpty())
+				if (categoria != null && categoria.isPresent())
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(categoria.get());;
 			} else if (gasto.getCategoria().getNome() != null) {

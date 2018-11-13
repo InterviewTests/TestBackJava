@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="23f2a86d-ac98-49a2-95f9-758924b77181" activeEnvironment="Default" name="REST_Gestao_Gastos" resourceRoot="" soapui-version="5.4.0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="ProjectSettings@hermesConfig">${#System#user.home}\.hermes</con:setting>
+  </con:settings>
+  <con:interface xsi:type="con:RestService" id="1559b825-885e-4a9c-97ed-b501f4e7061b" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache/>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Gastos" path="/gestaogastos/gastos" id="a7eb20df-5bcd-4304-a6ba-a68713d55c8d">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="Gastos 1" id="d3bbfc1f-d3ca-44fa-bcc6-6c3ba5d36601" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="FAULT">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>400</con:status>
+          <con:params/>
+          <con:element xmlns:gas="http://localhost/gestaogastos/gastos">gas:Fault</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element>Response</con:element>
+        </con:representation>
+        <con:request name="Lista Gastos" id="595c2ab9-ec45-43dc-9d0f-956bd8e52bef" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request/>
+          <con:originalUri>http://localhost/gestaogastos/gastos</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:interface xsi:type="con:RestService" id="01f3677c-88d5-4364-9e25-840396320205" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache/>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="1" path="/gestaogastos/gastos/1" id="a71fa239-f822-4058-9b35-14289fd10f8c">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="1 1" id="81f23d11-fb2b-4b75-a5fd-d05e43220aa1" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element xmlns:ns="http://localhost/gestaogastos/gastos/1">ns:Response</con:element>
+        </con:representation>
+        <con:request name="Detalhar" id="30e2b4e1-0ff8-4828-b86a-b9cc8b430872" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request/>
+          <con:originalUri>http://localhost/gestaogastos/gastos/1</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:interface xsi:type="con:RestService" id="b6de1f59-08fb-40e0-a750-fbb1015eae3b" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache/>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Update" path="/gestaogastos/update" id="a0a987dc-2c54-4620-82d6-4b0448fedec7">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="Update 1" id="2eeb499a-0408-4e2c-a53e-d193929d1e15" method="POST">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="REQUEST">
+          <con:mediaType>application/json</con:mediaType>
+          <con:params/>
+        </con:representation>
+        <con:representation type="FAULT">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>400</con:status>
+          <con:params/>
+          <con:element xmlns:upd="http://localhost/gestaogastos/update">upd:Fault</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>0</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>0</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element xmlns:upd="http://localhost/gestaogastos/update">upd:Response</con:element>
+        </con:representation>
+        <con:request name="Atualizar descricao Gasto" id="d1de8310-d5dc-4b49-984c-d01ba3db10ea" mediaType="application/json" postQueryString="false">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request>{
+   "id": 1,
+   "descricao": "Gasto teste 1",
+   "valor": null,
+   "categoria":    {
+      "id": 1,
+      "descricao": "teste SoapUI",
+      "gastos": []
+   },
+   "usuario":    {
+      "id": 1,
+      "nome": "user",
+      "role": "admin",
+      "gastos": []
+   },
+   "data": "2018-11-13T10:51:33.027+0000"
+}</con:request>
+          <con:originalUri>http://localhost/gestaogastos/update</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+          <con:parameterOrder/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:interface xsi:type="con:RestService" id="ee5d23ee-7ec0-426d-9a68-1eb3e47ea3ac" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache/>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Gastos" path="/gestaogastos/gastos" id="92517a67-a38a-491e-adff-c75098aec82b">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="Gastos 1" id="30b0e5e0-6c69-46f8-a439-5ea4fcb3ae50" method="POST">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="FAULT">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>400</con:status>
+          <con:params/>
+          <con:element xmlns:gas="http://localhost/gestaogastos/gastos">gas:Fault</con:element>
+        </con:representation>
+        <con:representation type="REQUEST">
+          <con:mediaType>application/json</con:mediaType>
+          <con:params/>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element xmlns:gas="http://localhost/gestaogastos/gastos">gas:Response</con:element>
+        </con:representation>
+        <con:request name="Salvar Gasto" id="2d93b4b4-e3bf-4aa0-a7de-66d3cc8dac31" mediaType="application/json" postQueryString="false">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request>{
+   "id": 1,
+   "descricao": "Gasto Novo SoapUI",
+   "valor": null,
+   "categoria":    {
+      "id": 1,
+      "descricao": "teste SoapUI",
+      "gastos": []
+   },
+   "usuario":    {
+      "id": 1,
+      "nome": "user",
+      "role": "admin",
+      "gastos": []
+   },
+   "data": "2018-11-13"
+}</con:request>
+          <con:originalUri>http://localhost/gestaogastos/gastos</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:interface xsi:type="con:RestService" id="b3a0adb6-3082-497f-803e-6d16237069e6" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache/>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Categoria" path="/gestaogastos/categoria" id="7aa369b4-81aa-4451-afe5-39e140c2da7a">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="Categoria 1" id="4fc41179-1e2a-4002-bfb4-d78fbff048c7" method="POST">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="REQUEST">
+          <con:mediaType>application/json</con:mediaType>
+          <con:params/>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element xmlns:cat="http://localhost/gestaogastos/categoria">cat:Response</con:element>
+        </con:representation>
+        <con:request name="Cadastrar Categoria" id="f9a9f2b4-aa50-403f-a4c0-97337b188c3e" mediaType="application/json" postQueryString="false">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request>{
+      "id": null,
+      "descricao": "teste SoapUI",
+      "gastos": []
+  	}</con:request>
+          <con:originalUri>http://localhost/gestaogastos/categoria</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:sensitiveInformation/>
+</con:soapui-project>

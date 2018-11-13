@@ -72,13 +72,6 @@ public class GastoController {
    	    return ResponseEntity.ok().body((Gasto) this.gastosService.pesquisarGasto(id));
  	}
 	
-//	@ApiOperation(value = "Pesquisa do gasto através da data")
-//	@RequestMapping(value = "/gastos/{data}", method = RequestMethod.GET)
-// 	public @ResponseBody ResponseEntity<List<Gasto>> listarGastosPorData( @PathVariable("data") String data) throws ParseException {
-//
-//       return ResponseEntity.ok().body(this.gastosService.gastosDoClientePorData(data));
-// 	}
-
 	@ApiOperation(value = "Atualiza a categoria do gasto")
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)

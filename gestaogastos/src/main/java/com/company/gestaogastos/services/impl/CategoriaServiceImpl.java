@@ -20,7 +20,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 	private CategoriaRepository categoriaRepository;
 
 	public List<Categoria> retrieveAllCategorias() {
-		return categoriaRepository.findAll();
+		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
+		List<Categoria> categorias = categoriaDomain.retrieveAllCategorias();
+		return categorias;
 	}
 
 	public Categoria retrieveCategoria(@PathVariable long id) {

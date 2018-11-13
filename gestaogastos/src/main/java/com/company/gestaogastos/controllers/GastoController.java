@@ -51,7 +51,7 @@ public class GastoController {
 		gastoService.deleteGasto(id);
 	}
 
-	@PostMapping(path="/gastos", consumes = "application/json", produces = "application/json")
+	@PostMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> createGasto(@RequestBody Gasto gasto) {
 		if (gasto == null) {
 			return ResponseEntity.notFound().build();

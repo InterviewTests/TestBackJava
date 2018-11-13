@@ -55,7 +55,7 @@ public class GastoController {
 		Gasto gasto = (Gasto) this.gastosService.pesquisarGasto(id);
 
 		if (gasto != null) {
-			throw new GastosException("Gasto para ser excluido não existe !");
+			new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto não existe para ser excluido"), HttpStatus.OK);
 		}
 
 		gastosService.removeGasto(gasto);
@@ -87,7 +87,7 @@ public class GastoController {
 				
 				gasto.setCategoria(gastoIn.getCategoria());
 				
-				this.gastosService.salvarGasto(gasto);
+				this.gastosService.salvarGasto(gastoIn);
 			}
 		} catch (GastosException e) {
 			throw new GastosException();

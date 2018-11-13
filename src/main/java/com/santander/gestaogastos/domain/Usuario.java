@@ -34,7 +34,7 @@ public class Usuario {
 	private String nome;
 	private String role;
 	
-	//@Immutable
+	@JsonIgnore
 	@OneToMany
 	private List<Gasto> gastos;
 	

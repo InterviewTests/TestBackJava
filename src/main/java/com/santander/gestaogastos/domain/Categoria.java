@@ -32,6 +32,7 @@ public class Categoria {
 	private Integer id;
 	private String descricao;	
 	
+	@JsonIgnore
 	@OneToMany
 	private List<Gasto> gastos;
 	

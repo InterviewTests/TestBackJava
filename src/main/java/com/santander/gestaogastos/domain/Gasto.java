@@ -79,8 +79,13 @@ public class Gasto implements Serializable {
  		return this.gastosRepositorio.save(gastoIn);
  	}
  	
-	public Gasto pesquisarGasto(Integer id) throws GastosException {			
-		return this.gastosRepositorio.getOne(id);
+	public Gasto pesquisarGasto(Integer id) throws GastosException {
+		if (this.gastosRepositorio.findById(id).isPresent()) {
+			return this.gastosRepositorio.findById(id).get();
+		}else {
+			return null;
+		}
+			
 	}
 	
 	public void removeGasto(Gasto gastoIn) throws GastosException {

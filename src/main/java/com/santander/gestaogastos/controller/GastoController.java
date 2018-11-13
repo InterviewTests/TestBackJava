@@ -68,6 +68,12 @@ public class GastoController {
  	public @ResponseBody ResponseEntity<Gasto> detalhar(@PathVariable("id") Integer id) throws GastosException {
 		
 		logger.info("Gasto id para ser retornado " + id);
+		
+		Gasto gasto = (Gasto) this.gastosService.pesquisarGasto(id);
+
+		if (gasto == null) {
+			new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto não existe para ser consultado"), HttpStatus.OK);
+		}
  		
    	    return ResponseEntity.ok().body((Gasto) this.gastosService.pesquisarGasto(id));
  	}

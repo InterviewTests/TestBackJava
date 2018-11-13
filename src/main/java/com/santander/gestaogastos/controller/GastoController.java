@@ -1,6 +1,5 @@
 package com.santander.gestaogastos.controller;
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -73,27 +72,27 @@ public class GastoController {
    	    return ResponseEntity.ok().body((Gasto) this.gastosService.pesquisarGasto(id));
  	}
 	
-	@ApiOperation(value = "Pesquisa do gasto através da data")
-	@RequestMapping(value = "/gastos/{data}", method = RequestMethod.GET)
- 	public @ResponseBody ResponseEntity<List<Gasto>> listarGastosPorData( @PathVariable("data") String data) throws ParseException {
+//	@ApiOperation(value = "Pesquisa do gasto através da data")
+//	@RequestMapping(value = "/gastos/{data}", method = RequestMethod.GET)
+// 	public @ResponseBody ResponseEntity<List<Gasto>> listarGastosPorData( @PathVariable("data") String data) throws ParseException {
+//
+//       return ResponseEntity.ok().body(this.gastosService.gastosDoClientePorData(data));
+// 	}
 
-       return ResponseEntity.ok().body(this.gastosService.gastosDoClientePorData(data));
- 	}
-
-	@ApiOperation(value = "Atualiza do gasto")
+	@ApiOperation(value = "Atualiza a categoria do gasto")
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Response> updateGastoComCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) throws GastosException {
+	public ResponseEntity<Response> updateGastoComCategoria(@RequestBody Gasto gastoIn) throws GastosException {
 
 		Gasto gasto;
 		try {
-			gasto = (Gasto) this.gastosService.pesquisarGasto(id);
+			gasto = (Gasto) this.gastosService.pesquisarGasto(gastoIn.getId());
 			
-			if (gasto != null) {
+			if (gasto == null) {
 				return new ResponseEntity<Response>(new Response(HttpStatus.OK.value(), "Gasto Não encontrado com este ID"), HttpStatus.OK);
 			}else {
 				
-				gasto.setCategoria(categoria);
+				gasto.setCategoria(gastoIn.getCategoria());
 				
 				this.gastosService.salvarGasto(gasto);
 			}

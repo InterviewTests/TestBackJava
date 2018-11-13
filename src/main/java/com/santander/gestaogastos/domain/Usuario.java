@@ -3,7 +3,6 @@ package com.santander.gestaogastos.domain;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +13,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Immutable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.santander.gestaogastos.exception.GastosException;
 import com.santander.gestaogastos.repository.UsuarioRepositorio;
 
@@ -34,10 +34,11 @@ public class Usuario {
 	private String nome;
 	private String role;
 	
-	@Immutable
-	@OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
+	//@Immutable
+	@OneToMany
 	private List<Gasto> gastos;
 	
+	@JsonIgnore
 	@Transient
 	private UsuarioRepositorio usuarioRepositorio;
 	

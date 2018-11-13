@@ -20,14 +20,17 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Immutable;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santander.gestaogastos.exception.GastosException;
 import com.santander.gestaogastos.repository.GastosRepositorio;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
+@NoArgsConstructor
 @Entity
 public class Gasto implements Serializable {
 	
@@ -57,13 +60,10 @@ public class Gasto implements Serializable {
  	@Temporal(TemporalType.TIMESTAMP)
  	private Date data;
  	
+ 	@JsonIgnore
  	@Transient
  	private GastosRepositorio gastosRepositorio;
- 	
- 	public Gasto() {
- 		
- 	}
- 	
+	
  	public Gasto(GastosRepositorio gastosRepositorio) {
  		this.gastosRepositorio = gastosRepositorio;
  	}
@@ -106,5 +106,7 @@ public class Gasto implements Serializable {
 		}
 
 	}
+
+
  
 }

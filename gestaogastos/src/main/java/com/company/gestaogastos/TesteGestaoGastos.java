@@ -104,9 +104,10 @@ public class TesteGestaoGastos {
 		gasto.setId(2L);
 		gasto.setDescricao("UPDATE GASTO 111111");
 		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
-	    final String uri = URL_GASTOS + "/{id}";
+	    //final String uri = URL_GASTOS + "/{id}";
+	    final String uri = URL_GASTOS;
 	    Map<String, String> params = new HashMap<String, String>();
-	    params.put("id", "6");
+	    //params.put("id", "6");
 	    restTemplate = new RestTemplate();
 	    restTemplate.put ( uri, gasto, params);
 

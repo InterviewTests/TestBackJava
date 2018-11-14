@@ -52,16 +52,18 @@ public class GastoController {
 	}
 
 	@PostMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> createGasto(@RequestBody Gasto gasto) {
+//	public ResponseEntity<Object> createGasto(@RequestBody Gasto gasto) {
+	public Gasto createGasto(@RequestBody Gasto gasto) {
 		if (gasto == null) {
-			return ResponseEntity.notFound().build();
+			// return ResponseEntity.notFound().build();
+			return null;
 		}
 		Gasto savedGasto = gastoService.createGasto(gasto);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedGasto.getId()).toUri();
-
-		return ResponseEntity.created(location).build();
+//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+//				.buildAndExpand(savedGasto.getId()).toUri();
+//		return ResponseEntity.created(location).build();
+		return savedGasto;
 	}
 	
 //	@PutMapping(path="/gastos/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

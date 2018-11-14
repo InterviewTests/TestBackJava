@@ -23,7 +23,6 @@ import com.google.gson.GsonBuilder;
 public class TesteGestaoGastos {
 
 	static final String URL_GASTOS = "http://localhost:8080/gastos";
-	static final String URL_GASTOS_2 = "http://localhost:8080/gastos";
 	static final String URL_CATEGORIAS = "http://localhost:8080/categorias";
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
 	
@@ -140,7 +139,7 @@ public class TesteGestaoGastos {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-		String answer = restTemplate.postForObject(URL_GASTOS_2, entity, String.class);
+		String answer = restTemplate.postForObject(URL_GASTOS, entity, String.class);
 		System.out.println(answer);
 		
 		return true;

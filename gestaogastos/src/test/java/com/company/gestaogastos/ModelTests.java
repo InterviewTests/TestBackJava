@@ -204,7 +204,6 @@ public class ModelTests {
 		categoria.setId(1L);
 		categoria.setNome("Categoria 01");
 
-		Long id = 1L;
 		PageRequest pageRequest = new PageRequest(0, 4);
 		final Page<Categoria> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(8L);

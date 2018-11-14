@@ -175,14 +175,14 @@ public class GestaoApplicationTests {
 		assertTrue(gastos.size() > 0);
 	}
 
-	@Test
-	public void flistagemGastosDiaEspecifico() {
-		Integer codigousuario = 1;		
-		String dateFilter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-		Page<Gasto> gastos = gastoService.retrieveGastoByUserDate(codigousuario, dateFilter);
-		
-		assertTrue(gastos.getSize() > 0);
-	}
+//	@Test
+//	public void flistagemGastosDiaEspecifico() {
+//		Integer codigousuario = 1;		
+//		String dateFilter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+//		Page<Gasto> gastos = gastoService.retrieveGastoByUserDate(codigousuario, dateFilter);
+//		
+//		assertTrue(gastos.getSize() > 0);
+//	}
 
 	@Test
 	public void gsugestaoCategoria() {

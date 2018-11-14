@@ -1,6 +1,7 @@
 package com.company.gestaogastos.controllers;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,9 +27,13 @@ public class GastoController {
 	@Autowired
 	GastoService gastoService;
 	
+//	@GetMapping("/gastos")
+//	public List<Gasto> retrieveAllGastos() {
+//		return gastoService.retrieveAllGastos();
+//	}
 	@GetMapping("/gastos")
-	public List<Gasto> retrieveAllGastos() {
-		return gastoService.retrieveAllGastos();
+	public Page<Gasto> retrieveAllGastos(@RequestParam Map<String,String> allRequestParams) {
+		return gastoService.retrieveGastos(allRequestParams);
 	}
 
 	@GetMapping("/gastos/{id}")
@@ -35,16 +41,21 @@ public class GastoController {
 		return gastoService.retrieveGasto(id);
 	}
 
-	@GetMapping("/gastos/users/{id}")
-	public Page<Gasto> retrieveGastoByUser(@PathVariable Integer id) {
-		Page<Gasto> gastos = gastoService.retrieveGastoByUser(id);
-		return gastos;
-	}
-
-	@GetMapping("/gastos/users/{id}/{date}")
-	public Page<Gasto> retrieveGastoByUserDate(@PathVariable("id") Integer id, @PathVariable("date") String date) {
-		return gastoService.retrieveGastoByUserDate(id, date);
-	}
+//	@GetMapping("/gastos/users/{id}")
+//	public Page<Gasto> retrieveGastoByUser(@PathVariable Integer id, @RequestParam Map<String,String> allRequestParams) {
+//		Page<Gasto> gastos = gastoService.retrieveGastoByUser(id);
+//		return gastos;
+//	}
+//	@GetMapping("/gastos/users/{id}")
+//	public Page<Gasto> retrieveGastoByUser(@PathVariable Integer id) {
+//		Page<Gasto> gastos = gastoService.retrieveGastoByUser(id);
+//		return gastos;
+//	}
+//
+//	@GetMapping("/gastos/users/{id}/{date}")
+//	public Page<Gasto> retrieveGastoByUserDate(@PathVariable("id") Integer id, @PathVariable("date") String date) {
+//		return gastoService.retrieveGastoByUserDate(id, date);
+//	}
 
 	@DeleteMapping("/gastos/{id}")
 	public void deleteGasto(@PathVariable long id) {

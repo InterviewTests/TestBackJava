@@ -1,9 +1,11 @@
 package com.company.gestaogastos.services.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.company.gestaogastos.domain.GastoDomain;
@@ -21,42 +23,58 @@ public class GastoServiceImpl implements GastoService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
+	@Override
 	public List<Gasto> retrieveAllGastos() {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		List<Gasto> gastos = gastoDomain.retrieveAllGastos();
 		return gastos;
 	}
 
+	@Override
+	public Page<Gasto> retrieveGastos(Map<String, String> allRequestParams) {
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
+		Page<Gasto> gastos = gastoDomain.retrieveGastos(allRequestParams);
+		return gastos;
+	}
+
+	@Override
 	public Gasto retrieveGasto(long id) {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		Gasto gasto = gastoDomain.retrieveGasto(id);
 		return gasto;
 	}
 
-	public Page<Gasto> retrieveGastoByUser(Integer id) {
-		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-		Page<Gasto> gastos = gastoDomain.retrieveGastoByUser(id);
-		return gastos;
-	}
+//	@Override
+//	public Page<Gasto> retrieveGastoByUser(Integer id) {
+//		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
+//		PageRequest pageRequest = new PageRequest(0, 10);
+//		Page<Gasto> gastos = gastoDomain.retrieveGastoByUser(id, pageRequest);
+//		return gastos;
+//	}
+//
+//	@Override
+//	public Page<Gasto> retrieveGastoByUserDate(Integer id, String date) {
+//		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
+//		PageRequest pageRequest = new PageRequest(0, 10);
+//		Page<Gasto> gastos = gastoDomain.retrieveGastoByUserDate(id, date, pageRequest);
+//		return gastos;
+//	}
 
-	public Page<Gasto> retrieveGastoByUserDate(Integer id, String date) {
-		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-		Page<Gasto> gastos = gastoDomain.retrieveGastoByUserDate(id, date);
-		return gastos;
-	}
-
+	@Override
 	public Gasto createGasto(Gasto gasto) {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		Gasto gastoBase = gastoDomain.createGasto(gasto);
 		return gastoBase;
 	}
     
+	@Override
 	public Gasto updateGasto(Gasto gasto, long id) {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		Gasto gastoBase = gastoDomain.updateGasto(gasto, id);
 		return gastoBase;
 	}
 
+	@Override
 	public void deleteGasto(long id) {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		gastoDomain.deleteGasto(id);

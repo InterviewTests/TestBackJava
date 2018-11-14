@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -51,6 +52,19 @@ public class GastoDomain {
 		return gastoRepository.findAll();
 	}
 
+	public Page<Gasto> retrieveGastos(Map<String, String> allRequestParams) {
+		PageRequest pageRequest = getPageRequest(allRequestParams);
+		if (allRequestParams.get("codusuario") != null) {
+			Integer codusuario = Integer.decode(allRequestParams.get("codusuario"));
+			if (allRequestParams.get("data") != null) {
+				return retrieveGastoByUserDate(codusuario, allRequestParams.get("data"), pageRequest);
+			} else {
+				return retrieveGastoByUser(codusuario, pageRequest);
+			}
+		}
+		return gastoRepository.findAllGastos(pageRequest);
+	}
+
 	public Gasto retrieveGasto(long id) {
 		Optional<Gasto> gasto = gastoRepository.findById(id);
 		if (!gasto.isPresent()) {
@@ -60,22 +74,20 @@ public class GastoDomain {
 		return gasto.get();
 	}
 
-	public Page<Gasto> retrieveGastoByUser(Integer id) {
-		PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
+	public Page<Gasto> retrieveGastoByUser(Integer id, PageRequest pageRequest) {
 		Page<Gasto> gastos = gastoRepository.findByCodigousuarioOrderByDataDesc(id, pageRequest);
 		return gastos;
 	}
 
-	public Page<Gasto> retrieveGastoByUserDate(Integer id, String date) {
+	public Page<Gasto> retrieveGastoByUserDate(Integer id, String date, PageRequest pageRequest) {
 		Page<Gasto> gastos = Page.empty();
 		try {
-		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		    Date parsedDate = dateFormat.parse(date);
 		    Timestamp dataInferior = new Timestamp(parsedDate.getTime());
 		    System.out.println("timestamp=" + dataInferior);
 		    Timestamp dataSuperior = new Timestamp(parsedDate.getTime() + (24*60*60*1000)-1);
 		    System.out.println("timestamp=" + dataSuperior);
-			PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
 			gastos = gastoRepository.findByCodigousuarioOrderByDataDesc(id, dataInferior, dataSuperior, pageRequest);
 		} catch(Exception e) {
 		    // look the origin of excption 
@@ -97,16 +109,20 @@ public class GastoDomain {
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(categoria.get());;
 			} else if (gasto.getCategoria().getNome() != null) {
+				PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				List<Gasto> gastos = gastoRepository.findByNomeCategoria(gasto.getCodigousuario(), gasto.getCategoria().getNome());
+				List<Gasto> gastos = gastoRepository.findByNomeCategoria(
+							gasto.getCodigousuario(), gasto.getCategoria().getNome(), pageRequest).getContent();
 				if (gastos != null && gastos.size() > 0)
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(gastos.get(0).getCategoria());;
 			}
 		} else {
 			if (gasto.getDescricao() != null) {
+				PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				List<Gasto> gastos = gastoRepository.findByDescricaoCategoria(gasto.getCodigousuario(), gasto.getDescricao());
+				List<Gasto> gastos = gastoRepository.findByDescricaoCategoria(
+							gasto.getCodigousuario(), gasto.getDescricao(), pageRequest).getContent();
 				if (gastos != null && gastos.size() > 0)
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(gastos.get(0).getCategoria());;
@@ -139,6 +155,19 @@ public class GastoDomain {
 		this.valor = gasto.getValor();
 	}
 
+	public PageRequest getPageRequest(Map<String, String> allRequestParams) {
+		Integer offset = 0;
+		Integer limit = GASTOS_PAGE_SIZE;
+		if (allRequestParams.get("offset") != null) {
+			offset = Integer.decode(allRequestParams.get("offset"));
+		}
+		if (allRequestParams.get("limit") != null) {
+			limit = Integer.decode(allRequestParams.get("limit"));
+		}
+		PageRequest pageRequest = new PageRequest(offset, limit);
+		return pageRequest;
+	}
+	
 	public Long getId() {
 		return id;
 	}

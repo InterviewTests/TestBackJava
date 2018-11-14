@@ -98,7 +98,7 @@ public class ModelTests {
 		when(gastoRepository.findByCodigousuarioOrderByDataDesc(id, pageRequest)).thenReturn(page);
 
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-		Page<Gasto> gastosReturn = gastoDomain.retrieveGastoByUser(id);
+		Page<Gasto> gastosReturn = gastoDomain.retrieveGastoByUser(id, pageRequest);
 		assertTrue(gastosReturn.equals(page));
 	}
 
@@ -123,7 +123,7 @@ public class ModelTests {
 			when(gastoRepository.findByCodigousuarioOrderByDataDesc(id, dataInferior, dataSuperior, pageRequest)).thenReturn(page);
 
 			GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-			Page<Gasto> gastosReturn = gastoDomain.retrieveGastoByUserDate(id, date);
+			Page<Gasto> gastosReturn = gastoDomain.retrieveGastoByUserDate(id, date, pageRequest);
 			assertTrue(gastosReturn.equals(page));
 		} catch (ParseException e) {
 			assertTrue(false);

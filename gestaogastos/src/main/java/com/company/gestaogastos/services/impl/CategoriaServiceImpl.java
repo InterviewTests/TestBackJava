@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.company.gestaogastos.domain.CategoriaDomain;
 import com.company.gestaogastos.domain.entity.Categoria;
-import com.company.gestaogastos.domain.entity.repository.CategoriaRepository;
+import com.company.gestaogastos.domain.repository.CategoriaRepository;
 import com.company.gestaogastos.services.CategoriaService;
 
 

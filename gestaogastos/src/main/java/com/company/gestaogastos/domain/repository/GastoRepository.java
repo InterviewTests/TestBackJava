@@ -1,4 +1,4 @@
-package com.company.gestaogastos.domain.entity.repository;
+package com.company.gestaogastos.domain.repository;
 import java.sql.Timestamp;
 import java.util.List;
 

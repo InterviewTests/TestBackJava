@@ -26,8 +26,8 @@ import com.company.gestaogastos.domain.CategoriaDomain;
 import com.company.gestaogastos.domain.GastoDomain;
 import com.company.gestaogastos.domain.entity.Categoria;
 import com.company.gestaogastos.domain.entity.Gasto;
-import com.company.gestaogastos.domain.entity.repository.CategoriaRepository;
-import com.company.gestaogastos.domain.entity.repository.GastoRepository;
+import com.company.gestaogastos.domain.repository.CategoriaRepository;
+import com.company.gestaogastos.domain.repository.GastoRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

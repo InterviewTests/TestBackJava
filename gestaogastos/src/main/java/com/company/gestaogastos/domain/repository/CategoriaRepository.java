@@ -1,4 +1,4 @@
-package com.company.gestaogastos.domain.entity.repository;
+package com.company.gestaogastos.domain.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

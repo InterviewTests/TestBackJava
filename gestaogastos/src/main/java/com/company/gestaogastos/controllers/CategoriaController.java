@@ -45,14 +45,15 @@ public class CategoriaController {
 	}
 
 	@PostMapping(path="/categorias", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Object> createCategoria(@RequestBody Categoria categoria) {
+//	public ResponseEntity<Object> createCategoria(@RequestBody Categoria categoria) {
+	public Categoria createCategoria(@RequestBody Categoria categoria) {
 		Categoria savedCategoria = categoriaService.createCategoria(categoria);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedCategoria.getId()).toUri();
+//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+//				.buildAndExpand(savedCategoria.getId()).toUri();
+//		return ResponseEntity.created(location).build();
 
-		return ResponseEntity.created(location).build();
-
+		return savedCategoria;
 	}
 	
 	@PutMapping("/categorias/{id}")

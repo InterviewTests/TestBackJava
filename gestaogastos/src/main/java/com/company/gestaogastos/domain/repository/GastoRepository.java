@@ -1,6 +1,5 @@
 package com.company.gestaogastos.domain.repository;
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

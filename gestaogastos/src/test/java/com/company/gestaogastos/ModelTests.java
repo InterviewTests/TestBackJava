@@ -9,7 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.FixMethodOrder;
@@ -20,6 +22,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.company.gestaogastos.domain.CategoriaDomain;
@@ -39,6 +42,8 @@ public class ModelTests {
 	@MockBean
 	private CategoriaRepository categoriaRepository;
 	
+	static final int CATEGORIAS_PAGE_SIZE = 4;
+
 	private static long idTeste = 1;
 	
 	@Test
@@ -89,7 +94,7 @@ public class ModelTests {
 	@Test
 	public void retrieveGastoByUser() {
 		Integer id = 1;
-		PageRequest pageRequest = new PageRequest(0, 4);
+		PageRequest pageRequest = PageRequest.of(0, 4, new Sort(Sort.Direction.DESC,"data"));
 		final Page<Gasto> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(8L);
 	    when(page.getTotalPages()).thenReturn(2);
@@ -105,14 +110,14 @@ public class ModelTests {
 	@Test
 	public void retrieveGastoByUserDate() {
 		Integer id = 1;
-		String date = "13-11-2018";
-		PageRequest pageRequest = new PageRequest(0, 4);
+		String date = "16/11/2018";
+		PageRequest pageRequest = PageRequest.of(0, 4, new Sort(Sort.Direction.DESC,"data"));
 		final Page<Gasto> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(8L);
 	    when(page.getTotalPages()).thenReturn(2);
 	    when(page.getNumber()).thenReturn(3);
 	    when(page.getNumberOfElements()).thenReturn(5);
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	    Date parsedDate;
 		try {
 			parsedDate = dateFormat.parse(date);
@@ -198,13 +203,13 @@ public class ModelTests {
 	}
 
 	@Test
-	public void retrieveCategoria2() {
+	public void retrieveCategorias() {
 		String nome = "Categoria 01";
 		Categoria categoria = new Categoria();
 		categoria.setId(1L);
 		categoria.setNome("Categoria 01");
 
-		PageRequest pageRequest = new PageRequest(0, 4);
+		PageRequest pageRequest = PageRequest.of(0, CATEGORIAS_PAGE_SIZE, new Sort(Sort.Direction.ASC,"nome"));
 		final Page<Categoria> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(8L);
 	    when(page.getTotalPages()).thenReturn(2);
@@ -212,9 +217,13 @@ public class ModelTests {
 	    when(page.getNumberOfElements()).thenReturn(5);
 		when(categoriaRepository.findByNome(nome, pageRequest)).thenReturn(page);
 		
-		
+	    Map<String, String> params = new HashMap<String, String>();
+	    params.put("nome", "Categoria 01");
+
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
-		Page<Categoria> categoriasReturn = categoriaDomain.retrieveCategoria2(nome);
+//		Page<Categoria> categoriasReturn = categoriaDomain.retrieveCategorias(nome);
+		Page<Categoria> categoriasReturn = categoriaDomain.retrieveCategorias(params);
+		
 		assertTrue(categoriasReturn.equals(page));
 	}
 

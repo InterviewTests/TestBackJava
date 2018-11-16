@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.company.gestaogastos.domain.entity.Categoria;
 import com.company.gestaogastos.domain.entity.Gasto;
@@ -109,20 +110,20 @@ public class GastoDomain {
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(categoria.get());;
 			} else if (gasto.getCategoria().getNome() != null) {
-				PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
 				List<Gasto> gastos = gastoRepository.findByNomeCategoria(
-							gasto.getCodigousuario(), gasto.getCategoria().getNome(), pageRequest).getContent();
+							gasto.getCodigousuario(), gasto.getCategoria().getNome(), 
+							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
 				if (gastos != null && gastos.size() > 0)
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(gastos.get(0).getCategoria());;
 			}
 		} else {
 			if (gasto.getDescricao() != null) {
-				PageRequest pageRequest = new PageRequest(0, GASTOS_PAGE_SIZE);
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
 				List<Gasto> gastos = gastoRepository.findByDescricaoCategoria(
-							gasto.getCodigousuario(), gasto.getDescricao(), pageRequest).getContent();
+							gasto.getCodigousuario(), gasto.getDescricao(), 
+							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
 				if (gastos != null && gastos.size() > 0)
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(gastos.get(0).getCategoria());;
@@ -164,8 +165,7 @@ public class GastoDomain {
 		if (allRequestParams.get("limit") != null) {
 			limit = Integer.decode(allRequestParams.get("limit"));
 		}
-		PageRequest pageRequest = new PageRequest(offset, limit);
-		return pageRequest;
+		return PageRequest.of(offset, limit, new Sort(Sort.Direction.DESC,"data"));
 	}
 	
 	public Long getId() {

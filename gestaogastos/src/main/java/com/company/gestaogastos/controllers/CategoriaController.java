@@ -1,6 +1,5 @@
 package com.company.gestaogastos.controllers;
-import java.net.URI;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.company.gestaogastos.domain.entity.Categoria;
 import com.company.gestaogastos.services.CategoriaService;
@@ -24,9 +23,13 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaService categoriaService;
 
+//	@GetMapping("/categorias")
+//	public List<Categoria> retrieveAllCategorias() {
+//		return categoriaService.retrieveAllCategorias();
+//	}
 	@GetMapping("/categorias")
-	public List<Categoria> retrieveAllCategorias() {
-		return categoriaService.retrieveAllCategorias();
+	public Page<Categoria> retrieveCategorias(@RequestParam Map<String,String> allRequestParams) {
+		return categoriaService.retrieveCategorias(allRequestParams);
 	}
 
 	@GetMapping("/categorias/{id}")
@@ -34,11 +37,11 @@ public class CategoriaController {
 		return categoriaService.retrieveCategoria(id);
 	}
 
-	@GetMapping("/categorias/nomes/{nome}")
-	public Page<Categoria> retrieveCategoria2(@PathVariable String nome) {
-		return categoriaService.retrieveCategoria2(nome);
-	}
-
+//	@GetMapping("/categorias/nomes/{nome}")
+//	public Page<Categoria> retrieveCategoria2(@PathVariable String nome) {
+//		return categoriaService.retrieveCategoria2(nome);
+//	}
+//
 	@DeleteMapping("/categorias/{id}")
 	public void deleteCategoria(@PathVariable long id) {
 		categoriaService.deleteCategoria(id);

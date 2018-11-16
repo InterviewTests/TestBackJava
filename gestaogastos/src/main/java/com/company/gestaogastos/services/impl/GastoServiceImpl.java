@@ -1,11 +1,9 @@
 package com.company.gestaogastos.services.impl;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.company.gestaogastos.domain.GastoDomain;
@@ -22,13 +20,6 @@ public class GastoServiceImpl implements GastoService {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-
-	@Override
-	public List<Gasto> retrieveAllGastos() {
-		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-		List<Gasto> gastos = gastoDomain.retrieveAllGastos();
-		return gastos;
-	}
 
 	@Override
 	public Page<Gasto> retrieveGastos(Map<String, String> allRequestParams) {
@@ -78,6 +69,12 @@ public class GastoServiceImpl implements GastoService {
 	public void deleteGasto(long id) {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		gastoDomain.deleteGasto(id);
+		gastoDomain.equals(null);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return true;
 	}
 
 }

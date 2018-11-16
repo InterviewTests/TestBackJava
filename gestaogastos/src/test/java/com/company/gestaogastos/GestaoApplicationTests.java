@@ -7,8 +7,9 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -26,16 +27,12 @@ import com.company.gestaogastos.domain.entity.Categoria;
 import com.company.gestaogastos.domain.entity.Gasto;
 import com.company.gestaogastos.services.CategoriaService;
 import com.company.gestaogastos.services.GastoService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GestaoApplicationTests {
 	
-    private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
-
     @Autowired
     private GastoController gastoController;
 
@@ -138,7 +135,7 @@ public class GestaoApplicationTests {
 		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
 		Gasto aa = gastoService.updateGasto(gasto, gasto.getId());
 		
-		assertTrue(aa.getCategoria().getId().equals(1L));
+		assertTrue(aa.getCategoria().getNome().equals("Categoria 01"));
 	}
 
 	@Test
@@ -170,24 +167,31 @@ public class GestaoApplicationTests {
 
 	@Test
 	public void elistagemGastos() {
-		List<Gasto> gastos = gastoService.retrieveAllGastos();
+	    Map<String, String> params = new HashMap<String, String>();
+	    params.put("codusuario", "1");
+		Page<Gasto> gastos = gastoService.retrieveGastos(params);
 		
-		assertTrue(gastos.size() > 0);
+		assertTrue(gastos.getSize() > 0);
 	}
 
-//	@Test
-//	public void flistagemGastosDiaEspecifico() {
-//		Integer codigousuario = 1;		
-//		String dateFilter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-//		Page<Gasto> gastos = gastoService.retrieveGastoByUserDate(codigousuario, dateFilter);
-//		
-//		assertTrue(gastos.getSize() > 0);
-//	}
+	@Test
+	public void flistagemGastosDiaEspecifico() {
+		Integer codigousuario = 1;		
+		String dateFilter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+	    Map<String, String> params = new HashMap<String, String>();
+	    params.put("codusuario", codigousuario.toString());
+	    params.put("data", dateFilter);
+		Page<Gasto> gastos = gastoService.retrieveGastos(params);
+		
+		assertTrue(gastos.getSize() > 0);
+	}
 
 	@Test
 	public void gsugestaoCategoria() {
 		String nomeCategoria = "GORia 01";
-		Page<Categoria> categorias = categoriaService.retrieveCategoria2(nomeCategoria );
+	    Map<String, String> params = new HashMap<String, String>();
+	    params.put("nome", nomeCategoria);
+		Page<Categoria> categorias = categoriaService.retrieveCategorias(params);
 		
 		assertTrue(categorias.getSize() > 0);
 	}

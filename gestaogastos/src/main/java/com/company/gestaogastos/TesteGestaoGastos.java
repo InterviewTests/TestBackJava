@@ -40,9 +40,9 @@ public class TesteGestaoGastos {
 		
 		categorizacaoGasto();
 
-		//listagemGastos();
+		listagemGastos();
 		
-		//listagemGastosDiaEspecifico();
+		listagemGastosDiaEspecifico();
 		
 		sugestaoCategoria("GORia 01");
 	}
@@ -50,7 +50,7 @@ public class TesteGestaoGastos {
 	public static Boolean sugestaoCategoria(String categoriaSearch) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		ResponseEntity<String> response = restTemplate.getForEntity(URL_CATEGORIAS + "/nomes/" + categoriaSearch, String.class);
+		ResponseEntity<String> response = restTemplate.getForEntity(URL_CATEGORIAS + "?nome=" + categoriaSearch, String.class);
 		if (response.getStatusCode().equals(HttpStatus.OK)) {
 			System.out.println("sugestaoCategoria ================ Ok");
 			System.out.println(response.getBody());
@@ -61,36 +61,37 @@ public class TesteGestaoGastos {
 		return true;
 	}
 	
-//	public static Boolean listagemGastos() {
-//		RestTemplate restTemplate = new RestTemplate();
-//
-//		String codigousuario = "1";		
-//		ResponseEntity<String> response = restTemplate.getForEntity(URL_GASTOS + "/users/" + codigousuario, String.class);
-//		if (response.getStatusCode().equals(HttpStatus.OK)) {
-//			System.out.println("listagemGastos ================ Ok");
-//			System.out.println(response.getBody());
-//		} else {
-//			System.out.println("listagemGastos ================ NOk");
-//		}
-//
-//		return true;
-//	}
+	public static Boolean listagemGastos() {
+		RestTemplate restTemplate = new RestTemplate();
+
+		String codigousuario = "1";		
+		ResponseEntity<String> response = restTemplate.getForEntity(URL_GASTOS + "?codusuario="  + codigousuario, String.class);
+		if (response.getStatusCode().equals(HttpStatus.OK)) {
+			System.out.println("listagemGastos ================ Ok");
+			System.out.println(response.getBody());
+		} else {
+			System.out.println("listagemGastos ================ NOk");
+		}
+
+		return true;
+	}
 	
-//	public static Boolean listagemGastosDiaEspecifico() {
-//		RestTemplate restTemplate = new RestTemplate();
-//
-//		String codigousuario = "1";		
-//		String dateFilter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-//		ResponseEntity<String> response = restTemplate.getForEntity(URL_GASTOS + "/users/" + codigousuario + "/" + dateFilter, String.class);
-//		if (response.getStatusCode().equals(HttpStatus.OK)) {
-//			System.out.println("listagemGastosDiaEspecifico ================ Ok ");
-//			System.out.println(response.getBody());
-//		} else {
-//			System.out.println("listagemGastosDiaEspecifico ================ NOk");
-//		}
-//
-//		return true;
-//	}
+	public static Boolean listagemGastosDiaEspecifico() {
+		RestTemplate restTemplate = new RestTemplate();
+
+		String codigousuario = "1";		
+		String dateFilter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date()); //.replace("/", "/"); // %2F
+		System.out.println("====="+URL_GASTOS + "?codusuario="  + codigousuario + "&data=" + dateFilter);
+		ResponseEntity<String> response = restTemplate.getForEntity(URL_GASTOS + "?codusuario="  + codigousuario + "&data=" + dateFilter, String.class);
+		if (response.getStatusCode().equals(HttpStatus.OK)) {
+			System.out.println("listagemGastosDiaEspecifico ================ Ok ");
+			System.out.println(response.getBody());
+		} else {
+			System.out.println("listagemGastosDiaEspecifico ================ NOk");
+		}
+
+		return true;
+	}
 	
 	public static Boolean categorizacaoGasto() {
 		RestTemplate restTemplate = new RestTemplate();

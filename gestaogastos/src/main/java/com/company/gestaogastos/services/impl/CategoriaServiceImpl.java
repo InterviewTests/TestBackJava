@@ -40,13 +40,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return categoria;
 	}
 
-//	@Override
-//	public Page<Categoria> retrieveCategoria2(@PathVariable String nome) {
-//		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
-//		Page<Categoria> categorias = categoriaDomain.retrieveCategorias(nome);
-//		return categorias;
-//	}
-
 	@Override
 	public void deleteCategoria(@PathVariable long id) {
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);

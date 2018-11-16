@@ -15,8 +15,6 @@ public interface CategoriaService {
 
 	public Categoria retrieveCategoria(@PathVariable long id);
 	
-//	public Page<Categoria> retrieveCategoria2(@PathVariable String nome);
-
 	public void deleteCategoria(@PathVariable long id);
 
 	public Categoria createCategoria(@RequestBody Categoria categoria);

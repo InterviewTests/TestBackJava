@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.company.gestaogastos.domain.entity.Categoria;
-import com.company.gestaogastos.domain.entity.Gasto;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 
 public class CategoriaDomain {
@@ -58,11 +57,6 @@ public class CategoriaDomain {
 		}
 		return categorias;
 	}
-//	public Page<Categoria> retrieveCategorias(@PathVariable String nome) {
-//		PageRequest pageRequest = PageRequest.of(0, CATEGORIAS_PAGE_SIZE, new Sort(Sort.Direction.ASC,"nome"));
-//		Page<Categoria> categorias = categoriaRepository.findByNome(nome, pageRequest);
-//		return categorias;
-//	}
 
 	public void deleteCategoria(@PathVariable long id) {
 		categoriaRepository.deleteById(id);

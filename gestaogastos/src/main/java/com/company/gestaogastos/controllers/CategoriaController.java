@@ -23,10 +23,6 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaService categoriaService;
 
-//	@GetMapping("/categorias")
-//	public List<Categoria> retrieveAllCategorias() {
-//		return categoriaService.retrieveAllCategorias();
-//	}
 	@GetMapping("/categorias")
 	public Page<Categoria> retrieveCategorias(@RequestParam Map<String,String> allRequestParams) {
 		return categoriaService.retrieveCategorias(allRequestParams);
@@ -37,11 +33,6 @@ public class CategoriaController {
 		return categoriaService.retrieveCategoria(id);
 	}
 
-//	@GetMapping("/categorias/nomes/{nome}")
-//	public Page<Categoria> retrieveCategoria2(@PathVariable String nome) {
-//		return categoriaService.retrieveCategoria2(nome);
-//	}
-//
 	@DeleteMapping("/categorias/{id}")
 	public void deleteCategoria(@PathVariable long id) {
 		categoriaService.deleteCategoria(id);

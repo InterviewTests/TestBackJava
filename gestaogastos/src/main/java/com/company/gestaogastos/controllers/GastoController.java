@@ -52,12 +52,6 @@ public class GastoController {
 		return savedGasto;
 	}
 	
-//	@PutMapping(path="/gastos/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<Object> updateGasto(@RequestBody Gasto gasto, @PathVariable long id) {
-//		gastoService.updateGasto(gasto, id);
-//		return ResponseEntity.noContent().build();
-//	}
-
 	@PutMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Gasto updateGasto(@RequestBody Gasto gasto) {
 		Gasto savedGasto = gastoService.updateGasto(gasto, gasto.getId());

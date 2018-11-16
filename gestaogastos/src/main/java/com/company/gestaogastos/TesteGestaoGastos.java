@@ -146,12 +146,6 @@ public class TesteGestaoGastos {
 		return true;
 	}
 
-//	private static Boolean insertGastos2(Gasto gasto) {
-//		RestTemplate restTemplate = new RestTemplate();
-//		restTemplate.postForObject(URL_GASTOS, gasto, Gasto.class);
-//		return true;
-//	}
-
 	public static Boolean loadGastosEcategorizacaoAutomaticaGastos() {
 		long deltaTempo = 8*60*60*1000;
 		// Insert gastos

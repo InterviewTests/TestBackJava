@@ -35,22 +35,6 @@ public class GastoServiceImpl implements GastoService {
 		return gasto;
 	}
 
-//	@Override
-//	public Page<Gasto> retrieveGastoByUser(Integer id) {
-//		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-//		PageRequest pageRequest = new PageRequest(0, 10);
-//		Page<Gasto> gastos = gastoDomain.retrieveGastoByUser(id, pageRequest);
-//		return gastos;
-//	}
-//
-//	@Override
-//	public Page<Gasto> retrieveGastoByUserDate(Integer id, String date) {
-//		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-//		PageRequest pageRequest = new PageRequest(0, 10);
-//		Page<Gasto> gastos = gastoDomain.retrieveGastoByUserDate(id, date, pageRequest);
-//		return gastos;
-//	}
-
 	@Override
 	public Gasto createGasto(Gasto gasto) {
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);

@@ -7,16 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.company.gestaogastos.domain.Categoria;
+import com.company.gestaogastos.domain.Usuario;
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
-	@Query("SELECT c FROM Categoria c")
-	Page<Categoria> findAllCategoria(Pageable pageRequest);
+	@Query("SELECT u FROM Usuario u")
+	Page<Usuario> findAllUsuario(Pageable pageRequest);
 	
-	@Query("SELECT c FROM Categoria c WHERE INSTR(LOWER(c.nome), LOWER(:nome)) > 0 order by nome asc")
-    public Page<Categoria> findByNome(
+	@Query("SELECT u FROM Usuario u WHERE INSTR(LOWER(u.nome), LOWER(:nome)) > 0 order by nome asc")
+    public Page<Usuario> findByNome(
 	    		@Param("nome") String nome,
 	    		Pageable pageRequest);
 }

@@ -13,23 +13,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.gestaogastos.domain.entity.Categoria;
+import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.services.CategoriaService;
 
 @RestController
 public class CategoriaController {
-	static final int CATEGORIAS_PAGE_SIZE = 4;
 
 	@Autowired
 	private CategoriaService categoriaService;
 
 	@GetMapping("/categorias")
-	public Page<Categoria> retrieveCategorias(@RequestParam Map<String,String> allRequestParams) {
+	public Page<CategoriaDTO> retrieveCategorias(@RequestParam Map<String,String> allRequestParams) {
 		return categoriaService.retrieveCategorias(allRequestParams);
 	}
 
 	@GetMapping("/categorias/{id}")
-	public Categoria retrieveCategoria(@PathVariable long id) {
+	public CategoriaDTO retrieveCategoria(@PathVariable long id) {
 		return categoriaService.retrieveCategoria(id);
 	}
 
@@ -40,8 +39,8 @@ public class CategoriaController {
 
 	@PostMapping(path="/categorias", consumes = "application/json", produces = "application/json")
 //	public ResponseEntity<Object> createCategoria(@RequestBody Categoria categoria) {
-	public Categoria createCategoria(@RequestBody Categoria categoria) {
-		Categoria savedCategoria = categoriaService.createCategoria(categoria);
+	public CategoriaDTO createCategoria(@RequestBody CategoriaDTO categoria) {
+		CategoriaDTO savedCategoria = categoriaService.createCategoria(categoria);
 
 //		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 //				.buildAndExpand(savedCategoria.getId()).toUri();
@@ -51,11 +50,11 @@ public class CategoriaController {
 	}
 	
 	@PutMapping("/categorias/{id}")
-	public ResponseEntity<Object> updateCategoria(@RequestBody Categoria categoria, @PathVariable long id) {
+	public ResponseEntity<Object> updateCategoria(@RequestBody CategoriaDTO categoria, @PathVariable long id) {
 
 		categoria.setId(id);
 
-		Categoria categoriaBanco = categoriaService.updateCategoria(categoria, id);
+		CategoriaDTO categoriaBanco = categoriaService.updateCategoria(categoria, id);
 
 		if (categoriaBanco == null)
 			return ResponseEntity.notFound().build();

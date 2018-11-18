@@ -4,17 +4,17 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.company.gestaogastos.domain.entity.Gasto;
+import com.company.gestaogastos.domain.dto.GastoDTO;
 
 public interface GastoService {
 
-	public Page<Gasto> retrieveGastos(Map<String, String> allRequestParams);
+	public Page<GastoDTO> retrieveGastos(Map<String, String> allRequestParams);
 
-	public Gasto retrieveGasto(long id);
+	public GastoDTO retrieveGasto(long id);
 
-	public Gasto createGasto(Gasto gasto);
+	public GastoDTO createGasto(GastoDTO gasto);
 	
-	public Gasto updateGasto(Gasto gasto, long id);
+	public GastoDTO updateGasto(GastoDTO gasto, long id);
 
 	public void deleteGasto(long id);
 

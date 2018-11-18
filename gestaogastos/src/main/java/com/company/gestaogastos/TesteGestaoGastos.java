@@ -15,8 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.company.gestaogastos.domain.entity.Categoria;
-import com.company.gestaogastos.domain.entity.Gasto;
+import com.company.gestaogastos.domain.dto.CategoriaDTO;
+import com.company.gestaogastos.domain.dto.GastoDTO;
+import com.company.gestaogastos.domain.dto.UsuarioDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,6 +25,7 @@ public class TesteGestaoGastos {
 
 	static final String URL_GASTOS = "http://localhost:8080/gastos";
 	static final String URL_CATEGORIAS = "http://localhost:8080/categorias";
+	static final String URL_USUARIOS = "http://localhost:8080/usuarios";
     private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
 	
 	public TesteGestaoGastos() {
@@ -32,6 +34,9 @@ public class TesteGestaoGastos {
 	
 	public static void main(String[] args) {
 		
+		insertUsuario("Usuario 01");
+		insertUsuario("Usuario 02");
+
 		insertCategoria("Categoria 01");
 		insertCategoria("Categoria 02");
 		insertCategoria("Categoria 03");
@@ -97,13 +102,13 @@ public class TesteGestaoGastos {
 		RestTemplate restTemplate = new RestTemplate();
 
 		// Update Gasto
-		Gasto gasto = new Gasto();
-		gasto.setCodigousuario(1);
+		GastoDTO gasto = new GastoDTO();
+		gasto.setUsuario(new UsuarioDTO(1L, "Usuario 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
-		gasto.setId(2L);
+		gasto.setId(8L);
 		gasto.setDescricao("UPDATE GASTO 111111");
-		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
+		gasto.setCategoria(new CategoriaDTO(1L, "Categoria 01"));
 	    //final String uri = URL_GASTOS + "/{id}";
 	    final String uri = URL_GASTOS;
 	    Map<String, String> params = new HashMap<String, String>();
@@ -118,10 +123,10 @@ public class TesteGestaoGastos {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		// Insert Categoria
-		Categoria categoria01 = new Categoria();
+		CategoriaDTO categoria = new CategoriaDTO();
 		//categoria01.setId(1L);
-		categoria01.setNome(categoriaNome);
-        String gastoJson = gson.toJson(categoria01);
+		categoria.setNome(categoriaNome);
+        String gastoJson = gson.toJson(categoria);
 		System.out.println(gastoJson);
 		String requestJson = gastoJson;
 		HttpHeaders headers = new HttpHeaders();
@@ -133,7 +138,26 @@ public class TesteGestaoGastos {
 		return true;
 	}
 
-	public static Boolean insertGastos(Gasto gasto) {
+	public static Boolean insertUsuario(String usuarioNome) {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		// Insert Usuario
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		//categoria01.setId(1L);
+		usuarioDTO.setNome(usuarioNome);
+        String gastoJson = gson.toJson(usuarioDTO);
+		System.out.println(gastoJson);
+		String requestJson = gastoJson;
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+		String answer = restTemplate.postForObject(URL_USUARIOS, entity, String.class);
+		System.out.println(answer);
+		
+		return true;
+	}
+
+	public static Boolean insertGastos(GastoDTO gasto) {
 		RestTemplate restTemplate = new RestTemplate();
 		
         String requestJson = gson.toJson(gasto);
@@ -149,22 +173,21 @@ public class TesteGestaoGastos {
 	public static Boolean loadGastosEcategorizacaoAutomaticaGastos() {
 		long deltaTempo = 8*60*60*1000;
 		// Insert gastos
-		Gasto gasto = new Gasto();
-		gasto.setCodigousuario(1);
+		GastoDTO gasto = new GastoDTO();
 		gasto.setDescricao("gasto 1");
-		gasto.setCategoria(new Categoria(null, "Categoria 01"));
-		// gasto.setCategoria(null);
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
+		gasto.setCategoria(new CategoriaDTO(null, "Categoria 01"));
+		gasto.setUsuario(new UsuarioDTO(1L, "Usuario 01"));
 		insertGastos(gasto);
 		// ----------
         gasto.setDescricao("gasto 2");
-        gasto.setCategoria(new Categoria(null, "Categoria 04"));
         gasto.setData(new Timestamp(System.currentTimeMillis() + (deltaTempo)));
+        gasto.setCategoria(new CategoriaDTO(null, "Categoria 04"));
 		insertGastos(gasto);
 		// ----------
         gasto.setDescricao("gasto 3");
-        gasto.setCategoria(new Categoria(null, "Categoria 01"));
+        gasto.setCategoria(new CategoriaDTO(null, "Categoria 01"));
         gasto.setData(new Timestamp(System.currentTimeMillis() + (2 * deltaTempo)));
 		insertGastos(gasto);
 		// ----------
@@ -198,7 +221,7 @@ public class TesteGestaoGastos {
 		insertGastos(gasto);
 		// ----------
 		gasto.setDescricao("despesas 1");
-        gasto.setCodigousuario(2);
+		gasto.setUsuario(new UsuarioDTO(2L, "Usuario 02"));
 		insertGastos(gasto);
 		
 		return true;

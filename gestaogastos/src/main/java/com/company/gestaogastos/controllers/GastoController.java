@@ -3,7 +3,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.gestaogastos.domain.entity.Gasto;
+import com.company.gestaogastos.domain.dto.GastoDTO;
 import com.company.gestaogastos.services.GastoService;
 
 @RestController
@@ -24,13 +26,14 @@ public class GastoController {
 	GastoService gastoService;
 	
 	@GetMapping("/gastos")
-	public Page<Gasto> retrieveGastos(@RequestParam Map<String,String> allRequestParams) {
-		return gastoService.retrieveGastos(allRequestParams);
+	public ResponseEntity<Page<GastoDTO>> retrieveGastos(@RequestParam Map<String,String> allRequestParams) {
+//		return gastoService.retrieveGastos(allRequestParams);
+		return new ResponseEntity<Page<GastoDTO>>(gastoService.retrieveGastos(allRequestParams), HttpStatus.OK);
 	}
 
 	@GetMapping("/gastos/{id}")
-	public Gasto retrieveGasto(@PathVariable long id) {
-		return gastoService.retrieveGasto(id);
+	public ResponseEntity<GastoDTO> retrieveGasto(@PathVariable long id) {
+		return new ResponseEntity<GastoDTO>(gastoService.retrieveGasto(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/gastos/{id}")
@@ -39,24 +42,20 @@ public class GastoController {
 	}
 
 	@PostMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Gasto createGasto(@RequestBody Gasto gasto) {
+	public ResponseEntity<GastoDTO> createGasto(@RequestBody GastoDTO gasto) {
 		if (gasto == null) {
-			// return ResponseEntity.notFound().build();
-			return null;
+			return new ResponseEntity<GastoDTO>(gasto, HttpStatus.BAD_REQUEST);
 		}
-		Gasto savedGasto = gastoService.createGasto(gasto);
+		GastoDTO savedGasto = gastoService.createGasto(gasto);
 
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//				.buildAndExpand(savedGasto.getId()).toUri();
-//		return ResponseEntity.created(location).build();
-		return savedGasto;
+		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Gasto updateGasto(@RequestBody Gasto gasto) {
-		Gasto savedGasto = gastoService.updateGasto(gasto, gasto.getId());
+	public ResponseEntity<GastoDTO> updateGasto(@RequestBody GastoDTO gasto) {
+		GastoDTO savedGasto = gastoService.updateGasto(gasto, gasto.getId());
 		
-		return savedGasto;
+		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.CREATED);
 	}
 
 }

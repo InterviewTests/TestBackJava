@@ -1,21 +1,14 @@
-package com.company.gestaogastos.domain.entity;
+package com.company.gestaogastos.domain.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Categoria {
-	@Id
-	@GeneratedValue
+public class CategoriaDTO {
 	private Long id;
 	private String nome;
 	
-	public Categoria() {
+	public CategoriaDTO() {
 		super();
 	}
 
-	public Categoria(Long id, String nome) {
+	public CategoriaDTO(Long id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;

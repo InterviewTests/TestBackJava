@@ -1,23 +1,19 @@
 package com.company.gestaogastos.services;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.company.gestaogastos.domain.entity.Categoria;
+import com.company.gestaogastos.domain.dto.CategoriaDTO;
 
 public interface CategoriaService {
 
-	public List<Categoria> retrieveAllCategorias();
-	public Page<Categoria> retrieveCategorias(Map<String, String> allRequestParams);
+	public Page<CategoriaDTO> retrieveCategorias(Map<String, String> allRequestParams);
 
-	public Categoria retrieveCategoria(@PathVariable long id);
+	public CategoriaDTO retrieveCategoria(long id);
 	
-	public void deleteCategoria(@PathVariable long id);
+	public void deleteCategoria(long id);
 
-	public Categoria createCategoria(@RequestBody Categoria categoria);
+	public CategoriaDTO createCategoria(CategoriaDTO categoria);
 	
-	public Categoria updateCategoria(@RequestBody Categoria categoria, @PathVariable long id);
+	public CategoriaDTO updateCategoria(CategoriaDTO categoria, long id);
 }

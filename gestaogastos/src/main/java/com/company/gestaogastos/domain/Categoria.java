@@ -1,47 +1,51 @@
 package com.company.gestaogastos.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.company.gestaogastos.domain.entity.Categoria;
+import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 
-public class CategoriaDomain {
+@Entity
+public class Categoria {
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String nome;
 
+	@Transient
 	private CategoriaRepository categoriaRepository;
 	
 	static final int CATEGORIAS_PAGE_SIZE = 4;
 
-	public CategoriaDomain() {
+	public Categoria() {
 		super();
 	}
 
-	public CategoriaDomain(CategoriaRepository categoriaRepository) {
+	public Categoria(CategoriaRepository categoriaRepository) {
 		this.categoriaRepository = categoriaRepository;
 	}
 
-	public CategoriaDomain(Long id, String nome) {
+	public Categoria(Long id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
 	}
 	
-	
-	public List<Categoria> retrieveAllCategorias() {
-		return categoriaRepository.findAll();
-	}
-
-	public Categoria retrieveCategoria(@PathVariable long id) {
-		Optional<Categoria> categoria = categoriaRepository.findById(id);
+	public Categoria retrieveCategoria() {
+		Optional<Categoria> categoria = categoriaRepository.findById(this.getId());
 
 		return categoria.get();
 	}
@@ -58,26 +62,24 @@ public class CategoriaDomain {
 		return categorias;
 	}
 
-	public void deleteCategoria(@PathVariable long id) {
-		categoriaRepository.deleteById(id);
+	public void deleteCategoria() {
+		categoriaRepository.deleteById(this.getId());
 	}
 
-	public Categoria createCategoria(@RequestBody Categoria categoria) {
-		Categoria savedCategoria = categoriaRepository.save(categoria);
+	public Categoria createCategoria() {
+		Categoria savedCategoria = categoriaRepository.save(this);
 
 		return savedCategoria;
 	}
 	
-	public Categoria updateCategoria(@RequestBody Categoria categoria, @PathVariable long id) {
+	public Categoria updateCategoria() {
 
-		Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);
+		Optional<Categoria> categoriaOptional = categoriaRepository.findById(this.getId());
 
 		if (!categoriaOptional.isPresent())
 			return null;
 
-		categoria.setId(id);
-		
-		Categoria categoriaBanco = categoriaRepository.save(categoria);
+		Categoria categoriaBanco = categoriaRepository.save(this);
 
 		return categoriaBanco;
 	}
@@ -92,6 +94,32 @@ public class CategoriaDomain {
 			limit = Integer.decode(allRequestParams.get("limit"));
 		}
 		return PageRequest.of(offset, limit, new Sort(Sort.Direction.ASC,"nome"));
+	}
+	
+	public void toDomain(CategoriaDTO categoria) {
+		if (categoria != null) {
+			this.id = categoria.getId();
+			this.nome = categoria.getNome();
+		}
+	}
+
+	public CategoriaDTO toDTO(Categoria categoria) {
+		CategoriaDTO dto = null;
+		if (categoria != null) {
+			dto = new CategoriaDTO();
+			dto.setId(categoria.getId());
+			dto.setNome(categoria.getNome());
+		}
+		return dto;
+	}
+
+	public Page<CategoriaDTO> convertPageCategoriaToPageCategoriaDTO(Page<Categoria> categorias) {
+		List<CategoriaDTO> categoriaDTOList = new ArrayList<>();
+		categorias.getContent().forEach(categoria-> {
+			categoriaDTOList.add(toDTO(categoria));
+		});
+		Page<CategoriaDTO> pageCategoriaDTO = new PageImpl<CategoriaDTO>(categoriaDTOList, categorias.getPageable(), categorias.getContent().size());
+		return pageCategoriaDTO;
 	}
 
 	public Long getId() {

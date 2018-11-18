@@ -28,6 +28,7 @@ import com.company.gestaogastos.domain.dto.GastoDTO;
 import com.company.gestaogastos.domain.dto.UsuarioDTO;
 import com.company.gestaogastos.services.CategoriaService;
 import com.company.gestaogastos.services.GastoService;
+import com.company.gestaogastos.services.UsuarioService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
@@ -46,12 +47,28 @@ public class GestaoApplicationTests {
 	@Autowired
 	CategoriaService categoriaService;
 
+	@Autowired
+	UsuarioService usuarioService;
+
     @Test
     public void acontrollerInitializedCorrectly() {
         assertThat(categoriaController).isNotNull();
         assertThat(gastoController).isNotNull();
         
     }
+    
+	@Test
+	public void adloadUsuarios() {
+		// Insert Usuario
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setNome("Usuario 01");
+		UsuarioDTO usuarioDTOBase = usuarioService.createUsuario(usuarioDTO);
+		assertTrue(usuarioDTOBase != null && usuarioDTOBase.getId() != null);
+		// ----------
+		usuarioDTO.setNome("Usuario 02");
+		usuarioDTOBase = usuarioService.createUsuario(usuarioDTO);
+		assertTrue(usuarioDTOBase != null && usuarioDTOBase.getId() != null);
+	}
 
 	@Test
 	public void aloadGastosEcategorizacaoAutomaticaGastos() {
@@ -77,6 +94,7 @@ public class GestaoApplicationTests {
 		// ----------
         gasto.setDescricao("gasto 3");
         gasto.setCategoria(new CategoriaDTO(null, "Categoria 01"));
+        gasto.setCategoria(null);
         gasto.setData(new Timestamp(System.currentTimeMillis() + (2 * deltaTempo)));
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
@@ -87,17 +105,18 @@ public class GestaoApplicationTests {
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
 		// ----------
-        gasto.setDescricao("gasto 1");
+        gasto.setDescricao("gasto 5");
+        gasto.setCategoria(null);
         gasto.setData(new Timestamp(System.currentTimeMillis() + (4 * deltaTempo)));
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
 		// ----------
-        gasto.setDescricao("gasto 2");
+        gasto.setDescricao("gasto 6");
         gasto.setData(new Timestamp(System.currentTimeMillis() + (5 * deltaTempo)));
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
 		// ----------
-        gasto.setDescricao("gasto 2");
+        gasto.setDescricao("gasto 7");
         gasto.setData(new Timestamp(System.currentTimeMillis() + (6 * deltaTempo)));
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
@@ -107,7 +126,7 @@ public class GestaoApplicationTests {
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
 		// ----------
-        gasto.setDescricao("gasto 3");
+        gasto.setDescricao("gasto 9");
         gasto.setData(new Timestamp(System.currentTimeMillis() + (8 * deltaTempo)));
 		gastoBase = gastoService.createGasto(gasto );
 		assertTrue(gastoBase != null && gastoBase.getId() != null);
@@ -131,7 +150,7 @@ public class GestaoApplicationTests {
 		gasto.setUsuario(new UsuarioDTO(1L, "Usuario 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
-		gasto.setId(1L);
+		gasto.setId(8L);
 		gasto.setDescricao("UPDATE GASTO 111111");
 		gasto.setCategoria(new CategoriaDTO(1L, "Categoria 01"));
 		GastoDTO aa = gastoService.updateGasto(gasto, gasto.getId());
@@ -142,13 +161,14 @@ public class GestaoApplicationTests {
 	@Test
 	public void cinserirCategoria() {
 		CategoriaDTO categoria = new CategoriaDTO();
+		CategoriaDTO categoriaReturn;
 		categoria.setNome("Categoria 01");
-		categoriaService.createCategoria(categoria );
+		categoriaReturn = categoriaService.createCategoria(categoria );
 		categoria.setNome("Categoria 02");
-		categoriaService.createCategoria(categoria );
+		categoriaReturn = categoriaService.createCategoria(categoria );
 		categoria.setNome("Categoria 03");
-		categoriaService.createCategoria(categoria );
-		assertTrue(categoria.getId() != null);
+		categoriaReturn = categoriaService.createCategoria(categoria );
+		assertTrue(categoriaReturn.getId() != null);
 	}
 
 	@Test
@@ -157,7 +177,7 @@ public class GestaoApplicationTests {
 		gasto.setUsuario(new UsuarioDTO(1L, "Usuario 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
-		gasto.setId(2L);
+		gasto.setId(8L);
 		gasto.setDescricao("UPDATE GASTO 111111");
 		gasto.setCategoria(new CategoriaDTO(1L, "Categoria 01"));
 		

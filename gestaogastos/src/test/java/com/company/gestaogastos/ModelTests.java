@@ -32,7 +32,6 @@ import com.company.gestaogastos.domain.Gasto;
 import com.company.gestaogastos.domain.Usuario;
 import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.domain.dto.GastoDTO;
-import com.company.gestaogastos.domain.dto.UsuarioDTO;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 import com.company.gestaogastos.domain.repository.GastoRepository;
 

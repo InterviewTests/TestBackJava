@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -32,9 +32,9 @@ public class Usuario {
 	
 	static final int USUARIOS_PAGE_SIZE = 4;
 	
-//    @OneToMany(mappedBy="gasto")
-//    //@JoinColumn(name="fk_usuariogasto")
-//    private List<Gasto> gastos = new ArrayList<Gasto>();
+	@OneToMany(cascade = CascadeType.ALL, 
+			mappedBy = "usuario", orphanRemoval = true)
+	private List<Gasto> gastos = new ArrayList<Gasto>();
 
 	public Usuario() {
 		super();
@@ -50,11 +50,6 @@ public class Usuario {
 		this.usuarioRepository = usuarioRepository;
 	}
 
-	
-	
-	
-	
-	
 	public UsuarioDTO retrieveUsuario() {
 		Optional<Usuario> usuario = usuarioRepository.findById(this.getId());
 
@@ -133,11 +128,6 @@ public class Usuario {
 		return pageUsuarioDTO;
 	}
 
-
-	
-	
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -162,12 +152,12 @@ public class Usuario {
 		this.usuarioRepository = usuarioRepository;
 	}
 
-//	public List<Gasto> getGastos() {
-//		return gastos;
-//	}
-//
-//	public void setGastos(List<Gasto> gastos) {
-//		this.gastos = gastos;
-//	}
+	public List<Gasto> getGastos() {
+		return gastos;
+	}
+
+	public void setGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
+	}
 
 }

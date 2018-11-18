@@ -27,7 +27,6 @@ public class GastoController {
 	
 	@GetMapping("/gastos")
 	public ResponseEntity<Page<GastoDTO>> retrieveGastos(@RequestParam Map<String,String> allRequestParams) {
-//		return gastoService.retrieveGastos(allRequestParams);
 		return new ResponseEntity<Page<GastoDTO>>(gastoService.retrieveGastos(allRequestParams), HttpStatus.OK);
 	}
 
@@ -47,14 +46,12 @@ public class GastoController {
 			return new ResponseEntity<GastoDTO>(gasto, HttpStatus.BAD_REQUEST);
 		}
 		GastoDTO savedGasto = gastoService.createGasto(gasto);
-
 		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GastoDTO> updateGasto(@RequestBody GastoDTO gasto) {
 		GastoDTO savedGasto = gastoService.updateGasto(gasto, gasto.getId());
-		
 		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.CREATED);
 	}
 

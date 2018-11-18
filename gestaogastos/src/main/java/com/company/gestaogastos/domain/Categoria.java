@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.springframework.data.domain.Page;
@@ -24,6 +26,10 @@ public class Categoria {
 	@GeneratedValue
 	private Long id;
 	private String nome;
+
+	@OneToMany(cascade = CascadeType.ALL, 
+			mappedBy = "categoria", orphanRemoval = true)
+	private List<Gasto> gastos = new ArrayList<Gasto>();
 
 	@Transient
 	private CategoriaRepository categoriaRepository;
@@ -136,6 +142,14 @@ public class Categoria {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public List<Gasto> getGastos() {
+		return gastos;
+	}
+
+	public void setGastos(List<Gasto> gastos) {
+		this.gastos = gastos;
 	}
 
 	@Override

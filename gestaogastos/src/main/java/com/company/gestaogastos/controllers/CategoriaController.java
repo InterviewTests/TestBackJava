@@ -3,6 +3,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,43 +24,34 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 
 	@GetMapping("/categorias")
-	public Page<CategoriaDTO> retrieveCategorias(@RequestParam Map<String,String> allRequestParams) {
-		return categoriaService.retrieveCategorias(allRequestParams);
+	public ResponseEntity<Page<CategoriaDTO>> retrieveCategorias(@RequestParam Map<String,String> allRequestParams) {
+		return new ResponseEntity<Page<CategoriaDTO>>(categoriaService.retrieveCategorias(allRequestParams), HttpStatus.OK);
 	}
 
 	@GetMapping("/categorias/{id}")
-	public CategoriaDTO retrieveCategoria(@PathVariable long id) {
-		return categoriaService.retrieveCategoria(id);
+	public ResponseEntity<CategoriaDTO> retrieveCategoria(@PathVariable long id) {
+		return new ResponseEntity<CategoriaDTO>(categoriaService.retrieveCategoria(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/categorias/{id}")
-	public void deleteCategoria(@PathVariable long id) {
+	public ResponseEntity<Object> deleteCategoria(@PathVariable long id) {
 		categoriaService.deleteCategoria(id);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping(path="/categorias", consumes = "application/json", produces = "application/json")
-//	public ResponseEntity<Object> createCategoria(@RequestBody Categoria categoria) {
-	public CategoriaDTO createCategoria(@RequestBody CategoriaDTO categoria) {
+	public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody CategoriaDTO categoria) {
 		CategoriaDTO savedCategoria = categoriaService.createCategoria(categoria);
-
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//				.buildAndExpand(savedCategoria.getId()).toUri();
-//		return ResponseEntity.created(location).build();
-
-		return savedCategoria;
+		return new ResponseEntity<CategoriaDTO>(savedCategoria, HttpStatus.OK);
 	}
 	
 	@PutMapping("/categorias/{id}")
-	public ResponseEntity<Object> updateCategoria(@RequestBody CategoriaDTO categoria, @PathVariable long id) {
-
+	public ResponseEntity<CategoriaDTO> updateCategoria(@RequestBody CategoriaDTO categoria, @PathVariable long id) {
 		categoria.setId(id);
-
-		CategoriaDTO categoriaBanco = categoriaService.updateCategoria(categoria, id);
-
-		if (categoriaBanco == null)
+		CategoriaDTO savedCategoria = categoriaService.updateCategoria(categoria, id);
+		if (savedCategoria == null) {
 			return ResponseEntity.notFound().build();
-
-		
-		return ResponseEntity.noContent().build();
+		}
+		return new ResponseEntity<CategoriaDTO>(savedCategoria, HttpStatus.OK);
 	}
 }

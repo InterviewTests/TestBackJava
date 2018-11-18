@@ -3,6 +3,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,43 +24,34 @@ public class UsuariosController {
 	private UsuarioService usuarioService;
 
 	@GetMapping("/usuarios")
-	public Page<UsuarioDTO> retrieveUsuarios(@RequestParam Map<String,String> allRequestParams) {
-		return usuarioService.retrieveUsuarios(allRequestParams);
+	public ResponseEntity<Page<UsuarioDTO>> retrieveUsuarios(@RequestParam Map<String,String> allRequestParams) {
+		return new ResponseEntity<Page<UsuarioDTO>>(usuarioService.retrieveUsuarios(allRequestParams), HttpStatus.OK);
 	}
 
 	@GetMapping("/usuarios/{id}")
-	public UsuarioDTO retrieveUsuario(@PathVariable long id) {
-		return usuarioService.retrieveUsuario(id);
+	public ResponseEntity<UsuarioDTO> retrieveUsuario(@PathVariable long id) {
+		return new ResponseEntity<UsuarioDTO>(usuarioService.retrieveUsuario(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/usuarios/{id}")
-	public void deleteUsuario(@PathVariable long id) {
+	public ResponseEntity<Object>  deleteUsuario(@PathVariable long id) {
 		usuarioService.deleteUsuario(id);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping(path="/usuarios", consumes = "application/json", produces = "application/json")
-//	public ResponseEntity<Object> createUsuario(@RequestBody Usuario usuario) {
-	public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuario) {
+	public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuario) {
 		UsuarioDTO savedUsuario = usuarioService.createUsuario(usuario);
-
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//				.buildAndExpand(savedUsuario.getId()).toUri();
-//		return ResponseEntity.created(location).build();
-
-		return savedUsuario;
+		return new ResponseEntity<UsuarioDTO>(savedUsuario, HttpStatus.OK);
 	}
 	
 	@PutMapping("/usuarios/{id}")
-	public ResponseEntity<Object> updateUsuario(@RequestBody UsuarioDTO usuario, @PathVariable long id) {
-
+	public ResponseEntity<UsuarioDTO>  updateUsuario(@RequestBody UsuarioDTO usuario, @PathVariable long id) {
 		usuario.setId(id);
-
-		UsuarioDTO usuarioBanco = usuarioService.updateUsuario(usuario, id);
-
-		if (usuarioBanco == null)
+		UsuarioDTO savedUsuario = usuarioService.updateUsuario(usuario, id);
+		if (savedUsuario == null) {
 			return ResponseEntity.notFound().build();
-
-		
-		return ResponseEntity.noContent().build();
+		}
+		return new ResponseEntity<UsuarioDTO>(savedUsuario, HttpStatus.OK);
 	}
 }

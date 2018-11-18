@@ -13,12 +13,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -39,9 +36,6 @@ public class Gasto {
 	private BigDecimal valor;
 	private Timestamp data;
 	
-//	@ManyToOne
-//    //@JoinColumn(name="fk_usuariogasto")
-//	private Usuario usuario;
 	@ManyToOne
 	private Usuario usuario;
 	
@@ -303,9 +297,8 @@ public class Gasto {
 
 	@Override
     public String toString() {
-//        return String.format("Gasto{descricao=%s, valor=%s, codigousuario=%s, data=%s}"
-//        		, getDescricao(), getValor(), getUsuario(), getData());
-		return null;
+        return String.format("Gasto{descricao=%s, valor=%s,  data=%s}"
+        		, getDescricao(), getValor(), getData());
     }
 
 }

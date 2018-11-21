@@ -36,8 +36,9 @@ public class GastoController {
 	}
 
 	@DeleteMapping("/gastos/{id}")
-	public void deleteGasto(@PathVariable long id) {
+	public ResponseEntity<String> deleteGasto(@PathVariable long id) {
 		gastoService.deleteGasto(id);
+		return new ResponseEntity<String>("Ok", HttpStatus.OK);
 	}
 
 	@PostMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,13 +47,13 @@ public class GastoController {
 			return new ResponseEntity<GastoDTO>(gasto, HttpStatus.BAD_REQUEST);
 		}
 		GastoDTO savedGasto = gastoService.createGasto(gasto);
-		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.CREATED);
+		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.OK);
 	}
 	
 	@PutMapping(path="/gastos", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GastoDTO> updateGasto(@RequestBody GastoDTO gasto) {
 		GastoDTO savedGasto = gastoService.updateGasto(gasto, gasto.getId());
-		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.CREATED);
+		return new ResponseEntity<GastoDTO>(savedGasto, HttpStatus.OK);
 	}
 
 }

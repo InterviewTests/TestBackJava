@@ -53,23 +53,23 @@ public class GastoServiceImpl implements GastoService {
 	public GastoDTO retrieveGasto(long id) {
 		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
 		gasto.setId(id);
-		Gasto gastoBase = gasto.retrieveGasto();
+		com.company.gestaogastos.domain.entity.Gasto gastoBase = gasto.retrieveGasto();
 		return gasto.convertGastoToGastoDTO(gastoBase);
 	}
 
 	@Override
 	public GastoDTO createGasto(GastoDTO gastoDTO) {
 		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
-		gasto.convertGastoDTOToGasto(gastoDTO);
-		Gasto gastoBase = gasto.createGasto();
+		com.company.gestaogastos.domain.entity.Gasto entity = gasto.toEntity(gastoDTO);
+		com.company.gestaogastos.domain.entity.Gasto gastoBase = gasto.createGasto(entity);
 		return gasto.convertGastoToGastoDTO(gastoBase);
 	}
     
 	@Override
 	public GastoDTO updateGasto(GastoDTO gastoDTO, long id) {
 		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
-		gasto.convertGastoDTOToGasto(gastoDTO);
-		Gasto gastoBase = gasto.updateGasto();
+		com.company.gestaogastos.domain.entity.Gasto entity = gasto.toEntity(gastoDTO);
+		com.company.gestaogastos.domain.entity.Gasto gastoBase = gasto.updateGasto(entity);
 		return gasto.convertGastoToGastoDTO(gastoBase);
 	}
 

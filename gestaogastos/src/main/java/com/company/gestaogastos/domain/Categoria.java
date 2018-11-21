@@ -5,13 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,18 +13,10 @@ import org.springframework.data.domain.Sort;
 import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 
-@Entity
 public class Categoria {
-	@Id
-	@GeneratedValue
 	private Long id;
 	private String nome;
-
-	@OneToMany(cascade = CascadeType.ALL, 
-			mappedBy = "categoria", orphanRemoval = true)
 	private List<Gasto> gastos = new ArrayList<Gasto>();
-
-	@Transient
 	private CategoriaRepository categoriaRepository;
 	
 	static final int CATEGORIAS_PAGE_SIZE = 4;
@@ -50,14 +35,14 @@ public class Categoria {
 		this.nome = nome;
 	}
 	
-	public Categoria retrieveCategoria() {
-		Optional<Categoria> categoria = categoriaRepository.findById(this.getId());
+	public com.company.gestaogastos.domain.entity.Categoria retrieveCategoria() {
+		Optional<com.company.gestaogastos.domain.entity.Categoria> categoria = categoriaRepository.findById(this.getId());
 
 		return categoria.get();
 	}
 
-	public Page<Categoria> retrieveCategorias(Map<String, String> allRequestParams) {
-		Page<Categoria> categorias;
+	public Page<com.company.gestaogastos.domain.entity.Categoria> retrieveCategorias(Map<String, String> allRequestParams) {
+		Page<com.company.gestaogastos.domain.entity.Categoria> categorias;
 		PageRequest pageRequest = getPageRequest(allRequestParams);
 		if (allRequestParams.get("nome") != null) {
 			String nomeParam = allRequestParams.get("nome");
@@ -72,20 +57,20 @@ public class Categoria {
 		categoriaRepository.deleteById(this.getId());
 	}
 
-	public Categoria createCategoria() {
-		Categoria savedCategoria = categoriaRepository.save(this);
+	public com.company.gestaogastos.domain.entity.Categoria createCategoria(com.company.gestaogastos.domain.entity.Categoria categoria) {
+		com.company.gestaogastos.domain.entity.Categoria savedCategoria = categoriaRepository.save(categoria);
 
 		return savedCategoria;
 	}
 	
-	public Categoria updateCategoria() {
+	public com.company.gestaogastos.domain.entity.Categoria updateCategoria(com.company.gestaogastos.domain.entity.Categoria categoria) {
 
-		Optional<Categoria> categoriaOptional = categoriaRepository.findById(this.getId());
+		Optional<com.company.gestaogastos.domain.entity.Categoria> categoriaOptional = categoriaRepository.findById(categoria.getId());
 
 		if (!categoriaOptional.isPresent())
 			return null;
 
-		Categoria categoriaBanco = categoriaRepository.save(this);
+		com.company.gestaogastos.domain.entity.Categoria categoriaBanco = categoriaRepository.save(categoria);
 
 		return categoriaBanco;
 	}
@@ -109,6 +94,26 @@ public class Categoria {
 		}
 	}
 
+	public com.company.gestaogastos.domain.entity.Categoria toEntity(Categoria categoria) {
+		com.company.gestaogastos.domain.entity.Categoria entity = null;
+		if (categoria != null) {
+			entity = new com.company.gestaogastos.domain.entity.Categoria();
+			entity.setId(categoria.getId());
+			entity.setNome(categoria.getNome());
+		}
+		return entity;
+	}
+
+	public com.company.gestaogastos.domain.entity.Categoria toEntity(CategoriaDTO categoria) {
+		com.company.gestaogastos.domain.entity.Categoria entity = null;
+		if (categoria != null) {
+			entity = new com.company.gestaogastos.domain.entity.Categoria();
+			entity.setId(categoria.getId());
+			entity.setNome(categoria.getNome());
+		}
+		return entity;
+	}
+
 	public CategoriaDTO toDTO(Categoria categoria) {
 		CategoriaDTO dto = null;
 		if (categoria != null) {
@@ -119,7 +124,17 @@ public class Categoria {
 		return dto;
 	}
 
-	public Page<CategoriaDTO> convertPageCategoriaToPageCategoriaDTO(Page<Categoria> categorias) {
+	public CategoriaDTO toDTO(com.company.gestaogastos.domain.entity.Categoria categoria) {
+		CategoriaDTO dto = null;
+		if (categoria != null) {
+			dto = new CategoriaDTO();
+			dto.setId(categoria.getId());
+			dto.setNome(categoria.getNome());
+		}
+		return dto;
+	}
+
+	public Page<CategoriaDTO> convertPageCategoriaToPageCategoriaDTO(Page<com.company.gestaogastos.domain.entity.Categoria> categorias) {
 		List<CategoriaDTO> categoriaDTOList = new ArrayList<>();
 		categorias.getContent().forEach(categoria-> {
 			categoriaDTOList.add(toDTO(categoria));

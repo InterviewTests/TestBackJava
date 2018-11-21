@@ -9,13 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -27,24 +20,14 @@ import com.company.gestaogastos.domain.dto.UsuarioDTO;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 import com.company.gestaogastos.domain.repository.GastoRepository;
 
-@Entity
 public class Gasto {
-	@Id
-	@GeneratedValue
 	private Long id;
 	private String descricao;
 	private BigDecimal valor;
 	private Timestamp data;
-	
-	@ManyToOne
 	private Usuario usuario;
-	
-	@ManyToOne (cascade = {CascadeType.ALL})
 	private Categoria categoria;
-	
-	@Transient
 	private GastoRepository gastoRepository;
-	@Transient
 	private CategoriaRepository categoriaRepository;
 	
 	static final int GASTOS_PAGE_SIZE = 4;
@@ -71,11 +54,8 @@ public class Gasto {
 	public Page<GastoDTO> retrieveAllGastos(PageRequest pageRequest) {
 		return convertPageGastoToPageGastoDTO(gastoRepository.findAllGastos(pageRequest));
 	}
-//	public List<Gasto> retrieveAllGastos() {
-//		return gastoRepository.findAll();
-//	}
 
-	public Page<Gasto> retrieveGastos(Map<String, String> allRequestParams) {
+	public Page<com.company.gestaogastos.domain.entity.Gasto> retrieveGastos(Map<String, String> allRequestParams) {
 		PageRequest pageRequest = getPageRequest(allRequestParams);
 		if (this.getUsuario() != null && this.getUsuario().getId() != null) {
 			Long codusuario = this.getUsuario().getId();
@@ -88,21 +68,21 @@ public class Gasto {
 		return gastoRepository.findAllGastos(pageRequest);
 	}
 
-	public Gasto retrieveGasto() {
-		Optional<Gasto> gasto = gastoRepository.findById(this.id);
+	public com.company.gestaogastos.domain.entity.Gasto retrieveGasto() {
+		Optional<com.company.gestaogastos.domain.entity.Gasto> gasto = gastoRepository.findById(this.id);
 		if (!gasto.isPresent()) {
 			return null;
 		}
 		return gasto.get();
 	}
 
-	public Page<Gasto> retrieveGastoByUser(Long id, PageRequest pageRequest) {
-		Page<Gasto> gastos = gastoRepository.findByUsuarioIdOrderByDataDesc(id, pageRequest);
+	public Page<com.company.gestaogastos.domain.entity.Gasto> retrieveGastoByUser(Long id, PageRequest pageRequest) {
+		Page<com.company.gestaogastos.domain.entity.Gasto> gastos = gastoRepository.findByUsuarioIdOrderByDataDesc(id, pageRequest);
 		return gastos;
 	}
 
-	public Page<Gasto> retrieveGastoByUserDate(Long id, String date, PageRequest pageRequest) {
-		Page<Gasto> gastos = Page.empty();
+	public Page<com.company.gestaogastos.domain.entity.Gasto> retrieveGastoByUserDate(Long id, String date, PageRequest pageRequest) {
+		Page<com.company.gestaogastos.domain.entity.Gasto> gastos = Page.empty();
 		try {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		    Date parsedDate = dateFormat.parse(date);
@@ -117,46 +97,48 @@ public class Gasto {
 		return gastos;
 	}
 
-	public Gasto createGasto() {
+	public com.company.gestaogastos.domain.entity.Gasto createGasto(com.company.gestaogastos.domain.entity.Gasto gasto) {
 		// Verifica se a categoria foi NAO foi inserida no gasto
-		if (this.getCategoria() != null) {
-			if (this.getCategoria().getId() != null) {
+		if (gasto.getCategoria() != null) {
+			if (gasto.getCategoria().getId() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				Optional<Categoria> categoria = categoriaRepository.findById(this.getCategoria().getId());
+				Optional<com.company.gestaogastos.domain.entity.Categoria> categoria = categoriaRepository.findById(this.getCategoria().getId());
 //				if (categoria != null && !categoria.isEmpty())
 				if (categoria != null && categoria.isPresent())
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
-					this.setCategoria(categoria.get());;
-			} else if (this.getCategoria().getNome() != null) {
+					gasto.setCategoria(categoria.get());
+			} else if (gasto.getCategoria().getNome() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				List<Gasto> gastos = gastoRepository.findByNomeCategoria(
-						this.getUsuario().getId(), this.getCategoria().getNome(), 
+				List<com.company.gestaogastos.domain.entity.Gasto> gastos = gastoRepository.findByNomeCategoria(
+						gasto.getCategoria().getId(), gasto.getCategoria().getNome(), 
 							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
-				if (gastos != null && gastos.size() > 0)
+				if (gastos != null && gastos.size() > 0) {
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
-					this.setCategoria(gastos.get(0).getCategoria());;
+					gasto.setCategoria(gastos.get(0).getCategoria());
+				}
 			}
 		} else {
-			if (this.getDescricao() != null) {
+			if (gasto.getDescricao() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				List<Gasto> gastos = gastoRepository.findByDescricaoCategoria(
-						this.getUsuario().getId(), this.getDescricao(), 
+				List<com.company.gestaogastos.domain.entity.Gasto> gastos = gastoRepository.findByDescricaoCategoria(
+						gasto.getUsuario().getId(), gasto.getDescricao(), 
 							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
-				if (gastos != null && gastos.size() > 0)
+				if (gastos != null && gastos.size() > 0) {
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
-					this.setCategoria(gastos.get(0).getCategoria());;
+					gasto.setCategoria(gastos.get(0).getCategoria());
+				}
 			}
 		}
-		Gasto savedGasto = gastoRepository.save(this);
+		com.company.gestaogastos.domain.entity.Gasto savedGasto = gastoRepository.save(gasto);
 
 		return savedGasto;
 	}
     
-	public Gasto updateGasto() {
-		Optional<Gasto> gastoOptional = gastoRepository.findById(this.getId());
+	public com.company.gestaogastos.domain.entity.Gasto updateGasto(com.company.gestaogastos.domain.entity.Gasto gasto) {
+		Optional<com.company.gestaogastos.domain.entity.Gasto> gastoOptional = gastoRepository.findById(gasto.getId());
 		if (!gastoOptional.isPresent())
 			return null;
-		Gasto savedGasto = gastoRepository.save(this);
+		com.company.gestaogastos.domain.entity.Gasto savedGasto = gastoRepository.save(gasto);
 		return savedGasto;
 	}
 	
@@ -201,7 +183,7 @@ public class Gasto {
 		return gastoDTO;
 	}
 	
-	public GastoDTO convertGastoToGastoDTO(Gasto gasto) {
+	public GastoDTO convertGastoToGastoDTO(com.company.gestaogastos.domain.entity.Gasto gasto) {
 		GastoDTO gastoDTO = new GastoDTO();
 		gastoDTO.setId(gasto.getId());
 		gastoDTO.setDescricao(gasto.getDescricao());
@@ -212,22 +194,65 @@ public class Gasto {
 		} else {
 			gastoDTO.setCategoria(new CategoriaDTO(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
 		}
+		if (gasto.getUsuario() == null) {
+			gastoDTO.setUsuario(null);
+		} else {
+			gastoDTO.setUsuario(new UsuarioDTO(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
+		}
 		return gastoDTO;
 	}
 	
-	public Page<GastoDTO> convertPageGastoToPageGastoDTO(Page<Gasto> gastos) {
+	public com.company.gestaogastos.domain.entity.Gasto toEntity(Gasto gasto) {
+		com.company.gestaogastos.domain.entity.Gasto entity = new com.company.gestaogastos.domain.entity.Gasto();
+		entity.setId(gasto.getId());
+		entity.setDescricao(gasto.getDescricao());
+		entity.setData(gasto.getData());
+		entity.setValor(gasto.getValor());
+		if (gasto.getCategoria() == null) {
+			entity.setCategoria(null);
+		} else {
+			entity.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
+		}
+		if (gasto.getUsuario() == null) {
+			entity.setUsuario(null);
+		} else {
+			entity.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
+		}
+		return entity;
+	}
+	
+	public com.company.gestaogastos.domain.entity.Gasto toEntity(GastoDTO gasto) {
+		com.company.gestaogastos.domain.entity.Gasto entity = new com.company.gestaogastos.domain.entity.Gasto();
+		entity.setId(gasto.getId());
+		entity.setDescricao(gasto.getDescricao());
+		entity.setData(gasto.getData());
+		entity.setValor(gasto.getValor());
+		if (gasto.getCategoria() == null) {
+			entity.setCategoria(null);
+		} else {
+			entity.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
+		}
+		if (gasto.getUsuario() == null) {
+			entity.setUsuario(null);
+		} else {
+			entity.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
+		}
+		return entity;
+	}
+	
+	public Page<GastoDTO> convertPageGastoToPageGastoDTO(Page<com.company.gestaogastos.domain.entity.Gasto> page) {
 		List<GastoDTO> gastoDTOList = new ArrayList<>();
-		gastos.getContent().forEach(gasto-> {
+		page.getContent().forEach(gasto-> {
 			gastoDTOList.add(convertGastoToGastoDTO(gasto));
 		});
-		Page<GastoDTO> pageGastoDTO = new PageImpl<GastoDTO>(gastoDTOList, gastos.getPageable(), gastos.getContent().size());
+		Page<GastoDTO> pageGastoDTO = new PageImpl<GastoDTO>(gastoDTOList, page.getPageable(), page.getContent().size());
 		return pageGastoDTO;
 	}
 
-	public Page<GastoDTO> convertPageGastoToPageGastoDTO2(Page<Gasto> gastos) {
-		Page<GastoDTO> dtoPage = gastos.map(new Function<Gasto, GastoDTO>() {
+	public Page<GastoDTO> convertPageGastoToPageGastoDTO2(Page<com.company.gestaogastos.domain.entity.Gasto> gastos) {
+		Page<GastoDTO> dtoPage = gastos.map(new Function<com.company.gestaogastos.domain.entity.Gasto, GastoDTO>() {
 		    @Override
-		    public GastoDTO apply(Gasto entity) {
+		    public GastoDTO apply(com.company.gestaogastos.domain.entity.Gasto entity) {
 		    	GastoDTO dto = convertGastoToGastoDTO(entity);
 		        return dto;
 		    }

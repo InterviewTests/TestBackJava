@@ -20,20 +20,14 @@ import org.springframework.data.domain.Sort;
 import com.company.gestaogastos.domain.dto.UsuarioDTO;
 import com.company.gestaogastos.domain.repository.UsuarioRepository;
 
-@Entity
 public class Usuario {
-	@Id
-	@GeneratedValue
 	private Long id;
 	private String nome;
 	
-	@Transient
 	private UsuarioRepository usuarioRepository;
 	
 	static final int USUARIOS_PAGE_SIZE = 4;
 	
-	@OneToMany(cascade = CascadeType.ALL, 
-			mappedBy = "usuario", orphanRemoval = true)
 	private List<Gasto> gastos = new ArrayList<Gasto>();
 
 	public Usuario() {
@@ -51,13 +45,13 @@ public class Usuario {
 	}
 
 	public UsuarioDTO retrieveUsuario() {
-		Optional<Usuario> usuario = usuarioRepository.findById(this.getId());
+		Optional<com.company.gestaogastos.domain.entity.Usuario> usuario = usuarioRepository.findById(this.getId());
 
 		return toDTO(usuario.get());
 	}
 
 	public Page<UsuarioDTO> retrieveUsuarios(Map<String, String> allRequestParams) {
-		Page<Usuario> usuarios;
+		Page<com.company.gestaogastos.domain.entity.Usuario> usuarios;
 		PageRequest pageRequest = getPageRequest(allRequestParams);
 		if (allRequestParams.get("nome") != null) {
 			String nomeParam = allRequestParams.get("nome");
@@ -73,19 +67,19 @@ public class Usuario {
 	}
 
 	public UsuarioDTO createUsuario() {
-		Usuario savedUsuario = usuarioRepository.save(this);
+		com.company.gestaogastos.domain.entity.Usuario savedUsuario = usuarioRepository.save(toEntity(this));
 
 		return toDTO(savedUsuario);
 	}
 	
 	public UsuarioDTO updateUsuario() {
 
-		Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+		Optional<com.company.gestaogastos.domain.entity.Usuario> usuarioOptional = usuarioRepository.findById(id);
 
 		if (!usuarioOptional.isPresent())
 			return null;
 
-		Usuario usuarioBanco = usuarioRepository.save(this);
+		com.company.gestaogastos.domain.entity.Usuario usuarioBanco = usuarioRepository.save(toEntity(this));
 
 		return toDTO(usuarioBanco);
 	}
@@ -109,7 +103,7 @@ public class Usuario {
 		}
 	}
 
-	public UsuarioDTO toDTO(Usuario usuario) {
+	public UsuarioDTO toDTO(com.company.gestaogastos.domain.entity.Usuario usuario) {
 		UsuarioDTO dto = null;
 		if (usuario != null) {
 			dto = new UsuarioDTO();
@@ -119,7 +113,17 @@ public class Usuario {
 		return dto;
 	}
 
-	private Page<UsuarioDTO> convertPageUsuarioToPageUsuarioDTO(Page<Usuario> usuarios) {
+	public com.company.gestaogastos.domain.entity.Usuario toEntity(Usuario usuario) {
+		com.company.gestaogastos.domain.entity.Usuario entity = null;
+		if (usuario != null) {
+			entity = new com.company.gestaogastos.domain.entity.Usuario();
+			entity.setId(usuario.getId());
+			entity.setNome(usuario.getNome());
+		}
+		return entity;
+	}
+
+	private Page<UsuarioDTO> convertPageUsuarioToPageUsuarioDTO(Page<com.company.gestaogastos.domain.entity.Usuario> usuarios) {
 		List<UsuarioDTO> usuarioDTOList = new ArrayList<>();
 		usuarios.getContent().forEach(usuario-> {
 			usuarioDTOList.add(toDTO(usuario));

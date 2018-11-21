@@ -20,7 +20,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public Page<CategoriaDTO> retrieveCategorias(Map<String, String> allRequestParams) {
 		Categoria categoriaDomain = new Categoria(categoriaRepository);
-		Page<Categoria> categorias = categoriaDomain.retrieveCategorias(allRequestParams);
+		Page<com.company.gestaogastos.domain.entity.Categoria> categorias = categoriaDomain.retrieveCategorias(allRequestParams);
 		return categoriaDomain.convertPageCategoriaToPageCategoriaDTO(categorias);
 	}
 
@@ -28,7 +28,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public CategoriaDTO retrieveCategoria(long id) {
 		Categoria categoria = new Categoria(categoriaRepository);
 		categoria.setId(id);
-		Categoria categoriaReturn = categoria.retrieveCategoria();
+		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoria.retrieveCategoria();
 		return categoria.toDTO(categoriaReturn);
 	}
 
@@ -42,17 +42,17 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public CategoriaDTO createCategoria(CategoriaDTO categoriaDTO) {
 		Categoria categoria = new Categoria(categoriaRepository);
-		categoria.toDomain(categoriaDTO);
-		Categoria categoriaBanco = categoria.createCategoria();
+		com.company.gestaogastos.domain.entity.Categoria entity = categoria.toEntity(categoriaDTO);
+		com.company.gestaogastos.domain.entity.Categoria categoriaBanco = categoria.createCategoria(entity);
 		return categoria.toDTO(categoriaBanco);
 	}
 	
 	@Override
 	public CategoriaDTO updateCategoria(CategoriaDTO categoriaDTO, long id) {
 		Categoria categoria = new Categoria(categoriaRepository);
-		categoria.toDomain(categoriaDTO);
+		com.company.gestaogastos.domain.entity.Categoria entity = categoria.toEntity(categoriaDTO);
 		categoria.setId(id);
-		Categoria categoriaBanco = categoria.updateCategoria();
+		com.company.gestaogastos.domain.entity.Categoria categoriaBanco = categoria.updateCategoria(entity);
 		return categoria.toDTO(categoriaBanco);
 	}
 

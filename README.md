@@ -74,3 +74,12 @@ Faça um fork desse desse repositório em seu Github e nos envie um Pull Request
 ### # Importante: não há prazo de entrega, faça com qualidade!
 
 # BOA SORTE!
+
+===========================
+### # Testes no projeto:
+
+1) Os testes da aplicação com SoapUI estão em:
+    "/gestaogastos/src/main/resources/Testes_SoapUI/REST-ProjetoGastos-soapui-project.xml"
+2) Os testes com o Mockito estão em:
+"/gestaogastos/src/test/java/com/company/gestaogastos/ModelTests.java"
+

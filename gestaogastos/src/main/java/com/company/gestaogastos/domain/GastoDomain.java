@@ -252,17 +252,6 @@ public class GastoDomain {
 		return pageGastoDTO;
 	}
 
-	public Page<GastoDTO> convertPageGastoToPageGastoDTO2(Page<Gasto> gastos) {
-		Page<GastoDTO> dtoPage = gastos.map(new Function<Gasto, GastoDTO>() {
-		    @Override
-		    public GastoDTO apply(Gasto entity) {
-		    	GastoDTO dto = convertGastoToGastoDTO(entity);
-		        return dto;
-		    }
-		});
-		return dtoPage;
-	}
-
 	public PageRequest getPageRequest(Map<String, String> allRequestParams) {
 		Integer offset = 0;
 		Integer limit = GASTOS_PAGE_SIZE;

@@ -38,10 +38,10 @@ public class UsuarioDomain {
 		this.usuarioRepository = usuarioRepository;
 	}
 
-	public UsuarioDTO retrieveUsuario() {
+	public Usuario retrieveUsuario() {
 		Optional<Usuario> usuario = usuarioRepository.findById(this.getId());
 
-		return toDTO(usuario.get());
+		return usuario.get();
 	}
 
 	public Page<UsuarioDTO> retrieveUsuarios(Map<String, String> allRequestParams) {
@@ -60,22 +60,22 @@ public class UsuarioDomain {
 		usuarioRepository.deleteById(this.getId());
 	}
 
-	public UsuarioDTO createUsuario() {
-		Usuario savedUsuario = usuarioRepository.save(toEntity(this));
+	public Usuario createUsuario(Usuario entity) {
+		Usuario savedUsuario = usuarioRepository.save(entity);
 
-		return toDTO(savedUsuario);
+		return savedUsuario;
 	}
 	
-	public UsuarioDTO updateUsuario() {
+	public Usuario updateUsuario(Usuario entity) {
 
-		Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+		Optional<Usuario> usuarioOptional = usuarioRepository.findById(entity.getId());
 
 		if (!usuarioOptional.isPresent())
 			return null;
 
-		Usuario usuarioBanco = usuarioRepository.save(toEntity(this));
+		Usuario usuarioBanco = usuarioRepository.save(entity);
 
-		return toDTO(usuarioBanco);
+		return usuarioBanco;
 	}
 
 	public PageRequest getPageRequest(Map<String, String> allRequestParams) {
@@ -97,7 +97,7 @@ public class UsuarioDomain {
 		}
 	}
 
-	public UsuarioDTO toDTO(Usuario usuario) {
+	public UsuarioDTO toUsuarioDTO(Usuario usuario) {
 		UsuarioDTO dto = null;
 		if (usuario != null) {
 			dto = new UsuarioDTO();
@@ -116,11 +116,21 @@ public class UsuarioDomain {
 		}
 		return entity;
 	}
+	
+	public Usuario toEntity(UsuarioDTO usuario) {
+		Usuario entity = null;
+		if (usuario != null) {
+			entity = new Usuario();
+			entity.setId(usuario.getId());
+			entity.setNome(usuario.getNome());
+		}
+		return entity;
+	}
 
 	private Page<UsuarioDTO> convertPageUsuarioToPageUsuarioDTO(Page<Usuario> usuarios) {
 		List<UsuarioDTO> usuarioDTOList = new ArrayList<>();
 		usuarios.getContent().forEach(usuario-> {
-			usuarioDTOList.add(toDTO(usuario));
+			usuarioDTOList.add(toUsuarioDTO(usuario));
 		});
 		Page<UsuarioDTO> pageUsuarioDTO = new PageImpl<UsuarioDTO>(usuarioDTOList, usuarios.getPageable(), usuarios.getContent().size());
 		return pageUsuarioDTO;

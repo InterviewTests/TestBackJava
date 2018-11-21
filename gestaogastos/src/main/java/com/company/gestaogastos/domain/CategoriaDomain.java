@@ -88,13 +88,6 @@ public class CategoriaDomain {
 		return PageRequest.of(offset, limit, new Sort(Sort.Direction.ASC,"nome"));
 	}
 	
-	public void toDomain(CategoriaDTO categoria) {
-		if (categoria != null) {
-			this.id = categoria.getId();
-			this.nome = categoria.getNome();
-		}
-	}
-
 	public Categoria toEntity(CategoriaDomain categoria) {
 		Categoria entity = null;
 		if (categoria != null) {
@@ -115,7 +108,7 @@ public class CategoriaDomain {
 		return entity;
 	}
 
-	public CategoriaDTO toDTO(CategoriaDomain categoria) {
+	public CategoriaDTO toCategoriaDTO(Categoria categoria) {
 		CategoriaDTO dto = null;
 		if (categoria != null) {
 			dto = new CategoriaDTO();
@@ -125,20 +118,10 @@ public class CategoriaDomain {
 		return dto;
 	}
 
-	public CategoriaDTO toDTO(Categoria categoria) {
-		CategoriaDTO dto = null;
-		if (categoria != null) {
-			dto = new CategoriaDTO();
-			dto.setId(categoria.getId());
-			dto.setNome(categoria.getNome());
-		}
-		return dto;
-	}
-
-	public Page<CategoriaDTO> convertPageCategoriaToPageCategoriaDTO(Page<Categoria> categorias) {
+	public Page<CategoriaDTO> toPageCategoriaDTO(Page<Categoria> categorias) {
 		List<CategoriaDTO> categoriaDTOList = new ArrayList<>();
 		categorias.getContent().forEach(categoria-> {
-			categoriaDTOList.add(toDTO(categoria));
+			categoriaDTOList.add(toCategoriaDTO(categoria));
 		});
 		Page<CategoriaDTO> pageCategoriaDTO = new PageImpl<CategoriaDTO>(categoriaDTOList, categorias.getPageable(), categorias.getContent().size());
 		return pageCategoriaDTO;

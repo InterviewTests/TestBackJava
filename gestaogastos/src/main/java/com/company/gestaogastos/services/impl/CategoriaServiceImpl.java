@@ -22,7 +22,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public Page<CategoriaDTO> retrieveCategorias(Map<String, String> allRequestParams) {
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		Page<Categoria> categorias = categoriaDomain.retrieveCategorias(allRequestParams);
-		return categoriaDomain.convertPageCategoriaToPageCategoriaDTO(categorias);
+		return categoriaDomain.toPageCategoriaDTO(categorias);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		CategoriaDomain categoria = new CategoriaDomain(categoriaRepository);
 		categoria.setId(id);
 		Categoria categoriaReturn = categoria.retrieveCategoria();
-		return categoria.toDTO(categoriaReturn);
+		return categoria.toCategoriaDTO(categoriaReturn);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		CategoriaDomain categoria = new CategoriaDomain(categoriaRepository);
 		Categoria entity = categoria.toEntity(categoriaDTO);
 		Categoria categoriaBanco = categoria.createCategoria(entity);
-		return categoria.toDTO(categoriaBanco);
+		return categoria.toCategoriaDTO(categoriaBanco);
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		Categoria entity = categoria.toEntity(categoriaDTO);
 		categoria.setId(id);
 		Categoria categoriaBanco = categoria.updateCategoria(entity);
-		return categoria.toDTO(categoriaBanco);
+		return categoria.toCategoriaDTO(categoriaBanco);
 	}
 
 }

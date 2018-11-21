@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.company.gestaogastos.domain.UsuarioDomain;
 import com.company.gestaogastos.domain.dto.UsuarioDTO;
+import com.company.gestaogastos.domain.entity.Usuario;
 import com.company.gestaogastos.domain.repository.UsuarioRepository;
 import com.company.gestaogastos.services.UsuarioService;
 
@@ -28,8 +29,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public UsuarioDTO retrieveUsuario(long id) {
 		UsuarioDomain usuario = new UsuarioDomain(usuarioRepository);
 		usuario.setId(id);
-		UsuarioDTO usuarioDTO = usuario.retrieveUsuario();
-		return usuarioDTO;
+		Usuario usuarioDTO = usuario.retrieveUsuario();
+		return usuario.toUsuarioDTO(usuarioDTO);
 	}
 
 	@Override
@@ -42,18 +43,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
 		UsuarioDomain usuario = new UsuarioDomain(usuarioRepository);
-		usuario.toDomain(usuarioDTO);
-		UsuarioDTO usuarioBanco = usuario.createUsuario();
-		return usuarioBanco;
+		Usuario entity = usuario.toEntity(usuarioDTO);
+		Usuario usuarioBanco = usuario.createUsuario(entity);
+		return usuario.toUsuarioDTO(usuarioBanco);
 	}
 	
 	@Override
 	public UsuarioDTO updateUsuario(UsuarioDTO usuarioDTO, long id) {
 		UsuarioDomain usuario = new UsuarioDomain(usuarioRepository);
-		usuario.toDomain(usuarioDTO);
-		usuario.setId(id);
-		UsuarioDTO usuarioBanco = usuario.updateUsuario();
-		return usuarioBanco;
+		Usuario entity = usuario.toEntity(usuarioDTO);
+		entity.setId(id);
+		Usuario usuarioBanco = usuario.updateUsuario(entity);
+		return usuario.toUsuarioDTO(usuarioBanco);
 	}
 
 }

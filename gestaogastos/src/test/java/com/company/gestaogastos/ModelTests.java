@@ -206,8 +206,8 @@ public class ModelTests {
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		categoriaDomain.setId(id);
 		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.retrieveCategoria();
-		CategoriaDTO categoriaDTOReturn = categoriaDomain.toDTO(categoriaReturn);
-		CategoriaDTO categoriaDTO = categoriaDomain.toDTO(categoria);
+		CategoriaDTO categoriaDTOReturn = categoriaDomain.toCategoriaDTO(categoriaReturn);
+		CategoriaDTO categoriaDTO = categoriaDomain.toCategoriaDTO(categoria);
 		assertTrue(categoriaDTOReturn.toString().equals(categoriaDTO.toString()));
 	}
 
@@ -233,7 +233,7 @@ public class ModelTests {
 	    params.put("nome", "Categoria 01");
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
-		Page<CategoriaDTO> pageCategoriaDTO = categoriaDomain.convertPageCategoriaToPageCategoriaDTO(page);
+		Page<CategoriaDTO> pageCategoriaDTO = categoriaDomain.toPageCategoriaDTO(page);
 		Page<com.company.gestaogastos.domain.entity.Categoria> categoriasReturn = categoriaDomain.retrieveCategorias(params);
 		assertTrue(categoriasReturn.getContent().toString().equals(pageCategoriaDTO.getContent().toString() ));
 	}
@@ -248,10 +248,9 @@ public class ModelTests {
 		categoriaDTO.setNome("Categoria 01");
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
-		categoriaDomain.toDomain(categoriaDTO);
 		when(categoriaRepository.save(categoria)).thenReturn(categoria);
 		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.createCategoria(categoria);
-		CategoriaDTO categoriaDTOReturn = categoriaDomain.toDTO(categoriaReturn);
+		CategoriaDTO categoriaDTOReturn = categoriaDomain.toCategoriaDTO(categoriaReturn);
 		assertTrue(categoriaDTOReturn.toString().equals(categoriaDTO.toString()));
 	}
 
@@ -269,10 +268,9 @@ public class ModelTests {
 		when(categoriaRepository.findById(id)).thenReturn(categoriaOp);
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
-		categoriaDomain.toDomain(categoriaDTO);
 		when(categoriaRepository.save(categoria)).thenReturn(categoria);
 		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.updateCategoria(categoria);
-		CategoriaDTO categoriaDTOReturn = categoriaDomain.toDTO(categoriaReturn);
+		CategoriaDTO categoriaDTOReturn = categoriaDomain.toCategoriaDTO(categoriaReturn);
 		assertTrue(categoriaDTOReturn.toString().equals(categoriaDTO.toString()));
 	}
 

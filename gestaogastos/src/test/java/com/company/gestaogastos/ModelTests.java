@@ -27,8 +27,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.company.gestaogastos.domain.Categoria;
-import com.company.gestaogastos.domain.Gasto;
+import com.company.gestaogastos.domain.CategoriaDomain;
+import com.company.gestaogastos.domain.GastoDomain;
 import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.domain.dto.GastoDTO;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
@@ -77,7 +77,7 @@ public class ModelTests {
 		
 		when(gastoRepository.findAllGastos(pageRequest)).thenReturn(pageGasto);
 
-		Gasto gastoDomain = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		Page<GastoDTO> pageGastoDTO = gastoDomain.convertPageGastoToPageGastoDTO(pageGasto);
 		
 		Page<GastoDTO> gastosBase = gastoDomain.retrieveAllGastos(pageRequest);
@@ -97,7 +97,7 @@ public class ModelTests {
 		Long id = 1L;
 		when(gastoRepository.findById(id )).thenReturn(gastoOp);
 
-		Gasto gastoDomain = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		gastoDomain.setId(id);
 		GastoDTO gastoDTO = gastoDomain.convertGastoToGastoDTO(gasto);
 		com.company.gestaogastos.domain.entity.Gasto gastoReturn = gastoDomain.retrieveGasto();
@@ -118,7 +118,7 @@ public class ModelTests {
 		when(gastoRepository.findByUsuarioIdOrderByDataDesc(id, pageRequest)).thenReturn(page);
 
 		
-		Gasto gastoDomain = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		Page<com.company.gestaogastos.domain.entity.Gasto> gastosReturn = gastoDomain.retrieveGastoByUser(id, pageRequest);
 		assertTrue(gastosReturn.equals(page));
 	}
@@ -143,7 +143,7 @@ public class ModelTests {
 		    System.out.println("timestamp=" + dataSuperior);
 			when(gastoRepository.findByCodigousuarioOrderByDataDesc(id, dataInferior, dataSuperior, pageRequest)).thenReturn(page);
 
-			Gasto gastoDomain = new Gasto(gastoRepository, categoriaRepository);
+			GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 			Page<com.company.gestaogastos.domain.entity.Gasto> gastosReturn = gastoDomain.retrieveGastoByUserDate(id, date, pageRequest);
 			assertTrue(gastosReturn.equals(page));
 		} catch (ParseException e) {
@@ -161,7 +161,7 @@ public class ModelTests {
 		gasto.setDescricao("gasto 01");
 		gasto.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(1L, "Categoria 01"));
 
-		Gasto gastoDomain = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		GastoDTO gastoDTO = gastoDomain.convertGastoToGastoDTO(gasto);
 		gastoDomain.convertGastoDTOToGasto(gastoDTO);
 		when(gastoRepository.save(gasto)).thenReturn(gasto);
@@ -184,7 +184,7 @@ public class ModelTests {
 		Optional<com.company.gestaogastos.domain.entity.Gasto> gastoOp = Optional.of(gasto);
 		when(gastoRepository.findById(id)).thenReturn(gastoOp);
 
-		Gasto gastoDomain = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		GastoDTO gastoDTO = gastoDomain.convertGastoToGastoDTO(gasto);
 		gastoDomain.convertGastoDTOToGasto(gastoDTO);
 		when(gastoRepository.save(gasto)).thenReturn(gasto);
@@ -203,7 +203,7 @@ public class ModelTests {
 		Long id = 1L;
 		when(categoriaRepository.findById(id)).thenReturn(categoriaOp);
 
-		Categoria categoriaDomain = new Categoria(categoriaRepository);
+		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		categoriaDomain.setId(id);
 		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.retrieveCategoria();
 		CategoriaDTO categoriaDTOReturn = categoriaDomain.toDTO(categoriaReturn);
@@ -232,7 +232,7 @@ public class ModelTests {
 	    Map<String, String> params = new HashMap<String, String>();
 	    params.put("nome", "Categoria 01");
 
-		Categoria categoriaDomain = new Categoria(categoriaRepository);
+		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		Page<CategoriaDTO> pageCategoriaDTO = categoriaDomain.convertPageCategoriaToPageCategoriaDTO(page);
 		Page<com.company.gestaogastos.domain.entity.Categoria> categoriasReturn = categoriaDomain.retrieveCategorias(params);
 		assertTrue(categoriasReturn.getContent().toString().equals(pageCategoriaDTO.getContent().toString() ));
@@ -247,7 +247,7 @@ public class ModelTests {
 		categoriaDTO.setId(1L);
 		categoriaDTO.setNome("Categoria 01");
 
-		Categoria categoriaDomain = new Categoria(categoriaRepository);
+		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		categoriaDomain.toDomain(categoriaDTO);
 		when(categoriaRepository.save(categoria)).thenReturn(categoria);
 		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.createCategoria(categoria);
@@ -268,7 +268,7 @@ public class ModelTests {
 		Optional<com.company.gestaogastos.domain.entity.Categoria> categoriaOp = Optional.of(categoria);
 		when(categoriaRepository.findById(id)).thenReturn(categoriaOp);
 
-		Categoria categoriaDomain = new Categoria(categoriaRepository);
+		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		categoriaDomain.toDomain(categoriaDTO);
 		when(categoriaRepository.save(categoria)).thenReturn(categoria);
 		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.updateCategoria(categoria);

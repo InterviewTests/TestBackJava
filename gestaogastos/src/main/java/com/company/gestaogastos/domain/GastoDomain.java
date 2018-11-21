@@ -17,31 +17,34 @@ import org.springframework.data.domain.Sort;
 import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.domain.dto.GastoDTO;
 import com.company.gestaogastos.domain.dto.UsuarioDTO;
+import com.company.gestaogastos.domain.entity.Categoria;
+import com.company.gestaogastos.domain.entity.Gasto;
+import com.company.gestaogastos.domain.entity.Usuario;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 import com.company.gestaogastos.domain.repository.GastoRepository;
 
-public class Gasto {
+public class GastoDomain {
 	private Long id;
 	private String descricao;
 	private BigDecimal valor;
 	private Timestamp data;
-	private Usuario usuario;
-	private Categoria categoria;
+	private UsuarioDomain usuario;
+	private CategoriaDomain categoria;
 	private GastoRepository gastoRepository;
 	private CategoriaRepository categoriaRepository;
 	
 	static final int GASTOS_PAGE_SIZE = 4;
 	
-	public Gasto(GastoRepository gastoRepository, CategoriaRepository categoriaRepository) {
+	public GastoDomain(GastoRepository gastoRepository, CategoriaRepository categoriaRepository) {
 		this.gastoRepository = gastoRepository;
 		this.categoriaRepository = categoriaRepository;
 	}
 	
-	public Gasto() {
+	public GastoDomain() {
 		super();
 	}
 
-	public Gasto(Long id, String descricao, BigDecimal valor, Timestamp data, Usuario usuario, Categoria categoria) {
+	public GastoDomain(Long id, String descricao, BigDecimal valor, Timestamp data, UsuarioDomain usuario, CategoriaDomain categoria) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
@@ -55,7 +58,7 @@ public class Gasto {
 		return convertPageGastoToPageGastoDTO(gastoRepository.findAllGastos(pageRequest));
 	}
 
-	public Page<com.company.gestaogastos.domain.entity.Gasto> retrieveGastos(Map<String, String> allRequestParams) {
+	public Page<Gasto> retrieveGastos(Map<String, String> allRequestParams) {
 		PageRequest pageRequest = getPageRequest(allRequestParams);
 		if (this.getUsuario() != null && this.getUsuario().getId() != null) {
 			Long codusuario = this.getUsuario().getId();
@@ -68,21 +71,21 @@ public class Gasto {
 		return gastoRepository.findAllGastos(pageRequest);
 	}
 
-	public com.company.gestaogastos.domain.entity.Gasto retrieveGasto() {
-		Optional<com.company.gestaogastos.domain.entity.Gasto> gasto = gastoRepository.findById(this.id);
+	public Gasto retrieveGasto() {
+		Optional<Gasto> gasto = gastoRepository.findById(this.id);
 		if (!gasto.isPresent()) {
 			return null;
 		}
 		return gasto.get();
 	}
 
-	public Page<com.company.gestaogastos.domain.entity.Gasto> retrieveGastoByUser(Long id, PageRequest pageRequest) {
-		Page<com.company.gestaogastos.domain.entity.Gasto> gastos = gastoRepository.findByUsuarioIdOrderByDataDesc(id, pageRequest);
+	public Page<Gasto> retrieveGastoByUser(Long id, PageRequest pageRequest) {
+		Page<Gasto> gastos = gastoRepository.findByUsuarioIdOrderByDataDesc(id, pageRequest);
 		return gastos;
 	}
 
-	public Page<com.company.gestaogastos.domain.entity.Gasto> retrieveGastoByUserDate(Long id, String date, PageRequest pageRequest) {
-		Page<com.company.gestaogastos.domain.entity.Gasto> gastos = Page.empty();
+	public Page<Gasto> retrieveGastoByUserDate(Long id, String date, PageRequest pageRequest) {
+		Page<Gasto> gastos = Page.empty();
 		try {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		    Date parsedDate = dateFormat.parse(date);
@@ -97,19 +100,19 @@ public class Gasto {
 		return gastos;
 	}
 
-	public com.company.gestaogastos.domain.entity.Gasto createGasto(com.company.gestaogastos.domain.entity.Gasto gasto) {
+	public Gasto createGasto(Gasto gasto) {
 		// Verifica se a categoria foi NAO foi inserida no gasto
 		if (gasto.getCategoria() != null) {
 			if (gasto.getCategoria().getId() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				Optional<com.company.gestaogastos.domain.entity.Categoria> categoria = categoriaRepository.findById(this.getCategoria().getId());
+				Optional<Categoria> categoria = categoriaRepository.findById(this.getCategoria().getId());
 //				if (categoria != null && !categoria.isEmpty())
 				if (categoria != null && categoria.isPresent())
 					// Pega a categoria do primeiro gasto que tem a mesma descricao
 					gasto.setCategoria(categoria.get());
 			} else if (gasto.getCategoria().getNome() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				List<com.company.gestaogastos.domain.entity.Gasto> gastos = gastoRepository.findByNomeCategoria(
+				List<Gasto> gastos = gastoRepository.findByNomeCategoria(
 						gasto.getCategoria().getId(), gasto.getCategoria().getNome(), 
 							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
 				if (gastos != null && gastos.size() > 0) {
@@ -120,7 +123,7 @@ public class Gasto {
 		} else {
 			if (gasto.getDescricao() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
-				List<com.company.gestaogastos.domain.entity.Gasto> gastos = gastoRepository.findByDescricaoCategoria(
+				List<Gasto> gastos = gastoRepository.findByDescricaoCategoria(
 						gasto.getUsuario().getId(), gasto.getDescricao(), 
 							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
 				if (gastos != null && gastos.size() > 0) {
@@ -129,16 +132,16 @@ public class Gasto {
 				}
 			}
 		}
-		com.company.gestaogastos.domain.entity.Gasto savedGasto = gastoRepository.save(gasto);
+		Gasto savedGasto = gastoRepository.save(gasto);
 
 		return savedGasto;
 	}
     
-	public com.company.gestaogastos.domain.entity.Gasto updateGasto(com.company.gestaogastos.domain.entity.Gasto gasto) {
-		Optional<com.company.gestaogastos.domain.entity.Gasto> gastoOptional = gastoRepository.findById(gasto.getId());
+	public Gasto updateGasto(Gasto gasto) {
+		Optional<Gasto> gastoOptional = gastoRepository.findById(gasto.getId());
 		if (!gastoOptional.isPresent())
 			return null;
-		com.company.gestaogastos.domain.entity.Gasto savedGasto = gastoRepository.save(gasto);
+		Gasto savedGasto = gastoRepository.save(gasto);
 		return savedGasto;
 	}
 	
@@ -154,12 +157,12 @@ public class Gasto {
 		if (gasto.getCategoria() == null) {
 			this.categoria = null;
 		} else {
-			this.categoria = new Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome());
+			this.categoria = new CategoriaDomain(gasto.getCategoria().getId(), gasto.getCategoria().getNome());
 		}
 		if (gasto.getUsuario() == null) {
 			this.usuario = null;
 		} else {
-			this.usuario = new Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome());
+			this.usuario = new UsuarioDomain(gasto.getUsuario().getId(), gasto.getUsuario().getNome());
 		}
 	}
 
@@ -183,7 +186,7 @@ public class Gasto {
 		return gastoDTO;
 	}
 	
-	public GastoDTO convertGastoToGastoDTO(com.company.gestaogastos.domain.entity.Gasto gasto) {
+	public GastoDTO convertGastoToGastoDTO(Gasto gasto) {
 		GastoDTO gastoDTO = new GastoDTO();
 		gastoDTO.setId(gasto.getId());
 		gastoDTO.setDescricao(gasto.getDescricao());
@@ -202,8 +205,8 @@ public class Gasto {
 		return gastoDTO;
 	}
 	
-	public com.company.gestaogastos.domain.entity.Gasto toEntity(Gasto gasto) {
-		com.company.gestaogastos.domain.entity.Gasto entity = new com.company.gestaogastos.domain.entity.Gasto();
+	public Gasto toEntity(GastoDomain gasto) {
+		Gasto entity = new Gasto();
 		entity.setId(gasto.getId());
 		entity.setDescricao(gasto.getDescricao());
 		entity.setData(gasto.getData());
@@ -211,18 +214,18 @@ public class Gasto {
 		if (gasto.getCategoria() == null) {
 			entity.setCategoria(null);
 		} else {
-			entity.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
+			entity.setCategoria(new Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
 		}
 		if (gasto.getUsuario() == null) {
 			entity.setUsuario(null);
 		} else {
-			entity.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
+			entity.setUsuario(new Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
 		}
 		return entity;
 	}
 	
-	public com.company.gestaogastos.domain.entity.Gasto toEntity(GastoDTO gasto) {
-		com.company.gestaogastos.domain.entity.Gasto entity = new com.company.gestaogastos.domain.entity.Gasto();
+	public Gasto toEntity(GastoDTO gasto) {
+		Gasto entity = new Gasto();
 		entity.setId(gasto.getId());
 		entity.setDescricao(gasto.getDescricao());
 		entity.setData(gasto.getData());
@@ -230,17 +233,17 @@ public class Gasto {
 		if (gasto.getCategoria() == null) {
 			entity.setCategoria(null);
 		} else {
-			entity.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
+			entity.setCategoria(new Categoria(gasto.getCategoria().getId(), gasto.getCategoria().getNome()));
 		}
 		if (gasto.getUsuario() == null) {
 			entity.setUsuario(null);
 		} else {
-			entity.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
+			entity.setUsuario(new Usuario(gasto.getUsuario().getId(), gasto.getUsuario().getNome()));
 		}
 		return entity;
 	}
 	
-	public Page<GastoDTO> convertPageGastoToPageGastoDTO(Page<com.company.gestaogastos.domain.entity.Gasto> page) {
+	public Page<GastoDTO> convertPageGastoToPageGastoDTO(Page<Gasto> page) {
 		List<GastoDTO> gastoDTOList = new ArrayList<>();
 		page.getContent().forEach(gasto-> {
 			gastoDTOList.add(convertGastoToGastoDTO(gasto));
@@ -249,10 +252,10 @@ public class Gasto {
 		return pageGastoDTO;
 	}
 
-	public Page<GastoDTO> convertPageGastoToPageGastoDTO2(Page<com.company.gestaogastos.domain.entity.Gasto> gastos) {
-		Page<GastoDTO> dtoPage = gastos.map(new Function<com.company.gestaogastos.domain.entity.Gasto, GastoDTO>() {
+	public Page<GastoDTO> convertPageGastoToPageGastoDTO2(Page<Gasto> gastos) {
+		Page<GastoDTO> dtoPage = gastos.map(new Function<Gasto, GastoDTO>() {
 		    @Override
-		    public GastoDTO apply(com.company.gestaogastos.domain.entity.Gasto entity) {
+		    public GastoDTO apply(Gasto entity) {
 		    	GastoDTO dto = convertGastoToGastoDTO(entity);
 		        return dto;
 		    }
@@ -304,19 +307,19 @@ public class Gasto {
 		this.data = data;
 	}
 	
-	public Categoria getCategoria() {
+	public CategoriaDomain getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(CategoriaDomain categoria) {
 		this.categoria = categoria;
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioDomain getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioDomain usuario) {
 		this.usuario = usuario;
 	}
 

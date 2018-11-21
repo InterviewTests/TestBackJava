@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.company.gestaogastos.domain.Gasto;
-import com.company.gestaogastos.domain.Usuario;
+import com.company.gestaogastos.domain.GastoDomain;
+import com.company.gestaogastos.domain.UsuarioDomain;
 import com.company.gestaogastos.domain.dto.GastoDTO;
+import com.company.gestaogastos.domain.entity.Gasto;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 import com.company.gestaogastos.domain.repository.GastoRepository;
 import com.company.gestaogastos.services.GastoService;
@@ -28,10 +29,10 @@ public class GastoServiceImpl implements GastoService {
 
 	@Override
 	public Page<GastoDTO> retrieveGastos(Map<String, String> allRequestParams) {
-		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gasto = new GastoDomain(gastoRepository, categoriaRepository);
 		if (allRequestParams.get("codusuario") != null) {
 			Long usuarioId = Long.decode(allRequestParams.get("codusuario"));
-			gasto.setUsuario(new Usuario(usuarioId, null));
+			gasto.setUsuario(new UsuarioDomain(usuarioId, null));
 		}
 		if (allRequestParams.get("data") != null) {
 			String data = allRequestParams.get("data");
@@ -50,31 +51,31 @@ public class GastoServiceImpl implements GastoService {
 
 	@Override
 	public GastoDTO retrieveGasto(long id) {
-		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gasto = new GastoDomain(gastoRepository, categoriaRepository);
 		gasto.setId(id);
-		com.company.gestaogastos.domain.entity.Gasto gastoBase = gasto.retrieveGasto();
+		Gasto gastoBase = gasto.retrieveGasto();
 		return gasto.convertGastoToGastoDTO(gastoBase);
 	}
 
 	@Override
 	public GastoDTO createGasto(GastoDTO gastoDTO) {
-		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
-		com.company.gestaogastos.domain.entity.Gasto entity = gasto.toEntity(gastoDTO);
-		com.company.gestaogastos.domain.entity.Gasto gastoBase = gasto.createGasto(entity);
+		GastoDomain gasto = new GastoDomain(gastoRepository, categoriaRepository);
+		Gasto entity = gasto.toEntity(gastoDTO);
+		Gasto gastoBase = gasto.createGasto(entity);
 		return gasto.convertGastoToGastoDTO(gastoBase);
 	}
     
 	@Override
 	public GastoDTO updateGasto(GastoDTO gastoDTO, long id) {
-		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
-		com.company.gestaogastos.domain.entity.Gasto entity = gasto.toEntity(gastoDTO);
-		com.company.gestaogastos.domain.entity.Gasto gastoBase = gasto.updateGasto(entity);
+		GastoDomain gasto = new GastoDomain(gastoRepository, categoriaRepository);
+		Gasto entity = gasto.toEntity(gastoDTO);
+		Gasto gastoBase = gasto.updateGasto(entity);
 		return gasto.convertGastoToGastoDTO(gastoBase);
 	}
 
 	@Override
 	public void deleteGasto(long id) {
-		Gasto gasto = new Gasto(gastoRepository, categoriaRepository);
+		GastoDomain gasto = new GastoDomain(gastoRepository, categoriaRepository);
 		gasto.setId(id);
 		gasto.deleteGasto();
 	}

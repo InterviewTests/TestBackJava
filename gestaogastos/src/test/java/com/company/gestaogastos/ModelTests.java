@@ -287,13 +287,4 @@ public class ModelTests {
 		clone.setUsuario(gasto.getUsuario());
 		return clone;
 	}
-
-	private CategoriaDTO cloneCategoria(CategoriaDTO categoria, String nome) {
-		idTeste = idTeste + 1;
-		CategoriaDTO clone = new CategoriaDTO();
-		clone.setId(idTeste);
-		clone.setNome(nome);
-		return clone;
-	}
-
 }

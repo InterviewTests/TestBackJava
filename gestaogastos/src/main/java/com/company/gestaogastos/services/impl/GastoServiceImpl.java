@@ -41,7 +41,6 @@ public class GastoServiceImpl implements GastoService {
 				parsedDate = dateFormat.parse(data);
 				gasto.setData(new Timestamp(parsedDate.getTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

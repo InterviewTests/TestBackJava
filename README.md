@@ -76,7 +76,22 @@ Faça um fork desse desse repositório em seu Github e nos envie um Pull Request
 # BOA SORTE!
 
 ===========================
-### # Testes no projeto:
+### # SOLUÇÃO
+O desenvolvimento da "API REST para Gestão de Gastos" foi desenhado buscando atender o design e a arquitetura solicitada no exercício:
+
+Foi utilizado o Springboot com Maven buscando atender as melhores práticas do REST e a abordagem de modelagem do DDD.
+Com esta diretriz criamos as seguintes camadas (como o objetivo é a "API REST para Gestão de Gastos" a camada de apresentação foi omitida):
+- Controllers
+- Services
+- Domains
+- Repositories (DAO)
+- Entities
+Para o trafego de dados entre os Controllers e o Services foram criados DTO's
+Na camada de serviços são feitos os processados que não estão associados ao Domain, um processamento que é feito nesta camada é a conversão dos DTO's para Entities e repassados para a camada de Domain.
+A camada de Domain, faz a aplicação das regras de negócio enquanto interage com os Repositories.
+A camada de Services quando recebe os dados do Domain ele converte os dados em DTO e repassa para o Controller.
+
+## # Testes no projeto:
 
 1) Os testes da aplicação com SoapUI estão em:
     "/gestaogastos/src/main/resources/Testes_SoapUI/REST-ProjetoGastos-soapui-project.xml"

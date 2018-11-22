@@ -2,6 +2,7 @@ package com.company.gestaogastos;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import org.mockito.ArgumentMatchers;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -31,6 +32,9 @@ import com.company.gestaogastos.domain.CategoriaDomain;
 import com.company.gestaogastos.domain.GastoDomain;
 import com.company.gestaogastos.domain.dto.CategoriaDTO;
 import com.company.gestaogastos.domain.dto.GastoDTO;
+import com.company.gestaogastos.domain.entity.Categoria;
+import com.company.gestaogastos.domain.entity.Gasto;
+import com.company.gestaogastos.domain.entity.Usuario;
 import com.company.gestaogastos.domain.repository.CategoriaRepository;
 import com.company.gestaogastos.domain.repository.GastoRepository;
 
@@ -51,15 +55,15 @@ public class ModelTests {
 	@Test
 	public void retrieveAllGastos() {
 		PageRequest pageRequest = PageRequest.of(0, 20, new Sort(Sort.Direction.DESC,"data"));
-		List<com.company.gestaogastos.domain.entity.Gasto> gastos = new ArrayList<com.company.gestaogastos.domain.entity.Gasto>();
-		com.company.gestaogastos.domain.entity.Gasto gasto = new com.company.gestaogastos.domain.entity.Gasto();
-		gasto.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(1L, "Usuario 01"));
+		List<Gasto> gastos = new ArrayList<Gasto>();
+		Gasto gasto = new Gasto();
+		gasto.setUsuario(new Usuario(1L, "Usuario 01"));
 
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
 		gasto.setId(idTeste);
 		gasto.setDescricao("gasto 01");
-		gasto.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(1L, "Categoria 01"));
+		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
 		gastos.add(gasto);
 		gastos.add(cloneGasto(gasto, "gasto 02"));
 		gastos.add(cloneGasto(gasto, "gasto 03"));
@@ -73,7 +77,7 @@ public class ModelTests {
 		
 		Long start = pageRequest.getOffset();
 		Long end = (start + pageRequest.getPageSize()) > gastos.size() ? gastos.size() : (start + pageRequest.getPageSize());
-		Page<com.company.gestaogastos.domain.entity.Gasto> pageGasto = new PageImpl<com.company.gestaogastos.domain.entity.Gasto>(gastos.subList(start.intValue(), end.intValue()), pageRequest, gastos.size());
+		Page<Gasto> pageGasto = new PageImpl<Gasto>(gastos.subList(start.intValue(), end.intValue()), pageRequest, gastos.size());
 		
 		when(gastoRepository.findAllGastos(pageRequest)).thenReturn(pageGasto);
 
@@ -86,21 +90,21 @@ public class ModelTests {
 
 	@Test
 	public void retrieveGasto() {
-		com.company.gestaogastos.domain.entity.Gasto gasto = new com.company.gestaogastos.domain.entity.Gasto();
-		gasto.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(1L, "Usuario 01"));
+		Gasto gasto = new Gasto();
+		gasto.setUsuario(new Usuario(1L, "Usuario 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
 		gasto.setId(1L);
 		gasto.setDescricao("gasto 01");
-		gasto.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(1L, "Categoria 01"));
-		Optional<com.company.gestaogastos.domain.entity.Gasto> gastoOp = Optional.of(gasto);
+		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
+		Optional<Gasto> gastoOp = Optional.of(gasto);
 		Long id = 1L;
 		when(gastoRepository.findById(id )).thenReturn(gastoOp);
 
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		gastoDomain.setId(id);
 		GastoDTO gastoDTO = gastoDomain.convertGastoToGastoDTO(gasto);
-		com.company.gestaogastos.domain.entity.Gasto gastoReturn = gastoDomain.retrieveGasto();
+		Gasto gastoReturn = gastoDomain.retrieveGasto();
 		GastoDTO gastoDTOReturn = gastoDomain.convertGastoToGastoDTO(gastoReturn);
 		assertTrue(gastoDTOReturn.toString().equals(gastoDTO.toString()));
 
@@ -110,7 +114,7 @@ public class ModelTests {
 	public void retrieveGastoByUser() {
 		Long id = 1L;
 		PageRequest pageRequest = PageRequest.of(0, 4, new Sort(Sort.Direction.DESC,"data"));
-		final Page<com.company.gestaogastos.domain.entity.Gasto> page = Mockito.mock(Page.class);
+		final Page<Gasto> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(8L);
 	    when(page.getTotalPages()).thenReturn(2);
 	    when(page.getNumber()).thenReturn(3);
@@ -119,7 +123,7 @@ public class ModelTests {
 
 		
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-		Page<com.company.gestaogastos.domain.entity.Gasto> gastosReturn = gastoDomain.retrieveGastoByUser(id, pageRequest);
+		Page<Gasto> gastosReturn = gastoDomain.retrieveGastoByUser(id, pageRequest);
 		assertTrue(gastosReturn.equals(page));
 	}
 
@@ -128,7 +132,7 @@ public class ModelTests {
 		Long id = 1L;
 		String date = "16/11/2018";
 		PageRequest pageRequest = PageRequest.of(0, 4, new Sort(Sort.Direction.DESC,"data"));
-		final Page<com.company.gestaogastos.domain.entity.Gasto> page = Mockito.mock(Page.class);
+		final Page<Gasto> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(8L);
 	    when(page.getTotalPages()).thenReturn(2);
 	    when(page.getNumber()).thenReturn(3);
@@ -144,7 +148,7 @@ public class ModelTests {
 			when(gastoRepository.findByCodigousuarioOrderByDataDesc(id, dataInferior, dataSuperior, pageRequest)).thenReturn(page);
 
 			GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
-			Page<com.company.gestaogastos.domain.entity.Gasto> gastosReturn = gastoDomain.retrieveGastoByUserDate(id, date, pageRequest);
+			Page<Gasto> gastosReturn = gastoDomain.retrieveGastoByUserDate(id, date, pageRequest);
 			assertTrue(gastosReturn.equals(page));
 		} catch (ParseException e) {
 			assertTrue(false);
@@ -153,19 +157,19 @@ public class ModelTests {
 
 	@Test
 	public void createGasto() {
-		com.company.gestaogastos.domain.entity.Gasto gasto = new com.company.gestaogastos.domain.entity.Gasto();
-		gasto.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(1L, "Usuario 01"));
+		Gasto gasto = new Gasto();
+		gasto.setUsuario(new Usuario(1L, "Usuario 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
 		gasto.setId(1L);
 		gasto.setDescricao("gasto 01");
-		gasto.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(1L, "Categoria 01"));
+		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
 
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		GastoDTO gastoDTO = gastoDomain.convertGastoToGastoDTO(gasto);
 		gastoDomain.convertGastoDTOToGasto(gastoDTO);
-		when(gastoRepository.save(gasto)).thenReturn(gasto);
-		com.company.gestaogastos.domain.entity.Gasto gastoReturn = gastoDomain.createGasto(gasto);
+		when(gastoRepository.save(ArgumentMatchers.any(Gasto.class))).thenReturn(gasto);
+		Gasto gastoReturn = gastoDomain.createGasto(gasto);
 		GastoDTO gastoDTOReturn = gastoDomain.convertGastoToGastoDTO(gastoReturn);
 		assertTrue(gastoDTOReturn.toString().equals(gastoDTO.toString()));
 	}
@@ -173,22 +177,22 @@ public class ModelTests {
 	@Test
 	public void updateGasto() {
 		long id = 1L;
-		com.company.gestaogastos.domain.entity.Gasto gasto = new com.company.gestaogastos.domain.entity.Gasto();
-		gasto.setUsuario(new com.company.gestaogastos.domain.entity.Usuario(1L, "Usuario 01"));
+		Gasto gasto = new Gasto();
+		gasto.setUsuario(new Usuario(1L, "Usuario 01"));
 		gasto.setData(new Timestamp(System.currentTimeMillis()));
 		gasto.setValor(new BigDecimal("10.5"));
 		gasto.setId(1L);
 		gasto.setDescricao("gasto 01");
-		gasto.setCategoria(new com.company.gestaogastos.domain.entity.Categoria(1L, "Categoria 01"));
+		gasto.setCategoria(new Categoria(1L, "Categoria 01"));
 
-		Optional<com.company.gestaogastos.domain.entity.Gasto> gastoOp = Optional.of(gasto);
+		Optional<Gasto> gastoOp = Optional.of(gasto);
 		when(gastoRepository.findById(id)).thenReturn(gastoOp);
 
 		GastoDomain gastoDomain = new GastoDomain(gastoRepository, categoriaRepository);
 		GastoDTO gastoDTO = gastoDomain.convertGastoToGastoDTO(gasto);
 		gastoDomain.convertGastoDTOToGasto(gastoDTO);
 		when(gastoRepository.save(gasto)).thenReturn(gasto);
-		com.company.gestaogastos.domain.entity.Gasto gastoReturn = gastoDomain.updateGasto(gasto);
+		Gasto gastoReturn = gastoDomain.updateGasto(gasto);
 		GastoDTO gastoDTOReturn = gastoDomain.convertGastoToGastoDTO(gastoReturn);
 		
 		assertTrue(gastoDTOReturn.toString().equals(gastoDTO.toString()));
@@ -196,16 +200,16 @@ public class ModelTests {
 	
 	@Test
 	public void retrieveCategoria() {
-		com.company.gestaogastos.domain.entity.Categoria categoria = new com.company.gestaogastos.domain.entity.Categoria();
+		Categoria categoria = new Categoria();
 		categoria.setId(1L);
 		categoria.setNome("Categoria 01");
-		Optional<com.company.gestaogastos.domain.entity.Categoria> categoriaOp = Optional.of(categoria);
+		Optional<Categoria> categoriaOp = Optional.of(categoria);
 		Long id = 1L;
 		when(categoriaRepository.findById(id)).thenReturn(categoriaOp);
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		categoriaDomain.setId(id);
-		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.retrieveCategoria();
+		Categoria categoriaReturn = categoriaDomain.retrieveCategoria();
 		CategoriaDTO categoriaDTOReturn = categoriaDomain.toCategoriaDTO(categoriaReturn);
 		CategoriaDTO categoriaDTO = categoriaDomain.toCategoriaDTO(categoria);
 		assertTrue(categoriaDTOReturn.toString().equals(categoriaDTO.toString()));
@@ -215,14 +219,14 @@ public class ModelTests {
 	public void retrieveCategorias() {
 		String nome = "Categoria 01";
 		PageRequest pageRequest = PageRequest.of(0, CATEGORIAS_PAGE_SIZE, new Sort(Sort.Direction.ASC,"nome"));
-		final Page<com.company.gestaogastos.domain.entity.Categoria> page = Mockito.mock(Page.class);
+		final Page<Categoria> page = Mockito.mock(Page.class);
 	    when(page.getTotalElements()).thenReturn(3L);
 	    when(page.getTotalPages()).thenReturn(1);
 	    when(page.getNumber()).thenReturn(1);
-	    List<com.company.gestaogastos.domain.entity.Categoria> categoriaList = new ArrayList<>();
-	    categoriaList.add(new com.company.gestaogastos.domain.entity.Categoria(1L, "Categoria 01"));
-	    categoriaList.add(new com.company.gestaogastos.domain.entity.Categoria(2L, "Categoria 02"));
-	    categoriaList.add(new com.company.gestaogastos.domain.entity.Categoria(3L, "Categoria 03"));
+	    List<Categoria> categoriaList = new ArrayList<>();
+	    categoriaList.add(new Categoria(1L, "Categoria 01"));
+	    categoriaList.add(new Categoria(2L, "Categoria 02"));
+	    categoriaList.add(new Categoria(3L, "Categoria 03"));
 		when(page.getContent()).thenReturn(categoriaList);
 	    Pageable pageable = PageRequest.of(0, 20, new Sort(Sort.Direction.ASC,"nome"));;
 		when(page.getPageable()).thenReturn(pageable );
@@ -234,13 +238,13 @@ public class ModelTests {
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		Page<CategoriaDTO> pageCategoriaDTO = categoriaDomain.toPageCategoriaDTO(page);
-		Page<com.company.gestaogastos.domain.entity.Categoria> categoriasReturn = categoriaDomain.retrieveCategorias(params);
+		Page<Categoria> categoriasReturn = categoriaDomain.retrieveCategorias(params);
 		assertTrue(categoriasReturn.getContent().toString().equals(pageCategoriaDTO.getContent().toString() ));
 	}
 
 	@Test
 	public void createCategoria() {
-		com.company.gestaogastos.domain.entity.Categoria categoria = new com.company.gestaogastos.domain.entity.Categoria();
+		Categoria categoria = new Categoria();
 		categoria.setId(1L);
 		categoria.setNome("Categoria 01");
 		CategoriaDTO categoriaDTO = new CategoriaDTO();
@@ -248,8 +252,8 @@ public class ModelTests {
 		categoriaDTO.setNome("Categoria 01");
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
-		when(categoriaRepository.save(categoria)).thenReturn(categoria);
-		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.createCategoria(categoria);
+		when(categoriaRepository.save(ArgumentMatchers.any(Categoria.class))).thenReturn(categoria);
+		Categoria categoriaReturn = categoriaDomain.createCategoria(categoria);
 		CategoriaDTO categoriaDTOReturn = categoriaDomain.toCategoriaDTO(categoriaReturn);
 		assertTrue(categoriaDTOReturn.toString().equals(categoriaDTO.toString()));
 	}
@@ -257,26 +261,26 @@ public class ModelTests {
 	@Test
 	public void updateCategoria() {
 		long id = 1L;
-		com.company.gestaogastos.domain.entity.Categoria categoria = new com.company.gestaogastos.domain.entity.Categoria();
+		Categoria categoria = new Categoria();
 		categoria.setId(1L);
 		categoria.setNome("Categoria 01");
 		CategoriaDTO categoriaDTO = new CategoriaDTO();
 		categoriaDTO.setId(1L);
 		categoriaDTO.setNome("Categoria 01");
 
-		Optional<com.company.gestaogastos.domain.entity.Categoria> categoriaOp = Optional.of(categoria);
+		Optional<Categoria> categoriaOp = Optional.of(categoria);
 		when(categoriaRepository.findById(id)).thenReturn(categoriaOp);
 
 		CategoriaDomain categoriaDomain = new CategoriaDomain(categoriaRepository);
 		when(categoriaRepository.save(categoria)).thenReturn(categoria);
-		com.company.gestaogastos.domain.entity.Categoria categoriaReturn = categoriaDomain.updateCategoria(categoria);
+		Categoria categoriaReturn = categoriaDomain.updateCategoria(categoria);
 		CategoriaDTO categoriaDTOReturn = categoriaDomain.toCategoriaDTO(categoriaReturn);
 		assertTrue(categoriaDTOReturn.toString().equals(categoriaDTO.toString()));
 	}
 
-	private com.company.gestaogastos.domain.entity.Gasto cloneGasto(com.company.gestaogastos.domain.entity.Gasto gasto, String descricao) {
+	private Gasto cloneGasto(Gasto gasto, String descricao) {
 		idTeste = idTeste + 1;
-		com.company.gestaogastos.domain.entity.Gasto clone = new com.company.gestaogastos.domain.entity.Gasto();
+		Gasto clone = new Gasto();
 		clone.setId(idTeste);
 		clone.setDescricao(descricao);
 		clone.setValor(gasto.getValor());

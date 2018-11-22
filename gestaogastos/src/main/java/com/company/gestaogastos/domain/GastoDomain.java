@@ -112,7 +112,7 @@ public class GastoDomain {
 			} else if (gasto.getCategoria().getNome() != null) {
 				// Tenta categorizar automaticamente o gasto baseado na descricao do mesmo
 				List<Gasto> gastos = gastoRepository.findByNomeCategoria(
-						gasto.getCategoria().getId(), gasto.getCategoria().getNome(), 
+						gasto.getUsuario().getId(), gasto.getCategoria().getNome(), 
 							PageRequest.of(0, GASTOS_PAGE_SIZE, new Sort(Sort.Direction.DESC,"data"))).getContent();
 				if (gastos != null && gastos.size() > 0) {
 					// Pega a categoria do primeiro gasto que tem a mesma descricao

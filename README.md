@@ -75,8 +75,9 @@ Faça um fork desse desse repositório em seu Github e nos envie um Pull Request
 
 # BOA SORTE!
 
-===========================
-### # SOLUÇÃO
+===================================================================
+
+# # API GESTÃO DE GASTOS: SOLUÇÃO
 O desenvolvimento da "API REST para Gestão de Gastos" foi desenhado buscando atender o design e a arquitetura solicitada no exercício:
 
 Foi utilizado o Springboot com Maven buscando atender as melhores práticas do REST e a abordagem de modelagem do DDD.
@@ -86,6 +87,7 @@ Com esta diretriz criamos as seguintes camadas (como o objetivo é a "API REST p
 - Domains
 - Repositories (DAO)
 - Entities
+
 Para o trafego de dados entre os Controllers e o Services foram criados DTO's
 Na camada de serviços são feitos os processados que não estão associados ao Domain, um processamento que é feito nesta camada é a conversão dos DTO's para Entities e repassados para a camada de Domain.
 A camada de Domain, faz a aplicação das regras de negócio enquanto interage com os Repositories.

@@ -1,13 +1,18 @@
 package br.com.santander.card.client.http.dto;
 
 import lombok.Data;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Data
 public class Category {
-	private final String category;
-	private final String description;
+	
+	@NonNull
+	private String category;
+	
+	@NonNull
+	private String description;
 	
 	@Override
 	public boolean equals(Object obj) {

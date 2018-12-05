@@ -1,6 +1,5 @@
 package br.com.santander.card.client.http.controller;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ public class CategoryController {
 	@GetMapping(params="q")
 	public ResponseEntity searchByCategory(@RequestParam("q") final String category) {
 		Set<Category> categories = categoryService.findAllByStartCategory(category);
-		
 		return ResponseEntity.ok(categories);
 	}
 

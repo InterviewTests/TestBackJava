@@ -14,7 +14,7 @@ public class SaleSQLCommand {
 	@Autowired
 	private EntityManager entityManager;
 	
-	public Sale updateCategoryFromSale(Sale sale) {
+	public Sale update(Sale sale) {
 		entityManager.persist(sale);
 		return sale;
 	}

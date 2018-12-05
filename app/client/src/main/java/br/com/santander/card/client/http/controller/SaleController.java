@@ -30,13 +30,6 @@ public class SaleController {
 		return ResponseEntity.ok(sales);
 	}
 	
-	@RequestMapping(path="", params="date")
-	public ResponseEntity searchByDate(@PathVariable("user") final Long userCode) {
-		Date date = null;
-		List<Sale> sales = saleService.findByUsarAndDate(userCode, date);
-		return null;
-	}
-	
 	@RequestMapping(path="", params= {"datestart", "dateend"})
 	public ResponseEntity searchByDates(@PathVariable("user") final Long userCode) {
 		Date dateStart = null;

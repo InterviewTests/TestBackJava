@@ -27,7 +27,7 @@ public class SaleService {
 	
 	@Transactional
 	public Sale updateCategoryFromSale(Sale sale) {
-		Sale s = saleSQLCommand.updateCategoryFromSale(sale);
+		Sale s = saleSQLCommand.update(sale);
 		categoryService.createCategory(new Category(sale.getCategoria(), sale.getDescricao()));
 		return s;
 	}

@@ -1,0 +1,21 @@
+server:port: 9090
+spring:
+    application:name: sale-api
+    profiles:active: qa
+    
+---
+
+spring:
+    profiles: prod
+    rabbitmq:
+        host: ${RABBITMQ_IP:localhost}
+        port: 5672
+        username: guest
+        password: guest
+
+eureka:client:serviceUrl:defaultZone: http://${EUREKA_IP:localhost}:8761/eureka/
+
+---
+
+spring:
+    profiles: qa

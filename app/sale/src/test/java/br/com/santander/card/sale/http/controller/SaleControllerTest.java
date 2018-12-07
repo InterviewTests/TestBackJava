@@ -1,50 +1,91 @@
 package br.com.santander.card.sale.http.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
+
+import br.com.santander.card.sale.http.dto.CreateSaleRequest;
+import br.com.santander.card.sale.http.dto.CreateSaleResponse;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class SaleControllerTest {
 	
-	@Autowired
-	private MockMvc mockMvc;
-
+	@Mock
+	private SaleController saleController;
+	
+	private final static String DATE = "";
+	
 	@Test
-	public void insert_nagativeValue() {
-		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isBadRequest());
+	public void insert_nagativeValue() throws Exception {
+		CreateSaleRequest request = new CreateSaleRequest();
+		request.setCodigousuario(100);
+		request.setData(DATE);
+		request.setDescription("roupa");
+		request.setValor(-100.00);
+		ResponseEntity<CreateSaleResponse> responseEntity = ResponseEntity.badRequest().build();
+		Mockito.when(saleController.insert(request)).thenReturn(responseEntity);
+		
+		ResponseEntity<CreateSaleResponse> r = saleController.insert(request);
+		assertEquals(r.getStatusCode().value(), HttpStatus.BAD_REQUEST);
 	}
 	
 	@Test
-	public void insert_withoutUser() {
-		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isBadRequest());
+	public void insert_withoutUser() throws Exception {
+		CreateSaleRequest request = new CreateSaleRequest();
+		request.setData(DATE);
+		request.setDescription("roupa");
+		request.setValor(100.00);
+		ResponseEntity<CreateSaleResponse> responseEntity = ResponseEntity.badRequest().build();
+		Mockito.when(saleController.insert(request)).thenReturn(responseEntity);
+		
+		ResponseEntity<CreateSaleResponse> r = saleController.insert(request);
+		assertEquals(r.getStatusCode().value(), HttpStatus.BAD_REQUEST);
 	}
 	
 	@Test
-	public void insert_withoutCategory() {
-		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isBadRequest());
+	public void insert_withoutDescription() throws Exception {
+		CreateSaleRequest request = new CreateSaleRequest();
+		request.setCodigousuario(100);
+		request.setData(DATE);
+		request.setDescription("roupa");
+		ResponseEntity<CreateSaleResponse> responseEntity = ResponseEntity.badRequest().build();
+		Mockito.when(saleController.insert(request)).thenReturn(responseEntity);
+		
+		ResponseEntity<CreateSaleResponse> r = saleController.insert(request);
+		assertEquals(r.getStatusCode().value(), HttpStatus.BAD_REQUEST);
 	}
 	
 	@Test
-	public void insert_withoutDescription() {
-		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isBadRequest());
+	public void insert_withoutDate() throws Exception {
+		CreateSaleRequest request = new CreateSaleRequest();
+		request.setCodigousuario(100);
+		request.setDescription("roupa");
+		request.setValor(100.00);
+		ResponseEntity<CreateSaleResponse> responseEntity = ResponseEntity.badRequest().build();
+		Mockito.when(saleController.insert(request)).thenReturn(responseEntity);
+		
+		ResponseEntity<CreateSaleResponse> r = saleController.insert(request);
+		assertEquals(r.getStatusCode().value(), HttpStatus.BAD_REQUEST);
 	}
 	
 	@Test
-	public void insert_withoutDate() {
-		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isBadRequest());
-	}
-	
-	@Test
-	public void insert_successful() {
-		this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isCreated());
+	public void insert_successful() throws Exception {
+		CreateSaleRequest request = new CreateSaleRequest();
+		request.setCodigousuario(100);
+		request.setData(DATE);
+		request.setDescription("roupa");
+		request.setValor(100.00);
+		ResponseEntity<CreateSaleResponse> responseEntity = ResponseEntity.badRequest().build();
+		Mockito.when(saleController.insert(request)).thenReturn(responseEntity);
+		
+		ResponseEntity<CreateSaleResponse> r = saleController.insert(request);
+		assertEquals(r.getStatusCode().value(), HttpStatus.CREATED);
 	}
 	
 	

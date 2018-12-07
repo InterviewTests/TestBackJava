@@ -1,5 +1,7 @@
 package br.com.santander.card.client.http.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.santander.card.client.model.entity.Sale;
@@ -31,10 +34,9 @@ public class SaleController {
 	}
 	
 	@RequestMapping(path="", params= {"datestart", "dateend"})
-	public ResponseEntity searchByDates(@PathVariable("user") final Long userCode) {
-		Date dateStart = null;
-		Date dateEnd = null;
-		List<Sale> sales = saleService.findByUsarAndDates(userCode, dateStart, dateEnd);
+	public ResponseEntity searchByDates(@PathVariable("user") final Long userCode, @RequestParam("datestart") String datestart, @RequestParam("dateend") String dateend) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		List<Sale> sales = saleService.findByUsarAndDates(userCode, sdf.parse(datestart), sdf.parse(dateend));
 		return ResponseEntity.ok(sales);
 	}
 	

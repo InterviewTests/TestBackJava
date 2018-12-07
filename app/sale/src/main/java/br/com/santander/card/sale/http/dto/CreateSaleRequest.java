@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 public class CreateSaleRequest implements Serializable {
-
-	private String descricao;
+	private String description;
 	private double valor;
 	private long codigousuario;
 	private String data;

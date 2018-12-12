@@ -1,5 +1,6 @@
 package microservice.controllers;
 
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import microservice.models.Spend;
-import java.util.concurrent.Callable;
 import org.springframework.http.ResponseEntity;
 import java.net.URI;
+import java.net.URISyntaxException;
 import org.springframework.web.util.UriComponentsBuilder;
 import microservice.services.SpendService;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import org.springframework.http.MediaType;
+
 
 // import java.text.SimpleDateFormat;
 // import java.util.Date;
@@ -34,18 +39,22 @@ public class SpendController {
     @Autowired
     private SpendService spendService;
 
-    
-    @RequestMapping(value = "/spend", method = RequestMethod.POST)
-    public Callable<ResponseEntity<Spend>> insertNewSpend(
-                                                UriComponentsBuilder builder,
-                                                @Valid @RequestBody Spend spend) {
 
-        return () -> {
-            Spend storedSpend = spendService.insertNewSpend(spend);
+    @RequestMapping(value = "/spend", 
+                    method = RequestMethod.POST, 
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Spend> insertNewSpend(UriComponentsBuilder builder,
+                                                @Valid @RequestBody Spend spend) 
+                                                throws URISyntaxException, 
+                                                       InterruptedException, 
+                                                       ExecutionException {
+
+            CompletableFuture<Spend> spendPromisse = spendService.insertNewSpend(spend);
+            Spend storedSpend = spendPromisse.get();
             return ResponseEntity
                        .created(new URI(builder.toUriString() + spend.get_id()))
                        .body(storedSpend);
-        };
+        
     }
 
 

@@ -1,4 +1,4 @@
-package microservice.interceptor;
+package microservice.interceptors;
 
 
 import com.auth0.jwt.JWTVerifier;
@@ -47,11 +47,11 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
                 DecodedJWT jwt = verifier.verify(token);
             }
             catch (JWTVerificationException e) {
-                formatErrorResponse(response);
+                formatErrorResponse(response, "invalid token within the Authorization header");
                 return false;
             }
             catch (NullPointerException e) {
-                formatErrorResponse(response);
+                formatErrorResponse(response, "empty Authorization header");
                 return false;
             }
             
@@ -60,11 +60,9 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
     }
 
     
-    private void formatErrorResponse(HttpServletResponse response) throws IOException {
+    private void formatErrorResponse(HttpServletResponse response, String messageContent) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        ErrorMessage errorMsg = new ErrorMessage();
-        errorMsg.setContent("empty Authorization header");
-        errorMsg.setStatus(false);
+        ErrorMessage errorMsg = new ErrorMessage(messageContent, false);
 
         //Object to JSON in String
         String jsonInString = mapper.writeValueAsString(errorMsg);

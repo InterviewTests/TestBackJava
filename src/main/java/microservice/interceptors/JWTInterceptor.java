@@ -13,8 +13,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import microservice.models.ErrorMessage;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import microservice.models.Message;
 
 
 @Component
@@ -51,7 +50,7 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             catch (NullPointerException e) {
-                formatErrorResponse(response, "empty Authorization header");
+                formatErrorResponse(response, "no Authorization header");
                 return false;
             }
             
@@ -61,15 +60,11 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
 
     
     private void formatErrorResponse(HttpServletResponse response, String messageContent) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        ErrorMessage errorMsg = new ErrorMessage(messageContent, false);
-
-        //Object to JSON in String
-        String jsonInString = mapper.writeValueAsString(errorMsg);
-
+        Message errorMsg = new Message(messageContent, false);
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(jsonInString);
+        response.getWriter().write(errorMsg.toJSONString());
         response.getWriter().flush();
         response.getWriter().close();
     }

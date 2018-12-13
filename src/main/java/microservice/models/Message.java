@@ -1,13 +1,20 @@
 package microservice.models;
 
-public class ErrorMessage {
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+public class Message {
 
     private String content;
     private boolean status;
 
-    public ErrorMessage() { }
+    private ObjectMapper mapper = new ObjectMapper();
 
-    public ErrorMessage(String content, boolean status) { 
+    public Message() { }
+
+    public Message(String content, boolean status) { 
         this.content = content; 
         this.status = status; 
     }
@@ -20,4 +27,7 @@ public class ErrorMessage {
 
     public void setStatus(boolean status) { this.status = status; }
 
+    public String toJSONString() throws JsonProcessingException {
+        return mapper.writeValueAsString(this);
+    }
 }

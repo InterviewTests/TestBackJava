@@ -44,16 +44,14 @@ public class SpendController {
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Spend> insertNewSpend(UriComponentsBuilder builder,
-                                                @Valid @RequestBody Spend spend) 
-                                                throws URISyntaxException, 
-                                                       InterruptedException, 
-                                                       ExecutionException {
+                                    @Valid @RequestBody Spend spend) 
+                                    throws URISyntaxException, InterruptedException, ExecutionException {
 
-            CompletableFuture<Spend> spendPromisse = spendService.insertNewSpend(spend);
-            Spend storedSpend = spendPromisse.get();
+            CompletableFuture<Spend> spendFuture = spendService.insertNewSpend(spend);
+            Spend storedSpend = spendFuture.get();
             return ResponseEntity
-                       .created(new URI(builder.toUriString() + spend.get_id()))
-                       .body(storedSpend);
+                        .created(new URI(builder.toUriString() + spend.get_id()))
+                        .body(storedSpend);
         
     }
 

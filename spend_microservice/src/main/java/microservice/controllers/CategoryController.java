@@ -33,8 +33,8 @@ public class CategoryController {
         @RequestParam(value="partial_name") 
         String partialCategoryName) throws InterruptedException, ExecutionException {
 
-            CompletableFuture<List<Category>> categoryPromisse = categoryService.listSimilarCategories(partialCategoryName);
-            return ResponseEntity.ok(categoryPromisse.get());
+            CompletableFuture<List<Category>> categoryFuture = categoryService.listSimilarCategories(partialCategoryName);
+            return ResponseEntity.ok(categoryFuture.get());
 
     }
 

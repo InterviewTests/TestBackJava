@@ -9,6 +9,7 @@ public class Message {
 
     private String content;
     private String status;
+    private String clientId;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -17,8 +18,9 @@ public class Message {
         this.content = "";
     }
 
-    public Message(String content, String status) { 
+    public Message(String content, String clientId, String status) { 
         this.content = content; 
+        this.clientId = clientId;
         this.status = status;
     }
 
@@ -29,6 +31,10 @@ public class Message {
     public String getStatus() { return status; }
 
     public void setStatus(String status) { this.status = status; }
+
+    public String getClientId() { return clientId; }
+
+    public void setClientId(String clientId) { this.clientId = clientId; }
 
     public String toJSONString() throws JsonProcessingException {
         return mapper.writeValueAsString(this);

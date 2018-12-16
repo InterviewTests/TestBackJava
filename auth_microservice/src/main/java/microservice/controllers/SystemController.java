@@ -39,7 +39,7 @@ public class SystemController {
         System storedSystem = systemFuture.get();
         return ResponseEntity
                     .created(new URI(builder.toUriString() + "/" + storedSystem.get_id()))
-                    .body(new Message("system " + system.getUsername() + " successfully registered", true));
+                    .body(new Message("system " + system.getUsername() + " successfully registered", storedSystem.get_id(), true));
     }
 
     @RequestMapping(value = "/system/authentication", 

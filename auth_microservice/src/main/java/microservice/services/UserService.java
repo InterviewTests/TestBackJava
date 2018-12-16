@@ -67,7 +67,7 @@ public class UserService {
                         .withClaim("userId", storedUser.get_id())
                         .sign(algorithm);
 
-                    Authorization auth = new Authorization(token, expiresAt.getTime(), storedUser.get_id() ,true);
+                    Authorization auth = new Authorization(token, expiresAt.getTime(), storedUser.get_id(), true);
                     return CompletableFuture.completedFuture(auth);
                 } 
                 catch (JWTCreationException e) {
@@ -77,13 +77,14 @@ public class UserService {
             }
         }
 
-        return CompletableFuture.completedFuture(new Message(msg, false));
+        return CompletableFuture.completedFuture(new Message(msg, storedUser.get_id(), false));
     }
 
     @Async("ThreadPoolExecutor")
     public CompletableFuture<Message> authorize(String token) {
         String msg = "an error has occurred";
         boolean status = false;
+        String userId = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier verifier = JWT.require(algorithm)
@@ -91,7 +92,7 @@ public class UserService {
                                         .build();
 
             DecodedJWT jwt = verifier.verify(token);
-            String userId = jwt.getClaim("userId").asString();
+            userId = jwt.getClaim("userId").asString();
             msg = "valid token";
             status = true;
         }
@@ -102,7 +103,7 @@ public class UserService {
             msg = "no token provided";
         }
         
-        return CompletableFuture.completedFuture(new Message(msg, status));
+        return CompletableFuture.completedFuture(new Message(msg, userId, status));
     }
     
 }

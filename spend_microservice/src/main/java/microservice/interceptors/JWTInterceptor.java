@@ -54,9 +54,11 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
                     formatErrorResponse(response, msg);
                     return false;
                 }
+
+                request.setAttribute("userId", msg.getClientId());
             }
             catch (HttpClientErrorException e) {
-                Message errorMsg = new Message("invalid access token. " + e.getMessage(), "failed");
+                Message errorMsg = new Message("invalid access token. " + e.getMessage(), null, "failed");
                 formatErrorResponse(response, errorMsg);
                 return false;
             }

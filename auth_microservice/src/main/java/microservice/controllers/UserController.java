@@ -39,7 +39,7 @@ public class UserController {
         User storedUser = userFuture.get();
         return ResponseEntity
                     .created(new URI(builder.toUriString() + "/" + storedUser.get_id()))
-                    .body(new Message("user " + user.getUsername() + " successfully registered", true));
+                    .body(new Message("user " + user.getUsername() + " successfully registered", storedUser.get_id(), true));
     }
 
     @RequestMapping(value = "/user/authentication", 

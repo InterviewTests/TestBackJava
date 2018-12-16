@@ -20,8 +20,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -47,15 +47,15 @@ public class SpendController {
     }
 
 
-    @RequestMapping(value = "/user/{userId}/spend", 
+    @RequestMapping(value = "/user/spends", 
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getUserSpends(@PathVariable("userId") String userId,
+    public ResponseEntity<?> getUserSpends(HttpServletRequest request,
         @RequestParam(value="startDate", defaultValue="") String startDateStr,
         @RequestParam(value="endDate", defaultValue="") String endDateStr) 
         throws ValidationException, InterruptedException, ExecutionException, ParseException {
         
-        CompletableFuture<?> spendFuture = spendService.filterBetweenDates(startDateStr, endDateStr, userId);
+        CompletableFuture<?> spendFuture = spendService.filterBetweenDates(startDateStr, endDateStr, request.getAttribute("userId").toString());
         Object result = spendFuture.get();
         if (result.getClass() == Message.class) 
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);

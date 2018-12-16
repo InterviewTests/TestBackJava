@@ -62,9 +62,9 @@ public class SpendService {
         Date endDate = startDateStr.trim().isEmpty() ? now : dateFormat.parse(endDateStr);
 
         if (startDate.after(endDate)) 
-            return CompletableFuture.completedFuture(new Message("startDate cannot be after endDate", "failed"));
+            return CompletableFuture.completedFuture(new Message("startDate cannot be after endDate", userId, "failed"));
         else if (addDays(startDate, 21).before(endDate)) 
-            return CompletableFuture.completedFuture(new Message("the time range between startDate and endDate have to be smaller than 21 days", "failed"));
+            return CompletableFuture.completedFuture(new Message("the time range between startDate and endDate have to be smaller than 21 days", userId, "failed"));
      
         return CompletableFuture.completedFuture(spendRepo.findByStartAndEndDate(startDate, endDate, userId));  
     }

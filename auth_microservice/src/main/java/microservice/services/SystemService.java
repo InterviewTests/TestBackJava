@@ -77,13 +77,14 @@ public class SystemService {
             }
         }
 
-        return CompletableFuture.completedFuture(new Message(msg, false));
+        return CompletableFuture.completedFuture(new Message(msg, storedSystem.get_id(), false));
     }
 
     @Async("ThreadPoolExecutor")
     public CompletableFuture<Message> authorize(String token) {
         String msg = "and error has occurred";
         boolean status = false;
+        String systemId = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier verifier = JWT.require(algorithm)
@@ -91,7 +92,7 @@ public class SystemService {
                                         .build();
 
             DecodedJWT jwt = verifier.verify(token);
-            String systemId = jwt.getClaim("systemId").asString();
+            systemId = jwt.getClaim("systemId").asString();
             msg = "valid token";
             status = true;
         }
@@ -102,7 +103,7 @@ public class SystemService {
             msg = "no token provided";
         }
         
-        return CompletableFuture.completedFuture(new Message(msg, status));
+        return CompletableFuture.completedFuture(new Message(msg, systemId, status));
     }
 
     

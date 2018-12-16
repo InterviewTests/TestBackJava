@@ -27,7 +27,7 @@ public class UserService {
     @Value("${jwt.issuer}")
     private String ISSUER;
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.usr.secret}")
     private String SECRET;
 
     @Value("${jwt.duration.in.days}")
@@ -38,14 +38,14 @@ public class UserService {
 
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<User> insertNewUser(User user) {
+    public CompletableFuture<User> register(User user) {
         user.set_id(ObjectId.get());
         user.setPassword(PasswordHandler.encryptPassword(user.getPassword()));
         return CompletableFuture.completedFuture(userRepo.save(user));  
     }
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<?> authorizeUser(User user) {
+    public CompletableFuture<?> authenticate(User user) {
         User storedUser = userRepo.findByUsername(user.getUsername());
         String msg = "invalid username or password";
 
@@ -81,7 +81,7 @@ public class UserService {
     }
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<Message> authenticateUser(String token) {
+    public CompletableFuture<Message> authorize(String token) {
         String msg = "an error has occurred";
         boolean status = false;
         try {

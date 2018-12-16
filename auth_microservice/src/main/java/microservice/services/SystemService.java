@@ -27,7 +27,7 @@ public class SystemService {
     @Value("${jwt.issuer}")
     private String ISSUER;
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.sys.secret}")
     private String SECRET;
 
     @Value("${jwt.duration.in.days}")
@@ -38,14 +38,14 @@ public class SystemService {
 
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<System> insertNewSystem(System system) {
+    public CompletableFuture<System> register(System system) {
         system.set_id(ObjectId.get());
         system.setPassword(PasswordHandler.encryptPassword(system.getPassword()));
         return CompletableFuture.completedFuture(systemRepo.save(system));  
     }
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<?> authorizeSystem(System system) {
+    public CompletableFuture<?> authenticate(System system) {
         System storedSystem = systemRepo.findByUsername(system.getUsername());
         String msg = "invalid username or password";
 
@@ -81,7 +81,7 @@ public class SystemService {
     }
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<Message> authenticateSystem(String token) {
+    public CompletableFuture<Message> authorize(String token) {
         String msg = "and error has occurred";
         boolean status = false;
         try {

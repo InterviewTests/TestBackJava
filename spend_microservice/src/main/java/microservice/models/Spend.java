@@ -18,7 +18,7 @@ public class Spend {
     private BigDecimal value;
 
     @NotNull
-    private Integer userCode;
+    private String userCode;
 
     private String category;
 
@@ -33,7 +33,7 @@ public class Spend {
     public Spend(ObjectId _id, 
                  String description, 
                  BigDecimal value, 
-                 int userCode, 
+                 String userCode, 
                  String category, 
                  Date date) {
         this._id = _id;
@@ -50,7 +50,7 @@ public class Spend {
 
     public BigDecimal getValue() { return value; }
 
-    public Integer getUserCode() { return userCode; }
+    public String getUserCode() { return userCode; }
 
     public String getCategory() { return category; }
 
@@ -62,7 +62,7 @@ public class Spend {
 
     public void setValue(BigDecimal value) { this.value = value.setScale(2, BigDecimal.ROUND_HALF_UP); }
 
-    public void setUserCode(int userCode) { this.userCode = userCode; }
+    public void setUserCode(String userCode) { this.userCode = userCode; }
 
     public void setCategory(String category) { this.category = category; }
 

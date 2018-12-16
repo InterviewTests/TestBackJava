@@ -35,20 +35,20 @@ public class SystemController {
                                     @Valid @RequestBody System system) 
                                     throws URISyntaxException, InterruptedException, ExecutionException {
 
-        CompletableFuture<System> systemFuture = systemService.insertNewSystem(system);
+        CompletableFuture<System> systemFuture = systemService.register(system);
         System storedSystem = systemFuture.get();
         return ResponseEntity
-                    .created(new URI(builder.toUriString() + storedSystem.get_id()))
+                    .created(new URI(builder.toUriString() + "/" + storedSystem.get_id()))
                     .body(new Message("system " + system.getUsername() + " successfully registered", true));
     }
 
-    @RequestMapping(value = "/system/authorize", 
+    @RequestMapping(value = "/system/authentication", 
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> authorizeSystem(@Valid @RequestBody System system) 
+    public ResponseEntity<?> authenticateSystem(@Valid @RequestBody System system) 
                                 throws URISyntaxException, InterruptedException, ExecutionException {
 
-        CompletableFuture<?> systemFuture = systemService.authorizeSystem(system);
+        CompletableFuture<?> systemFuture = systemService.authenticate(system);
         Object result = systemFuture.get();
         if (result.getClass() == Authorization.class)
             return ResponseEntity.ok(result);
@@ -56,13 +56,13 @@ public class SystemController {
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
     }
 
-    @RequestMapping(value = "/system/authenticate", 
-                    method = RequestMethod.POST, 
+    @RequestMapping(value = "/system/authorization", 
+                    method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> authenticateSystem(@RequestHeader("Authorization") String accessToken) 
+    public ResponseEntity<Message> authorizeSystem(@RequestHeader("Authorization") String accessToken) 
                                 throws URISyntaxException, InterruptedException, ExecutionException {
 
-        CompletableFuture<Message> systemFuture = systemService.authenticateSystem(accessToken);
+        CompletableFuture<Message> systemFuture = systemService.authorize(accessToken);
         Message msg = systemFuture.get();
         if (msg.getStatus().equals("success"))
             return ResponseEntity.ok(msg);

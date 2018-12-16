@@ -46,7 +46,7 @@ public class SystemController {
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> authenticateSystem(@Valid @RequestBody System system) 
-                                throws URISyntaxException, InterruptedException, ExecutionException {
+                                throws InterruptedException, ExecutionException {
 
         CompletableFuture<?> systemFuture = systemService.authenticate(system);
         Object result = systemFuture.get();
@@ -60,7 +60,7 @@ public class SystemController {
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Message> authorizeSystem(@RequestHeader("Authorization") String accessToken) 
-                                throws URISyntaxException, InterruptedException, ExecutionException {
+                                throws InterruptedException, ExecutionException {
 
         CompletableFuture<Message> systemFuture = systemService.authorize(accessToken);
         Message msg = systemFuture.get();

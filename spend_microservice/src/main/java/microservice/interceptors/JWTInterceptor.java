@@ -44,7 +44,7 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
             headers.set("Authorization", token);
             HttpEntity<String> entity = new HttpEntity<>(headers);
             RestTemplate restTemplate = new RestTemplate();
-            String url = requestURI.contains("/spend") ? SYS_AUTH_URL : USR_AUTH_URL;
+            String url = requestURI.contains("/spend") && requestMethod.equals("POST") ? SYS_AUTH_URL : USR_AUTH_URL;
 
             try {
                 ResponseEntity<Message> authResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Message.class);

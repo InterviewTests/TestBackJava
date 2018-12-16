@@ -9,6 +9,7 @@ public class Authorization {
 
     private String accessToken;
     private boolean status;
+    private String clientId;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, 
                 pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", 
@@ -18,10 +19,11 @@ public class Authorization {
 
     public Authorization() { }
 
-    public Authorization(String accessToken, Date expiryDate, boolean status) { 
+    public Authorization(String accessToken, Date expiryDate, String clientId, boolean status) { 
         this.accessToken = accessToken; 
         this.status = status;
         this.expiryDate = expiryDate;
+        this.clientId = clientId;
     }
 
     public String getAccessToken() { return accessToken; }
@@ -35,5 +37,9 @@ public class Authorization {
     public String getStatus() { return status ? "success" : "failed"; }
 
     public void setStatus(boolean status) { this.status = status; }
+
+    public String getClientId() { return clientId; }
+
+    public void setClientId(String clientId) { this.clientId = clientId; }
 
 }

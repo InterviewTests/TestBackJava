@@ -46,7 +46,7 @@ public class UserController {
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody User user) 
-                                throws URISyntaxException, InterruptedException, ExecutionException {
+                                throws InterruptedException, ExecutionException {
 
         CompletableFuture<?> userFuture = userService.authenticate(user);
         Object result = userFuture.get();
@@ -60,7 +60,7 @@ public class UserController {
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Message> authorizeUser(@RequestHeader("Authorization") String accessToken) 
-                                throws URISyntaxException, InterruptedException, ExecutionException {
+                                throws InterruptedException, ExecutionException {
 
         CompletableFuture<Message> userFuture = userService.authorize(accessToken);
         Message msg = userFuture.get();

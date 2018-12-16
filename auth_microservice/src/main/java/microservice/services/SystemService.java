@@ -67,7 +67,7 @@ public class SystemService {
                         .withClaim("systemId", storedSystem.get_id())
                         .sign(algorithm);
 
-                    Authorization auth = new Authorization(token, expiresAt.getTime(), true);
+                    Authorization auth = new Authorization(token, expiresAt.getTime(), storedSystem.get_id(), true);
                     return CompletableFuture.completedFuture(auth);
                 } 
                 catch (JWTCreationException e) {

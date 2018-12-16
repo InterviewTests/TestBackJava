@@ -67,7 +67,7 @@ public class UserService {
                         .withClaim("userId", storedUser.get_id())
                         .sign(algorithm);
 
-                    Authorization auth = new Authorization(token, expiresAt.getTime(), true);
+                    Authorization auth = new Authorization(token, expiresAt.getTime(), storedUser.get_id() ,true);
                     return CompletableFuture.completedFuture(auth);
                 } 
                 catch (JWTCreationException e) {

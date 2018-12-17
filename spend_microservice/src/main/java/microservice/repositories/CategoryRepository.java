@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface CategoryRepository extends MongoRepository<Category, String> {
 
-    @Query("{ '_id': { '$regex': '^?0' } }")
-    public List<Category> findBySimilarName(String name);
+    @Query("{ 'category': { $regex: '^?0', $options: 'i' } }")
+    public List<Category> findBySimilarName(String category);
 
 }

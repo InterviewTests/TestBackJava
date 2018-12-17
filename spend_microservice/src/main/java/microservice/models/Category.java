@@ -1,18 +1,29 @@
 package microservice.models;
 
+
 import org.springframework.data.annotation.Id;
+import javax.validation.constraints.NotNull;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
+@Document(collection = "category")
 public class Category {
-    @Id
-    private String name;
+    
+    @Id 
+    private ObjectId _id;
+
+    @NotNull
+    @Indexed(unique = true)
+    private String category;
 
     public Category() { }
 
-    public Category(String name) { this.name = name; }
+    public Category(String category) { this.category = category; }
 
-    public String getName() { return name; }
+    public String getCategory() { return category; }
 
-    public void setName(String name) { this.name = name; }
+    public void setCategory(String category) { this.category = category; }
 
 }

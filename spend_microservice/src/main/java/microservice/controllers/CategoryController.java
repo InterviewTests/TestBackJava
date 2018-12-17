@@ -29,12 +29,13 @@ public class CategoryController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Category>> getSuggestedCategories(
-        @Size(min=2, message="partial_name should contain at least 2 characters") 
+        @Size(min=3, message="partial_name should contain at least 3 characters") 
         @RequestParam(value="partial_name") 
         String partialCategoryName) throws InterruptedException, ExecutionException {
 
             CompletableFuture<List<Category>> categoryFuture = categoryService.listSimilarCategories(partialCategoryName);
-            return ResponseEntity.ok(categoryFuture.get());
+            List<Category> categoryList = categoryFuture.get();
+            return ResponseEntity.ok(categoryList);
 
     }
 

@@ -18,7 +18,8 @@ public class CategoryService {
 
     @Async("ThreadPoolExecutor")
     public CompletableFuture<List<Category>> listSimilarCategories(String partialCategoryName) {
-        return CompletableFuture.completedFuture(categoryRepo.findBySimilarName(partialCategoryName));
+        List<Category> categories = categoryRepo.findBySimilarName(partialCategoryName);
+        return CompletableFuture.completedFuture(categories);
     }
 
 }

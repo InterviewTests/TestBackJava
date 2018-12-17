@@ -12,12 +12,14 @@ import org.bson.types.ObjectId;
 import microservice.models.Message;
 import java.util.concurrent.CompletableFuture;
 import javax.xml.bind.ValidationException;
-import java.util.List;
 import java.util.Date;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import java.text.ParseException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 
 @Service
@@ -36,15 +38,41 @@ public class SpendService {
         spend.set_id(ObjectId.get());
         if (spend.getCategory() != null) {
             Category c = new Category(spend.getCategory());
-            categoryRepo.save(c);
+            try { categoryRepo.save(c); }
+            // do nothing if the category already exists
+            catch (DuplicateKeyException ignore) { }
+            
         }
+
+        Page<Spend> storedSpends = spendRepo.findByDescriptionAndUserCodeAndCategoryNotNull(spend.getDescription(), 
+                                                                                            spend.getUserCode(), 
+                                                                                            PageRequest.of(0, 1));
+        if (storedSpends.getNumberOfElements() > 0) 
+            spend.setCategory(storedSpends.getContent().get(0).getCategory());
         return CompletableFuture.completedFuture(spendRepo.save(spend));  
     }
 
 
     @Async("ThreadPoolExecutor")
-    public CompletableFuture<List<Spend>> getByUserId(String userId) {
-        return CompletableFuture.completedFuture(spendRepo.findByUserCode(userId));  
+    public CompletableFuture<?> updateCategory(ObjectId spendId, String userId, Category newCategory) {
+        Spend spend = spendRepo.findBy_id(spendId);
+        if (spend != null) {
+            if (spend.getUserCode().equals(userId)) {
+                try { categoryRepo.save(newCategory); } 
+                // do nothing if the category already exists
+                catch (DuplicateKeyException ignore) { }
+
+                spend.setCategory(newCategory.getCategory());
+                spend = spendRepo.save(spend);
+                return CompletableFuture.completedFuture(spend);  
+            }
+            else {
+                return CompletableFuture.completedFuture(new Message("this spend does not belong to this user", userId, "forbidden"));
+            }
+        }
+        else {
+            return CompletableFuture.completedFuture(new Message("no spend with the provided spendId", userId, "failed"));
+        }
     }
 
     @Async("ThreadPoolExecutor")

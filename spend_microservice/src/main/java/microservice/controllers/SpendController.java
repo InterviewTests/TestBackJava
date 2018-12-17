@@ -4,7 +4,9 @@ package microservice.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
@@ -22,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
+import microservice.models.Category;
 
 
 @RestController
@@ -51,8 +54,8 @@ public class SpendController {
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getUserSpends(HttpServletRequest request,
-        @RequestParam(value="startDate", defaultValue="") String startDateStr,
-        @RequestParam(value="endDate", defaultValue="") String endDateStr) 
+        @RequestParam(value="start_date", defaultValue="") String startDateStr,
+        @RequestParam(value="end_date", defaultValue="") String endDateStr) 
         throws ValidationException, InterruptedException, ExecutionException, ParseException {
         
         CompletableFuture<?> spendFuture = spendService.filterBetweenDates(startDateStr, endDateStr, request.getAttribute("userId").toString());
@@ -61,6 +64,28 @@ public class SpendController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         else
             return ResponseEntity.ok(result);
+    }
+
+
+    @RequestMapping(value = "/spend/{spendId}/category", 
+                    method = RequestMethod.PATCH, 
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> updateCategory(UriComponentsBuilder builder, 
+        HttpServletRequest request,
+        @Valid @RequestBody Category category,
+        @PathVariable ObjectId spendId) throws URISyntaxException, InterruptedException, ExecutionException {
+        
+        CompletableFuture<?> spendFuture = spendService.updateCategory(spendId, request.getAttribute("userId").toString(), category);
+        Object result = spendFuture.get();
+        if (result.getClass() == Message.class) {
+            Message msg = (Message) result;
+            return new ResponseEntity<>(msg, msg.getStatus().equals("forbidden") ? HttpStatus.FORBIDDEN : HttpStatus.NOT_FOUND);
+        }
+        else {
+            Spend spend = (Spend) result;
+            String location = (new URI(builder.toUriString() + spend.get_id())).toString();
+            return ResponseEntity.ok().header("Location", location).body(spend);
+        }
     }
 
 }

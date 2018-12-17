@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user", 
+    @RequestMapping(value = "/users", 
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Message> register(UriComponentsBuilder builder,
@@ -42,7 +42,7 @@ public class UserController {
                     .body(new Message("user " + user.getUsername() + " successfully registered", storedUser.get_id(), true));
     }
 
-    @RequestMapping(value = "/user/authentication", 
+    @RequestMapping(value = "/users/authentication", 
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody User user) 
@@ -56,7 +56,7 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
     }
 
-    @RequestMapping(value = "/user/authorization", 
+    @RequestMapping(value = "/users/authorization", 
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Message> authorizeUser(@RequestHeader("Authorization") String accessToken) 

@@ -11,19 +11,19 @@ public class PasswordHandler {
     private static int workload = 12;
 
     public static String encryptPassword(String plaintextPassword) {
-		String salt = BCrypt.gensalt(workload);
-		String hashedPassword = BCrypt.hashpw(plaintextPassword, salt);
-		return hashedPassword;
+        String salt = BCrypt.gensalt(workload);
+        String hashedPassword = BCrypt.hashpw(plaintextPassword, salt);
+        return hashedPassword;
     }
-    
+
     public static boolean checkPassword(String plaintextPassword, String storedHash) {
-		boolean verifiedPassword = false;
+        boolean verifiedPassword = false;
 
-		if (null == storedHash || !storedHash.startsWith("$2a$"))
-			throw new java.lang.IllegalArgumentException("invalid hash provided for comparison");
+        if (null == storedHash || !storedHash.startsWith("$2a$"))
+            throw new java.lang.IllegalArgumentException("invalid hash provided for comparison");
 
-		verifiedPassword = BCrypt.checkpw(plaintextPassword, storedHash);
+        verifiedPassword = BCrypt.checkpw(plaintextPassword, storedHash);
 
-		return verifiedPassword;
-	}
+        return verifiedPassword;
+    }
 }

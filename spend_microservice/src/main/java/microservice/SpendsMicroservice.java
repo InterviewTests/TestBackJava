@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @EnableAsync
 @SpringBootApplication
-public class SpendMicroservice {
+public class SpendsMicroservice {
 
     @Value("${thread.pool.core.size}")
     private int corePoolSize;
@@ -35,7 +35,7 @@ public class SpendMicroservice {
 
     
     public static void main(String[] args) {
-        SpringApplication.run(SpendMicroservice.class, args);
+        SpringApplication.run(SpendsMicroservice.class, args);
     }
     
 }

@@ -35,7 +35,7 @@ public class SpendController {
     private SpendService spendService;
 
 
-    @RequestMapping(value = "/spend", 
+    @RequestMapping(value = "/spends", 
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Spend> register(UriComponentsBuilder builder,
@@ -50,7 +50,7 @@ public class SpendController {
     }
 
 
-    @RequestMapping(value = "/user/spends", 
+    @RequestMapping(value = "/users/spends", 
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getUserSpends(HttpServletRequest request,
@@ -67,7 +67,7 @@ public class SpendController {
     }
 
 
-    @RequestMapping(value = "/spend/{spendId}/category", 
+    @RequestMapping(value = "/spends/{spendId}/categories", 
                     method = RequestMethod.PATCH, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> updateCategory(UriComponentsBuilder builder, 

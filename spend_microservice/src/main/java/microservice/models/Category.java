@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Document(collection = "category")
+@Document(collection = "categories")
 public class Category {
     
     @Id 

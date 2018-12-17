@@ -6,8 +6,10 @@ import org.springframework.data.annotation.Id;
 import org.bson.types.ObjectId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
+@Document(collection = "spends")
 public class Spend {
     @Id
     private ObjectId _id;

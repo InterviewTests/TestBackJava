@@ -28,7 +28,7 @@ public class SystemController {
     @Autowired
     private SystemService systemService;
 
-    @RequestMapping(value = "/system", 
+    @RequestMapping(value = "/systems", 
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Message> inserNewSystem(UriComponentsBuilder builder,
@@ -42,7 +42,7 @@ public class SystemController {
                     .body(new Message("system " + system.getUsername() + " successfully registered", storedSystem.get_id(), true));
     }
 
-    @RequestMapping(value = "/system/authentication", 
+    @RequestMapping(value = "/systems/authentication", 
                     method = RequestMethod.POST, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> authenticateSystem(@Valid @RequestBody System system) 
@@ -56,7 +56,7 @@ public class SystemController {
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
     }
 
-    @RequestMapping(value = "/system/authorization", 
+    @RequestMapping(value = "/systems/authorization", 
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Message> authorizeSystem(@RequestHeader("Authorization") String accessToken) 

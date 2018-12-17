@@ -25,13 +25,12 @@ public class CategoryController {
     private CategoryService categoryService;
 
  
-    @RequestMapping(value = "/category/suggestions", 
+    @RequestMapping(value = "/categories/suggestions", 
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Category>> getSuggestedCategories(
         @Size(min=3, message="partial_name should contain at least 3 characters") 
-        @RequestParam(value="partial_name") 
-        String partialCategoryName) throws InterruptedException, ExecutionException {
+        @RequestParam(value="partial_name") String partialCategoryName) throws InterruptedException, ExecutionException {
 
             CompletableFuture<List<Category>> categoryFuture = categoryService.listSimilarCategories(partialCategoryName);
             List<Category> categoryList = categoryFuture.get();

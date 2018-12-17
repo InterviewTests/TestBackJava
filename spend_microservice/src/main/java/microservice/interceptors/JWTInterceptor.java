@@ -15,7 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class JWTInterceptor extends HandlerInterceptorAdapter {
@@ -25,6 +26,9 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
 
     @Value("${sys.auth.endpoint}")
     private String SYS_AUTH_URL;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JWTInterceptor.class);
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -52,14 +56,17 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
 
                 if (!msg.getStatus().equals("success")) {
                     formatErrorResponse(response, msg);
+                    LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + msg.getContent());
                     return false;
                 }
 
+                LOGGER.info("[" + requestMethod + "] " + requestURI);
                 request.setAttribute("userId", msg.getClientId());
             }
             catch (HttpClientErrorException e) {
                 Message errorMsg = new Message("invalid access token. " + e.getMessage(), null, "failed");
                 formatErrorResponse(response, errorMsg);
+                LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + errorMsg.getContent());
                 return false;
             }
         }

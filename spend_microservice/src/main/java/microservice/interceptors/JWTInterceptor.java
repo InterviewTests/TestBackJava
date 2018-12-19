@@ -4,6 +4,7 @@ package microservice.interceptors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import java.io.IOException;
+import org.springframework.web.client.ResourceAccessException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,6 +66,12 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
             }
             catch (HttpClientErrorException e) {
                 Message errorMsg = new Message("invalid access token. " + e.getMessage(), null, "failed");
+                formatErrorResponse(response, errorMsg);
+                LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + errorMsg.getContent());
+                return false;
+            }
+            catch (ResourceAccessException e) {
+                Message errorMsg = new Message("authorization microservice is not available", null, "failed");
                 formatErrorResponse(response, errorMsg);
                 LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + errorMsg.getContent());
                 return false;

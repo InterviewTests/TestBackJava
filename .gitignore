@@ -5,3 +5,5 @@
 .classpath
 target
 bin
+.idea
+*.iml

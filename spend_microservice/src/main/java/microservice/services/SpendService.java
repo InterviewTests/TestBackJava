@@ -24,8 +24,6 @@ import org.springframework.data.domain.PageRequest;
 
 @Service
 public class SpendService {
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     
     @Autowired
     private SpendRepository spendRepo;
@@ -35,7 +33,6 @@ public class SpendService {
 
     @Async("ThreadPoolExecutor")
     public CompletableFuture<Spend> insert(Spend spend) {
-        spend.set_id(ObjectId.get());
         if (spend.getCategory() != null) {
             Category c = new Category(spend.getCategory());
             try { categoryRepo.save(c); }
@@ -86,6 +83,7 @@ public class SpendService {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         Date now = calendar.getTime();
         
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         Date startDate = startDateStr.trim().isEmpty() ? addDays(now, -7) : dateFormat.parse(startDateStr);
         Date endDate = startDateStr.trim().isEmpty() ? now : dateFormat.parse(endDateStr);
 

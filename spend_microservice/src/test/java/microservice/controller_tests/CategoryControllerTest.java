@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.Arrays;
+import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,15 @@ import microservice.models.Authorization;
 import microservice.models.Category;
 import microservice.util.AuthRequester;
 
+// import static org.junit.Assert.*;
+// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+// import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+// import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = Category.class, secure = false)
+@WebMvcTest(value = CategoryController.class, secure = false)
 public class CategoryControllerTest {
 
 	@Autowired
@@ -31,20 +39,25 @@ public class CategoryControllerTest {
 	@MockBean
 	private CategoryController controller;
 
+	private final ObjectMapper mapper = new ObjectMapper();
+
 	@Test
 	public void testJSONResponse() throws Exception {
+		List<Category> mockCategories = Arrays.asList(new Category("5c1afa52dd3b7e2268264e9d", "dummyCategory1"), 
+														new Category("5c1afa82dd3b7e2268264e9f", "dummyCategory2"), 
+														new Category("5c1aff16dd3b7e2698e06a1e", "dummyCategory3"));
+
 		when(controller.getSuggestedCategories(anyString())).thenReturn(
-			ResponseEntity.ok(Arrays.asList(new Category("newCategory1"), 
-											new Category("newCategory2"), 
-											new Category("newCategory3")))
+			ResponseEntity.ok(mockCategories)
 		);
         
         Authorization authorization = AuthRequester.authenticate(
 			"http://localhost:8080/users/authentication", 
 			"zanferrari", 
 			"zan12345");
-        
-		String expected = "[{\"category\":\"newCategory1\"},{\"category\":\"newCategory2\"},{\"category\":\"newCategory3\"}]";
+
+		ObjectMapper mapper = new ObjectMapper();
+		String expected = mapper.writeValueAsString(mockCategories);
 
         this.mockMvc.perform(
 			get("/categories/suggestions")
@@ -52,12 +65,10 @@ public class CategoryControllerTest {
 				.header("Authorization", authorization.getAccessToken()))
 			.andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().json(expected)
-        );    	   
+			.andExpect(content().json(expected))
+            .andExpect(content().string(expected));
 	}
 	
+
 	
-
-
-
 }

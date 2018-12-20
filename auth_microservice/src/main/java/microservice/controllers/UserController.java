@@ -38,7 +38,7 @@ public class UserController {
         CompletableFuture<User> userFuture = userService.register(user);
         User storedUser = userFuture.get();
         return ResponseEntity
-                    .created(new URI(builder.toUriString() + "/" + storedUser.get_id()))
+                    .created(new URI(builder.toUriString() + "/users/" + storedUser.get_id()))
                     .body(new Message("user " + user.getUsername() + " successfully registered", storedUser.get_id(), true));
     }
 

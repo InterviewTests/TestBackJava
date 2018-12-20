@@ -44,7 +44,7 @@ public class SpendController {
         CompletableFuture<Spend> spendFuture = spendService.insert(spend);
         Spend storedSpend = spendFuture.get();
         return ResponseEntity
-                    .created(new URI(builder.toUriString() + spend.get_id()))
+                    .created(new URI(builder.toUriString() + "/spends/" + spend.get_id()))
                     .body(storedSpend);
         
     }
@@ -53,7 +53,7 @@ public class SpendController {
     @RequestMapping(value = "/users/spends", 
                     method = RequestMethod.GET, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> getUserSpends(HttpServletRequest request,
+    public ResponseEntity<Object> getUserSpends(HttpServletRequest request,
         @RequestParam(value="start_date", defaultValue="") String startDateStr,
         @RequestParam(value="end_date", defaultValue="") String endDateStr) 
         throws ValidationException, InterruptedException, ExecutionException, ParseException {
@@ -70,7 +70,7 @@ public class SpendController {
     @RequestMapping(value = "/spends/{spendId}/categories", 
                     method = RequestMethod.PATCH, 
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> updateCategory(UriComponentsBuilder builder, 
+    public ResponseEntity<Object> updateCategory(UriComponentsBuilder builder, 
         HttpServletRequest request,
         @Valid @RequestBody Category category,
         @PathVariable ObjectId spendId) throws URISyntaxException, InterruptedException, ExecutionException {
@@ -83,7 +83,7 @@ public class SpendController {
         }
         else {
             Spend spend = (Spend) result;
-            String location = (new URI(builder.toUriString() + spend.get_id())).toString();
+            String location = (new URI(builder.toUriString() + "/spends/" + spend.get_id())).toString();
             return ResponseEntity.ok().header("Location", location).body(spend);
         }
     }

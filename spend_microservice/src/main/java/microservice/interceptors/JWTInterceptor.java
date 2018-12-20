@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @Component
 public class JWTInterceptor extends HandlerInterceptorAdapter {
 

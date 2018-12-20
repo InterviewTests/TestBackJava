@@ -3,7 +3,6 @@ package microservice.models;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
-import org.bson.types.ObjectId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "spends")
 public class Spend {
     @Id
-    private ObjectId _id;
+    private String _id;
 
     private String description;
     
@@ -32,7 +31,15 @@ public class Spend {
 
     public Spend() { }
 
-    public Spend(ObjectId _id, 
+    public Spend(Spend otherSpend) { 
+        this.description = otherSpend.getDescription();
+        this.value = otherSpend.getValue();
+        this.userCode = otherSpend.getUserCode();
+        this.category = otherSpend.getCategory();
+        this.date = otherSpend.getDate();
+    }
+
+    public Spend(String _id, 
                  String description, 
                  BigDecimal value, 
                  String userCode, 
@@ -46,7 +53,7 @@ public class Spend {
         this.date = date;
     }
 
-    public String get_id() { return _id.toHexString(); }
+    public String get_id() { return _id; }
 
     public String getDescription() { return description; }
 
@@ -58,7 +65,7 @@ public class Spend {
 
     public Date getDate() { return date; }
 
-    public void set_id(ObjectId _id) { this._id = _id; }
+    public void set_id(String _id) { this._id = _id; }
 
     public void setDescription(String description) { this.description = description; }
 
@@ -69,4 +76,5 @@ public class Spend {
     public void setCategory(String category) { this.category = category; }
 
     public void setDate(Date date) { this.date = date; }
+
 }

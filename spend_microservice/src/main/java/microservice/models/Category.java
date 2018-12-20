@@ -3,7 +3,6 @@ package microservice.models;
 
 import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotNull;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category {
     
     @Id 
-    private ObjectId _id;
+    private String _id;
 
     @NotNull
     @Indexed(unique = true)
@@ -22,8 +21,19 @@ public class Category {
 
     public Category(String category) { this.category = category; }
 
+    public Category(String _id, String category) {
+        this._id = _id; 
+        this.category = category; 
+    }
+
     public String getCategory() { return category; }
 
     public void setCategory(String category) { this.category = category; }
+
+    public String get_id() { return _id; }
+
+    public void set_id(String _id) { this._id = _id; }
+
+
 
 }

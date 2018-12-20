@@ -38,7 +38,7 @@ public class SystemController {
         CompletableFuture<System> systemFuture = systemService.register(system);
         System storedSystem = systemFuture.get();
         return ResponseEntity
-                    .created(new URI(builder.toUriString() + "/" + storedSystem.get_id()))
+                    .created(new URI(builder.toUriString() + "/systems/" + storedSystem.get_id()))
                     .body(new Message("system " + system.getUsername() + " successfully registered", storedSystem.get_id(), true));
     }
 

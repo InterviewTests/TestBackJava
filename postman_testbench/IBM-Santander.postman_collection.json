@@ -1,0 +1,543 @@
+{
+	"info": {
+		"_postman_id": "a0d948d5-d8b6-4712-9527-17a8717d6bfc",
+		"name": "IBM-Santander",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth microservice",
+			"item": [
+				{
+					"name": "register new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10762c41-aadb-42f9-abe5-2fd62e7727a9",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    if (pm.response.to.have.header(\"Location\")) {",
+									"        const id = postman.getResponseHeader('Location').replace(pm.variables.get(\"auth_url\"), '');",
+									"        pm.environment.set(\"usr_id\", id);",
+									"    }",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{usr}}\",\n\t\"password\": \"{{usr_pwd}}\"\n}"
+						},
+						"url": {
+							"raw": "{{auth_url}}users",
+							"host": [
+								"{{auth_url}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register new system",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10762c41-aadb-42f9-abe5-2fd62e7727a9",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    if (pm.response.to.have.header(\"Location\")) {",
+									"        const id = postman.getResponseHeader('Location').replace(pm.variables.get(\"auth_url\"), '');",
+									"        pm.environment.set(\"sys_id\", id);",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{sys}}\",\n\t\"password\": \"{{sys_pwd}}\"\n}"
+						},
+						"url": {
+							"raw": "{{auth_url}}systems",
+							"host": [
+								"{{auth_url}}systems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1117d661-8bb3-44af-9ca3-2cec7cd1347c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.environment.set(\"token\", pm.response.json().accessToken);",
+									"    pm.environment.set(\"usr_id\", pm.response.json().clientId);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cab6fe3e-4c98-43bc-96a1-4640849ac2b9",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{usr}}\",\n\t\"password\": \"{{usr_pwd}}\"\n}"
+						},
+						"url": {
+							"raw": "{{auth_url}}users/authentication",
+							"host": [
+								"{{auth_url}}users"
+							],
+							"path": [
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "system login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1117d661-8bb3-44af-9ca3-2cec7cd1347c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.environment.set(\"token\", pm.response.json().accessToken);",
+									"    pm.environment.set(\"sys_id\", pm.response.json().clientId);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{sys}}\",\n\t\"password\": \"{{sys_pwd}}\"\n}"
+						},
+						"url": {
+							"raw": "{{auth_url}}systems/authentication",
+							"host": [
+								"{{auth_url}}systems"
+							],
+							"path": [
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate user token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1117d661-8bb3-44af-9ca3-2cec7cd1347c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{auth_url}}users/authorization",
+							"host": [
+								"{{auth_url}}users"
+							],
+							"path": [
+								"authorization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate system token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1117d661-8bb3-44af-9ca3-2cec7cd1347c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{auth_url}}systems/authorization",
+							"host": [
+								"{{auth_url}}systems"
+							],
+							"path": [
+								"authorization"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "spends microservice",
+			"item": [
+				{
+					"name": "register new spend",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7075ca05-67af-45ac-943f-e4ad20c8d6b7",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.environment.set(\"spend_id\", pm.response.json()._id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2164e194-f49f-4265-8f7d-57724ef44607",
+								"exec": [
+									"pm.environment.set(\"spend_date\", (new Date()).toISOString().replace('Z', '+0000'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"disabled": false,
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n\t\"description\": \"testSpend1\", \n\t\"value\": 99.98123456, \n\t\"userCode\": \"{{usr_id}}\",\n\t\"date\": \"{{spend_date}}\"\n}"
+						},
+						"url": {
+							"raw": "{{spend_url}}spends",
+							"host": [
+								"{{spend_url}}spends"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve user spends",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7075ca05-67af-45ac-943f-e4ad20c8d6b7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2164e194-f49f-4265-8f7d-57724ef44607",
+								"exec": [
+									"const now = new Date();",
+									"pm.environment.set(\"endDate\", now.toISOString().replace('Z', '+0000'));",
+									"",
+									"let past = new Date();",
+									"past.setDate(now.getDate() - 21);",
+									"pm.environment.set(\"startDate\", past.toISOString().replace('Z', '+0000'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"disabled": false,
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{spend_url}}users/spends?start_date={{startDate}}&end_date={{endDate}}",
+							"host": [
+								"{{spend_url}}users"
+							],
+							"path": [
+								"spends"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "end_date",
+									"value": "{{endDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"equals": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"category\": \"newCategory\"\n}"
+						},
+						"url": {
+							"raw": "{{spend_url}}spends/{{spend_id}}/categories",
+							"host": [
+								"{{spend_url}}spends"
+							],
+							"path": [
+								"{{spend_id}}",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category suggestions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{spend_url}}categories/suggestions?partial_name=cat",
+							"host": [
+								"{{spend_url}}categories"
+							],
+							"path": [
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "partial_name",
+									"value": "cat"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "55867996-6115-4d11-84bf-f549f04450af",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f5beed3-6e7b-44c1-b9a7-2dfa0104c40a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3f578014-977b-4640-a289-ffd79438b179",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "751bf649-adb9-4061-b73d-511aae36d620",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

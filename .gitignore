@@ -1,0 +1,9 @@
+.settings
+.vscode
+.DS_Store
+.project
+.classpath
+target
+bin
+.idea
+*.iml

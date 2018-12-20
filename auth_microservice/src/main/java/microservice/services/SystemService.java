@@ -77,7 +77,7 @@ public class SystemService {
             }
         }
 
-        return CompletableFuture.completedFuture(new Message(msg, storedSystem.get_id(), false));
+        return CompletableFuture.completedFuture(new Message(msg, null, false));
     }
 
     @Async("ThreadPoolExecutor")

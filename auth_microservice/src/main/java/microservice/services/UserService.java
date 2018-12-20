@@ -77,7 +77,7 @@ public class UserService {
             }
         }
 
-        return CompletableFuture.completedFuture(new Message(msg, storedUser.get_id(), false));
+        return CompletableFuture.completedFuture(new Message(msg, null, false));
     }
 
     @Async("ThreadPoolExecutor")

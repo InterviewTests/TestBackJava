@@ -12,7 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Spend {
     @Id
     private String _id;
-
+    
+    @NotNull
     private String description;
     
     @NotNull

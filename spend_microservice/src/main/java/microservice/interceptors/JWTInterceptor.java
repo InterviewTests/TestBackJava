@@ -51,13 +51,12 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
             HttpEntity<String> entity = new HttpEntity<>(headers);
             RestTemplate restTemplate = new RestTemplate();
             String url = requestURI.contains("/spends") && requestMethod.equals("POST") ? SYS_AUTH_URL : USR_AUTH_URL;
-
             try {
                 ResponseEntity<Message> authResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Message.class);
                 Message msg = authResponse.getBody();
 
                 if (!msg.getStatus().equals("success")) {
-                    formatErrorResponse(response, msg);
+                    formatErrorResponse(response, msg, HttpStatus.UNAUTHORIZED.value());
                     LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + msg.getContent());
                     return false;
                 }
@@ -66,14 +65,23 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
                 request.setAttribute("userId", msg.getClientId());
             }
             catch (HttpClientErrorException e) {
-                Message errorMsg = new Message("invalid access token. " + e.getMessage(), null, "failed");
-                formatErrorResponse(response, errorMsg);
+                Message errorMsg;
+                int status; 
+                if (requestURI.contains("/error")) {
+                    errorMsg = new Message("invalid request body. " + e.getMessage(), null, "failed");
+                    status = HttpStatus.BAD_REQUEST.value();
+                }
+                else {
+                    errorMsg = new Message("invalid access token. " + e.getMessage(), null, "failed");
+                    status = HttpStatus.UNAUTHORIZED.value();
+                }
+                formatErrorResponse(response, errorMsg, status);
                 LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + errorMsg.getContent());
                 return false;
             }
             catch (ResourceAccessException e) {
                 Message errorMsg = new Message("authorization microservice is not available", null, "failed");
-                formatErrorResponse(response, errorMsg);
+                formatErrorResponse(response, errorMsg, HttpStatus.UNAUTHORIZED.value());
                 LOGGER.error("[" + requestMethod + "] " + requestURI + " - " + errorMsg.getContent());
                 return false;
             }
@@ -82,8 +90,8 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
     }
 
     
-    private void formatErrorResponse(HttpServletResponse response, Message errorMsg) throws IOException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    private void formatErrorResponse(HttpServletResponse response, Message errorMsg, int status) throws IOException {
+        response.setStatus(status);
         response.getWriter().write(errorMsg.toJSONString());
         response.getWriter().flush();
         response.getWriter().close();

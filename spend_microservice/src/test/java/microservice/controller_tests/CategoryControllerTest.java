@@ -22,12 +22,6 @@ import microservice.models.Authorization;
 import microservice.models.Category;
 import microservice.util.AuthRequester;
 
-// import static org.junit.Assert.*;
-// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-// import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-// import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = CategoryController.class, secure = false)
@@ -56,7 +50,6 @@ public class CategoryControllerTest {
 			"zanferrari", 
 			"zan12345");
 
-		ObjectMapper mapper = new ObjectMapper();
 		String expected = mapper.writeValueAsString(mockCategories);
 
         this.mockMvc.perform(

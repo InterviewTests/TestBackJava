@@ -1,3 +1,46 @@
+# Desafio de desenvolvimento back end - Santander
+
+Passos para executar a solução:
+
+1) garanta que o computador possui o JDK versão 1.8, Maven versão 3.6.0, MongoDB versão 4.0.4 e git (qualquer versão recente) instalados. Para isso, abra uma janela de seu terminal e execute os comandos
+
+```
+java -version
+mvn -version
+mongod -version
+git --version
+```
+
+As versões de cada um devem ser impressas na saída padrão.
+
+2) clone este repositório para o seu computador
+3) inicie o MongoDB executando o comando `mongod`. Isso impedirá você de utilizar esta janela do terminal, portanto abra uma nova e passe a usá-la, mas deixe a anterior aberta
+3) utilizando a nova janela do terminal, navegue até o diretório local onde você clonou este repositório
+4) entre no o diretório do microserviço de autenticação, ou `./auth_microservice`
+5) execute o comando `mvn spring-boot:run`
+6) abra uma terceira janela de seu terminal e, novamente, navegue até o diretório local onde se encontra este repositório
+7) entre no diretório do microserviço de gastos, ou `./spend_microservice`, e finalmente, execute o comando `mvn spring-boot:run`
+8) desfrute da aplicação!
+&nbsp;
+&nbsp;
+#### Observações
+- Os microserviços estão configurados para ocuparem as portas 8080 e 8081, respectivamente.
+- Para executar os testes unitários do microserviço de gastos, é preciso que o microserviço de autenticação esteja online
+- Este repositório conta com uma collection e um environment do Postman, uma ferramenta muito útil para testar as funcionalidades de APIs. Para utilizá-los, faça o download e instale o Postman em seu computador (caso ainda não o possua intalado) e importe tanto collection quanto environment para o seu ambiente.
+&nbsp;
+&nbsp;
+#### Possíveis otimizações (próximos passos)
+1) Para melhorar a velocidade de resposta da rota de inserção de gastos, seria interessante refatorá-la para que ela inserisse os documentos a serem persistidos primeiramente em um sistema de mensageria, ou no próprio Redis (devido a sua velocidade de inserção e consulta). Após isso, workers assíncronos subscritos ao canal de mensagens seriam responsáveis por persistir os dados no banco de dados de fato
+2) Outra possível melhoria seria tornar assíncronas as execuções dos métodos dos controllers (no momento, apenas os métodos da camada de serviço estão sendo processados de forma assíncrona). Isto não foi feito pois o uso da classe `HandlerInterceptorAdapter` faz com que duas chamadas de seu método `preHandle()` ocorram a cada requisição assíncrona recebida, e como a lógica de validação de tokens se encontra dentro deste método, o resultado seria que o número de requisições que o microserviço de autentição precisaria responder para o sistema funcionasse normalmente dobraria
+3) Containerizar cada um dos microserviços tornaria muito mais simples a tarefa de movê-los de um infraestrutura para outra, escalá-los e administrá-los no geral
+&nbsp;
+
+&nbsp;
+Por fim, estou me candidando pela **IBM**.
+&nbsp;
+
+&nbsp;
+#### O texto original do desafio se encontra abaixo
 # Show me the code
 
 ### # DESAFIO:

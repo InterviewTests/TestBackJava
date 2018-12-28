@@ -13,14 +13,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SpendingRequest {
 
+  private String id;
+
   @JsonProperty("descricao")
   private String description;
+
+  @JsonProperty("categoria")
+  private String category;
 
   @JsonProperty("valor")
   private double value;
 
   @JsonProperty("codigousuario")
-  private int userCode;
+  private long userCode;
 
   @JsonProperty("data")
   private LocalDateTime date; //formato UTC

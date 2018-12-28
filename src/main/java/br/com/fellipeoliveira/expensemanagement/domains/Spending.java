@@ -1,7 +1,8 @@
 package br.com.fellipeoliveira.expensemanagement.domains;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -19,10 +20,14 @@ public class Spending implements Serializable {
 
   private String description;
 
+  private String category;
+
   private double value;
 
-  private int userCode;
+  private long userCode;
 
-  private LocalDateTime date; //formato UTC
+  private LocalDate date;
+
+  private LocalTime time;
 
 }

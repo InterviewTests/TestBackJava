@@ -5,7 +5,9 @@ import static br.com.fellipeoliveira.expensemanagement.domains.CacheUtils.SPENDI
 import br.com.fellipeoliveira.expensemanagement.domains.Spending;
 import br.com.fellipeoliveira.expensemanagement.gateways.SpendingGateway;
 import br.com.fellipeoliveira.expensemanagement.gateways.repository.SpendingRepository;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
@@ -16,10 +18,35 @@ public class SpendingGatewayImpl implements SpendingGateway {
 
   private final SpendingRepository spendingRepository;
 
+  @Override
+  public List<Spending> findAllExpenses() {
+    return spendingRepository.findAll();
+  }
 
   @Override
-  public List<Spending> findAllSpending() {
-    return spendingRepository.findAll();
+  public List<Spending> findAllExpensesByDate(LocalDate date) {
+    return spendingRepository.findAllByDate(date);
+  }
+
+  @Override
+  public List<String> findCategories(String query) {
+    return spendingRepository
+        .findAllByCategoryContaining(query)
+        .stream()
+        .map(spending -> spending.getDescription())
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<Spending> findExpensesByUserCode(Long userCode) {
+    return spendingRepository.findAllByUserCode(userCode);
+  }
+
+  @Override
+  public Spending findExpenseById(String id) {
+    return spendingRepository
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Gasto com ID " + id + " não foi encontrado!"));
   }
 
   @Override

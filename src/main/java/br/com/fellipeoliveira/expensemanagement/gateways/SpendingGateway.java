@@ -3,6 +3,7 @@ package br.com.fellipeoliveira.expensemanagement.gateways;
 import br.com.fellipeoliveira.expensemanagement.domains.Spending;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public interface SpendingGateway {
 
@@ -10,7 +11,7 @@ public interface SpendingGateway {
 
   List<Spending> findAllExpensesByDate(LocalDate date);
 
-  List<String> findCategories(String query);
+  Set<String> findCategories(String query);
 
   List<Spending> findExpensesByUserCode(Long userCode);
 

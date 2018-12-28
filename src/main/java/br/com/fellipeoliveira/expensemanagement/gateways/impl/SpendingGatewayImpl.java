@@ -7,6 +7,7 @@ import br.com.fellipeoliveira.expensemanagement.gateways.SpendingGateway;
 import br.com.fellipeoliveira.expensemanagement.gateways.repository.SpendingRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
@@ -29,12 +30,12 @@ public class SpendingGatewayImpl implements SpendingGateway {
   }
 
   @Override
-  public List<String> findCategories(String query) {
+  public Set<String> findCategories(String query) {
     return spendingRepository
         .findAllByCategoryContaining(query)
         .stream()
-        .map(spending -> spending.getDescription())
-        .collect(Collectors.toList());
+        .map(spending -> spending.getCategory())
+        .collect(Collectors.toSet());
   }
 
   @Override

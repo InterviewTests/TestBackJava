@@ -6,6 +6,7 @@ import br.com.fellipeoliveira.expensemanagement.gateways.http.request.SpendingRe
 import br.com.fellipeoliveira.expensemanagement.gateways.http.response.SpendingResponse;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,26 +29,26 @@ public class SpendingUseCase {
     return spendingResponseBuilder(spendingGateway.findExpenseById(id));
   }
 
-  public List<String> findCategories(String query) {
+  public Set<String> findCategories(String query) {
     return spendingGateway.findCategories(query);
   }
 
   public void saveSpent(SpendingRequest spendingRequest) {
-    if (spendingRequest.getId() != null && spendingRequest.getCategory().isEmpty()) {
-      spendingGateway
-          .findExpensesByUserCode(spendingRequest.getUserCode())
-          .stream()
-          .filter(
-              spending ->
-                  spending.getDescription().equalsIgnoreCase(spendingRequest.getDescription()))
-          .findFirst()
-          .ifPresent(spending -> spendingRequest.setCategory(spending.getCategory()));
-    }
+    spendingGateway
+        .findExpensesByUserCode(spendingRequest.getUserCode())
+        .stream()
+        .filter(
+            spending ->
+                spending.getDescription().equalsIgnoreCase(spendingRequest.getDescription())
+                    && !spending.getCategory().isEmpty())
+        .findFirst()
+        .ifPresent(spending -> spendingRequest.setCategory(spending.getCategory()));
     spendingGateway.save(spendingBuilder(spendingRequest));
   }
 
   private Spending spendingBuilder(SpendingRequest spendingRequest) {
     return Spending.builder()
+        .id(spendingRequest.getId())
         .description(spendingRequest.getDescription())
         .category(spendingRequest.getCategory())
         .date(spendingRequest.getDate() != null ? spendingRequest.getDate().toLocalDate() : null)

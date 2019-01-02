@@ -5,7 +5,11 @@ import br.com.santander.gastos.integracao.service.GastosQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 public class IntegracaoQueryController {
@@ -20,8 +24,18 @@ public class IntegracaoQueryController {
     @GetMapping(value = "/{codigoUsuario}/gastos")
     public Page<GastosDTO> consultar(
             @PathVariable("codigoUsuario") Long codigoUsuario,
+            @RequestParam(value = "data", required = false)
+            @DateTimeFormat(pattern = "dd/MM/yyyy") Optional<LocalDate> data,
             Pageable pageable
     ){
-        return gastosQueryService.consultarGastos(codigoUsuario, pageable);
+        Page<GastosDTO> consulta = null;
+
+        if(data.isPresent()){
+             consulta = gastosQueryService.consultar(codigoUsuario, data.get(), pageable);
+        } else {
+            consulta = gastosQueryService.consultarUltimosGastos(codigoUsuario, pageable);
+        }
+
+        return consulta;
     }
 }

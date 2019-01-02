@@ -1,7 +1,8 @@
 package br.com.santander.gastos.integracao.service;
 
 import br.com.santander.gastos.integracao.dto.AdicionarGastoRequest;
+import br.com.santander.gastos.integracao.dto.GastosDTO;
 
 public interface GastosCommandService {
-    void adicionarGasto(AdicionarGastoRequest adicionarGastoRequest);
+    GastosDTO adicionarGasto(AdicionarGastoRequest adicionarGastoRequest);
 }

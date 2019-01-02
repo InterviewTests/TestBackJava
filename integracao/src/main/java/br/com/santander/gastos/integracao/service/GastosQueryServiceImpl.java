@@ -13,7 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +32,29 @@ public class GastosQueryServiceImpl implements GastosQueryService {
     }
 
     @Override
-    public Page<GastosDTO> consultarGastos(Long codigoUsuario, Pageable pageable) {
+    public Page<GastosDTO> consultarUltimosGastos(Long codigoUsuario, Pageable pageable) {
 
         BooleanBuilder builder = new BooleanBuilder();
         QGastoEntity qGasto = QGastoEntity.gastoEntity;
 
         builder.and(qGasto.data.between(LocalDateTime.now().minusSeconds(5), LocalDateTime.now()));
+        builder.and(qGasto.codigoUsuario.eq(codigoUsuario));
+
+        final Page<GastoEntity> page = gastoRepository.findAll(builder, pageable);
+
+        final List<GastosDTO> dtoList = page.get()
+                .map(gastosMapper::entityToDTO)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(dtoList, pageable, page.getTotalElements());
+    }
+
+    @Override
+    public Page<GastosDTO> consultar(Long codigoUsuario, LocalDate data, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+        QGastoEntity qGasto = QGastoEntity.gastoEntity;
+
+        builder.and(qGasto.data.between(LocalDateTime.of(data, LocalTime.MIN), LocalDateTime.of(data, LocalTime.MAX)));
         builder.and(qGasto.codigoUsuario.eq(codigoUsuario));
 
         final Page<GastoEntity> page = gastoRepository.findAll(builder, pageable);

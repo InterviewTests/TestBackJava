@@ -1,8 +1,11 @@
 package br.com.santander.gastos.integracao.service;
 
 import br.com.santander.gastos.integracao.dto.AdicionarGastoRequest;
+import br.com.santander.gastos.integracao.dto.GastosDTO;
 import br.com.santander.gastos.integracao.entity.GastoEntity;
+import br.com.santander.gastos.integracao.mappers.GastosMapper;
 import br.com.santander.gastos.integracao.repository.GastoRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,8 @@ import javax.transaction.Transactional;
 @Transactional
 public class GastosCommandServiceImpl implements GastosCommandService {
 
+    private GastosMapper gastosMapper = Mappers.getMapper(GastosMapper.class);
+
     private final GastoRepository gastoRepository;
 
     @Autowired
@@ -20,7 +25,7 @@ public class GastosCommandServiceImpl implements GastosCommandService {
     }
 
     @Override
-    public void adicionarGasto(AdicionarGastoRequest adicionarGastoRequest) {
+    public GastosDTO adicionarGasto(AdicionarGastoRequest adicionarGastoRequest) {
         GastoEntity g = new GastoEntity();
 
         g.setCodigoUsuario(adicionarGastoRequest.getCodigoUsuario());
@@ -28,6 +33,6 @@ public class GastosCommandServiceImpl implements GastosCommandService {
         g.setDescricao(adicionarGastoRequest.getDescricao());
         g.setValor(adicionarGastoRequest.getValor());
 
-        GastoEntity save = gastoRepository.save(g);
+        return gastosMapper.entityToDTO(gastoRepository.save(g));
     }
 }

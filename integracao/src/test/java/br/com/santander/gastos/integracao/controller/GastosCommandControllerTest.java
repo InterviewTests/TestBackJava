@@ -1,6 +1,7 @@
 package br.com.santander.gastos.integracao.controller;
 
 import br.com.santander.gastos.integracao.dto.AdicionarGastoRequest;
+import br.com.santander.gastos.integracao.dto.CategorizarGastoRequest;
 import br.com.santander.gastos.integracao.dto.GastosDTO;
 import br.com.santander.gastos.integracao.infra.handler.ErrorDetail;
 import br.com.santander.gastos.integracao.mappers.GastosMapper;
@@ -32,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -104,6 +106,51 @@ public class GastosCommandControllerTest {
         ErrorDetail erro = objectMapper.readValue(contentAsString, ErrorDetail.class);
 
         assertThat(erro.getErrors()).containsKeys("descricao", "valor", "data", "codigoUsuario");
+    }
+
+    @Test
+    public void deveCategorizarUmGastoComSucesso() throws Exception {
+        final GastosDTO gasto = enhancedRandom.nextObject(GastosDTO.class);
+        gasto.setCategoria("Categoria");
+
+        when(gastosCommandService.categorizarGasto(any(CategorizarGastoRequest.class))).thenReturn(gasto);
+
+        CategorizarGastoRequest request = new CategorizarGastoRequest();
+        request.setCategoria("Categoria");
+
+        final String contentAsString = mockMvc.perform(put("/{codigoUsuario}/gastos/{idGasto}", 1L, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        GastosDTO retorno = objectMapper.readValue(contentAsString, GastosDTO.class);
+
+        assertThat(retorno.getCategoria()).isEqualTo(gasto.getCategoria());
+    }
+
+    @Test
+    public void naoDevePermitirCategoriaVazia() throws Exception {
+
+        CategorizarGastoRequest request = new CategorizarGastoRequest();
+
+        final String contentAsString = mockMvc.perform(put("/{codigoUsuario}/gastos/{idGasto}", 1L, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        )
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ErrorDetail erro = objectMapper.readValue(contentAsString, ErrorDetail.class);
+
+        assertThat(erro.getErrors()).containsKeys("categoria");
     }
 
 }

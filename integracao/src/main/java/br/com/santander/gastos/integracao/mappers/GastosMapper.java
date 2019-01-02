@@ -16,5 +16,11 @@ public interface GastosMapper {
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "categoria", ignore = true)
     })
+    GastoEntity requestToEntity(AdicionarGastoRequest gastoEntity);
+
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "categoria", ignore = true)
+    })
     GastosDTO requestToDTO(AdicionarGastoRequest request);
 }

@@ -1,0 +1,10 @@
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
+  environment:
+    MONGODB_DBNAME: spending
+redis:
+    image: redis
+    ports:
+      - "6379:6379"

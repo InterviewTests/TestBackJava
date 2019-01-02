@@ -7,13 +7,11 @@ import java.util.Set;
 
 public interface SpendingGateway {
 
-  List<Spending> findAllExpenses();
-
-  List<Spending> findAllExpensesByDate(LocalDate date);
-
   Set<String> findCategories(String query);
 
   List<Spending> findExpensesByUserCode(Long userCode);
+
+  List<Spending> findExpensesByUserCodeAndDate(Long userCode, LocalDate date);
 
   Spending findExpenseById(String id);
 

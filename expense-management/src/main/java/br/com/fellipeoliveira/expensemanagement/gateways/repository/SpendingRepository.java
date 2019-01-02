@@ -11,5 +11,7 @@ public interface SpendingRepository extends MongoRepository<Spending, String> {
 
   List<Spending> findAllByUserCode(Long userCode);
 
+  List<Spending> findAllByUserCodeAndDate(Long userCode, LocalDate date);
+
   List<Spending> findAllByCategoryContaining(String query);
 }

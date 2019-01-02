@@ -29,10 +29,10 @@ public class SpendingController {
 
   private final SpendingUseCase spendingUseCase;
 
-  @GetMapping
-  public ResponseEntity findAllExpenses() {
+  @GetMapping(value = "/{user-code}")
+  public ResponseEntity findAllExpensesByUserCode(@PathVariable(value = "user-code") final long userCode) {
     log.info("RECEIVED ON FIND EXPENSES METHOD");
-    return ResponseEntity.ok().body(spendingUseCase.findAllExpenses());
+    return ResponseEntity.ok().body(spendingUseCase.findAllExpenses(userCode));
   }
 
   @GetMapping(value = "/filter/{expense-id}")
@@ -42,11 +42,12 @@ public class SpendingController {
     return ResponseEntity.ok().body(spendingUseCase.findExpense(expenseId));
   }
 
-  @GetMapping(value = "/filter")
-  public ResponseEntity findExpensesByDate(
+  @GetMapping(value = "/{user-code}/filter")
+  public ResponseEntity findExpensesByDateAndUserCode(
+      @PathVariable(value = "user-code") final long userCode,
       @RequestParam(value = "data", required = false) @DateTimeFormat(iso = ISO.DATE) final LocalDate date) {
     log.info("RECEIVED ON FIND EXPENSES BY DATE METHOD");
-    return ResponseEntity.ok().body(spendingUseCase.findAllExpensesByDate(date));
+    return ResponseEntity.ok().body(spendingUseCase.findAllExpensesByUserCodeAndDate(userCode, date));
   }
 
   @PostMapping
@@ -54,7 +55,7 @@ public class SpendingController {
   public ResponseEntity createSpent(@RequestBody final SpendingRequest spendingRequest) {
     log.info("RECEIVED ON CREATE SPENT METHOD");
     spendingUseCase.saveSpent(spendingRequest);
-    return ResponseEntity.ok().body(spendingUseCase.findAllExpenses());
+    return ResponseEntity.ok().body(spendingUseCase.findAllExpenses(spendingRequest.getUserCode()));
   }
 
   @PutMapping
@@ -62,7 +63,7 @@ public class SpendingController {
   public ResponseEntity updateSpent(@RequestBody final SpendingRequest spendingRequest) {
     log.info("RECEIVED ON UPDATE SPENT METHOD");
     spendingUseCase.saveSpent(spendingRequest);
-    return ResponseEntity.ok().body(spendingUseCase.findAllExpenses());
+    return ResponseEntity.ok().body(spendingUseCase.findAllExpenses(spendingRequest.getUserCode()));
   }
 
   @GetMapping(value = "/categories")

@@ -20,16 +20,6 @@ public class SpendingGatewayImpl implements SpendingGateway {
   private final SpendingRepository spendingRepository;
 
   @Override
-  public List<Spending> findAllExpenses() {
-    return spendingRepository.findAll();
-  }
-
-  @Override
-  public List<Spending> findAllExpensesByDate(LocalDate date) {
-    return spendingRepository.findAllByDate(date);
-  }
-
-  @Override
   public Set<String> findCategories(String query) {
     return spendingRepository
         .findAllByCategoryContaining(query)
@@ -41,6 +31,11 @@ public class SpendingGatewayImpl implements SpendingGateway {
   @Override
   public List<Spending> findExpensesByUserCode(Long userCode) {
     return spendingRepository.findAllByUserCode(userCode);
+  }
+
+  @Override
+  public List<Spending> findExpensesByUserCodeAndDate(Long userCode, LocalDate date) {
+    return spendingRepository.findAllByUserCodeAndDate(userCode, date);
   }
 
   @Override

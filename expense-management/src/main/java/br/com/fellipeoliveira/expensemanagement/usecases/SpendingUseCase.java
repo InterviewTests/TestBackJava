@@ -17,12 +17,12 @@ public class SpendingUseCase {
 
   private final SpendingGateway spendingGateway;
 
-  public List<SpendingResponse> findAllExpenses() {
-    return spendingListResponseBuilder(spendingGateway.findAllExpenses());
+  public List<SpendingResponse> findAllExpenses(Long userCode) {
+    return spendingListResponseBuilder(spendingGateway.findExpensesByUserCode(userCode));
   }
 
-  public List<SpendingResponse> findAllExpensesByDate(LocalDate date) {
-    return spendingListResponseBuilder(spendingGateway.findAllExpensesByDate(date));
+  public List<SpendingResponse> findAllExpensesByUserCodeAndDate(Long userCode, LocalDate date) {
+    return spendingListResponseBuilder(spendingGateway.findExpensesByUserCodeAndDate(userCode, date));
   }
 
   public SpendingResponse findExpense(String id) {

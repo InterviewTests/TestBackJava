@@ -1,5 +1,9 @@
 package br.com.santander.gastos.integracao.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -14,10 +18,16 @@ public class AdicionarGastoRequest implements Serializable {
     private Double valor;
 
     @NotNull
+    @JsonProperty("codigousuario")
     private Long codigoUsuario;
 
     @NotNull
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime data;
+
+    public AdicionarGastoRequest(){
+        super();
+    }
 
     public String getDescricao() {
         return descricao;

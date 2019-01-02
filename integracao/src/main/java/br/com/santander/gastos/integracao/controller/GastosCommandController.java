@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-public class IntegracaoCommandController {
+public class GastosCommandController {
 
     private final GastosCommandService gastosCommandService;
 
     @Autowired
-    public IntegracaoCommandController(GastosCommandService adicionarGastosService) {
+    public GastosCommandController(GastosCommandService adicionarGastosService) {
         this.gastosCommandService = adicionarGastosService;
     }
 

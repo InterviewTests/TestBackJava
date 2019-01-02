@@ -12,12 +12,12 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
-public class IntegracaoQueryController {
+public class GastosQueryController {
 
     private final GastosQueryService gastosQueryService;
 
     @Autowired
-    public IntegracaoQueryController(GastosQueryService gastosQueryService){
+    public GastosQueryController(GastosQueryService gastosQueryService){
         this.gastosQueryService = gastosQueryService;
     }
 

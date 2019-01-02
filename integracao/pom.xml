@@ -23,6 +23,8 @@
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <mockito-core.version>2.23.4</mockito-core.version>
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <assertj-core.version>3.11.1</assertj-core.version>
+        <random-beans.version>3.7.0</random-beans.version>
     </properties>
 
     <dependencies>
@@ -93,6 +95,26 @@
             <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.benas</groupId>
+            <artifactId>random-beans</artifactId>
+            <version>${random-beans.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.benas</groupId>
+            <artifactId>random-beans-randomizers</artifactId>
+            <version>${random-beans.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

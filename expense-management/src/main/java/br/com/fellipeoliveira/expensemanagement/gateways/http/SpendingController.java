@@ -62,7 +62,7 @@ public class SpendingController {
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity updateSpent(@RequestBody final SpendingRequest spendingRequest) {
     log.info("RECEIVED ON UPDATE SPENT METHOD");
-    spendingUseCase.saveSpent(spendingRequest);
+    spendingUseCase.addCategory(spendingRequest);
     return ResponseEntity.ok().body(spendingUseCase.findAllExpenses(spendingRequest.getUserCode()));
   }
 

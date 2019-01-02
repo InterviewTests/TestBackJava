@@ -1,3 +1,142 @@
+# API para Gestão de Gastos - Teste Backend Santander
+
+Requisitos necessários para utilização do projeto:
+
+- Java
+- Maven
+- MongoDB
+- Redis
+
+### No diretório infra do projeto contem o docker compose que com ele você conseguirá subir a imagem docker do MongoDB e do Redis
+
+
+Foi feito dois projetos, um pequeno projeto para autenticação Oauth2 utilizando o spring security e outro projeto que é onde está a API de Gestão de gastos
+
+
+Modo de Utilizar:
+
+- Subir o MongoDB e o Redis com o docker compose
+- Iniciar a aplicação Security (Aplicação que fará a autenticação) - A aplicação vai subir na porta 8081
+- Iniciar a aplicação expense-management (APIs para gestão de gastos) - A aplicação vai subir na porta 8080
+
+Endpoints:
+
+### OBS: Antes de fazer qualquer requisição ao projeto de gestão de gastos, deve ser feito a autenticação no projeto security
+
+```
+url token: http://localhost:8081/oauth/token
+client: client
+secret: secret
+
+Após obter o token, utilizar o mesmo nas chamadas dos endpoints do projeto de gestão de gastos
+```
+
+```
+Nesse endpoint pode ser consultado todos os gastos de determinado cliente
+GET http://localhost:8080/spending/1234
+```
+
+```
+Nesse endpoint pode ser incluido um gasto
+POST http://localhost:8080/spending
+
+OBS: Caso ainda não exista nenhum gasto para esse cliente onde a descrição seja igual a do novo gasto, o campo categoria retornado no response será null, caso contrário, será retornado o a categoria encontrada.
+
+REQUST:
+{
+  "descricao": "RSHOP LTDA",
+  "valor": 56.9,
+  "codigousuario": 1234,
+  "data": "2018-12-25T15:00:00"
+}
+
+Response:
+[
+    {
+        "id": "5c2cf2cca6f8ede155114d01",
+        "descricao": "RSHOP LTDA",
+        "categoria": "Almoço",
+        "valor": 23.9,
+        "codigousuario": 1234,
+        "data": "2018-12-25T15:00:00"
+    }
+]
+```
+
+```
+Nesse endpoint pode ser consultado um gasto pelo ID do mesmo
+GET http://localhost:8080/spending/filter/5c2cf2cca6f8ede155114d01
+
+Response:
+{
+    "id": "5c2cf2cca6f8ede155114d01",
+    "descricao": "RSHOP LTDA",
+    "categoria": "Almoço",
+    "valor": 23.9,
+    "codigousuario": 1234,
+    "data": "2018-12-25T15:00:00"
+}
+```
+
+```
+Nesse endpoint pode ser consultado um gasto pela data e código do cliente
+GET http://localhost:8080/spending/1234/filter?data=2018-12-25
+
+Response:
+[
+  {
+      "id": "5c2cf2cca6f8ede155114d01",
+      "descricao": "RSHOP LTDA",
+      "categoria": "Almoço",
+      "valor": 23.9,
+      "codigousuario": 1234,
+      "data": "2018-12-25T15:00:00"
+  }
+]
+```
+
+```
+Nesse endpoint pode ser consultado as categorias, conforme passado algum termo, ele busca as categorias que contem aquele termo na palavra
+GET http://localhost:8080/spending/categories?term=Ca
+
+Response:
+["Casa", "Casamento", "Carro"]
+```
+
+```
+Nesse endpoint pode ser incluido a categoria do gasto
+PUT http://localhost:8080/spending
+
+Request:
+
+{
+    "id": "5c2cf2cca6f8ede155114d01",
+    "descricao": "RSHOP LTDA",
+    "categoria": "Almoço",
+    "valor": 23.9,
+    "codigousuario": 1234,
+    "data": "2018-12-25T15:00:00"
+}
+
+Response:
+
+[
+    {
+        "id": "5c2cf2cca6f8ede155114d01",
+        "descricao": "RSHOP LTDA",
+        "categoria": "Almoço",
+        "valor": 23.9,
+        "codigousuario": 1234,
+        "data": "2018-12-24T15:00:00"
+    }
+]
+
+```
+
+
+
+Segue abaixo as instruções originais:
+
 # Show me the code
 
 ### # DESAFIO:

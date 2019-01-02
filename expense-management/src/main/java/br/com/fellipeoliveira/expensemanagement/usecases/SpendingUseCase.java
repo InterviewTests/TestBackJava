@@ -39,11 +39,16 @@ public class SpendingUseCase {
         .stream()
         .filter(
             spending ->
-                spending.getDescription().equalsIgnoreCase(spendingRequest.getDescription())
-                    && !spending.getCategory().isEmpty())
+                spending.getDescription().equalsIgnoreCase(spendingRequest.getDescription()))
         .findFirst()
         .ifPresent(spending -> spendingRequest.setCategory(spending.getCategory()));
     spendingGateway.save(spendingBuilder(spendingRequest));
+  }
+
+  public void addCategory(SpendingRequest spendingRequest) {
+    Spending spending = spendingGateway.findExpenseById(spendingRequest.getId());
+    spending.setCategory(spendingRequest.getCategory());
+    spendingGateway.save(spending);
   }
 
   private Spending spendingBuilder(SpendingRequest spendingRequest) {

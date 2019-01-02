@@ -1,6 +1,7 @@
 package br.com.santander.gastos.integracao.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "gastos")
@@ -20,7 +21,7 @@ public class GastoEntity {
     private Long codigoUsuario;
 
     @Column(nullable=false)
-    private String data;
+    private LocalDateTime data;
 
     @Column
     private String categoria;
@@ -57,11 +58,11 @@ public class GastoEntity {
         this.codigoUsuario = codigoUsuario;
     }
 
-    public String getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 

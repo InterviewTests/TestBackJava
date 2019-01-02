@@ -3,6 +3,7 @@ package br.com.santander.gastos.integracao.dto;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class AdicionarGastoRequest implements Serializable {
 
@@ -15,8 +16,8 @@ public class AdicionarGastoRequest implements Serializable {
     @NotNull
     private Long codigoUsuario;
 
-    @NotEmpty
-    private String data;
+    @NotNull
+    private LocalDateTime data;
 
     public String getDescricao() {
         return descricao;
@@ -42,11 +43,11 @@ public class AdicionarGastoRequest implements Serializable {
         this.codigoUsuario = codigoUsuario;
     }
 
-    public String getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 }

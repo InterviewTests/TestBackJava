@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(path="/api/v1")
 public class GastosQueryController {
 
     private final GastosQueryService gastosQueryService;

@@ -1,0 +1,55 @@
+version: "3"
+services:
+
+  integracao-gastos:
+    image: integracao-gastos
+    ports:
+      - 8081:8081
+    environment:
+      - MYSQL_HOSTNAME=mysql-docker-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-docker-container
+    ports:
+      - "8081:8081"
+    networks:
+      - webnet
+
+  mysql-docker-container:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=santander
+    volumes:
+      - /data/mysql
+    networks:
+      - webnet
+
+  categorias:
+    image: categorias
+    depends_on:
+      - solr
+    ports:
+      - "8082:8082"
+    environment:
+      - SOLR_HOSTNAME=solr
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - solr
+
+  solr:
+    image: solr
+    ports:
+     - "8983:8983"
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - categorias
+networks:
+  webnet:

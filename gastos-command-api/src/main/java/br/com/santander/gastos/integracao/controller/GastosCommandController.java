@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/gastos/v1/gastos")
 public class GastosCommandController {
 
     private final GastosCommandService gastosCommandService;
@@ -20,14 +19,14 @@ public class GastosCommandController {
         this.gastosCommandService = adicionarGastosService;
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/gastos/v1/gastos/")
     public GastosDTO adicionarGastos(
             @RequestBody @Valid AdicionarGastoRequest adicionarGastoRequest
     ) {
         return gastosCommandService.adicionarGasto(adicionarGastoRequest);
     }
 
-    @PutMapping(value = "/{idGasto}")
+    @PutMapping(value = "/gastos/v1/gastos/{idGasto}")
     public GastosDTO categorizarGasto(
             @RequestBody @Valid CategorizarGastoRequest categorizarGastoRequest,
             @PathVariable("idGasto") Long idGasto) {

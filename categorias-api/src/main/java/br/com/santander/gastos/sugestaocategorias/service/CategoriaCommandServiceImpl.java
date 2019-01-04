@@ -1,9 +1,9 @@
 package br.com.santander.gastos.sugestaocategorias.service;
 
 import br.com.santander.gastos.sugestaocategorias.dto.AdicionarCategoriaRequest;
-import br.com.santander.gastos.sugestaocategorias.dto.CategoriaDTO;
 import br.com.santander.gastos.sugestaocategorias.dto.CategoriaDocument;
 import br.com.santander.gastos.sugestaocategorias.dto.CategoriasCliente;
+import br.com.santander.gastos.sugestaocategorias.dto.CategoriasClienteDTO;
 import br.com.santander.gastos.sugestaocategorias.mappers.CategoriaMapper;
 import br.com.santander.gastos.sugestaocategorias.repository.CategoriasClienteRepository;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +15,6 @@ import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,25 +36,51 @@ public class CategoriaCommandServiceImpl implements CategoriaCommandService {
     }
 
     @Override
-    public CategoriaDTO adicionarCategoria(AdicionarCategoriaRequest adicionarCategoriaRequest) {
-
-        CategoriasCliente categorias = new CategoriasCliente();
-        categorias.setId(1L);
-        List<CategoriaDocument> c = new ArrayList<>();
-        CategoriaDocument d = new CategoriaDocument();
-        d.setId("finanças");
-        d.setDescricoes(Arrays.asList("pagamento cartão", "pagamento divida", "conta atrasada"));
-        c.add(d);
-        categorias.setCategorias(c);
-
-        categoriasClienteRepository.save(categorias);
+    public CategoriasClienteDTO adicionarCategoria(AdicionarCategoriaRequest adicionarCategoriaRequest) {
 
         Query query = new SimpleQuery(where("id").is(adicionarCategoriaRequest.getIdCliente()));
         query.addProjectionOnField(new SimpleField("*"));
         query.addProjectionOnField(new SimpleField(String.format("[child parentFilter=id:%d]", adicionarCategoriaRequest.getIdCliente())));
 
-        final Optional<CategoriasCliente> books = solrTemplate.queryForObject("categorias", query, CategoriasCliente.class);
+        final Optional<CategoriasCliente> optionalCategoriasDoCliente = solrTemplate.queryForObject("categorias", query, CategoriasCliente.class);
 
-        return null;
+        CategoriasCliente categoriasCliente;
+
+        final String novaDescricao = adicionarCategoriaRequest.getDescricao();
+        final String novaCategoria = adicionarCategoriaRequest.getCategoria();
+
+        if(optionalCategoriasDoCliente.isPresent()){
+
+            categoriasCliente = optionalCategoriasDoCliente.get();
+
+            final Optional<CategoriaDocument> c = categoriasCliente.getCategorias()
+                    .stream()
+                    .filter(categoriaDocument -> novaCategoria.equals(categoriaDocument.getId()))
+                    .findFirst();
+
+            c.ifPresent(categoriaDocument -> {
+                final Optional<String> desc = categoriaDocument.getDescricoes()
+                        .stream()
+                        .filter(descricao -> descricao.equals(descricao))
+                        .findFirst();
+
+                if(!desc.isPresent()){
+                    categoriaDocument.getDescricoes().add(novaDescricao);
+                }
+            });
+
+        } else {
+            categoriasCliente = new CategoriasCliente();
+            categoriasCliente.setId(adicionarCategoriaRequest.getIdCliente());
+            List<CategoriaDocument> cd = new ArrayList<>();
+
+            CategoriaDocument d = new CategoriaDocument();
+            d.setId(adicionarCategoriaRequest.getCategoria());
+            d.getDescricoes().add(novaDescricao);
+            cd.add(d);
+            categoriasCliente.setCategorias(cd);
+        }
+
+        return categoriaMapper.entityToDTO(categoriasClienteRepository.save(categoriasCliente));
     }
 }

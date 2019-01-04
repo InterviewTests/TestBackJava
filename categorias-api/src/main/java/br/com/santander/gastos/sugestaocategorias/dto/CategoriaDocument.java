@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SolrDocument(solrCoreName = "categorias")
@@ -24,6 +25,11 @@ public class CategoriaDocument {
     }
 
     public List<String> getDescricoes() {
+
+        if(descricoes == null){
+            descricoes = new ArrayList<>();
+        }
+
         return descricoes;
     }
 

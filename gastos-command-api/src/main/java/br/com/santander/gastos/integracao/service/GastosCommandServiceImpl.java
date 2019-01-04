@@ -41,6 +41,10 @@ public class GastosCommandServiceImpl implements GastosCommandService {
 
         gasto.setCategoria(categorizarGastoRequest.getCategoria());
 
-        return gastosMapper.entityToDTO(gastoRepository.save(gasto));
+        final GastoEntity save = gastoRepository.save(gasto);
+
+
+
+        return gastosMapper.entityToDTO(save);
     }
 }

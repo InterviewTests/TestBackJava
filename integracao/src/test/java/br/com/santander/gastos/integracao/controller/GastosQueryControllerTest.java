@@ -72,7 +72,7 @@ public class GastosQueryControllerTest {
 
         when(gastosQueryService.consultarUltimosGastos(Mockito.anyLong(), Mockito.any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/{id}/gastos", 1))
+        mockMvc.perform(get("/api/v1/{id}/gastos", 1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalElements").value(dtoList.size()));
@@ -85,7 +85,7 @@ public class GastosQueryControllerTest {
 
         when(gastosQueryService.consultar(Mockito.anyLong(), Mockito.any(LocalDate.class), Mockito.any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/{id}/gastos", 1)
+        mockMvc.perform(get("/api/v1/{id}/gastos", 1)
                 .param("data", "01/01/2019")
             )
             .andDo(print())
@@ -100,7 +100,7 @@ public class GastosQueryControllerTest {
 
         when(gastosQueryService.consultar(Mockito.anyLong(), Mockito.any(LocalDate.class), Mockito.any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/{id}/gastos", 1)
+        mockMvc.perform(get("/api/v1/{id}/gastos", 1)
                     .param("data", "0001")
                 )
                 .andDo(print())

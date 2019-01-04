@@ -74,7 +74,7 @@ public class GastosCommandControllerTest {
 
         when(gastosCommandService.adicionarGasto(any(AdicionarGastoRequest.class))).thenReturn(dto);
 
-        final String contentAsString = mockMvc.perform(post("/gastos")
+        final String contentAsString = mockMvc.perform(post("/api/v1/gastos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
             )
@@ -94,7 +94,7 @@ public class GastosCommandControllerTest {
 
         AdicionarGastoRequest request = new AdicionarGastoRequest();
 
-        final String contentAsString = mockMvc.perform(post("/gastos")
+        final String contentAsString = mockMvc.perform(post("/api/v1/gastos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
         )
@@ -118,7 +118,7 @@ public class GastosCommandControllerTest {
         CategorizarGastoRequest request = new CategorizarGastoRequest();
         request.setCategoria("Categoria");
 
-        final String contentAsString = mockMvc.perform(put("/{codigoUsuario}/gastos/{idGasto}", 1L, 1L)
+        final String contentAsString = mockMvc.perform(put("/api/v1/{codigoUsuario}/gastos/{idGasto}", 1L, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
             )
@@ -138,7 +138,7 @@ public class GastosCommandControllerTest {
 
         CategorizarGastoRequest request = new CategorizarGastoRequest();
 
-        final String contentAsString = mockMvc.perform(put("/{codigoUsuario}/gastos/{idGasto}", 1L, 1L)
+        final String contentAsString = mockMvc.perform(put("/api/v1/{codigoUsuario}/gastos/{idGasto}", 1L, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
         )

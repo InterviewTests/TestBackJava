@@ -19,17 +19,19 @@ services:
     expose:
       - "8081"
     environment:
-      - MYSQL_HOSTNAME=mysql-docker-container
+      - MYSQL_HOSTNAME=mysql-command
+      - ZONE_URL=gateway
+      - ZONE_PORT=8080
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - mysql-docker-container
+      - mysql-command
       - gateway
     networks:
       - webnet
 
-  mysql-docker-container:
+  mysql-command:
     image: mysql
     expose:
       - "3306"

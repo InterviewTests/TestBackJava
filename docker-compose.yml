@@ -16,8 +16,8 @@ services:
 
   integracao-gastos:
     image: integracao-gastos
-    ports:
-      - 8081:8081
+    expose:
+      - "8081"
     environment:
       - MYSQL_HOSTNAME=mysql-docker-container
     build:
@@ -31,8 +31,8 @@ services:
 
   mysql-docker-container:
     image: mysql
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=santander
@@ -46,8 +46,8 @@ services:
     depends_on:
       - solr
       - gateway
-    ports:
-      - "8082:8082"
+    expose:
+      - "8082"
     environment:
       - SOLR_HOSTNAME=solr
       - ZONE_URL=gateway
@@ -60,8 +60,8 @@ services:
 
   solr:
     image: solr
-    ports:
-     - "8983:8983"
+    expose:
+     - "8983"
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate

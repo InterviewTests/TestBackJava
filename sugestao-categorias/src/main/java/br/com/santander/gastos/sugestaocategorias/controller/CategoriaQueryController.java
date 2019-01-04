@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(path="/api/v1")
 public class CategoriaQueryController {
 
     private final CategoriaQueryService categoriaQueryService;

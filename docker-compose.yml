@@ -1,6 +1,19 @@
 version: "3"
 services:
 
+  gateway:
+      image: gateway
+      ports:
+        - 8080:8080      
+      environment:
+        - ZONE_URL=gateway
+        - ZONE_PORT=8080
+      build:
+        context: .
+        dockerfile: Dockerfile
+      networks:
+        - webnet
+
   integracao-gastos:
     image: integracao-gastos
     ports:
@@ -12,8 +25,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysql-docker-container
-    ports:
-      - "8081:8081"
+      - gateway
     networks:
       - webnet
 
@@ -33,15 +45,18 @@ services:
     image: categorias
     depends_on:
       - solr
+      - gateway
     ports:
       - "8082:8082"
     environment:
       - SOLR_HOSTNAME=solr
+      - ZONE_URL=gateway
+      - ZONE_PORT=8080
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      - solr
+    networks:
+      - webnet
 
   solr:
     image: solr
@@ -51,5 +66,7 @@ services:
       - docker-entrypoint.sh
       - solr-precreate
       - categorias
+    networks:
+      - webnet
 networks:
   webnet:

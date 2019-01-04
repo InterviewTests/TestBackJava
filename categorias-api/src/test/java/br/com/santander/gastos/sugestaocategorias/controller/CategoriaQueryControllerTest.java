@@ -49,7 +49,7 @@ public class CategoriaQueryControllerTest {
         Page<String> retornoService = new PageImpl<>(categorias);
         when(categoriaQueryService.consultarTodasCategorias(anyString(), any(Pageable.class))).thenReturn(retornoService);
 
-        mockMvc.perform(get("/categorias").param("nome", "nome da categoria")
+        mockMvc.perform(get("/categorias/v1/").param("nome", "nome da categoria")
         )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class CategoriaQueryControllerTest {
         Page<String> retornoService = new PageImpl<>(categorias);
         when(categoriaQueryService.consultarTodasCategorias(anyString(), any(Pageable.class))).thenReturn(retornoService);
 
-        mockMvc.perform(get("/categorias")
+        mockMvc.perform(get("/categorias/v1/")
                 .param("nome", "")
             )
             .andDo(print())
@@ -82,7 +82,7 @@ public class CategoriaQueryControllerTest {
         Page<String> retornoService = new PageImpl<>(categorias);
         when(categoriaQueryService.consultarTodasCategorias(anyString(), any(Pageable.class))).thenReturn(retornoService);
 
-        mockMvc.perform(get("/categorias")
+        mockMvc.perform(get("/categorias/v1")
             )
             .andDo(print())
             .andExpect(status().is4xxClientError());

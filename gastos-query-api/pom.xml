@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>br.com.santander.gastos</groupId>
-    <artifactId>integracao</artifactId>
+    <artifactId>gastos-query-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>integracao</name>
+    <name>gastos-query-api</name>
     <description>Microsserviço de integração de gastos</description>
 
     <properties>

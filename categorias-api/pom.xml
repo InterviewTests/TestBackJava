@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.santander.gastos</groupId>
-    <artifactId>sugestao-categorias</artifactId>
+    <artifactId>categorias-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>sugestao-categorias</name>
+    <name>categorias-api</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

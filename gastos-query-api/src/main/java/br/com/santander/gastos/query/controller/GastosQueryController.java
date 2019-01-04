@@ -1,7 +1,7 @@
-package br.com.santander.gastos.integracao.controller;
+package br.com.santander.gastos.query.controller;
 
-import br.com.santander.gastos.integracao.dto.GastosDTO;
-import br.com.santander.gastos.integracao.service.GastosQueryService;
+import br.com.santander.gastos.query.dto.GastosDTO;
+import br.com.santander.gastos.query.service.GastosQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/gastos")
+@RequestMapping(path = "/gastos/v1")
 public class GastosQueryController {
 
     private final GastosQueryService gastosQueryService;
@@ -22,7 +22,7 @@ public class GastosQueryController {
         this.gastosQueryService = gastosQueryService;
     }
 
-    @GetMapping(value = "/{codigoUsuario}/gastos")
+    @GetMapping(value = "usuario/{codigoUsuario}/gastos")
     public Page<GastosDTO> consultar(
             @PathVariable("codigoUsuario") Long codigoUsuario,
             @RequestParam(value = "data", required = false)

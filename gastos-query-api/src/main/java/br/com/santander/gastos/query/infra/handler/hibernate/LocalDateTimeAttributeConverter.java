@@ -1,4 +1,4 @@
-package br.com.santander.gastos.integracao.infra.handler.hibernate;
+package br.com.santander.gastos.query.infra.handler.hibernate;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

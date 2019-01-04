@@ -1,8 +1,7 @@
-package br.com.santander.gastos.integracao.controller;
+package br.com.santander.gastos.query.controller;
 
-import br.com.santander.gastos.integracao.dto.GastosDTO;
-import br.com.santander.gastos.integracao.mappers.GastosMapper;
-import br.com.santander.gastos.integracao.service.GastosQueryService;
+import br.com.santander.gastos.query.dto.GastosDTO;
+import br.com.santander.gastos.query.service.GastosQueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
@@ -16,7 +15,6 @@ import io.github.benas.randombeans.randomizers.time.LocalDateTimeRandomizer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -72,7 +70,7 @@ public class GastosQueryControllerTest {
 
         when(gastosQueryService.consultarUltimosGastos(Mockito.anyLong(), Mockito.any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/api/v1/{id}/gastos", 1))
+        mockMvc.perform(get("/gastos/v1/usuario/{id}/gastos", 1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalElements").value(dtoList.size()));
@@ -85,7 +83,7 @@ public class GastosQueryControllerTest {
 
         when(gastosQueryService.consultar(Mockito.anyLong(), Mockito.any(LocalDate.class), Mockito.any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/api/v1/{id}/gastos", 1)
+        mockMvc.perform(get("/gastos/v1/usuario/{id}/gastos", 1)
                 .param("data", "01/01/2019")
             )
             .andDo(print())
@@ -100,7 +98,7 @@ public class GastosQueryControllerTest {
 
         when(gastosQueryService.consultar(Mockito.anyLong(), Mockito.any(LocalDate.class), Mockito.any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/api/v1/{id}/gastos", 1)
+        mockMvc.perform(get("/gastos/v1/usuario/{id}/gastos", 1)
                     .param("data", "0001")
                 )
                 .andDo(print())

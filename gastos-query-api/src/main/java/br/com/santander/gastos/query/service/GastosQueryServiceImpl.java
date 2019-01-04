@@ -1,10 +1,10 @@
-package br.com.santander.gastos.integracao.service;
+package br.com.santander.gastos.query.service;
 
-import br.com.santander.gastos.integracao.dto.GastosDTO;
-import br.com.santander.gastos.integracao.entity.GastoEntity;
-import br.com.santander.gastos.integracao.entity.QGastoEntity;
-import br.com.santander.gastos.integracao.mappers.GastosMapper;
-import br.com.santander.gastos.integracao.repository.GastoRepository;
+import br.com.santander.gastos.query.dto.GastosDTO;
+import br.com.santander.gastos.query.entity.GastoEntity;
+import br.com.santander.gastos.query.entity.QGastoEntity;
+import br.com.santander.gastos.query.mappers.GastosMapper;
+import br.com.santander.gastos.query.repository.GastoRepository;
 import com.querydsl.core.BooleanBuilder;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;

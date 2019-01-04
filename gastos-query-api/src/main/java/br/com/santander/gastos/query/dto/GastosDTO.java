@@ -1,29 +1,27 @@
-package br.com.santander.gastos.integracao.entity;
+package br.com.santander.gastos.query.dto;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "gastos")
-public class GastoEntity {
+public class GastosDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable=false)
     private String descricao;
 
-    @Column(nullable=false)
     private Double valor;
 
-    @Column(name="codigo_usuario", nullable=false)
     private Long codigoUsuario;
 
-    @Column(nullable=false)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime data;
 
-    @Column
     private String categoria;
 
     public Long getId() {

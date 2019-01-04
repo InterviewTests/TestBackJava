@@ -1,6 +1,5 @@
-package br.com.santander.gastos.integracao.infra.handler;
+package br.com.santander.gastos.query.infra.handler;
 
-import br.com.santander.gastos.integracao.exceptions.GastoNaoEncontradoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +29,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
-
-    @ExceptionHandler(GastoNaoEncontradoException.class)
-    public ResponseEntity<?> handlerGastoNaoEncontradoException(GastoNaoEncontradoException gnee) {
-        ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
-        errorDetail.setTitle("Gasto não encontrado.");
-        errorDetail.setDetail(gnee.getMessage());
-        errorDetail.setDeveloperMessage(gnee.getClass().getName());
-
-        logger.error(errorDetail.getTitle(), gnee);
-
-        return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handlerIllegalArgumentException(IllegalArgumentException iae,

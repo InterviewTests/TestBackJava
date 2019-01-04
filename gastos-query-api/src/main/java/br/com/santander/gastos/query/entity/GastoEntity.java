@@ -1,32 +1,37 @@
-package br.com.santander.gastos.integracao.dto;
+package br.com.santander.gastos.query.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-public class AdicionarGastoRequest implements Serializable {
+@Entity
+@Table(name = "gastos")
+public class GastoEntity {
 
-    @NotEmpty
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable=false)
     private String descricao;
 
-    @NotNull
+    @Column(nullable=false)
     private Double valor;
 
-    @NotNull
-    @JsonProperty("codigousuario")
+    @Column(name="codigo_usuario", nullable=false)
     private Long codigoUsuario;
 
-    @NotNull
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Column(nullable=false)
     private LocalDateTime data;
 
-    public AdicionarGastoRequest(){
-        super();
+    @Column
+    private String categoria;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -59,5 +64,13 @@ public class AdicionarGastoRequest implements Serializable {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

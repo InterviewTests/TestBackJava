@@ -1,4 +1,4 @@
-package br.com.santander.gastos.integracao.infra.handler;
+package br.com.santander.gastos.query.infra.handler;
 
 public class ValidationError {
 

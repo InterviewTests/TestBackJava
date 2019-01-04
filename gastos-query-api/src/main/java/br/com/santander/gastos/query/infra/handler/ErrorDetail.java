@@ -1,4 +1,4 @@
-package br.com.santander.gastos.integracao.infra.handler;
+package br.com.santander.gastos.query.infra.handler;
 
 import java.util.HashMap;
 import java.util.List;

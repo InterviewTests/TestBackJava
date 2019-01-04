@@ -1,6 +1,6 @@
-package br.com.santander.gastos.integracao.service;
+package br.com.santander.gastos.query.service;
 
-import br.com.santander.gastos.integracao.dto.GastosDTO;
+import br.com.santander.gastos.query.dto.GastosDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

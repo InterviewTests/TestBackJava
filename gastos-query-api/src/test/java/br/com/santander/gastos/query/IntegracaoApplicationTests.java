@@ -1,4 +1,4 @@
-package br.com.santander.gastos.integracao;
+package br.com.santander.gastos.query;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

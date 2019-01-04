@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping(path = "/categorias/v1")
 public class CategoriaQueryController {
 
     private final CategoriaQueryService categoriaQueryService;
@@ -19,7 +20,7 @@ public class CategoriaQueryController {
         this.categoriaQueryService = categoriaQueryService;
     }
 
-    @GetMapping(value = "/categorias")
+    @GetMapping(value = "/")
     public Page<String> consultarCategorias(
             @RequestParam("nome") String nome,
             Pageable pageable

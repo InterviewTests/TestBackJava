@@ -1,5 +1,16 @@
 # Show me the code
 
+## Pré-requisitos:
+
+* Docker & docker-compose;
+* Maven
+* JDK 8 (para compilação do maven)
+
+## Como executar:
+
+* Execute o arquivo `build-docker.bat` na pasta raiz para compilar os serviços e gerar a imagem Docker;
+* Execute o comando `docker-compose up` para iniciar a aplicação. A API é exposta na porta *8080*
+
 ### # DESAFIO:
 
 API REST para Gestão de Gastos!

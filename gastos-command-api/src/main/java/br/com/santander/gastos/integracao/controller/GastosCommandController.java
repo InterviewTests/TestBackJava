@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/gastos/v1")
+@RequestMapping(path = "/gastos/v1/gastos")
 public class GastosCommandController {
 
     private final GastosCommandService gastosCommandService;

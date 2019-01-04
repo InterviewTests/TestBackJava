@@ -14,8 +14,8 @@ services:
       networks:
         - webnet
 
-  integracao-gastos:
-    image: integracao-gastos
+  gastos-command-api:
+    image: gastos-command-api
     expose:
       - "8081"
     environment:
@@ -37,14 +37,43 @@ services:
       - "3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=santander
+      - MYSQL_DATABASE=command
     volumes:
       - /data/mysql
     networks:
       - webnet
 
-  categorias:
-    image: categorias
+  gastos-query-api:
+    image: gastos-query-api
+    expose:
+      - "8081"
+    environment:
+      - MYSQL_HOSTNAME=mysql-query
+      - ZONE_URL=gateway
+      - ZONE_PORT=8080
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-query
+      - gateway
+    networks:
+      - webnet
+
+  mysql-query:
+    image: mysql
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=query
+    volumes:
+      - /data/mysql
+    networks:
+      - webnet
+
+  categorias-api:
+    image: categorias-api
     depends_on:
       - solr
       - gateway

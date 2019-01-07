@@ -22,6 +22,10 @@
 * Solr -  armazenamento das categorias;
 * MySQL - armazenamento dos dados transacionais. 
 
+## Mensageria 
+
+* RabbitMQ
+
 ### Testes
 
 * Mockito - Criação de Mocks;

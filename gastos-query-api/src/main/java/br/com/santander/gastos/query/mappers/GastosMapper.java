@@ -9,4 +9,6 @@ public interface GastosMapper {
 
     GastosDTO entityToDTO(GastoEntity gastoEntity);
 
+    GastoEntity dtoToEntity(GastosDTO gastosDTO);
+
 }

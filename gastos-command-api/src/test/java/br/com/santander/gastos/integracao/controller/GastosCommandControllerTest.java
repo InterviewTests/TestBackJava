@@ -5,6 +5,7 @@ import br.com.santander.gastos.integracao.dto.CategorizarGastoRequest;
 import br.com.santander.gastos.integracao.dto.GastosDTO;
 import br.com.santander.gastos.integracao.infra.handler.ErrorDetail;
 import br.com.santander.gastos.integracao.mappers.GastosMapper;
+import br.com.santander.gastos.integracao.service.FilaServiceImpl;
 import br.com.santander.gastos.integracao.service.GastosCommandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -48,6 +49,9 @@ public class GastosCommandControllerTest {
 
     @MockBean
     private GastosCommandService gastosCommandService;
+
+    @MockBean
+    private FilaServiceImpl filaService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

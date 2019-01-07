@@ -4,7 +4,7 @@ services:
   gateway:
       image: gateway
       ports:
-        - 8080:8080      
+        - 8080:8080
       environment:
         - ZONE_URL=gateway
         - ZONE_PORT=8080
@@ -46,7 +46,7 @@ services:
   gastos-query-api:
     image: gastos-query-api
     expose:
-      - "8081"
+      - "8082"
     environment:
       - MYSQL_HOSTNAME=mysql-query
       - ZONE_URL=gateway
@@ -78,7 +78,7 @@ services:
       - solr
       - gateway
     expose:
-      - "8082"
+      - "8083"
     environment:
       - SOLR_HOSTNAME=solr
       - ZONE_URL=gateway
@@ -97,6 +97,14 @@ services:
       - docker-entrypoint.sh
       - solr-precreate
       - categorias
+    networks:
+      - webnet
+
+  rabbitmq:
+    image: rabbitmq:management
+    expose:
+      - "5672"
+      - "15672"
     networks:
       - webnet
 networks:

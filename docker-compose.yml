@@ -1,0 +1,16 @@
+version: "3"
+services:
+    mongo:
+      container_name: mongo
+      image: mongo
+      restart: always
+      ports: 
+        - '27017:27017'
+    gestao-gastos:
+      container_name: gestao-gastos
+      image:  gestao-gastos:latest  
+      restart: always
+      links: 
+        - mongo
+      ports:
+        - '8080:8080'

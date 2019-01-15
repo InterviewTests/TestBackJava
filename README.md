@@ -1,76 +1,57 @@
-# Show me the code
+# Banco de dados
 
-### # DESAFIO:
+Esta API usa o Cassandra como base de dados. Deve-se ter uma instância do banco de dados NoSQL rodando e configuradas as variáveis de ambiente **CASSANDRA_HOST** com o IP ou host e **CASSANDRA_PORT** com a porta a ser utilizada.
 
-API REST para Gestão de Gastos!
+O arquivo script1.cql é usado para a criação das tabelas Usuario, Gasto e Categoria no mesmo. Deve ser executado via cqlsh ou algum client de banco de dados antes da execução da API
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+# Execução
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+A aplicação foi desenvolvida usando Spring Boot, Java 8 e Maven. Para a execução da mesma, deve-se executar o comando ``mvn spring-boot:run`` na pasta raiz ou ainda ``mvn clean package`` e após a criação do **.jar** na pasta ``target``, o comando ``java -jar bweninger-0.0.1-SNAPSHOT.jar App.java``
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+## Testes
 
-### # Observações gerais
+Para o desenvolvimento dos testes foi usado JUnit e Mockito e as classes de serviço e suas lógicas foram os objetivos. Para execução dos mesmos, rodar o comando ``mvn test`` na pasta raiz
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+## Controle de Acesso
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+As urls ``/api/usuarios`` e ``api/login`` estão desprotegidas. Para a criação do usuário é necessário uma requisição POST para a primeira, com o seguinte objeto JSON:
+```
+{
+	"nome" : "Bruno Weninger",
+	"senha" : "123",
+	"repeteSenha" : "123",
+	"cpf" : "123.456.789-00"
+}
+```
+A partir deste momento, o usuario criado pode efetuar login, através da segunda url e mais uma requisição POST. O JSON de entrada segue o seguinte padrão:
+```
+{	
+	"senha" : "123",
+	"cpf" : "123.456.789-00"
+}
+```
+A resposta desta chamada devolverá um token para o usuário, o qual deve ser passado em todas as chamadas autenticadas no header **Authentication**
 
-### # Importante: não há prazo de entrega, faça com qualidade!
+## Endpoints
 
-# BOA SORTE!
+#### /GET /api/gastos?data=yyyy-MM-ddTHH:mmZ
+- retorna todos os meus gastos, o filtro de data é opcional
+#### /PUT /api/gastos/{:id}
+- Atualiza a categoria do gasto id
+``` 
+{
+	"descricao" : "Alimentação"
+}
+```
+#### /POST /api/gastos
+- Cadastra diversos gastos para o usuário logado
+```
+[
+	{ "descricao": "Carrefour", "valor": 123.00, "data": "2019-01-14T12:00:00" }
+] 
+```
+#### /GET api/categorias?categoria=XXX
+- Retorna sugestão de categoria baseada na string informada.
+
+## Considerações finais 
+Agradeço primeiramente a oportunidade de participar do processo e espero que a API seja compatível com o que estão buscando. Qualquer dúvida favor entrar em contato através do email bweninger@outlook.com

@@ -1,10 +1,10 @@
-# Banco de dados
+## Banco de dados
 
 Esta API usa o Cassandra como base de dados. Deve-se ter uma instância do banco de dados NoSQL rodando e configuradas as variáveis de ambiente **CASSANDRA_HOST** com o IP ou host e **CASSANDRA_PORT** com a porta a ser utilizada.
 
 O arquivo script1.cql é usado para a criação das tabelas Usuario, Gasto e Categoria no mesmo. Deve ser executado via cqlsh ou algum client de banco de dados antes da execução da API
 
-# Execução
+## Execução
 
 A aplicação foi desenvolvida usando Spring Boot, Java 8 e Maven. Para a execução da mesma, deve-se executar o comando ``mvn spring-boot:run`` na pasta raiz ou ainda ``mvn clean package`` e após a criação do **.jar** na pasta ``target``, o comando ``java -jar bweninger-0.0.1-SNAPSHOT.jar App.java``
 

@@ -1,0 +1,15 @@
+version: "2"
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbit
+    ports:
+    - 5672:5672
+    - 15672:15672
+
+  cassandra:
+    image: cassandra
+    container_name: cassandra
+    ports:
+    - 9042:9042
+    - 7199:7199

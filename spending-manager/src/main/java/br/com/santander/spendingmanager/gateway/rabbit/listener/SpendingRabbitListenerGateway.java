@@ -23,6 +23,6 @@ public class SpendingRabbitListenerGateway {
     @RabbitListener(queues = RabbitConfig.SPENDING_QUEUE)
     public void receiveSpendings(Spending spending) {
         log.info("Receiving spending: {}", spending);
-        spendingGateway.saveOrUpdate(spending);
+        spendingGateway.create(spending);
     }
 }

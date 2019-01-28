@@ -74,3 +74,41 @@ Faça um fork desse desse repositório em seu Github e nos envie um Pull Request
 ### # Importante: não há prazo de entrega, faça com qualidade!
 
 # BOA SORTE!
+
+
+# SOLUÇÃO IMPLEMENTADA
+
+* Microserviço simples, usando Java 8 e Spring Boot
+* O db escolhido foi o cassandra, pela sua ótima performance de escrita e leitura
+* Optei por utilizar o rabbit no fluxo de ingestão de gastos, como buffer devido ao volume de dados previsto
+* As consultas vão diretamente ao cassandra, usei um simples CRUDRepository
+* Optei por construir o serviço utilizando clean architecture.
+* Optei por usar classes de representação de jsons, e converters entre os domains, para evitar que mudanças no domínio quebrem o contrato, ou vice-versa.
+* Não utilizei o redis como cache (para categorias, por exemplo), pois o cassandra com alguns nodes possui uma performance satisfatória
+* Utilizei o lombok como facilitador para os domains e converters, e também para implementar o design pattern Builder
+* O cassandra e o rabbit estão em imagens do docker
+* Optei por não implementar segurança, pois optei pela criação de apenas um serviço. Como a implementação seria o padrão de um authorization server do Spring Security, 
+optei por focar na implementação da API e deixar os testes do avaliador deste projeto mais fáceis, sem que fosse necessário adquirir um token antes.
+
+# PARA SUBIR A APLICAÇÃO
+
+  ```bash
+      mvn clean compile package
+  ```
+
+
+  ```bash
+      docker-compose up --build
+  ```
+
+# TESTES
+
+* A API está disponível na porta 8080
+
+# Muito obrigado pela oportunidade, pessoal!
+
+  ```bash
+      Empresa: ZUP
+      Nome: Fernando Gomes da Silva
+  ```
+

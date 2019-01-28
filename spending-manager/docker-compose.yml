@@ -1,4 +1,4 @@
-version: "2"
+version: "2.1"
 services:
   rabbitmq:
     image: rabbitmq:management
@@ -6,10 +6,56 @@ services:
     ports:
     - 5672:5672
     - 15672:15672
+    expose:
+      - 5672
+      - 15672
+    networks:
+      - santander
 
   cassandra:
-    image: cassandra
+    image: cassandra:3.10
     container_name: cassandra
+    hostname: cassandra
     ports:
-    - 9042:9042
-    - 7199:7199
+      - 7000:7000
+      - 7001:7001
+      - 7199:7199
+      - 9042:9042
+      - 9160:9160
+    healthcheck:
+      test: ["CMD", "cqlsh", "-u guest", "-p guest" ,"-e describe keyspaces"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    environment:
+      - CASSANDRA_CLUSTER_NAME='cassandra'
+      - CASSANDRA_NUM_TOKENS=256
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    networks:
+      - santander
+
+  spending-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    links:
+      - cassandra
+      - rabbitmq
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    networks:
+      - santander
+
+networks:
+  santander:

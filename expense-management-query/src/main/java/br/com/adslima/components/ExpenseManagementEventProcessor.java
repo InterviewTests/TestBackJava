@@ -40,7 +40,7 @@ public class ExpenseManagementEventProcessor {
 	 * @param event
 	 */
 	@EventHandler
-	public void on(ExpenseManagementCommunAddedEvent event) {
+	public void on(final ExpenseManagementCommunAddedEvent event) {
 
 		List<Category> categories = this.categoryRepository.findByDescription(event.getDescription());
 		

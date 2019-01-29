@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>br.com.adslima</groupId>
+	<artifactId>santander-expense-management-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>santander-expense-management-app</name>
+	<description>Expense Management App with Axon Framework, Eureka, Ribbon, Zuul, RabbitMq, Solr, Docker,</description>
+
+	<modules>
+		<module>expense-management-command</module>
+		<module>expense-management-query</module>
+		
+		<module>config-service</module>
+		<module>discovery-service</module>
+		<module>gateway-service</module>
+
+
+		<module>auth-service</module>
+
+		<module>expense-management-communs</module>
+	</modules>
+</project>

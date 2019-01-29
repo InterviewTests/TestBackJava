@@ -1,0 +1,2 @@
+org\gateway\service\GatewayServiceApplication.class
+org\gateway\service\prefilters\SimpleLoggingPreFilter.class

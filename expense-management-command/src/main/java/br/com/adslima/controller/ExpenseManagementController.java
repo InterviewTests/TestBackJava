@@ -41,8 +41,8 @@ public class ExpenseManagementController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<Response<AddExpenseManagementCommand>> create(
-			@RequestBody final ExpenseManagementCommunsDTO dto, final BindingResult result) {
+	public ResponseEntity<Response<AddExpenseManagementCommand>> add(@RequestBody final ExpenseManagementCommunsDTO dto,
+			final BindingResult result) {
 
 		AddExpenseManagementCommand command = new AddExpenseManagementCommand(UUID.randomUUID().toString(),
 				dto.getUserCode(), dto.getDescription(), dto.getDate(), dto.getValue(), dto.getCategory());

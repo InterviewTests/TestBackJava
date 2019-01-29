@@ -1,2 +1,4 @@
-# Axon Bank App
-Aplicação desenvolvida para apresentar hands on feito no Blog Coderef. Acesse o post [aqui](https://coderef.com.br/cqrs-e-event-sourcing-com-axon-framework-e-spring-boot-7bd83093782d).
+[![Build Status](https://travis-ci.org/adslima/Expense-Management-api.svg?branch=master)](https://travis-ci.org/adslima/Expense-Management-api)
+
+# Expense-Management
+API REST para Gestão de Gastos!

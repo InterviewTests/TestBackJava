@@ -27,6 +27,9 @@ public class ExpenseManagamentAggregateTest {
 
 	private FixtureConfiguration<ExpenseManagementAggregate> fixture;
 
+	String id = UUID.randomUUID().toString();
+	LocalDateTime date = LocalDateTime.now();
+
 	@Before
 	public void setUp() throws Exception {
 		fixture = new AggregateTestFixture<>(ExpenseManagementAggregate.class);
@@ -40,8 +43,6 @@ public class ExpenseManagamentAggregateTest {
 	 */
 	@Test
 	public void testAddExpenseManagementOK() throws Exception {
-		String id = UUID.randomUUID().toString();
-		LocalDateTime date = LocalDateTime.now();
 
 		ExpenseManagementCommunsDTO dto = ObjectExpenseManagement(id, date);
 
@@ -59,8 +60,6 @@ public class ExpenseManagamentAggregateTest {
 	 */
 	@Test
 	public void testAddExpenseManagementFieldFull() throws Exception {
-		String id = UUID.randomUUID().toString();
-		LocalDateTime date = LocalDateTime.now();
 
 		ExpenseManagementCommunsDTO dto = ObjectExpenseManagement(id, date);
 
@@ -77,9 +76,6 @@ public class ExpenseManagamentAggregateTest {
 	 */
 	@Test
 	public void testAggregateNotFoundException() throws Exception {
-
-		String id = UUID.randomUUID().toString();
-		LocalDateTime date = LocalDateTime.now();
 
 		ExpenseManagementCommunsDTO dto = ObjectExpenseManagement(id, date);
 

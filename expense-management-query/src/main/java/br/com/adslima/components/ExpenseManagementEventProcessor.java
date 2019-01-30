@@ -43,12 +43,12 @@ public class ExpenseManagementEventProcessor {
 	public void on(final ExpenseManagementCommunAddedEvent event) {
 
 		List<Category> categories = this.categoryRepository.findByDescription(event.getDescription());
-		
+
 		if (!categories.isEmpty() && categories.get(0).getCategory() != null) {
 
 			categories.forEach(cat -> {
 				if (cat.getCategory() != null) {
-					
+
 					event.setCategory(categories.get(0).getCategory());
 
 					Category category = getCategorySolr(event);
@@ -63,7 +63,6 @@ public class ExpenseManagementEventProcessor {
 
 				}
 			});
-
 
 		} else {
 

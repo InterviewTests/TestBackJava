@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpenseManagementCommandApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExpenseManagementCommandCommunsApplication.class, args);
+		SpringApplication.run(ExpenseManagementCommandApplication.class, args);
 	}
 	
 	@RestController

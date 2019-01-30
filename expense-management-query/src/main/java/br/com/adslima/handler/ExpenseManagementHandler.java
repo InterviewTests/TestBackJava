@@ -1,7 +1,6 @@
 package br.com.adslima.handler;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,9 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import br.com.adslima.exception.ExpenseManagementNotFoundException;
-import br.com.adslima.model.Category;
 import br.com.adslima.model.ExpenseManagement;
-import br.com.adslima.repository.CategoryRepository;
 import br.com.adslima.repository.ExpenseManagementRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +19,8 @@ public class ExpenseManagementHandler {
 
 	@Autowired
 	ExpenseManagementRepository repository;
+
+//	private HttpSolrClient solr;
 
 	/**
 	 * 
@@ -40,7 +39,7 @@ public class ExpenseManagementHandler {
 
 		if (expensesCards.getContent().isEmpty()) {
 			throw new ExpenseManagementNotFoundException(
-					"Não foram encontrados registros por data para o usuario: " + userCode + " e date: " + date);
+					"Não foram encontrados registros por data para o usuario: " + userCode + " e data: " + date);
 		}
 		return new PageImpl<ExpenseManagement>(expensesCards.getContent(), pageable, expensesCards.getTotalElements());
 
@@ -60,9 +59,33 @@ public class ExpenseManagementHandler {
 
 		if (expensesCards.getContent().isEmpty()) {
 			throw new ExpenseManagementNotFoundException(
-					"Não foram encontrados registros relacionados a esses usuarios: " + userCode);
+					"Não foram encontrados registros relacionados ao usuario informado: " + userCode);
 		}
 		return new PageImpl<ExpenseManagement>(expensesCards.getContent(), pageable, expensesCards.getTotalElements());
 	}
 
+//	/**
+//	 * 
+//	 * @param description
+//	 * @return
+//	 */
+//	@Cacheable(value = "categoryByDescription", key = "#description")
+//	public String findByDescription(String description) {
+//		SolrQuery query = new SolrQuery();
+//		query.set("q", String.format("description:%s*", description));
+//		QueryResponse response;
+//		try {
+//			response = solr.query(query);
+//			SolrDocumentList doc = response.getResults();
+//			if (!doc.isEmpty()) {
+//				return doc.get(0).getFieldValue("category_txt").toString();
+//			}
+//		} catch (SolrServerException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return null;
+//	}
 }

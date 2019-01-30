@@ -5,6 +5,7 @@ package br.com.adslima.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.core.query.result.FacetPage;
 import org.springframework.data.solr.core.query.result.HighlightPage;
@@ -21,6 +22,17 @@ import br.com.adslima.model.Category;
  */
 public interface CategoryRepository extends SolrCrudRepository<Category, String> {
 
+	Category findByCategoryId(String categoryId);
+
+	@Query("odesc:*?0*")
+	Page<Category> findByCategoryDescription(String searchTerm, Pageable pageable);
+
+	@Query("odesc:*?0* OR ocat:*?0*")
+	Page<Category> findByCustomerQuery(String searchTerm, Pageable pageable);
+
+	@Query(name = "Category.findByDescriptionQuery")
+	Page<Category> findByDescriptionQuery(String searchTerm, Pageable pageable);
+
 	List<Category> findByDescription(String description);
 
 	// Page<Category> findByNameOrDescription(@Boost(2) String name, String
@@ -32,7 +44,5 @@ public interface CategoryRepository extends SolrCrudRepository<Category, String>
 
 	@Highlight(prefix = "<highlight>", postfix = "</highlight>")
 	HighlightPage<Category> findByDescription(String description, Pageable pageable);
-
-	// ExpenseManagement save(ExpenseManagement expenseManagement);
 
 }

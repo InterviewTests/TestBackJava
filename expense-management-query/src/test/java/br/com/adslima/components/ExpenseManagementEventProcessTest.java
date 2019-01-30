@@ -1,20 +1,14 @@
 package br.com.adslima.components;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.annotation.Resource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -42,9 +36,6 @@ public class ExpenseManagementEventProcessTest {
 
 	@MockBean
 	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private ExpenseManagementEventProcessor processor;
 
 	@Before
 	public void setUp() throws Exception {

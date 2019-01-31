@@ -24,16 +24,16 @@ public interface CategoryRepository extends SolrCrudRepository<Category, String>
 
 	Category findByCategoryId(String categoryId);
 
-	@Query("odesc:*?0*")
-	Page<Category> findByCategoryDescription(String searchTerm, Pageable pageable);
+	@Query("edesc:*?0*")
+	Page<Category> findByExpenseDescription(String searchTerm, Pageable pageable);
 
-	@Query("odesc:*?0* OR ocat:*?0*")
+	@Query("edesc:*?0* OR cdesc:*?0*")
 	Page<Category> findByCustomerQuery(String searchTerm, Pageable pageable);
 
-	@Query(name = "Category.findByDescriptionQuery")
-	Page<Category> findByDescriptionQuery(String searchTerm, Pageable pageable);
+//	@Query(name = "Category.findByNamedQuery")
+//	Page<Category> findByNamedQuery(String searchTerm, Pageable pageable);
 
-	List<Category> findByDescription(String description);
+	List<Category> findByExpenseDescription(String description);
 
 	// Page<Category> findByNameOrDescription(@Boost(2) String name, String
 	// description, Pageable pageable);
@@ -42,7 +42,7 @@ public interface CategoryRepository extends SolrCrudRepository<Category, String>
 	@Facet(fields = { "categories_txt" }, limit = 5)
 	FacetPage<Category> findByDescriptionAndFacetOnCategories(String description, Pageable page);
 
-	@Highlight(prefix = "<highlight>", postfix = "</highlight>")
-	HighlightPage<Category> findByDescription(String description, Pageable pageable);
+//	@Highlight(prefix = "<highlight>", postfix = "</highlight>")
+//	HighlightPage<Category> findByDescription(String description, Pageable pageable);
 
 }

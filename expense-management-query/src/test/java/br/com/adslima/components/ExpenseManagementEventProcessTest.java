@@ -40,7 +40,7 @@ public class ExpenseManagementEventProcessTest {
 	@Before
 	public void setUp() throws Exception {
 
-		BDDMockito.given(this.categoryRepository.findByDescription(Mockito.anyString()))
+		BDDMockito.given(this.categoryRepository.findByExpenseDescription(Mockito.anyString()))
 				.willReturn(new ArrayList<Category>());
 
 		BDDMockito.given(this.categoryRepository.save(Mockito.any(Category.class))).willReturn(new Category());
@@ -57,7 +57,7 @@ public class ExpenseManagementEventProcessTest {
 	}
 
 	@Test
-	public void testBuscarLancamentoPorFuncionarioId() {
+	public void testFindExpensesCardsByUser() {
 		Page<ExpenseManagement> expense = this.repository.findExpensesCardsByUserCode(Integer.valueOf(1),
 				PageRequest.of(0, NUMBER_PAR_PAG, Direction.DESC, "id"));
 
@@ -65,7 +65,7 @@ public class ExpenseManagementEventProcessTest {
 	}
 
 	@Test
-	public void testPersistirLancamento() {
+	public void testAddExpenseCard() {
 		ExpenseManagement expense = this.repository.save(new ExpenseManagement());
 
 		assertNotNull(expense);

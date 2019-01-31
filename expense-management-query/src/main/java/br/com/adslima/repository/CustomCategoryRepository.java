@@ -27,6 +27,11 @@ public class CustomCategoryRepository {
 	@Resource
 	private SolrTemplate solrTemplate;
 
+	/**
+	 * 
+	 * @param searchTerm
+	 * @return
+	 */
 	public List<Category> dynamicSearch(String searchTerm) {
 		Criteria conditions = createConditions(searchTerm);
 		SimpleQuery search = new SimpleQuery(conditions);
@@ -37,21 +42,26 @@ public class CustomCategoryRepository {
 		return results.getContent();
 	}
 
+	/**
+	 * 
+	 * @param searchTerm
+	 * @return
+	 */
 	private Criteria createConditions(String searchTerm) {
 		Criteria conditions = null;
 
 		for (String term : searchTerm.split(" ")) {
 			if (conditions == null) {
-				conditions = new Criteria("oid").contains(term).or(new Criteria("odesc").contains(term));
+				conditions = new Criteria("cid").contains(term).or(new Criteria("edesc").contains(term));
 			} else {
-				conditions = conditions.or(new Criteria("oid").contains(term)).or(new Criteria("odesc").contains(term));
+				conditions = conditions.or(new Criteria("cid").contains(term)).or(new Criteria("edesc").contains(term));
 			}
 		}
 		return conditions;
 	}
 
 	private Sort sortByIdDesc() {
-		return new Sort(Sort.Direction.DESC, "oid");
+		return new Sort(Sort.Direction.DESC, "cid");
 	}
 
 }

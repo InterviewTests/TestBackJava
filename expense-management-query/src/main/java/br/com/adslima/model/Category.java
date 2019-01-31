@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @Builder
-@SolrDocument(collection = "solr")
+@SolrDocument(collection = "Santander-categories")
 public class Category implements Serializable {
 
 	/**
@@ -31,14 +31,14 @@ public class Category implements Serializable {
 
 	@Id
 	@Field
-	@Indexed(name = "oid", type = "string")
+	@Indexed(name = "cid", type = "string")
 	private String categoryId;
 	@Field
-	@Indexed(name = "odesc", type = "string")
-	private String description;
+	@Indexed(name = "edesc", type = "string")
+	private String expenseDescription;
 	@Field("categories_txt")
-	@Indexed(name = "ocat", type = "string")
-	private ExpenseCategory category;
+	@Indexed(name = "cdesc", type = "string")
+	private ExpenseCategory categoryDescription;
 
 	public Category() {
 	}
@@ -49,10 +49,10 @@ public class Category implements Serializable {
 	 * @param description
 	 * @param category
 	 */
-	public Category(String categoryId, String description, ExpenseCategory category) {
+	public Category(String categoryId, String expenseDescription, ExpenseCategory categoryDescription) {
 		this.categoryId = categoryId;
-		this.description = description;
-		this.category = category;
+		this.expenseDescription = expenseDescription;
+		this.categoryDescription = categoryDescription;
 	}
 
 	/*
@@ -62,7 +62,8 @@ public class Category implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", description=" + description + ", category=" + category + "]";
+		return "Category [categoryId=" + categoryId + ", expenseDescription=" + expenseDescription + ", category="
+				+ categoryDescription + "]";
 	}
 
 }

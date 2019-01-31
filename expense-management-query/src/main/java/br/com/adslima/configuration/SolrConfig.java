@@ -21,13 +21,14 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
  */
 @Configuration
 @ComponentScan
-@EnableSolrRepositories("br.com.adslima.repository")
+@EnableSolrRepositories(basePackages = "br.com.adslima.repository")
+
 public class SolrConfig {
 
 	private HttpSolrClient solr;
 
-	@Value("spring.data.solr.host")
-	String solrURL;
+//	@Value("spring.data.solr.host")
+//	String solrURL;
 
 	//// HttpSolrServer solr = new
 	// HttpSolrServer("http://localhost:8983/solr/collection1");
@@ -40,7 +41,7 @@ public class SolrConfig {
 
 	@Bean
 	public SolrClient solrServer() {
-		// String urlString = String.format("http://localhost:8983/solr");
+		 String solrURL = String.format("http://localhost:8983/solr");
 		solr = new HttpSolrClient.Builder(solrURL).build();
 		solr.setParser(new XMLResponseParser());
 		return solr;

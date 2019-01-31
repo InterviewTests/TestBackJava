@@ -11,6 +11,13 @@ spring:
       retry:
         initialInterval: 2000
         maxAttempts: 30
+
+  data:
+    solr:
+      host: http://localhost:8983/solr
+      repositories:
+          enabled: true
+      
          
             #Mysql    
   datasource:

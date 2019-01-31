@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.adslima.dto.ExpenseManagementCommunsDTO;
 import br.com.adslima.handler.ExpenseManagementConvert;
 import br.com.adslima.handler.ExpenseManagementHandler;
+import br.com.adslima.model.Category;
 import br.com.adslima.model.ExpenseManagement;
+import br.com.adslima.repository.CategoryRepository;
 import br.com.adslima.repository.ExpenseManagementRepository;
 import br.com.adslima.response.Response;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,13 @@ public class ExpenseManagementQueryController {
 	@Autowired
 	private ExpenseManagementRepository repository;
 
+	@Autowired
+	CategoryRepository categoryRepository;
+
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping
 	public ResponseEntity<Response<Iterable<ExpenseManagement>>> getAll() {
 
@@ -45,6 +54,14 @@ public class ExpenseManagementQueryController {
 		return ResponseEntity.ok(response);
 	}
 
+	/**
+	 * 
+	 * @param userCode
+	 * @param pag
+	 * @param ord
+	 * @param dir
+	 * @return
+	 */
 	@GetMapping("/{userCode}/expense-menagement")
 	public ResponseEntity<Response<Page<ExpenseManagementCommunsDTO>>> findByUserCode(
 			@PathVariable final Integer userCode, @RequestParam(value = "pag", defaultValue = "0") int pag,
@@ -61,11 +78,19 @@ public class ExpenseManagementQueryController {
 
 		Page<ExpenseManagementCommunsDTO> communsDto = cardExpenses
 				.map(cardExpense -> ExpenseManagementConvert.toConvertFromModelSummary(cardExpense));
-		
+
 		response.setData(communsDto);
 		return ResponseEntity.ok(response);
 	}
 
+	/**
+	 * 
+	 * @param dto
+	 * @param pag
+	 * @param ord
+	 * @param dir
+	 * @return
+	 */
 	@GetMapping("/expense-menagement")
 	public ResponseEntity<Response<Page<ExpenseManagementCommunsDTO>>> findByDateFilter(
 			final ExpenseManagementCommunsDTO dto, @RequestParam(value = "pag", defaultValue = "0") int pag,
@@ -81,6 +106,32 @@ public class ExpenseManagementQueryController {
 		Page<ExpenseManagementCommunsDTO> communsDto = cardExpenses
 				.map(cardExpense -> ExpenseManagementConvert.toConvertFromModelSummary(cardExpense));
 		response.setData(communsDto);
+
+		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * 
+	 * @param searchTerm
+	 * @param pag
+	 * @param ord
+	 * @param dir
+	 * @return
+	 */
+	@GetMapping("/categories")
+	public ResponseEntity<Response<Page<Category>>> findBySuggestionCategory(final String searchTerm,
+			@RequestParam(value = "pag", defaultValue = "0") int pag,
+			@RequestParam(value = "ord", defaultValue = "id") String ord,
+			@RequestParam(value = "dir", defaultValue = "DESC") String dir) {
+
+		log.info("Buscando sugestões de categorias");
+
+		Response<Page<Category>> response = new Response<Page<Category>>();
+
+		Page<Category> categories = this.categoryRepository.findByCustomerQuery(searchTerm,
+				PageRequest.of(pag, NUMBER_PAR_PAG, Direction.valueOf(dir), ord));
+
+		response.setData(categories);
 
 		return ResponseEntity.ok(response);
 	}

@@ -55,4 +55,5 @@ public class ExpenseManagementConvert {
 	public static List<ExpenseManagementCommunsDTO> toConvertFromModel(final List<ExpenseManagement> listModel) {
 		return listModel.stream().map(ExpenseManagementConvert::toConvertFromModelSummary).collect(Collectors.toList());
 	}
+
 }

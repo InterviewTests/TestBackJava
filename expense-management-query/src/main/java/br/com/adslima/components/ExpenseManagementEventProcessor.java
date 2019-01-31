@@ -4,11 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.solr.common.SolrException;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.solr.UncategorizedSolrException;
 import org.springframework.stereotype.Component;
 
 import br.com.adslima.event.ExpenseManagementCategoryCommunsUpdatedEvent;
@@ -44,47 +42,40 @@ public class ExpenseManagementEventProcessor {
 	 */
 	@EventHandler
 	public void on(final ExpenseManagementCommunAddedEvent event) {
-		try {
 
-			List<Category> categories = this.categoryRepository
-					.findByExpenseDescription(event.getDescription(), PageRequest.of(1, 2)).getContent();
+		List<Category> categories = this.categoryRepository
+				.findByExpenseDescription(event.getDescription(), PageRequest.of(1, 2)).getContent();
 
-			if (!categories.isEmpty() && categories.get(0).getCategoryDescription() != null) {
+		if (!categories.isEmpty() && categories.get(0).getCategoryDescription() != null) {
 
-				categories.forEach(cat -> {
-					if (cat.getCategoryDescription() != null) {
+			categories.forEach(cat -> {
+				if (cat.getCategoryDescription() != null) {
+					event.setCategory(categories.get(0).getCategoryDescription());
+					Category category = getCategorySolr(event);
 
-						event.setCategory(categories.get(0).getCategoryDescription());
+					Category CatergoriesSorl = this.categoryRepository.save(category);
+					log.info("An expense with card was added in Solr {}", CatergoriesSorl.toString());
 
-						Category category = getCategorySolr(event);
+					ExpenseManagement expenseManagement = this.repository
+							.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
+									event.getDate(), event.getValue(), event.getCategory()));
+					log.info("An expense with card was added! {}", expenseManagement.toString());
 
-						Category CatergoriesSorl = this.categoryRepository.save(category);
-						log.info("An expense with card was added in Solr {}", CatergoriesSorl.toString());
+				}
+			});
 
-						ExpenseManagement expenseManagement = this.repository
-								.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
-										event.getDate(), event.getValue(), event.getCategory()));
-						log.info("An expense with card was added! {}", expenseManagement.toString());
+		} else {
 
-					}
-				});
+			Category category = getCategorySolr(event);
+			Category expenseSorl = this.categoryRepository.save(category);
 
-			} else {
+			log.info("An expense with card was added in Solr {}", expenseSorl.toString());
 
-				Category category = getCategorySolr(event);
+			ExpenseManagement expenseManagement = this.repository
+					.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
+							event.getDate(), event.getValue(), event.getCategory()));
 
-				Category expenseSorl = this.categoryRepository.save(category);
-
-				log.info("An expense with card was added in Solr {}", expenseSorl.toString());
-
-				ExpenseManagement expenseManagement = this.repository
-						.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
-								event.getDate(), event.getValue(), event.getCategory()));
-
-				log.info("An expense with card was added! {}", expenseManagement.toString());
-			}
-		} catch (UncategorizedSolrException e) {
-			throw new ExpenseManagementNotFoundException("Ocorreu um erro ao buscar gastos: " + e.getMessage());
+			log.info("An expense with card was added! {}", expenseManagement.toString());
 		}
 	}
 

@@ -21,6 +21,7 @@ import br.com.adslima.command.AddExpenseManagementCommand;
 import br.com.adslima.command.UpdateCategoryExpenseManagementCommand;
 import br.com.adslima.dto.ExpenseManagementCommunsDTO;
 import br.com.adslima.exception.ExpenseManagementNotFoundException;
+import br.com.adslima.exception.InvalidExpenseCategoryException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -61,7 +62,7 @@ public class ExpenseManagementController {
 		this.commandGateway.send(command);
 		response.setData(command);
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok().body(response);
 	}
 
 	@PutMapping("/{id}/categories")
@@ -85,7 +86,7 @@ public class ExpenseManagementController {
 		commandGateway.send(command);
 		response.setData(command);
 
-		return ResponseEntity.badRequest().body(response);
+		return ResponseEntity.ok().body(response);
 	}
 
 	@ExceptionHandler(AggregateNotFoundException.class)
@@ -93,9 +94,9 @@ public class ExpenseManagementController {
 	public void notFound() {
 	}
 
-	@ExceptionHandler(ExpenseManagementNotFoundException.class)
+	@ExceptionHandler(InvalidExpenseCategoryException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public String ExpenseCategorNotFound(ExpenseManagementNotFoundException exception) {
+	public String ExpenseCategoryNotFound(InvalidExpenseCategoryException exception) {
 		return exception.getMessage();
 	}
 }

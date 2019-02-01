@@ -1,6 +1,7 @@
 package br.com.adslima.components;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -37,6 +38,7 @@ public class ExpenseManagementEventProcessor {
 	private final CategoryRepository categoryRepository;
 
 	/**
+	 * Evento responsavel por adicionar um gasto com cartão.
 	 * 
 	 * @param event
 	 */
@@ -80,6 +82,7 @@ public class ExpenseManagementEventProcessor {
 	}
 
 	/**
+	 * Evento responsavel por atualizar categoria
 	 * 
 	 * @param event
 	 */
@@ -92,8 +95,8 @@ public class ExpenseManagementEventProcessor {
 		expenseCard.setCategory(event.getCategory());
 		this.repository.save(expenseCard);
 
-		Category category = getUpdateCategorySolr(event);
-
+		Category category = this.categoryRepository.findByCategoryId(event.getCardExpenseId());
+		category.setCategoryDescription(event.getCategory());
 		this.categoryRepository.save(category);
 
 		log.info("A Card Expense Category has been updated! {}", expenseCard);
@@ -109,18 +112,6 @@ public class ExpenseManagementEventProcessor {
 		Category category = new Category();
 		category.setCategoryId(event.getId());
 		category.setExpenseDescription(event.getDescription());
-		category.setCategoryDescription(event.getCategory());
-		return category;
-	}
-
-	/**
-	 * TODO renomear esses metodos para nomes melhores.
-	 * 
-	 * @param event
-	 * @return
-	 */
-	private Category getUpdateCategorySolr(ExpenseManagementCategoryCommunsUpdatedEvent event) {
-		Category category = new Category();
 		category.setCategoryDescription(event.getCategory());
 		return category;
 	}

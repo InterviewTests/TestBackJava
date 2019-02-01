@@ -10,9 +10,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author andrews.silva
@@ -21,6 +24,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @SolrDocument(collection = "Santander-categories")
 public class Category implements Serializable {
 
@@ -33,39 +39,13 @@ public class Category implements Serializable {
 	@Field
 	@Indexed(name = "cid", type = "string")
 	private String categoryId;
-	
+
 	@Field
 	@Indexed(name = "edesc", type = "string")
 	private String expenseDescription;
-	
+
 	@Field("categories_txt")
 	@Indexed(name = "cdesc", type = "string")
-	private ExpenseCategory categoryDescription;
-
-	public Category() {
-	}
-
-	/**
-	 * 
-	 * @param categoryId
-	 * @param description
-	 * @param category
-	 */
-	public Category(String categoryId, String expenseDescription, ExpenseCategory categoryDescription) {
-		this.categoryId = categoryId;
-		this.expenseDescription = expenseDescription;
-		this.categoryDescription = categoryDescription;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Category [categoryId=" + categoryId + ", expenseDescription=" + expenseDescription + ", category="
-				+ categoryDescription + "]";
-	}
+	private String categoryDescription;
 
 }

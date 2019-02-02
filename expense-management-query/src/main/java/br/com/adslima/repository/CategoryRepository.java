@@ -8,9 +8,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.core.query.result.FacetPage;
-import org.springframework.data.solr.core.query.result.HighlightPage;
 import org.springframework.data.solr.repository.Facet;
-import org.springframework.data.solr.repository.Highlight;
 import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
@@ -30,19 +28,10 @@ public interface CategoryRepository extends SolrCrudRepository<Category, String>
 	@Query("edesc:*?0* OR cdesc:*?0*")
 	Page<Category> findByCustomerQuery(String searchTerm, Pageable pageable);
 
-//	@Query(name = "Category.findByNamedQuery")
-//	Page<Category> findByNamedQuery(String searchTerm, Pageable pageable);
-
 	List<Category> findByExpenseDescription(String description);
 
-	// Page<Category> findByNameOrDescription(@Boost(2) String name, String
-	// description, Pageable pageable);
-
-	@Query("category:?0")
+	@Query("categories_txt:*?0*")
 	@Facet(fields = { "categories_txt" }, limit = 5)
-	FacetPage<Category> findByDescriptionAndFacetOnCategories(String description, Pageable page);
-
-//	@Highlight(prefix = "<highlight>", postfix = "</highlight>")
-//	HighlightPage<Category> findByDescription(String description, Pageable pageable);
+	FacetPage<Category> findByDescriptionAndFacetOnCategories(final String description, final Pageable page);
 
 }

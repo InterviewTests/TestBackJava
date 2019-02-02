@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.solr.core.query.result.FacetPage;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,27 +120,15 @@ public class ExpenseManagementQueryController {
 	 * @return
 	 */
 	@GetMapping("/{categoryDescription}/categories")
-	public ResponseEntity<Response<Page<Category>>> findBySuggestionCategory(@PathVariable final String searchTerm, final BindingResult result,
+	public ResponseEntity<FacetPage<Category>> findBySuggestionCategory(@PathVariable final String categoryDescription,
 			@RequestParam(value = "pag", defaultValue = "0") int pag,
 			@RequestParam(value = "ord", defaultValue = "id") String ord,
 			@RequestParam(value = "dir", defaultValue = "DESC") String dir) {
 
-		log.info("Buscando sugestões de categorias");
-
-		Response<Page<Category>> response = new Response<Page<Category>>();
-
-		Page<Category> categories = this.categoryRepository.findByCustomerQuery(searchTerm,
-				PageRequest.of(pag, NUMBER_PAR_PAG, Direction.valueOf(dir), ord));
+		log.info("Buscando sugestões de categorias.." + categoryDescription);
+		FacetPage<Category> categories = this.categoryRepository.findByDescriptionAndFacetOnCategories(
+				categoryDescription, PageRequest.of(pag, NUMBER_PAR_PAG, Direction.valueOf(dir), ord));
 		
-		if (result.hasErrors()) {
-
-			log.error("Error adding expense by cards: {}", result.getAllErrors());
-
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
-		}
-		response.setData(categories);
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(categories);
 	}
 }

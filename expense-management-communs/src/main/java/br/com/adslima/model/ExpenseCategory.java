@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import br.com.adslima.exception.InvalidExpenseCategoryException;
+import lombok.Data;
 
 /**
  * @author andrews.silva
  *
  */
+@Data
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class ExpenseCategory {
 

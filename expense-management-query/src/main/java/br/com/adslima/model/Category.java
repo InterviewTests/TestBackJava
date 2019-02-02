@@ -26,9 +26,15 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@SolrDocument(collection = "Santander-categories")
+@SolrDocument(collection = "categories-core")
 public class Category implements Serializable {
+
+	/**
+	 * @param categoryDescription
+	 */
+	public Category(ExpenseCategory categoryDescription) {
+		this.categoryDescription = categoryDescription.getDescription();
+	}
 
 	/**
 	 * 
@@ -47,5 +53,6 @@ public class Category implements Serializable {
 	@Field("categories_txt")
 	@Indexed(name = "cdesc", type = "string")
 	private String categoryDescription;
+
 
 }

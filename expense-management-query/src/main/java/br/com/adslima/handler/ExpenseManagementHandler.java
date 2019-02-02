@@ -20,8 +20,6 @@ public class ExpenseManagementHandler {
 	@Autowired
 	ExpenseManagementRepository repository;
 
-//	private HttpSolrClient solr;
-
 	/**
 	 * 
 	 * @param userCode
@@ -63,29 +61,4 @@ public class ExpenseManagementHandler {
 		}
 		return new PageImpl<ExpenseManagement>(expensesCards.getContent(), pageable, expensesCards.getTotalElements());
 	}
-
-//	/**
-//	 * 
-//	 * @param description
-//	 * @return
-//	 */
-//	@Cacheable(value = "categoryByDescription", key = "#description")
-//	public String findByDescription(String description) {
-//		SolrQuery query = new SolrQuery();
-//		query.set("q", String.format("description:%s*", description));
-//		QueryResponse response;
-//		try {
-//			response = solr.query(query);
-//			SolrDocumentList doc = response.getResults();
-//			if (!doc.isEmpty()) {
-//				return doc.get(0).getFieldValue("category_txt").toString();
-//			}
-//		} catch (SolrServerException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return null;
-//	}
 }

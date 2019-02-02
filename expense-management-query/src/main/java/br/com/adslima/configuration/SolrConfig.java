@@ -3,9 +3,13 @@
  */
 package br.com.adslima.configuration;
 
+import java.io.IOException;
+
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
+import org.apache.solr.client.solrj.request.CoreAdminRequest;
 //import org.apache.solr.client.solrj.SolrServer;
 //import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +29,7 @@ public class SolrConfig {
 
 	@Bean
 	public SolrClient solrServer() {
+
 		String solrURL = String.format("http://localhost:8983/solr");
 		solr = new HttpSolrClient.Builder(solrURL).build();
 		solr.setParser(new XMLResponseParser());

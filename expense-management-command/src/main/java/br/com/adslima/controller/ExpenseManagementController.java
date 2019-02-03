@@ -54,7 +54,7 @@ public class ExpenseManagementController {
 
 		if (result.hasErrors()) {
 
-			log.error("Error adding expense by cards: {}", result.getAllErrors());
+			log.error("Erro ao adicionar um gasto com cartão: {}", result.getAllErrors());
 
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
@@ -78,7 +78,7 @@ public class ExpenseManagementController {
 		final Response<UpdateCategoryExpenseManagementCommand> response = new Response<UpdateCategoryExpenseManagementCommand>();
 
 		if (result.hasErrors()) {
-			log.error("error while updating card spend category: {}", result.getAllErrors());
+			log.error("erro ao atualizar uma categoria: {}", result.getAllErrors());
 
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);

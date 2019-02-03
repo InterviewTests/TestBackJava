@@ -55,26 +55,26 @@ public class ExpenseManagementEventProcessor {
 			category.setCategoryDescription(cat.get().getCategoryDescription());
 
 			Category CatergoriesSorl = this.categoryRepository.save(category);
-			log.info("An expense with card was added in Solr {}", CatergoriesSorl.toString());
-			
+			log.info("Um gasto no cartão foi adicionado ao Solr {}", CatergoriesSorl.toString());
+
 			event.setCategory(new ExpenseCategory(cat.get().getCategoryDescription()));
 			ExpenseManagement expenseManagement = this.repository
 					.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
 							event.getDate(), event.getValue(), event.getCategory()));
-			log.info("An expense with card was added! {}", expenseManagement.toString());
+			log.info("Um gasto com cartão foi adcionado! {}", expenseManagement.toString());
 
 		} else {
 
 			Category category = getCategorySolr(event);
 			Category expenseSorl = this.categoryRepository.save(category);
 
-			log.info("An expense with card was added in Solr {}", expenseSorl.toString());
+			log.info("Um gasto no cartão foi adicionado ao Solr {}", expenseSorl.toString());
 
 			ExpenseManagement expenseManagement = this.repository
 					.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
 							event.getDate(), event.getValue(), event.getCategory()));
 
-			log.info("An expense with card was added! {}", expenseManagement.toString());
+			log.info("Um gasto com cartão foi adcionado! {}", expenseManagement.toString());
 		}
 	}
 
@@ -96,7 +96,7 @@ public class ExpenseManagementEventProcessor {
 		category.setCategoryDescription(event.getCategory().getDescription());
 		this.categoryRepository.save(category);
 
-		log.info("A Card Expense Category has been updated! {}", expenseCard);
+		log.info("Uma categoria foi atualizada! {}", expenseCard);
 	}
 
 	/**

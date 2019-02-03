@@ -102,24 +102,6 @@ public class ExpenseManagementQueryTest {
 
 	/**
 	 * 
-	 * @return
-	 * @throws JsonProcessingException
-	 */
-	private String getJsonRequestGetBad() throws JsonProcessingException {
-		ExpenseManagementCommunsDTO expenseDto = new ExpenseManagementCommunsDTO();
-		expenseDto.setId(null);
-		expenseDto.setUserCode(12345);
-		expenseDto.setDescription("ExpenseManagement Test");
-		expenseDto.setDate(date);
-		expenseDto.setValue(BigDecimal.ONE);
-		expenseDto.setCategory(null);
-
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(expenseDto);
-	}
-
-	/**
-	 * 
 	 * @param id
 	 * @param date
 	 * @return

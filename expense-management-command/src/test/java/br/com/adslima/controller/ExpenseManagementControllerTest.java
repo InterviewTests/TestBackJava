@@ -1,5 +1,7 @@
 package br.com.adslima.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -62,13 +65,19 @@ public class ExpenseManagementControllerTest {
 
 		ExpenseManagementCommunsDTO dto = ObjectExpenseManagement(id, date);
 
-		AddExpenseManagementCommand command = new AddExpenseManagementCommand(UUID.randomUUID().toString(),
-				dto.getUserCode(), dto.getDescription(), dto.getDate(), dto.getValue(), dto.getCategory());
+		AddExpenseManagementCommand command = new AddExpenseManagementCommand(dto.getId(), dto.getUserCode(),
+				dto.getDescription(), dto.getDate(), dto.getValue(), dto.getCategory());
 
 		BDDMockito.given(commandGateway.send(command)).willReturn(null);
 
 		mockMvc.perform(MockMvcRequestBuilders.post(URL_BASE).content(this.getJsonRequisicaoPost())
-				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(jsonPath("$.data.userCode").value(dto.getUserCode()))
+				.andExpect(jsonPath("$.data.description").value(dto.getDescription()))
+				.andExpect(jsonPath("$.data.date").value(dto.getDate()))
+				.andExpect(jsonPath("$.data.value").value(dto.getValue()))
+				.andExpect(jsonPath("$.data.category").value(dto.getCategory()))
+				.andExpect(jsonPath("$.errors").isEmpty()).andDo(print()).andReturn();
 	}
 
 	/**
@@ -78,9 +87,16 @@ public class ExpenseManagementControllerTest {
 	@Test
 	public void testAddExpenseManagementNOK() throws Exception {
 
+		ExpenseManagementCommunsDTO dto = ObjectExpenseManagement(id, date);
+
+		AddExpenseManagementCommand command = new AddExpenseManagementCommand(dto.getId(), dto.getUserCode(),
+				dto.getDescription(), dto.getDate(), dto.getValue(), dto.getCategory());
+
+		BDDMockito.given(commandGateway.send(command)).willReturn(null);
+
 		mockMvc.perform(MockMvcRequestBuilders.post(URL_BASE).content(this.getJsonRequisicaoPostBad())
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest());
+				.andExpect(status().isBadRequest()).andDo(print()).andReturn();
 	}
 
 	/**
@@ -100,7 +116,7 @@ public class ExpenseManagementControllerTest {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(expenseDto);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -108,7 +124,7 @@ public class ExpenseManagementControllerTest {
 	 */
 	private String getJsonRequisicaoPostBad() throws JsonProcessingException {
 		ExpenseManagementCommunsDTO expenseDto = new ExpenseManagementCommunsDTO();
-		expenseDto.setId(id);
+		expenseDto.setId(null);
 		expenseDto.setUserCode(USER_CODE);
 		expenseDto.setDescription("ExpenseManagement Test");
 		expenseDto.setDate(date);

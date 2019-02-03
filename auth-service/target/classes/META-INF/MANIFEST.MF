@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Implementation-Title: auth-service
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: andrews.silva
-Implementation-Vendor-Id: com.coderef
+Implementation-Vendor-Id: br.com.adslima
 Build-Jdk: 1.8.0_201
 Implementation-URL: http://projects.spring.io/spring-boot/auth-service
  /

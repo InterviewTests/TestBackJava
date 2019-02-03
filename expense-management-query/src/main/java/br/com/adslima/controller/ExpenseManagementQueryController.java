@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.adslima.dto.ExpenseManagementCommunsDTO;
@@ -52,7 +53,7 @@ public class ExpenseManagementQueryController {
 		Iterable<ExpenseManagement> cardsExpenses = repository.findAll();
 		response.setData(cardsExpenses);
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok().body(response);
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class ExpenseManagementQueryController {
 		log.info("Buscando sugestões de categorias.." + categoryDescription);
 		FacetPage<Category> categories = this.categoryRepository.findByDescriptionAndFacetOnCategories(
 				categoryDescription, PageRequest.of(pag, NUMBER_PAR_PAG, Direction.valueOf(dir), ord));
-		
+
 		return ResponseEntity.ok(categories);
 	}
 }

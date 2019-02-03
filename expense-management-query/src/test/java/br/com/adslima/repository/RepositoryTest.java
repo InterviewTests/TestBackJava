@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +32,7 @@ public class RepositoryTest {
 
 	private static final int NUMBER_PAR_PAG = 10;
 
-	@Resource
+	@Autowired
 	private ExpenseManagementRepository repository;
 
 	ExpenseManagementCommunAddedEvent event;
@@ -59,7 +58,9 @@ public class RepositoryTest {
 	 */
 	@Test
 	public void testFindExpenseCardByUserCode() {
-		List<ExpenseManagement> expenses = this.repository.findExpensesCardsByUserCode(USER_CODE);
+		
+		List<ExpenseManagement> expenses = this.repository
+				.findExpensesCardsByUserCode(USER_CODE);
 
 		assertEquals(1, expenses.size());
 	}

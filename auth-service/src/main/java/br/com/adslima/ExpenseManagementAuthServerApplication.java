@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class DeliveryAuthServerApplication {
+public class ExpenseManagementAuthServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DeliveryAuthServerApplication.class, args);
+		SpringApplication.run(ExpenseManagementAuthServerApplication.class, args);
 	}
 }

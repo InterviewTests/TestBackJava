@@ -18,67 +18,72 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import br.com.adslima.domain.Authorities;
 
-
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServerConfiguration extends
-        AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private static PasswordEncoder encoder;
+	private static PasswordEncoder encoder;
 
-    @Value("${security.oauth2.client.client-id}")
-    private String clientId;
+	@Value("${security.oauth2.client.client-id}")
+	private String clientId;
 
-    @Value("${security.oauth2.client.authorized-grant-types}")
-    private String[] authorizedGrantTypes;
+	@Value("${security.oauth2.client.authorized-grant-types}")
+	private String[] authorizedGrantTypes;
 
-    @Value("${security.oauth2.client.resource-ids}")
-    private String resourceIds;
+	@Value("${security.oauth2.client.resource-ids}")
+	private String resourceIds;
 
-    @Value("${security.oauth2.client.scope}")
-    private String[] scopes;
+	@Value("${security.oauth2.client.scope}")
+	private String[] scopes;
 
-    @Value("${security.oauth2.client.client-secret}")
-    private String secret;
+	@Value("${security.oauth2.client.client-secret}")
+	private String secret;
 
-    @Value("${security.oauth2.client.access-token-validity-seconds}")
-    private Integer accessTokenValiditySeconds;
+	@Value("${security.oauth2.client.access-token-validity-seconds}")
+	private Integer accessTokenValiditySeconds;
 
-    @Autowired
-    DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
-    @Autowired
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	@Qualifier("authenticationManagerBean")
+	private AuthenticationManager authenticationManager;
 
-    @Bean
-    public JdbcTokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
-    }
+	@Bean
+	public JdbcTokenStore tokenStore() {
+		return new JdbcTokenStore(dataSource);
+	}
 
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-            throws Exception {
-        endpoints.authenticationManager(this.authenticationManager).tokenStore(tokenStore());
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer)
+	 */
+	@Override
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		endpoints.authenticationManager(this.authenticationManager).tokenStore(tokenStore());
+	}
 
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource)
-                .withClient(clientId)
-                .authorizedGrantTypes(authorizedGrantTypes)
-                .authorities(Authorities.names())
-                .resourceIds(resourceIds)
-                .scopes(scopes)
-                .secret(secret)
-                .accessTokenValiditySeconds(accessTokenValiditySeconds);
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer)
+	 */
+	@Override
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		clients.jdbc(dataSource).withClient(clientId).authorizedGrantTypes(authorizedGrantTypes)
+				.authorities(Authorities.names()).resourceIds(resourceIds).scopes(scopes).secret(secret)
+				.accessTokenValiditySeconds(accessTokenValiditySeconds);
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        if (encoder == null) {
-            encoder = new BCryptPasswordEncoder();
-        }
-        return encoder;
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		if (encoder == null) {
+			encoder = new BCryptPasswordEncoder();
+		}
+		return encoder;
+	}
 }

@@ -20,6 +20,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @Slf4j
 @Getter
 @Aggregate

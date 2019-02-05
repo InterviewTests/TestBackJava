@@ -22,6 +22,11 @@ import br.com.adslima.event.ExpenseManagementCategoryCommunsUpdatedEvent;
 import br.com.adslima.event.ExpenseManagementCommunAddedEvent;
 import br.com.adslima.model.ExpenseCategory;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ExpenseManagamentAggregateTest {
 

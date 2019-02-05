@@ -13,8 +13,13 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@EnableDiscoveryClient
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @SpringBootApplication
+@EnableDiscoveryClient
 public class ExpenseManagementCommandApplication {
 
 	public static void main(String[] args) {

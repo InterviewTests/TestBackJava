@@ -25,6 +25,11 @@ import br.com.adslima.response.Response;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api-command")

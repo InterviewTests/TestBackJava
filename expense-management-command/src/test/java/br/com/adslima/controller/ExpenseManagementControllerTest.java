@@ -30,6 +30,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.adslima.command.AddExpenseManagementCommand;
 import br.com.adslima.dto.ExpenseManagementCommunsDTO;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootConfiguration
 @ActiveProfiles("test")

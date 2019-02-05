@@ -12,19 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/events")
 public class EventController {
 
-    private EventStore eventStore;
+	private EventStore eventStore;
 
-    @GetMapping
-    @RequestMapping("/{aggregateId}")
-    @Transactional(readOnly = true)
-    public List<Object> listEvents(@PathVariable String aggregateId) {
-        return eventStore.readEvents(aggregateId)
-                .asStream()
-                .collect(Collectors.toList());
-    }
+	@GetMapping
+	@RequestMapping("/{aggregateId}")
+	@Transactional(readOnly = true)
+	public List<Object> listEvents(@PathVariable String aggregateId) {
+		return eventStore.readEvents(aggregateId).asStream().collect(Collectors.toList());
+	}
 }

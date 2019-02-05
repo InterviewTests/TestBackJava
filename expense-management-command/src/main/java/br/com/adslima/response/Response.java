@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ * @param <T>
+ */
 @Setter
 @Getter
 @NoArgsConstructor

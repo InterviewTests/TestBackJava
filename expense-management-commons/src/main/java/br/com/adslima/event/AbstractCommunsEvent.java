@@ -2,6 +2,11 @@ package br.com.adslima.event;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 public abstract class AbstractCommunsEvent implements Serializable {
 
 	/**

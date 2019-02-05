@@ -1,5 +1,10 @@
 package br.com.adslima.exception;
 
+/**
+ * 
+ * @author andrews.silva
+ *
+ */
 public class ExpenseManagementNotFoundException extends RuntimeException {
 
 	/**

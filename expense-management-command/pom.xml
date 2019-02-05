@@ -39,7 +39,7 @@
 
 		<dependency>
 			<groupId>br.com.adslima</groupId>
-			<artifactId>expense-management-communs</artifactId>
+			<artifactId>expense-management-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

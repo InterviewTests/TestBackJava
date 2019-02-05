@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,15 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.adslima.response.Response;
 import br.com.adslima.command.AddExpenseManagementCommand;
 import br.com.adslima.command.UpdateCategoryExpenseManagementCommand;
 import br.com.adslima.dto.ExpenseManagementCommunsDTO;
-import br.com.adslima.exception.ExpenseManagementNotFoundException;
 import br.com.adslima.exception.InvalidExpenseCategoryException;
+import br.com.adslima.response.Response;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 
 @Slf4j
 @RestController

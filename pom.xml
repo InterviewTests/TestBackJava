@@ -13,7 +13,7 @@
 	<modules>
 		<module>expense-management-command</module>
 		<module>expense-management-query</module>
-		
+
 		<module>config-service</module>
 		<module>discovery-service</module>
 		<module>gateway-service</module>
@@ -21,6 +21,8 @@
 
 		<module>auth-service</module>
 
-		<module>expense-management-communs</module>
+		
+		
+		<module>expense-management-commons</module>
 	</modules>
 </project>

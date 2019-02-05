@@ -5,6 +5,6 @@ spring:
     config:
       server:
         git:
-          uri: file://C:/work/github/microservice-sampler-config-master
+          uri: https://github.com/adslima/config
 server:
   port: 8888

@@ -1,36 +1,40 @@
 package br.com.gestao.gastos.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 
-@Table("gastos")
 public class Gastos {
 	
-	@PrimaryKey
-	private UUID id;
+	@Id
+	private ObjectId _id;
 	
-	@Column("descricao")
 	private String descricao;
 	
-	@Column("valor")
-	private double valor;
+	private BigDecimal valor;
 	
-	@Column("codigousuario")
 	private int codigousuario;
 	
-	@Column("data")
 	private LocalDate data;
 	
-	public UUID getId() {
-		return id;
+	public Gastos() {}
+	
+	public Gastos(ObjectId _id,  String descricao, BigDecimal valor, int codigousuario, LocalDate data) {
+		this._id = _id;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.codigousuario = codigousuario;
+		this.data = data;
 	}
-	public void setId(UUID id) {
-		this.id = id;
+	
+	public String getId() {
+		return _id.toHexString();
+	}
+	public void setId(ObjectId _id) {
+		this._id = _id;
 	}
 	
 	public String getDescricao() {
@@ -39,10 +43,10 @@ public class Gastos {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 	public int getCodigousuario() {

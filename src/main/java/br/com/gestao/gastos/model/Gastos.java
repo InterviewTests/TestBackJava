@@ -1,19 +1,21 @@
 package br.com.gestao.gastos.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 @Document(collection = "gastos")
 public class Gastos {
 	
 	@Id
 	private ObjectId _id;
+	
+	private ObjectId idcategoria;
 	
  	private String descricao;
 	
@@ -22,16 +24,17 @@ public class Gastos {
 	private int codigousuario;
 	
 	@Indexed
-	private LocalDate data;
+	private LocalDateTime data;
 	
 	public Gastos() {}
 	
-	public Gastos(ObjectId _id,  String descricao, BigDecimal valor, int codigousuario, LocalDate data) {
+	public Gastos(ObjectId _id,  String descricao, BigDecimal valor, int codigousuario, LocalDateTime data, ObjectId idcategoria) {
 		this._id = _id;
 		this.descricao = descricao;
 		this.valor = valor;
 		this.codigousuario = codigousuario;
 		this.data = data;
+		this.idcategoria = idcategoria;
 	}
 	
 	public String getId() {
@@ -59,11 +62,19 @@ public class Gastos {
 	public void setCodigousuario(int codigousuario) {
 		this.codigousuario = codigousuario;
 	}
-	public LocalDate getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
-	public void setData(LocalDate data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
+	}
+
+	public String getIdCategoria() {
+		return (idcategoria == null) ? null : idcategoria.toHexString();
+	}
+
+	public void setIdCategoria(ObjectId idcategoria) {
+		this.idcategoria = idcategoria;
 	}
 	
 }

@@ -14,6 +14,8 @@ public class Categorias {
 	@Indexed
 	private String categoria;
 	
+	public Categorias() {}
+	
 	public Categorias(ObjectId _id,  String categoria) {
 		this._id = _id;
 		this.categoria = categoria;

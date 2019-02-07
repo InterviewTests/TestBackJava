@@ -30,7 +30,6 @@ public class GastosController {
 
 	@RequestMapping(value = "/gastos", method = RequestMethod.POST)
 	public Gastos criarGastos(@Valid @RequestBody Gastos gastos) {
-		gastos.setId(ObjectId.get());
 		gastosService.save(gastos);
 		return null;
 	}

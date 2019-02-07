@@ -21,14 +21,14 @@ public class GastosController {
 
 	@Autowired
 	private GastosService gastosService;
-
+	
 	@RequestMapping(value = "/gastos/{codigousuario}", produces="application/json", method = RequestMethod.GET)
 	public List<Gastos> getListaDeGastos(@PathVariable int codigousuario) {
 		List<Gastos> gastos = gastosService.listaDeGastos(codigousuario);
 		return gastos;
 	}
 
-	@RequestMapping(value = "/gastos/new", method = RequestMethod.POST)
+	@RequestMapping(value = "/gastos", method = RequestMethod.POST)
 	public Gastos criarGastos(@Valid @RequestBody Gastos gastos) {
 		gastos.setId(ObjectId.get());
 		gastosService.save(gastos);

@@ -1,30 +1,38 @@
 package br.com.gestao.gastos.model;
 
-import java.util.UUID;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-
+@Document(collection = "categorias")
 public class Categorias {
 
-	@PrimaryKey
-	private UUID id;
+	@Id
+	private ObjectId _id;
 	
-	private String Categoria;
+	@Indexed
+	private String categoria;
 	
-	public UUID getId() {
-		return id;
+	public Categorias(ObjectId _id,  String categoria) {
+		this._id = _id;
+		this.categoria = categoria;
+	}
+	
+	public String getId() {
+		return _id.toHexString();
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(ObjectId _id) {
+		this._id = _id;
 	}
 
 	public String getCategoria() {
-		return Categoria;
+		return categoria;
 	}
 
 	public void setCategoria(String categoria) {
-		Categoria = categoria;
+		this.categoria = categoria;
 	}
 
 }

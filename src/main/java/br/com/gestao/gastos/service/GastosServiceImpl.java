@@ -12,21 +12,21 @@ import br.com.gestao.gastos.repository.GastosRepository;
 public class GastosServiceImpl implements GastosService {
 
 	private GastosRepository gastosRepository;
-	
+
 	@Autowired
-	public GastosServiceImpl(GastosRepository gastosRepository){
-			this.gastosRepository = gastosRepository;
+	public GastosServiceImpl(GastosRepository gastosRepository) {
+		this.gastosRepository = gastosRepository;
 	}
-	
+
 	@Override
 	public List<Gastos> listaDeGastos(int codigousuario) {
 		return gastosRepository.findAllByCodigoUsuario(codigousuario);
 	}
-	
+
 	@Override
 	public Gastos save(Gastos gastos) {
 		gastosRepository.save(gastos);
 		return null;
 	}
-	
+
 }

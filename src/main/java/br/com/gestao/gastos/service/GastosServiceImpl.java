@@ -1,6 +1,5 @@
 package br.com.gestao.gastos.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +19,13 @@ public class GastosServiceImpl implements GastosService {
 	}
 	
 	@Override
-	public List<Gastos> listAll() {
-		List<Gastos> gastos = new ArrayList<>();
-		gastosRepository.findAll().forEach(gastos::add);
-		return gastos;
-	}
-
-	@Override
-	public Gastos findByCodigoUsuario(String codigousuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Gastos> listaDeGastos(int codigousuario) {
+		return gastosRepository.findAllByCodigoUsuario(codigousuario);
 	}
 	
 	@Override
 	public Gastos save(Gastos gastos) {
-		// TODO Auto-generated method stub
+		gastosRepository.save(gastos);
 		return null;
 	}
 	

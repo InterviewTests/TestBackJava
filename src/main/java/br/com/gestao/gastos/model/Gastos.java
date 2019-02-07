@@ -5,7 +5,11 @@ import java.time.LocalDate;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Document(collection = "gastos")
 public class Gastos {
@@ -13,12 +17,13 @@ public class Gastos {
 	@Id
 	private ObjectId _id;
 	
-	private String descricao;
+ 	private String descricao;
 	
 	private BigDecimal valor;
 	
 	private int codigousuario;
 	
+	@Indexed
 	private LocalDate data;
 	
 	public Gastos() {}

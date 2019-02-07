@@ -6,9 +6,7 @@ import br.com.gestao.gastos.model.Gastos;
 
 public interface GastosService {
 
-	List<Gastos> listAll();
-	
-	Gastos findByCodigoUsuario(String codigousuario);
+	List<Gastos> listaDeGastos(int codigousuario);
 	
 	Gastos save(Gastos gastos);
 	

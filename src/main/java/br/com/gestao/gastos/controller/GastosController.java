@@ -2,7 +2,12 @@ package br.com.gestao.gastos.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +21,17 @@ public class GastosController {
 
 	@Autowired
 	private GastosService gastosService;
-	
-	@RequestMapping(value = "/gastos", method = RequestMethod.GET)
-	public List<Gastos> getAllPets() {
-	  return gastosService.listAll();
+
+	@RequestMapping(value = "/gastos/{codigousuario}", produces="application/json", method = RequestMethod.GET)
+	public List<Gastos> getListaDeGastos(@PathVariable int codigousuario) {
+		List<Gastos> gastos = gastosService.listaDeGastos(codigousuario);
+		return gastos;
+	}
+
+	@RequestMapping(value = "/gastos/new", method = RequestMethod.POST)
+	public Gastos criarGastos(@Valid @RequestBody Gastos gastos) {
+		gastos.setId(ObjectId.get());
+		gastosService.save(gastos);
+		return null;
 	}
 }

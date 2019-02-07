@@ -4,16 +4,16 @@ server:
 spring:
   application:
     name: auth-service
-  cloud:
-    config:
-      uri: http://localhost:8888
-      failFast: true
-      retry:
-        initialInterval: 2000
-        maxAttempts: 30
+#  cloud:
+#    config:
+#      uri: http://localhost:8888
+#      failFast: true
+#      retry:
+#        initialInterval: 2000
+#        maxAttempts: 30
         
   datasource:
-    url: jdbc:h2:mem:oauth;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:oauth5;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     platform: h2
     username: sa
     password: null

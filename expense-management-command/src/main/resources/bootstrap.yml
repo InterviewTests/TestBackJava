@@ -16,7 +16,7 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
         password: ' '
         platform: mysql
-        url: jdbc:mysql://localhost:3306/management?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+        url: jdbc:mysql://localhost:3306/management?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
         username: root
   jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

@@ -21,7 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>10</java.version>
+		<java.version>1.8</java.version>
 		<axon.version>3.3.4</axon.version>
 	</properties>
 
@@ -34,25 +34,22 @@
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
+
 		<dependency>
 			<groupId>br.com.adslima</groupId>
 			<artifactId>expense-management-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<!-- couchbase -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-couchbase</artifactId>
 		</dependency>
 
 		<dependency>
@@ -74,7 +71,6 @@
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-core</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>

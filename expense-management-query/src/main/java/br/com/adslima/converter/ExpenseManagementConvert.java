@@ -1,4 +1,4 @@
-package br.com.adslima.handler;
+package br.com.adslima.converter;
 
 import java.util.List;
 import java.util.stream.Collectors;

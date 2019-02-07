@@ -49,7 +49,7 @@ public class ExpenseManagementEventProcessor {
 	 */
 	@EventHandler
 	public void on(final ExpenseManagementCommunAddedEvent event) {
-
+		
 		List<Category> listCategories = this.categoryRepository.findByExpenseDescription(event.getDescription());
 
 		Optional<Category> cat = listCategories.stream().filter(c -> c.getCategoryDescription() != null).findFirst();

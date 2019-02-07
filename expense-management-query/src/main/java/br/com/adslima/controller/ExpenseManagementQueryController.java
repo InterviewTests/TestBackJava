@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.adslima.converter.ExpenseManagementConvert;
 import br.com.adslima.dto.ExpenseManagementCommunsDTO;
-import br.com.adslima.handler.ExpenseManagementConvert;
 import br.com.adslima.handler.ExpenseManagementHandler;
 import br.com.adslima.model.Category;
 import br.com.adslima.model.ExpenseManagement;
@@ -66,7 +66,7 @@ public class ExpenseManagementQueryController {
 	@GetMapping("/{userCode}/expense-menagement")
 	public ResponseEntity<Response<Page<ExpenseManagementCommunsDTO>>> findByUserCode(
 			@PathVariable final Integer userCode, @RequestParam(value = "pag", defaultValue = "0") int pag,
-			@RequestParam(value = "ord", defaultValue = "id") String ord,
+			@RequestParam(value = "ord", defaultValue = "date") String ord,
 			@RequestParam(value = "dir", defaultValue = "DESC") String dir) {
 
 		log.info("Searching for user expenses: {}", userCode);

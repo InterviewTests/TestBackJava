@@ -19,13 +19,14 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 @EnableSolrRepositories(basePackages = { "br.com.adslima.repository" })
 public class SolrConfig {
 
+	static final String SOLR_HOST = String.format("http://localhost:8983/solr");
+
 	private HttpSolrClient solr;
 
 	@Bean
 	public SolrClient solrServer() {
 
-		String solrURL = String.format("http://localhost:8983/solr");
-		solr = new HttpSolrClient.Builder(solrURL).build();
+		solr = new HttpSolrClient.Builder(SOLR_HOST).build();
 		solr.setParser(new XMLResponseParser());
 		return solr;
 
@@ -35,4 +36,5 @@ public class SolrConfig {
 	public SolrTemplate solrTemplate(SolrClient client) throws Exception {
 		return new SolrTemplate(client);
 	}
+
 }

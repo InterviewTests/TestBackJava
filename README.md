@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Api gastos
 
 Para este projeto é necessário utilizar o banco de dados NO SQL mongodb para inclusão, alteração e consulta dos dados.
@@ -72,7 +71,6 @@ Foram criada todas as funcionalidades solicitadas no teste.
 
 Qualquer dúvida sigo a disposição.
 
-=======
 # Show me the code
 
 ### # DESAFIO:

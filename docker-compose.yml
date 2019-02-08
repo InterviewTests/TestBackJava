@@ -1,0 +1,16 @@
+ mongo:
+      container_name: mongo
+      image: mongo
+      restart: always
+      ports: 
+        - '27017:27017'
+      environment:
+    	MONGODB_DBNAME: santander
+gastos:
+     container_name: gastos-api
+     image:  gastos-api:latest  
+     restart: always
+     links: 
+       - mongo
+     ports:
+       - '8080:8080'

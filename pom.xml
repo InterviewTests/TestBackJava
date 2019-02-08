@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.gestao</groupId>
 	<artifactId>gastos</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v1</version>
 	<name>gastos</name>
 	<description>Projeto Gestão de Gastos Para o Santander</description>
 

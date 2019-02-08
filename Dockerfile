@@ -2,7 +2,5 @@ FROM java:8
 
 MAINTAINER Cleverson de Melo
 
-EXPOSE 8080 
-
-ADD /target/gastos.jar gastos.jar
-ENTRYPOINT ["java","-jar", "gastos.jar"]
+ADD /target/gastos-v1.jar gastos-v1.jar
+ENTRYPOINT ["java","-jar", "gastos-v1.jar"]

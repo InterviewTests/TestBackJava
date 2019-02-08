@@ -6,10 +6,6 @@ import br.com.gestao.gastos.model.Categorias;
 
 public interface CategoriasService {
 
-	List<Categorias> listaCategoriasSugeridas();
+	List<Categorias> listaCategoriasSugeridas(String categoria);
 	
-	Categorias findCategeoria(String categoria);
-
-	Categorias save(Categorias categoria);
-
 }

@@ -19,20 +19,9 @@ public class CategoriasServiceImpl implements CategoriasService {
 	}
 
 	@Override
-	public List<Categorias> listaCategoriasSugeridas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Categorias findCategeoria(String categoria) {
-		return categoriasRepository.findByNomeCategoria(categoria);
-	}
-
-	@Override
-	public Categorias save(Categorias gastos) {
-		categoriasRepository.save(gastos);
-		return null;
+	public List<Categorias> listaCategoriasSugeridas(String categoria) {
+		List<Categorias> categorias = categoriasRepository.findCategoriasSugeridas(".*"+categoria+".*");
+		return categorias;
 	}
 
 }

@@ -1,0 +1,22 @@
+version: '3'
+services:
+  gastos:
+    container_name: gastos-v1
+    image:  gastos-v1:latest  
+    ports:
+      - '8080:8080'
+    links:
+      - mongo
+    volumes:
+      - /application/application.properties
+  mongo:
+    container_name: mongo
+    image: mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null

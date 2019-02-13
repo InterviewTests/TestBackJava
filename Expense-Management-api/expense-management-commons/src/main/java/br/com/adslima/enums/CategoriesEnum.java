@@ -12,10 +12,10 @@ import lombok.Getter;
 @Getter
 public enum CategoriesEnum {
 
-	VESTUÁRIO(1, "Vesturario"), ELETRÔNICOS(2, "Vesturario"), SUPERMERCADO(3, "Vesturario"), TRANSPORTE(4,
-			"Vesturario"), VIAGEM(5, "Vesturario"), OUTROS(6, "Vesturario"), SERVIÇOS(7, "Vesturario"), SAÚDE(8,
-					"Vesturario"), CASA(9, "Vesturario"), RESTAURANTE(10,
-							"Vesturario"), EDUCAÇÃO(11, "Vesturario"), LAZER(12, "Vesturario");
+	VESTUARIO(1, "Vestuário"), ELETRONICOS(2, "Eletrônicos"), SUPERMERCADO(3, "Supermercado"), TRANSPORTE(4,
+			"Transporte"), VIAGEM(5, "Viagem"), OUTROS(6, "Outros"), SERVICOS(7, "Serviços"), SAUDE(8,
+					"Saúde"), CASA(9, "Vesturario"), RESTAURANTE(10,
+							"Restaurante"), EDUCACAO(11, "Educação"), LAZER(12, "Lazer");
 
 	private String description;
 	private int id;

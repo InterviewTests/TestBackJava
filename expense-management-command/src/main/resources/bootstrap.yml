@@ -9,20 +9,21 @@ spring:
     
 eureka:
   instance:
+      preferIpAddress: true  
       hostname: localhost
       port: 8761
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
-    
-authserver:
-  hostname: http://localhost:8769
+
+#authserver:
+#  hostname: http://localhost:8769
 security:
   oauth2:
     resource:
       #loadBalanced: true
-      userInfoUri: ${authserver.hostname}/user
-        
+      userInfoUri: http://localhost:8787/auth-api/users/authenticate
+      
   datasource:
         driver-class-name: com.mysql.jdbc.Driver
         password: ' '

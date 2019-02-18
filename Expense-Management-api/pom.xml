@@ -17,12 +17,8 @@
 		<module>config-service</module>
 		<module>discovery-service</module>
 		<module>gateway-service</module>
-
-
 		<module>auth-service</module>
 
 		
-		
-		<module>expense-management-commons</module>
 	</modules>
 </project>

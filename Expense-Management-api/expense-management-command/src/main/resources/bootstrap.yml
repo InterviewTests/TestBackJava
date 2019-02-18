@@ -1,17 +1,29 @@
+message: Greetings from the EXPENSE_MAMAGEMENT-COMMAND microservice.
+
 server:
   port: 8081
 
 spring:
   application:
     name: expense-management-command
-  cloud:
-    config:
-      uri: http://localhost:8888
-      failFast: true
-      retry:
-        initialInterval: 2000
-        maxAttempts: 30
-        
+    
+eureka:
+  instance:
+      preferIpAddress: true  
+      hostname: localhost
+      port: 8761
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+#authserver:
+#  hostname: http://localhost:8769
+security:
+  oauth2:
+    resource:
+      #loadBalanced: true
+      userInfoUri: http://localhost:8787/auth-api/users/authenticate
+      
   datasource:
         driver-class-name: com.mysql.jdbc.Driver
         password: ' '
@@ -31,3 +43,17 @@ axon:
     processors:
       amqpEvents:
         source: complaintEventsMethod
+
+logging:
+    level:
+        root: INFO
+        org.springframework: INFO
+            #aop: DEBUG
+            #dao: DEBUG
+            #orm: DEBUG
+            #amqp: DEBUG
+            #data: DEBUG
+            #transaction: DEBUG
+        org.axonframework: INFO
+        com.soagrowers: INFO
+        file: ./build/logs/expense-management-command.log

@@ -1,48 +1,62 @@
-server:
-  port: 8083
-  
-spring:
-  application:
-    name: auth-service
-#  cloud:
-#    config:
-#      uri: http://localhost:8888
-#      failFast: true
-#      retry:
-#        initialInterval: 2000
-#        maxAttempts: 30
-        
-  datasource:
-    url: jdbc:h2:mem:oauth5;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    platform: h2
-    username: sa
-    password: null
-    data: classpath:/sql/data.sql
-    schema: classpath:/sql/schema.sql
-    driverClassName: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        show_sql: true
-        use_sql_comments: true
-        format_sql: true
-  h2:
-    console:
-      enabled: true
-      path: /console
-      settings:
-        trace: false
-        web-allow-others: false
-     
-security:
-    oauth2:
-        client:
-            access-token-validity-seconds: 5000
-            authorized-grant-types: password,refresh_token
-            client-id: coderef
-            client-secret: $2a$10$p9Pk0fQNAQSesI4vuvKA0OZanDD2
-            resource-ids: resources
-            scope: read,write
+#message: Greetings from the AUTH-SERVICE microservice.
+#
+#
+#server:
+#  port: 8769
+#
+## Define the Eureka server that handles service registration
+#eureka:
+#  instance:
+#      hostname: localhost
+#      port: 8761
+#  client:
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+#spring:      
+#  datasource:
+#    url: jdbc:h2:mem:oauth;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+#    platform: h2
+#    username: sa
+#    password: null
+#    data: classpath:/sql/data.sql
+#    schema: classpath:/sql/schema.sql
+#    driverClassName: org.h2.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    hibernate:
+#      ddl-auto: none
+#    properties:
+#      hibernate:
+#        show_sql: true
+#        use_sql_comments: true
+#        format_sql: true
+#  h2:
+#    console:
+#      enabled: true
+#      path: /console
+#      settings:
+#        trace: false
+#        web-allow-others: false
+#     
+#security:
+#    oauth2:
+#        client:
+#            access-token-validity-seconds: 5000
+#            authorized-grant-types: password,refresh_token
+#            client-id: coderef
+#            client-secret: $2a$10$p9Pk0fQNAQSesI4vuvKA0OZanDD2
+#            resource-ids: resources
+#            scope: read,write
+##---
+##spring:
+##  profiles: docker
+##
+##server:
+##  port: ${SERVICE_PORT}
+##
+##eureka:
+##  instance:
+##    prefer-ip-address: true
+##  client:
+##    service-url:
+##defaultZone: ${REGISTRY_URL}

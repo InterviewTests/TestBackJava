@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.adslima.model;
 
 import java.io.Serializable;
@@ -14,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * @author andrews.silva
@@ -24,9 +20,12 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @SolrDocument(collection = "categories-core")
 public class Category implements Serializable {
+
+	public Category() {
+
+	}
 
 	/**
 	 * @param categoryDescription
@@ -52,6 +51,5 @@ public class Category implements Serializable {
 	@Field("categories_txt")
 	@Indexed(name = "cdesc", type = "string")
 	private String categoryDescription;
-
 
 }

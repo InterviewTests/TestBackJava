@@ -13,11 +13,6 @@ import br.com.adslima.prefilters.SimpleLoggingPreFilter;
 @ComponentScan("br.com.adslima")
 public class GatewayServiceApplication {
 
-	@Bean
-	public SimpleLoggingPreFilter simplePreFilter() {
-		return new SimpleLoggingPreFilter();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayServiceApplication.class, args);
 	}

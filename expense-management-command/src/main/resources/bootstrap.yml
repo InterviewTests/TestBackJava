@@ -6,7 +6,8 @@ server:
 spring:
   application:
     name: expense-management-command
-    
+
+
 eureka:
   instance:
       preferIpAddress: true  
@@ -16,25 +17,23 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
 
-#authserver:
-#  hostname: http://localhost:8769
 security:
   oauth2:
     resource:
-      #loadBalanced: true
+#      loadBalanced: true
       userInfoUri: http://localhost:8787/auth-api/users/authenticate
       
   datasource:
         driver-class-name: com.mysql.jdbc.Driver
         password: ' '
         platform: mysql
-        url: jdbc:mysql://localhost:3306/management?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+        url: jdbc:mysql://localhost:3306/managementtest?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
         username: root
   jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         generate-ddl: true
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         show-sql: true
 axon:
   amqp:

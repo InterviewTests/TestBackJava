@@ -10,6 +10,8 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableResourceServer
+@ComponentScan("br.com.adslima")
 public class ExpenseManagementQueryApplication {
 
 	public static void main(String[] args) {
+//		System.setProperty("server.servlet.context-path", "/queries");
 		SpringApplication.run(ExpenseManagementQueryApplication.class, args);
 	}
 	

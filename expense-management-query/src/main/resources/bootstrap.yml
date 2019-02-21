@@ -1,7 +1,9 @@
-message: Greetings from the EXPENSE-MANAGEMENT-QUERY microservice [using the LOCALHOST config].
+message: Greetings from the EXPENSE-MANAGEMENT-QUERY microservice.
 
 server:
   port: 8082
+  servlet:
+   context-path: /queries
   
 spring:
   application:
@@ -9,18 +11,21 @@ spring:
     
 eureka:
   instance:
+      leaseRenewalIntervalInSeconds: 1
+      leaseExpirationDurationInSeconds: 2
       hostname: localhost
       port: 8761
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
-      
-#authserver:
-#  hostname: http://localhost:8769
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5      
+
 security:
   oauth2:
     resource:
-      #loadBalanced: true
       userInfoUri: http://localhost:8787/auth-api/users/authenticate
               
             #Mysql    
@@ -28,7 +33,7 @@ security:
         driver-class-name: com.mysql.jdbc.Driver
         password: ' '
         platform: mysql
-        url: jdbc:mysql://localhost:3306/managementtest?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+        url: jdbc:mysql://localhost:3306/managementquery?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
         username: root
   jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -50,12 +55,6 @@ logging:
     level:
         root: INFO
         org.springframework: INFO
-            #aop: DEBUG
-            #dao: DEBUG
-            #orm: DEBUG
-            #amqp: DEBUG
-            #data: DEBUG
-            #transaction: DEBUG
         org.axonframework: INFO
-        com.soagrowers: DEBUG
-    file: ./build/logs/expense-management-query.log
+        br.com.adslima: DEBUG
+        file: ./build/logs/expense-management-query.log

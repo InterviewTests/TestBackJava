@@ -1,8 +1,10 @@
 spring:
   application:
     name: service-registry
+    
 server:
   port: 8761
+  
 eureka:
   instance:
     hostname: localhost
@@ -18,4 +20,4 @@ eureka:
     
 security:
   basic:
-      enabled: false
+    enabled: false

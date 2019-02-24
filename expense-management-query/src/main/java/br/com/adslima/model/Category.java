@@ -23,6 +23,7 @@ import lombok.EqualsAndHashCode;
 @SolrDocument(collection = "categories-core")
 public class Category implements Serializable {
 
+
 	public Category() {
 
 	}
@@ -44,12 +45,19 @@ public class Category implements Serializable {
 	@Indexed(name = "cid", type = "string")
 	private String categoryId;
 
-	@Field
 	@Indexed(name = "edesc", type = "string")
 	private String expenseDescription;
 
 	@Field("categories_txt")
 	@Indexed(name = "cdesc", type = "string")
 	private String categoryDescription;
+	
+	/**
+	 * @param expenseDescription the expenseDescription to set
+	 */
+	@Field("expenseDescription")
+	public void setExpenseDescription(String expenseDescription) {
+		this.expenseDescription = expenseDescription;
+	}
 
 }

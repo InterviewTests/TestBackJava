@@ -72,10 +72,6 @@
 			<artifactId>spring-data-solr</artifactId>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.solr</groupId> -->
-		<!-- <artifactId>solr-core</artifactId> -->
-		<!-- </dependency> -->
 
 		<!-- H2 Database -->
 		<dependency>

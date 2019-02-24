@@ -20,15 +20,15 @@ import br.com.adslima.model.Category;
  */
 public interface CategoryRepository extends SolrCrudRepository<Category, String> {
 
-	Category findByCategoryId(String categoryId);
+	Category findByCategoryId(final String categoryId);
 
 	@Query("edesc:*?0*")
-	Page<Category> findByExpenseDescription(String searchTerm, Pageable pageable);
+	Page<Category> findByExpenseDescription(final String description, final Pageable pageable);
 
 	@Query("edesc:*?0* OR cdesc:*?0*")
-	Page<Category> findByCustomerQuery(String searchTerm, Pageable pageable);
+	Page<Category> findByCustomerQuery(final String description, final Pageable pageable);
 
-	List<Category> findByExpenseDescription(String description);
+	List<Category> findByExpenseDescription(final String description);
 
 	@Query("categories_txt:*?0*")
 	@Facet(fields = { "categories_txt" }, limit = 5)

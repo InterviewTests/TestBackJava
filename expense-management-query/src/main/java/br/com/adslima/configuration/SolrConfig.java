@@ -25,7 +25,6 @@ public class SolrConfig {
 
 	@Bean
 	public SolrClient solrServer() {
-
 		solr = new HttpSolrClient.Builder(SOLR_HOST).build();
 		solr.setParser(new XMLResponseParser());
 		return solr;
@@ -36,5 +35,5 @@ public class SolrConfig {
 	public SolrTemplate solrTemplate(SolrClient client) throws Exception {
 		return new SolrTemplate(client);
 	}
-
+	
 }

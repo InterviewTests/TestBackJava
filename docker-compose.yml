@@ -1,0 +1,32 @@
+version: '3'
+services:
+
+  mysql-expenseManagement:
+    image: mysql
+    expose:
+    - 3306
+    ports:
+    - 3306:3306
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    volumes:
+    - /data/mysql
+    
+  solr:
+    image: solr
+    expose:
+    - '8983'
+    entrypoint:
+    - docker-entrypoint.sh
+    - solr-precreate
+    - categories-core
+    ports:
+    - 8983:8983
+    
+  rabbitmq:
+    image: rabbitmq:management
+    expose:
+    - '15672'
+    ports:
+    - 5672:5672
+    - 15672:15672

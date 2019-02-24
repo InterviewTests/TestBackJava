@@ -59,8 +59,8 @@ public class ExpenseManagementEventProcessor {
 			Category category = getCategorySolr(event);
 			category.setCategoryDescription(cat.get().getCategoryDescription());
 
-			Category CatergoriesSorl = this.categoryRepository.save(category);
-			log.info("Um gasto no cartão foi adicionado ao Solr {}", CatergoriesSorl.toString());
+			Category catergoriesSorl = this.categoryRepository.save(category);
+			log.info("Um gasto no cartão foi adicionado ao Solr {}", catergoriesSorl.toString());
 
 			event.setCategory(new ExpenseCategory(cat.get().getCategoryDescription()));
 			ExpenseManagement expenseManagement = this.repository

@@ -1,11 +1,13 @@
 package br.com.adslima.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.solr.core.query.result.FacetFieldEntry;
 import org.springframework.data.solr.core.query.result.FacetPage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -120,8 +122,8 @@ public class ExpenseManagementQueryController {
 	 * @return
 	 */
 	@GetMapping("/{categoryDescription}/categories")
-	public ResponseEntity<FacetPage<Category>> findBySuggestionCategory(@PathVariable final String categoryDescription,
-			@RequestParam(value = "pag", defaultValue = "0") int pag,
+	public ResponseEntity<List<FacetFieldEntry>> findBySuggestionCategory(
+			@PathVariable final String categoryDescription, @RequestParam(value = "pag", defaultValue = "0") int pag,
 			@RequestParam(value = "ord", defaultValue = "id") String ord,
 			@RequestParam(value = "dir", defaultValue = "DESC") String dir) {
 
@@ -129,6 +131,7 @@ public class ExpenseManagementQueryController {
 		FacetPage<Category> categories = this.categoryRepository.findByDescriptionAndFacetOnCategories(
 				categoryDescription, PageRequest.of(pag, NUMBER_PAR_PAG, Direction.valueOf(dir), ord));
 
-		return ResponseEntity.ok(categories);
+		return ResponseEntity.ok(categories.getFacetResultPage("categories_txt").getContent());
 	}
+
 }

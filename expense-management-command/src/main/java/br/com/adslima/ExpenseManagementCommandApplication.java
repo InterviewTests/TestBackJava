@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpenseManagementCommandApplication {
 
 	public static void main(String[] args) {
-//		System.setProperty("server.servlet.context-path", "/commands");
 		SpringApplication.run(ExpenseManagementCommandApplication.class, args);
 	}
 

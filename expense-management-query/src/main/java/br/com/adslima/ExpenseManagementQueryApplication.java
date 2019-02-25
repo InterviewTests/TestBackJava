@@ -27,35 +27,34 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpenseManagementQueryApplication {
 
 	public static void main(String[] args) {
-//		System.setProperty("server.servlet.context-path", "/queries");
 		SpringApplication.run(ExpenseManagementQueryApplication.class, args);
 	}
-	
+
 	@RestController
 	class ServiceInstanceRestController {
 
-	    @Autowired
-	    private DiscoveryClient discoveryClient;
+		@Autowired
+		private DiscoveryClient discoveryClient;
 
-	    @Value("${spring.application.name}")
-	    private String appName;
+		@Value("${spring.application.name}")
+		private String appName;
 
-	    @RequestMapping("/instances")
-	    public List<ServiceInstance> serviceInstancesByApplicationName() {
-	        return this.discoveryClient.getInstances(appName);
-	    }
+		@RequestMapping("/instances")
+		public List<ServiceInstance> serviceInstancesByApplicationName() {
+			return this.discoveryClient.getInstances(appName);
+		}
 	}
 
 	@RefreshScope
 	@RestController
 	class MessageRestController {
 
-	    @Value("${message}")
-	    private String message;
+		@Value("${message}")
+		private String message;
 
-	    @RequestMapping("/message")
-	    String getMessage() {
-	        return this.message;
-	    }
+		@RequestMapping("/message")
+		String getMessage() {
+			return this.message;
+		}
 	}
 }

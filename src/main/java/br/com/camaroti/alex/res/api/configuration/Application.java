@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EntityScan(basePackages = {"br.com.camaroti.alex.res.api.model"})
-@ComponentScan(basePackages = {"br.com.camaroti.alex.res.api.controller"})
+@ComponentScan(basePackages = {"br.com.camaroti.alex.res.api.controller", "br.com.camaroti.alex.res.api.service"})
 @EnableJpaRepositories("br.com.camaroti.alex.res.api.repository")
 public class Application {
 	

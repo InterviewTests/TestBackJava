@@ -9,15 +9,23 @@ spring:
   application:
     name: expense-management-query
     
+  rabbitmq:
+    host: ${RABBITMQ_IP:localhost}
+    port: 5672
+    username: guest
+    password: guest
+    
+  data:
+    solr:
+      host: http://${SOLR_IP:localhost}:8983/solr
+    
 eureka:
   instance:
       leaseRenewalIntervalInSeconds: 1
       leaseExpirationDurationInSeconds: 2
-      hostname: localhost
-      port: 8761
   client:
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+      defaultZone: http://${EUREKA_IP:localhost}:8761/eureka/
     healthcheck:
       enabled: true
     lease:
@@ -26,14 +34,14 @@ eureka:
 security:
   oauth2:
     resource:
-      userInfoUri: http://localhost:8787/auth-api/users/authenticate
+      userInfoUri: http://${OAUTH_IP:localhost}:8787/auth-api/users/authenticate
               
-            #Mysql    
+#Mysql    
   datasource:
         driver-class-name: com.mysql.jdbc.Driver
         password: ' '
         platform: mysql
-        url: jdbc:mysql://localhost:3306/managementquery?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+        url: jdbc:mysql://${MYSQL_IP:localhost}:3306/managementquery?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
         username: root
   jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

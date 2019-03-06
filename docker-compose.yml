@@ -1,8 +1,8 @@
 version: '3'
 services:
 
-  mysql-expenseManagement:
-    image: mysql
+ mysql-expenseManagement:
+    image: mysql:5.7
     expose:
     - 3306
     ports:
@@ -12,8 +12,8 @@ services:
     volumes:
     - /data/mysql
     
-  solr:
-    image: solr
+ solr:
+    image: adslima/solr:1.0
     expose:
     - '8983'
     entrypoint:
@@ -23,10 +23,80 @@ services:
     ports:
     - 8983:8983
     
-  rabbitmq:
+ rabbitmq:
     image: rabbitmq:management
     expose:
     - '15672'
     ports:
     - 5672:5672
     - 15672:15672
+
+ eureka:
+    build: ./service-registry
+    container_name: eureka
+    ports:
+    - 8761:8761
+    
+ zuul:
+    build: ./service-gateway
+    container_name: zuul
+    ports:
+      - 8765:8765
+    expose:
+      - 8765
+    environment:
+      EUREKA_IP: eureka
+    depends_on:
+    - eureka
+    
+ oauth:
+    build: ./auth-service
+    container_name: oauth
+    ports:
+      - 8787:8787
+    expose:
+      - '8787'
+    environment:
+      EUREKA_IP: eureka
+    depends_on:
+    - eureka
+    
+ expense-management-command:
+    build: ./expense-management-command
+    container_name: command
+    ports:
+      - 8081:8081
+    expose:
+      - '8081'
+    environment:
+      MYSQL_IP: mysql-expenseManagement
+      EUREKA_IP: eureka
+      OAUTH_IP: oauth
+      SOLR_IP: solr
+      RABBITMQ_IP: rabbitmq
+    depends_on:
+    - eureka
+    - mysql-expenseManagement
+    - solr
+    - rabbitmq
+    - oauth
+    
+ expense-management-query:
+    build: ./expense-management-query
+    container_name: query
+    ports:
+      - 8082:8082
+    expose:
+      - '8082'
+    environment:
+      MYSQL_IP: mysql-expenseManagement
+      EUREKA_IP: eureka
+      OAUTH_IP: oauth
+      SOLR_IP: solr
+      RABBITMQ_IP: rabbitmq
+    depends_on:
+    - eureka
+    - mysql-expenseManagement
+    - solr
+    - rabbitmq
+    - oauth

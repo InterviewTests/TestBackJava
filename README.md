@@ -1,32 +1,32 @@
 [![Build Status](https://travis-ci.org/adslima/TestBackJava.svg?branch=master)](https://travis-ci.org/adslima/TestBackJava)
 
 
-Micro serviços com spring boot, eureka, zuul, oauth, RabbitMq, solr e Axon Framework.
+# Micro serviços com spring boot, eureka, zuul, oauth, RabbitMq, solr e Axon Framework.
 
 
-microservices architecture
+## microservices architecture
 
 Contém 5 componentes, todos eles são aplicativos implantáveis ​​independentemente.
 
 
-Service Registry (registro de serviços):
+### Service Registry (registro de serviços):
 
 	Este serviço mantém o registro de todos os microservices que foram implantados. 
 Foi feito uso do netflix eureka neste projeto.
 
-Service Gateway (roteamento de serviços):
+### Service Gateway (roteamento de serviços):
 
 	Pensando na questão do client realizar suas chamadas, diretamente para um único ponto de entrada 
 que encaminharia a solicitação para o serviço de back-end apropriado. Com base nessa questão, 
 usei o netflix zuul, o configurando para rotear as solicitações especificando rotas.
 
-Auth Service(serviço de autenticação):
+### Auth Service(serviço de autenticação):
 
 	Para acessar qualquer recurso de autenticação é necessário, 
 em vez de usar as credenciais do proprietário do recurso para acessar recursos protegidos, o cliente obtém um token de acesso.
 
 
-Expense Management Command & Expense Management Query
+### Expense Management Command & Expense Management Query
 
 	Com base no que o CQRS propõe, para que separemos a aplicação em modelos diferentes para atualização e exibição, 
 que de acordo com o padrão do CQRS estariamos falando dos Comandos e Consultas.
@@ -40,14 +40,14 @@ Para a persistência dos gastos com cartões, será feito uso do Mysql.
 E para indexação das categotorias, será feito uso do SOLR.  
 
 
-Pré requisito
+# Pré requisito
 
     - Maven 3
     - Java 8
 	- Git
     - Docker/Docker Compose
 
-No Docker serão criados os serviços listados abaixo:
+## No Docker serão criados os serviços listados abaixo:
 
     - Mysql
     - Solr
@@ -60,14 +60,14 @@ No Docker serão criados os serviços listados abaixo:
 	- Expense Management Command
 	- Expense Management Query
 	
-Preparando ambiente
+# Preparando ambiente
 
 	Em cada serviço (registry, auth, gateway, command e query)
 	
     executar o seguinte commando:
        - mvn clean compile package -DskipTests
    
-Executando
+# Executando
 
 	Após esse procedimento, dentro da pasta raiz do projeto executar
 	   - docker-compose up --no-start
@@ -81,7 +81,7 @@ Executando
 	   - docker start zuul
 	   
 
-Com tudo rodando, Devemos realizar a solicitação do token para acesso dos serviços;
+## Com tudo rodando, Devemos realizar a solicitação do token para acesso dos serviços;
 para isso faremos o seguinte request:
 
  POST 
@@ -103,18 +103,27 @@ POST
         "value": 15.00
     }
 
-Para Listarmos os gastos:
+ 
+## Para editação de categorias
+
+POST 
+	http://localhost:8765/commands/api-command/{id}/categories
+	
+	{"category": "Serviços"}
+
+## Para Listarmos os gastos:
 	
 GET
 	http://localhost:8765/queries/api-queries/12345/expense-menagement
 
-Para a listagem por data;
+## Para a listagem por data;
 
 GET
 	http://localhost:8765/queries/api-queries/expense-menagement?userCode=12345&date=2019-03-01T00:00:00
 	
 
-Para sugestão de categotorias:
+## Para sugestão de categotorias:
 
 GET
-	http://localhost:8765/queries/api-queries/"Texto apesquisar"/categories
+	http://localhost:8765/queries/api-queries/{Texto_a_Pesquisar}/categories
+	

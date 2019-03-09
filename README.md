@@ -11,33 +11,34 @@ Contém 5 componentes, todos eles são aplicativos implantáveis ​​independe
 
 ### Service Registry (registro de serviços):
 
-	Este serviço mantém o registro de todos os microservices que foram implantados. 
+	Este serviço mantém o registro de todos os microservices que foram implantados.
 Foi feito uso do netflix eureka neste projeto.
 
 ### Service Gateway (roteamento de serviços):
 
 	Pensando na questão do client realizar suas chamadas, diretamente para um único ponto de entrada 
-que encaminharia a solicitação para o serviço de back-end apropriado. Com base nessa questão, 
-usei o netflix zuul, o configurando para rotear as solicitações especificando rotas.
+	que encaminharia a solicitação para o serviço de back-end apropriado. 
+Com base nessa questão, 	usei o netflix zuul, o configurando para rotear as solicitações especificando rotas.
 
 ### Auth Service(serviço de autenticação):
 
 	Para acessar qualquer recurso de autenticação é necessário, 
-em vez de usar as credenciais do proprietário do recurso para acessar recursos protegidos, o cliente obtém um token de acesso.
+	em vez de usar as credenciais do proprietário do recurso para acessar recursos protegidos, 
+	o cliente obtém um token de acesso.
 
 
 ### Expense Management Command & Expense Management Query
 
 	Com base no que o CQRS propõe, para que separemos a aplicação em modelos diferentes para atualização e exibição, 
-que de acordo com o padrão do CQRS estariamos falando dos Comandos e Consultas.
-No momento que o usuário realiza um compra com cartão, isso é roteado para o modelo de comando
-que por sua vez, irá realizar operações necessárias e informará ao modelo de consulta
-para que as novas informações sejam exibidas para o usuário. 
-Ainda com o uso do Axon Framework foi possivel a implementação do padrão arquitetural CQRS.
+	que de acordo com o padrão do CQRS estariamos falando dos Comandos e Consultas.
+	No momento que o usuário realiza um compra com cartão, isso é roteado para o modelo de comando
+	que por sua vez, irá realizar operações necessárias e informará ao modelo de consulta
+	para que as novas informações sejam exibidas para o usuário. 
+	Ainda com o uso do Axon Framework foi possivel a implementação do padrão arquitetural CQRS.
 
 	Para comunicação de nossas aplicações. ocorrerá através de barramento de ventos fazendo uso do RabbitMq. 
-Para a persistência dos gastos com cartões, será feito uso do Mysql.
-E para indexação das categotorias, será feito uso do SOLR.  
+	Para a persistência dos gastos com cartões, será feito uso do Mysql.
+	E para indexação das categotorias, será feito uso do SOLR.  
 
 
 # Pré requisito

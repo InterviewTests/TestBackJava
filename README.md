@@ -65,12 +65,12 @@ Com base nessa questão, 	usei o netflix zuul, o configurando para rotear as sol
 
 	Em cada serviço (registry, auth, gateway, command e query)
 	
-    executar o seguinte commando:
+###  Executar o seguinte commando:
        - mvn clean compile package -DskipTests
    
 # Executando
 
-	Após esse procedimento, dentro da pasta raiz do projeto executar
+###  Após esse procedimento, dentro da pasta raiz do projeto executar
 	   - docker-compose up --no-start
 		
 
@@ -81,8 +81,10 @@ Com base nessa questão, 	usei o netflix zuul, o configurando para rotear as sol
 	   - docker start command query 
 	   - docker start zuul
 	   
+ *Obs. Devemos considerar um intervalo entre entre os start's dos serviços.
+	   
 
-## Com tudo rodando, Devemos realizar a solicitação do token para acesso dos serviços;
+## Com tudo rodando, devemos realizar a solicitação do token para acesso dos serviços;
 para isso faremos o seguinte request:
 
  POST 
@@ -92,7 +94,7 @@ para isso faremos o seguinte request:
 
 	Content-Type: application/json
 
-com o token em 'mãos',vVamos realizar um cadastro de gastos com cartão.
+com o token em 'mãos',vamos realizar um cadastro de gastos com cartão.
 
 POST
 	http://localhost:8765/commands/api-command
@@ -105,9 +107,9 @@ POST
     }
 
  
-## Para editação de categorias
+## Para edição de categorias
 
-POST 
+PUT 
 	http://localhost:8765/commands/api-command/{id}/categories
 	
 	{"category": "Serviços"}

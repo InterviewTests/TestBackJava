@@ -3,6 +3,7 @@ services:
 
  mysql-expenseManagement:
     image: mysql:5.7
+    container_name: mysql
     expose:
     - 3306
     ports:
@@ -13,7 +14,8 @@ services:
     - /data/mysql
     
  solr:
-    image: adslima/solr:1.0
+    image: adslima/solr:1.1
+    container_name: solr
     expose:
     - '8983'
     entrypoint:
@@ -25,6 +27,7 @@ services:
     
  rabbitmq:
     image: rabbitmq:management
+    container_name: rabbit
     expose:
     - '15672'
     ports:

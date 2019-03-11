@@ -34,7 +34,7 @@ public class ExpenseServiceImplTest {
 		for (int i = 0; i < 10000; i++) {
 			int codUser = (i / 100) < 1 ? 1 : (i / 100) + 1;
 			double random = ThreadLocalRandom.current().nextDouble(10.0, 100.0);
-			expenses.add(new Expense(i, "Comida" + i, random, codUser, new Date()));
+		//	expenses.add(new Expense(i, "Comida" + i, random, codUser, new Date()));
 		}
 	}
 	

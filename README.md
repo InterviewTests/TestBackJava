@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/adslima/TestBackJava.svg?branch=master)](https://travis-ci.org/adslima/TestBackJava)
 
 
-# Micro serviços com spring boot, eureka, zuul, oauth, RabbitMq, solr e Axon Framework.
+# Micros serviços com spring boot, eureka, zuul, oauth, RabbitMq, solr e Axon Framework.
 
 
-## microservices architecture
+## Microservices architecture
 
 Contém 5 componentes, todos eles são aplicativos implantáveis ​​independentemente.
 

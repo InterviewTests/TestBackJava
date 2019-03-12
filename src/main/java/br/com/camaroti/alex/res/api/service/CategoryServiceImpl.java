@@ -1,5 +1,7 @@
 package br.com.camaroti.alex.res.api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,18 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepository repository;
 	
 	@Override
-	public Category findByName(String name) {
-		return repository.findByNameIgnoreCase(name);
+	public List<Category> findByNameContaining(String name) {
+		return repository.findByNameContainingIgnoreCase(name);
 	}
 
 	@Override
 	public Category save(Category category) {
 		return repository.save(category);
+	}
+
+	@Override
+	public Category findByName(String name) {
+		return repository.findByNameIgnoreCase(name);
 	}
 
 }

@@ -41,8 +41,8 @@ public class ExpenseController {
 		return expenseService.save(expense);
 	}
 	
-	@PutMapping(path="/expenses") // Map ONLY PUT Request
-	public @ResponseBody Expense add(@RequestParam int cod, @RequestParam int codUser
+	@PutMapping(path="/expenses/{cod}") // Map ONLY PUT Request
+	public @ResponseBody Expense add(@PathVariable int cod, @RequestParam int codUser
 			, @RequestParam String description, @RequestParam double cost, @RequestParam(value = "category", required = false) String category) {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
@@ -55,6 +55,9 @@ public class ExpenseController {
 		checkIfParamIsNull(category, expense);
 		return expenseService.update(expense);
 	}
+	
+	@GetMapping(path="")
+	
 
 	private void checkIfParamIsNull(String category, Expense expense) {
 		if(category != null && !category.isEmpty()) {

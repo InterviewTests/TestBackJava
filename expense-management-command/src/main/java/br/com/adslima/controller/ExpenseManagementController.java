@@ -3,24 +3,19 @@ package br.com.adslima.controller;
 import java.util.UUID;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.adslima.command.AddExpenseManagementCommand;
 import br.com.adslima.command.UpdateCategoryExpenseManagementCommand;
 import br.com.adslima.dto.ExpenseManagementDTO;
-import br.com.adslima.exceptions.InvalidExpenseCategoryException;
 import br.com.adslima.response.Response;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ExpenseManagementController {
 
 	@Autowired
-	CommandGateway commandGateway;
+	private CommandGateway commandGateway;
 
 	/**
 	 * 
@@ -90,16 +85,5 @@ public class ExpenseManagementController {
 		response.setData(command);
 
 		return ResponseEntity.ok().body(response);
-	}
-
-	@ExceptionHandler(AggregateNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public void notFound() {
-	}
-
-	@ExceptionHandler(InvalidExpenseCategoryException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public String ExpenseCategoryNotFound(InvalidExpenseCategoryException exception) {
-		return exception.getMessage();
 	}
 }

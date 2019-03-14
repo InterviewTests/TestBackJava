@@ -40,7 +40,7 @@ public class ExpenseManagementQueryController {
 	private ExpenseManagementRepository repository;
 
 	@Autowired
-	CategoryRepository categoryRepository;
+	private CategoryRepository categoryRepository;
 
 	/**
 	 * 

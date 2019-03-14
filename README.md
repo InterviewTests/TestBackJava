@@ -36,7 +36,7 @@ Com base nessa questão, 	usei o netflix zuul, o configurando para rotear as sol
 	para que as novas informações sejam exibidas para o usuário. 
 	Ainda com o uso do Axon Framework foi possivel a implementação do padrão arquitetural CQRS.
 
-	Para comunicação de nossas aplicações. ocorrerá através de barramento de ventos fazendo uso do RabbitMq. 
+	Para comunicação de nossas aplicações. ocorrerá através de barramento de eventos fazendo uso do RabbitMq. 
 	Para a persistência dos gastos com cartões, será feito uso do Mysql.
 	E para indexação das categotorias, será feito uso do SOLR.  
 

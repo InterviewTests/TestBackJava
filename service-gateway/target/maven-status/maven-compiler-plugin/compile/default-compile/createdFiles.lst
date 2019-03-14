@@ -1,0 +1,4 @@
+br\com\adslima\ServiceGatewayApplication.class
+br\com\adslima\prefilters\SimpleLoggingPreFilter.class
+br\com\adslima\prefilters\CORSFilter.class
+br\com\adslima\security\GatewaySecurityConfiguration.class

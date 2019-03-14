@@ -3,8 +3,6 @@ package br.com.adslima.components;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Resource;
-
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
@@ -39,7 +37,6 @@ public class ExpenseManagementEventProcessor {
 	/**
 	 * 
 	 */
-	@Resource
 	private final CategoryRepository categoryRepository;
 
 	/**
@@ -52,6 +49,8 @@ public class ExpenseManagementEventProcessor {
 		
 		List<Category> listCategories = this.categoryRepository.findByExpenseDescription(event.getDescription());
 
+		if(listCategories != null){
+			
 		Optional<Category> cat = listCategories.stream().filter(c -> c.getCategoryDescription() != null).findFirst();
 
 		if (cat.isPresent()) {
@@ -67,7 +66,7 @@ public class ExpenseManagementEventProcessor {
 					.save(new ExpenseManagement(event.getId(), event.getUserCode(), event.getDescription(),
 							event.getDate(), event.getValue(), event.getCategory()));
 			log.info("Um gasto com cartão foi adcionado! {}", expenseManagement.toString());
-
+		}
 		} else {
 
 			Category category = getCategorySolr(event);

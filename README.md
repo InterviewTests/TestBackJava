@@ -1,76 +1,132 @@
-# Show me the code
+[![Build Status](https://travis-ci.org/adslima/TestBackJava.svg?branch=master)](https://travis-ci.org/adslima/TestBackJava)
 
-### # DESAFIO:
 
-API REST para Gestão de Gastos!
+# Micros serviços com spring boot, eureka, zuul, oauth, RabbitMq, solr e Axon Framework.
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
+
+## Microservices architecture
+
+Contém 5 componentes, todos eles são aplicativos implantáveis ​​independentemente.
+
+
+### Service Registry (registro de serviços):
+
+	Este serviço mantém o registro de todos os microservices que foram implantados.
+Foi feito uso do netflix eureka neste projeto.
+
+### Service Gateway (roteamento de serviços):
+
+	Pensando na questão do client realizar suas chamadas, diretamente para um único ponto de entrada 
+	que encaminharia a solicitação para o serviço de back-end apropriado. 
+Com base nessa questão, 	usei o netflix zuul, o configurando para rotear as solicitações especificando rotas.
+
+### Auth Service(serviço de autenticação):
+
+	Para acessar qualquer recurso de autenticação é necessário, 
+	em vez de usar as credenciais do proprietário do recurso para acessar recursos protegidos, 
+	o cliente obtém um token de acesso.
+
+
+### Expense Management Command & Expense Management Query
+
+	Com base no que o CQRS propõe, para que separemos a aplicação em modelos diferentes para atualização e exibição, 
+	que de acordo com o padrão do CQRS estariamos falando dos Comandos e Consultas.
+	No momento que o usuário realiza um compra com cartão, isso é roteado para o modelo de comando
+	que por sua vez, irá realizar operações necessárias e informará ao modelo de consulta
+	para que as novas informações sejam exibidas para o usuário. 
+	Ainda com o uso do Axon Framework foi possivel a implementação do padrão arquitetural CQRS.
+
+	Para comunicação de nossas aplicações. ocorrerá através de barramento de eventos fazendo uso do RabbitMq. 
+	Para a persistência dos gastos com cartões, será feito uso do Mysql.
+	E para indexação das categotorias, será feito uso do SOLR.  
+
+
+# Pré requisito
+
+    - Maven 3
+    - Java 8
+	- Git
+    - Docker/Docker Compose
+
+## No Docker serão criados os serviços listados abaixo:
+
+    - Mysql
+    - Solr
+    - RabbitMq
+	
+    - Service Registry
+	- Auth Service
+    - Service Gateway
+	
+	- Expense Management Command
+	- Expense Management Query
+	
+# Preparando ambiente
+
+	Em cada serviço (registry, auth, gateway, command e query)
+	
+###  Executar o seguinte commando:
+       - mvn clean compile package -DskipTests
+   
+# Executando
+
+###  Após esse procedimento, dentro da pasta raiz do projeto executar
+	   - docker-compose up --no-start
+		
+
+	Ao termino desse processo, executar os seguintes comandos: 
+	
+	   - docker start mysql solr rabbit
+	   - docker start eureka oauth
+	   - docker start command query 
+	   - docker start zuul
+	   
+ *Obs. Devemos considerar um intervalo entre entre os start's dos serviços.
+	   
+
+## Com tudo rodando, devemos realizar a solicitação do token para acesso dos serviços;
+para isso faremos o seguinte request:
+
+ POST 
+	http://localhost:8765/auth-api/oauth/token?grant_type=password&username=demo&password=password
+
+	Authorization: Basic dHJ1c3RlZC1hcHA6cGFzc3dvcmQ=
+
+	Content-Type: application/json
+
+com o token em 'mãos',vamos realizar um cadastro de gastos com cartão.
+
+POST
+	http://localhost:8765/commands/api-command
+
+	{
+       "userCode": 12345,
+        "description": "RecargaCel",
+        "date": "2019-03-01T01:45:55.031",
+        "value": 15.00
+    }
+
  
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+## Para edição de categorias
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+PUT 
+	http://localhost:8765/commands/api-command/{id}/categories
+	
+	{"category": "Serviços"}
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+## Para Listarmos os gastos:
+	
+GET
+	http://localhost:8765/queries/api-queries/12345/expense-menagement
 
-### # Observações gerais
+## Para a listagem por data;
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+GET
+	http://localhost:8765/queries/api-queries/expense-menagement?userCode=12345&date=2019-03-01T00:00:00
+	
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+## Para sugestão de categotorias:
 
-### # Importante: não há prazo de entrega, faça com qualidade!
-
-# BOA SORTE!
+GET
+	http://localhost:8765/queries/api-queries/{Texto_a_Pesquisar}/categories
+	

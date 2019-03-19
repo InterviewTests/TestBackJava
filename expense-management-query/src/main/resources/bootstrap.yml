@@ -1,0 +1,68 @@
+message: Greetings from the EXPENSE-MANAGEMENT-QUERY microservice.
+
+server:
+  port: 8082
+  
+  servlet:
+    context-path: /queries
+    
+spring:
+  application:
+    name: expense-management-query
+    
+  rabbitmq:
+    host: ${RABBITMQ_IP:localhost}
+    port: 5672
+    username: guest
+    password: guest
+    
+  data:
+    solr:
+      host: http://${SOLR_IP:localhost}:8983/solr
+      
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_IP:localhost}:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+      
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://${OAUTH_IP:localhost}:8787/auth-api/users/authenticate
+      
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: ' '
+    platform: mysql
+    url: jdbc:mysql://${MYSQL_IP:localhost}:3306/managementquery?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    username: root
+    
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+axon:
+  amqp:
+    exchange: expense-management.events
+  eventhandling:
+    processors:
+      amqpEvents:
+        source: complaintEventsMethod
+        
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.axonframework: INFO
+    br.com.adslima: DEBUG
+    file: ./build/logs/expense-management-query.log

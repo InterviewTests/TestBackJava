@@ -1,0 +1,65 @@
+message: Greetings from the EXPENSE_MAMAGEMENT-COMMAND microservice.
+
+server:
+  port: 8081
+  
+  servlet:
+    context-path: /commands
+    
+spring:
+  application:
+    name: expense-management-command
+    
+  rabbitmq:
+    host: ${RABBITMQ_IP:localhost}
+    
+  data:
+    solr:
+      host: ${SOLR_IP:localhost}
+      
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_IP:localhost}:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+      
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://${OAUTH_IP:localhost}:8787/auth-api/users/authenticate
+      
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: ' '
+    platform: mysql
+    url: jdbc:mysql://${MYSQL_IP:localhost}:3306/managementcommand?Peoples?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    username: root
+    
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+axon:
+  amqp:
+    exchange: expense-management.events
+  eventhandling:
+    processors:
+      amqpEvents:
+        source: complaintEventsMethod
+        
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.axonframework: INFO
+    br.com.adslima: DEBUG
+    file: ./build/logs/expense-management-command.log

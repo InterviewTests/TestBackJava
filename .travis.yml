@@ -1,0 +1,19 @@
+language: java
+
+
+sudo: required
+
+
+script:
+
+
+  - java -version
+  
+  
+  - echo $JAVA_HOME
+  
+  
+jdk: 
+
+
+  - oraclejdk8

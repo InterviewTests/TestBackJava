@@ -1,5 +1,6 @@
 package br.com.camaroti.alex.res.api.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.camaroti.alex.res.api.model.Category;
-import br.com.camaroti.alex.res.api.model.Expense;
-import br.com.camaroti.alex.res.api.service.CategoryService;
+import br.com.camaroti.alex.res.api.domain.Expense;
+import br.com.camaroti.alex.res.api.helper.ExpenseHelper;
 import br.com.camaroti.alex.res.api.service.ExpenseService;
 
 @RestController
@@ -24,58 +24,21 @@ public class ExpenseController {
 	@Autowired
 	private ExpenseService expenseService;
 	
-	@Autowired
-	private CategoryService categoryService;
-	
 	@PostMapping(path="/expenses") // Map ONLY POST Request
 	public @ResponseBody Expense addExpense(@RequestParam int codUser
-			, @RequestParam String description, @RequestParam double cost, @RequestParam(value = "category", required = false) String category) {
+			, @RequestParam String description, @RequestParam double cost, @RequestParam(value = "category", required = false) String category) throws IOException {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
-		Expense expense = new Expense();
-		expense.setCodUser(codUser);
-		expense.setDate(new Date());
-		expense.setDescription(description);
-		expense.setValue(cost);
-		checkIfParamIsNull(category, expense);
+		Expense expense = ExpenseHelper.convertExpense(codUser, description, cost, category);
 		return expenseService.save(expense);
 	}
 	
 	@PutMapping(path="/expenses/{cod}") // Map ONLY PUT Request
 	public @ResponseBody Expense add(@PathVariable int cod, @RequestParam int codUser
 			, @RequestParam String description, @RequestParam double cost, @RequestParam(value = "category", required = false) String category) {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
-		Expense expense = new Expense();
+		Expense expense = ExpenseHelper.convertExpense(codUser, description, cost, category);
 		expense.setCod(cod);
-		expense.setCodUser(codUser);
-		expense.setDate(new Date());
-		expense.setDescription(description);
-		expense.setValue(cost);
-		checkIfParamIsNull(category, expense);
 		return expenseService.update(expense);
-	}
-	
-	@GetMapping(path="")
-	
-
-	private void checkIfParamIsNull(String category, Expense expense) {
-		if(category != null && !category.isEmpty()) {
-			saveCategoryIfNotExists(category, expense);
-		} else {
-			expense.setCategory(null);
-		}
-	}
-
-	private void saveCategoryIfNotExists(String category, Expense expense) {
-		Category categoryObj = categoryService.findByName(category);
-		if(categoryObj != null) {
-			expense.setCategory(categoryObj);
-		} else {
-			Category newCategory = new Category(category);
-			categoryService.save(newCategory);
-			expense.setCategory(newCategory);
-		}
 	}
 
 	@RequestMapping(path="/expenses")

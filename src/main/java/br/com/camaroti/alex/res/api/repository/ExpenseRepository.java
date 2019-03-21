@@ -6,12 +6,13 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.camaroti.alex.res.api.model.Expense;
+import br.com.camaroti.alex.res.api.domain.Expense;
 
 @Repository
 public interface ExpenseRepository extends CrudRepository<Expense, Integer> {
 
 	List<Expense>findByCodUserOrderByDateDesc(int codUser);
 	List<Expense>findByCodUserAndDateBetweenOrderByDateDesc(int codUser, Date start, Date end);
+	Expense findFirstByDescriptionContainingIgnoreCaseAndCategoryNotNullOrderByDateDesc(String description);
 	
 }

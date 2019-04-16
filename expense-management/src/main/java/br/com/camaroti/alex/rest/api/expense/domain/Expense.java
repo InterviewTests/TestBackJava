@@ -3,7 +3,6 @@ package br.com.camaroti.alex.rest.api.expense.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -61,23 +60,6 @@ public @Data class Expense implements Serializable {
 	public Expense save(Expense expense) throws Exception {
 		checkCategoryInformation(expense);
 		return expenseRepository.save(expense);
-
-	}
-
-	public Expense update(Expense expense) {
-		return expenseRepository.save(expense);
-	}
-
-	public void remove(int id) {
-		expenseRepository.deleteById(id);
-	}
-
-	public Optional<Expense> findById(int id) {
-		return expenseRepository.findById(id);
-	}
-
-	public Iterable<Expense> findAll() {
-		return expenseRepository.findAll();
 	}
 
 	public List<Expense> findByCodUserOrderByDateDesc(int codUser) {
@@ -99,7 +81,6 @@ public @Data class Expense implements Serializable {
 		if (category != null && !category.isEmpty()) {
 			saveCategoryIfNotExists(category, expense);
 		} else {
-			// Category is null, define automatically a category by a similar description
 			setSameCategoryBySimilarExpenseDescription(expense);
 		}
 	}
@@ -119,9 +100,7 @@ public @Data class Expense implements Serializable {
 		if (categoryObj != null) {
 			expense.setCategory(categoryObj);
 		} else {
-			// Category not found. Try to set category By similar Description
 			setSameCategoryBySimilarExpenseDescription(expense);
-			// If you dont find a similar description, just add a new Category
 			if (expense.getCategory() == null) {
 				Category newCategory = categoryClient.save(category);
 				expense.setCategory(newCategory);

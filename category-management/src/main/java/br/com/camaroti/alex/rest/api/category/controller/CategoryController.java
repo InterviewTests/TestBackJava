@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +32,6 @@ public class CategoryController {
 	@PostMapping(path="/categories")
 	public @ResponseBody Category addCategory(@RequestParam(value="name") String name) throws Exception {
 		Category category = new Category();
-		category.setName(name);
-		return categoryService.save(category);
-	}
-	@PutMapping(path="/categories/{cod}")
-	public @ResponseBody Category updateCategory(@PathVariable(value="cod")int cod, @RequestParam(value="name") String name) throws Exception {
-		Category category = new Category();
-		category.setCod(cod);
 		category.setName(name);
 		return categoryService.save(category);
 	}

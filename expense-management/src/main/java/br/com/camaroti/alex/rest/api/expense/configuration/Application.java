@@ -17,37 +17,36 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@EntityScan(basePackages = {"br.com.camaroti.alex.rest.api.expense.domain"})
-@ComponentScan(basePackages = {"br.com.camaroti.alex.rest.api.expense.client", "br.com.camaroti.alex.rest.api.expense.controller", "br.com.camaroti.alex.rest.api.expense.service"})
+@EntityScan(basePackages = { "br.com.camaroti.alex.rest.api.expense.domain" })
+@ComponentScan(basePackages = { "br.com.camaroti.alex.rest.api.expense.client",
+		"br.com.camaroti.alex.rest.api.expense.controller", "br.com.camaroti.alex.rest.api.expense.service" })
 @EnableJpaRepositories("br.com.camaroti.alex.rest.api.expense.repository")
 @EnableRedisRepositories("br.com.camaroti.alex.rest.api.expense.service")
-@EnableFeignClients(basePackages = {"br.com.camaroti.alex.rest.api.expense.client"})
+@EnableFeignClients(basePackages = { "br.com.camaroti.alex.rest.api.expense.client" })
 @EnableDiscoveryClient
 public class Application {
-	
+
 	@Bean
 	JedisConnectionFactory jedisConnectionFactory() {
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-	    return new JedisConnectionFactory(config);
+		return new JedisConnectionFactory(config);
 	}
 
 	@Bean
 	public RedisTemplate<String, String> redisTemplate() {
-	    final RedisTemplate<String, String> template = new RedisTemplate<String, String>();
-	    template.setConnectionFactory(jedisConnectionFactory());
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new StringRedisSerializer());
+		final RedisTemplate<String, String> template = new RedisTemplate<String, String>();
+		template.setConnectionFactory(jedisConnectionFactory());
+		template.setKeySerializer(new StringRedisSerializer());
+		template.setValueSerializer(new StringRedisSerializer());
 
-        // the following is not required      
-        template.setHashValueSerializer(new StringRedisSerializer());
-        //template.setHashKeySerializer(new StringRedisSerializer());
-	    template.afterPropertiesSet();
-	    return template;
+		// the following is not required
+		template.setHashValueSerializer(new StringRedisSerializer());
+		// template.setHashKeySerializer(new StringRedisSerializer());
+		template.afterPropertiesSet();
+		return template;
 
 	}
-	
-	
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

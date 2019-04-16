@@ -85,7 +85,6 @@ public @Data class Category implements Serializable{
 		Object listCategories = hashOperations.get(KEY, "1");
 		List<Category> categoriesFound = new ArrayList<>();
 		List<Category> categories = Arrays.asList(objectMapper.readValue(listCategories.toString(), Category[].class));
-		//Verify the categories list and return the similar ones.
 		for (Category category : categories) {
 			if(category.getName().trim().toLowerCase().contains(name.trim().toLowerCase())) {
 				categoriesFound.add(category);
@@ -97,13 +96,9 @@ public @Data class Category implements Serializable{
 	private void updateRedisCategoriesList(Category newCategory)
 			throws IOException, JsonParseException, JsonMappingException, JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
-		//Recover categories from Redis
 		String redisCategories = hashOperations.get(KEY, "1").toString();
-		//Convert the string to list of objects
 		List<Category> categories = new ArrayList<>(Arrays.asList(objectMapper.readValue(redisCategories, Category[].class)));
-		//Add a new Object
 		categories.add(newCategory);
-		//Convert and update Redis with the new data.
 		String categoriesUpdated = objectMapper.writeValueAsString(categories);		
 		hashOperations.put(KEY, "1", categoriesUpdated);
 	}

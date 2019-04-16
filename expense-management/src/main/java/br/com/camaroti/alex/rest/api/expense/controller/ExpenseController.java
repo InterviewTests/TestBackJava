@@ -7,8 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,26 +21,11 @@ public class ExpenseController {
 	@Autowired
 	private ExpenseService expenseService;
 	
-	@PostMapping(path="/expenses") // Map ONLY POST Request
+	@PostMapping(path="/expenses")
 	public @ResponseBody Expense addExpense(@RequestParam int codUser
 			, @RequestParam String description, @RequestParam double cost, @RequestParam(value = "category", required = false) String category) throws Exception {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
 		Expense expense = ExpenseHelper.convertExpense(codUser, description, cost, category);
 		return expenseService.save(expense);
-	}
-	
-	@PutMapping(path="/expenses/{cod}") // Map ONLY PUT Request
-	public @ResponseBody Expense add(@PathVariable int cod, @RequestParam int codUser
-			, @RequestParam String description, @RequestParam double cost, @RequestParam(value = "category", required = false) String category) {
-		Expense expense = ExpenseHelper.convertExpense(codUser, description, cost, category);
-		expense.setCod(cod);
-		return expenseService.update(expense);
-	}
-
-	@RequestMapping(path="/expenses")
-	public @ResponseBody Iterable<Expense> getAll() {
-		return expenseService.findAll();
 	}
 	
 	@GetMapping(path="/expenses/{codUser}")

@@ -16,13 +16,11 @@ import org.springframework.data.redis.core.RedisHash;
 import br.com.camaroti.alex.rest.api.expense.client.CategoryClient;
 import br.com.camaroti.alex.rest.api.expense.repository.ExpenseRepository;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@AllArgsConstructor
 @RedisHash("expense")
 public @Data class Expense implements Serializable {
 
@@ -51,6 +49,7 @@ public @Data class Expense implements Serializable {
 	private CategoryClient categoryClient;
 
 	
+	
 	public Expense(ExpenseRepository expenseRepository, CategoryClient categoryClient) {
 		this.expenseRepository = expenseRepository;
 		this.categoryClient = categoryClient;
@@ -77,9 +76,9 @@ public @Data class Expense implements Serializable {
 	}
 
 	private void checkCategoryInformation(Expense expense) throws Exception {
-		String category = expense.getCategory().getName();
-		if (category != null && !category.isEmpty()) {
-			saveCategoryIfNotExists(category, expense);
+		Category category = expense.getCategory();
+		if (category != null && !category.getName().isEmpty()) {
+			saveCategoryIfNotExists(category.getName(), expense);
 		} else {
 			setSameCategoryBySimilarExpenseDescription(expense);
 		}
@@ -106,6 +105,17 @@ public @Data class Expense implements Serializable {
 				expense.setCategory(newCategory);
 			}
 		}
+	}
+
+
+	public Expense(int cod, String description, double value, int codUser, Date date, Category category) {
+		super();
+		this.cod = cod;
+		this.description = description;
+		this.value = value;
+		this.codUser = codUser;
+		this.date = date;
+		this.category = category;
 	}
 
 }

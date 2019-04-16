@@ -40,7 +40,8 @@ public @Data class Category implements Serializable{
 		
 	}
 	
-	public Category(String name) {
+	public Category(int cod, String name) {
+		this.cod = cod;
 		this.name = name;
 	}
 

@@ -38,10 +38,7 @@ public class Application {
 		template.setConnectionFactory(jedisConnectionFactory());
 		template.setKeySerializer(new StringRedisSerializer());
 		template.setValueSerializer(new StringRedisSerializer());
-
-		// the following is not required
 		template.setHashValueSerializer(new StringRedisSerializer());
-		// template.setHashKeySerializer(new StringRedisSerializer());
 		template.afterPropertiesSet();
 		return template;
 

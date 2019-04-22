@@ -17,7 +17,6 @@ import br.com.camaroti.alex.rest.api.category.repository.CategoryRepository;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-	private static final String KEY = "category";
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
@@ -34,13 +33,13 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> findByNameContaining(String name) throws IOException {
-		return new Category(categoryRepository, hashOperations, KEY).findByNameContaining(name);
+		return new Category(categoryRepository, hashOperations).findByNameContaining(name);
 	}
 
 
 	@Override
 	public Category save(Category category) throws IOException {
-		return new Category(categoryRepository, hashOperations, KEY).save(category);
+		return new Category(categoryRepository, hashOperations).save(category);
 	}
 
 

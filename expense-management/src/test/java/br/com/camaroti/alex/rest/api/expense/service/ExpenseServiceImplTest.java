@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.camaroti.alex.rest.api.expense.builder.CategoryBuilder;
+import br.com.camaroti.alex.rest.api.expense.builder.ExpenseBuilder;
 import br.com.camaroti.alex.rest.api.expense.client.CategoryClient;
 import br.com.camaroti.alex.rest.api.expense.domain.Category;
 import br.com.camaroti.alex.rest.api.expense.domain.Expense;
@@ -19,34 +21,34 @@ import br.com.camaroti.alex.rest.api.expense.repository.ExpenseRepository;
 
 @RunWith(SpringRunner.class)
 public class ExpenseServiceImplTest {
-	
 
 	@InjectMocks
 	private ExpenseServiceImpl expenseService;
-	
+
 	@Mock
 	private CategoryClient categoryClient;
 
 	@Mock
 	private ExpenseRepository expenseRepository;
-	
-	
-	private Expense expense1, expense2, expense3, expense4;
-	private Category category1, category2, category3, category4;
-	
+
+	private Expense expense1, expense2, expense4;
+	private Category category3;
+
 	@Before
 	public void setUp() {
-		category1 = new Category(1, "Food");
-		expense1 = new Expense(1, "Mc Lanche Feliz", 25.90, 1, new Date(), category1);
-		category2 = new Category(2, "Toys");
-		expense2 = new Expense(2, "Mc Lanche Feliz", 15.0, 1, new Date(), null);
-		category3 = new Category(3, "Entertainment");
-		expense3 = new Expense(3, "Cinema: Avengers: endgame", 35.0, 2, new Date(), category3);
-		category4 = new Category(4, "Entertainment");
-		expense4 = new Expense(4, "Cinema: Shazam!", 35.0, 1, new Date(), category4);
-	
+		expense1 = ExpenseBuilder.anExpense()
+				.withDescription("Mc Lanche Feliz")
+				.withValue(25.90)
+				.withCategory(
+						CategoryBuilder.aCategory()
+						.withName("Food").build())
+				.build();
+		expense2 = ExpenseBuilder.anExpense().withoutCategory().build();
+		category3 = CategoryBuilder.aCategory().withCod(2).withName("Entertainment").build();
+		expense4 = ExpenseBuilder.anExpense().withCod(4).withDescription("Cinema: Shazam!").withValue(35.0).withCategory(
+				CategoryBuilder.aCategory().withCod(3).withName("Entertainment").build()).build(); 
+
 	}
-	
 
 	@Test
 	public void saveExpenseWithNewCategory() throws Exception {
@@ -57,16 +59,17 @@ public class ExpenseServiceImplTest {
 		assertEquals(expense1, expenseSaved);
 		Mockito.verify(categoryClient, Mockito.times(1)).save(expense1.getCategory().getName());
 	}
-	
+
 	@Test
 	public void saveExpenseBySimilarDescription() throws Exception {
 		Mockito.when(expenseRepository
-				.findFirstByDescriptionContainingIgnoreCaseAndCategoryNotNullOrderByDateDesc(expense2.getDescription())).thenReturn(expense1);
+				.findFirstByDescriptionContainingIgnoreCaseAndCategoryNotNullOrderByDateDesc(expense2.getDescription()))
+				.thenReturn(expense1);
 		Mockito.when(expenseRepository.save(expense2)).thenReturn(expense2);
 		Expense expenseSavedWithoutCategory = expenseService.save(expense2);
 		assertEquals(expense1.getCategory(), expenseSavedWithoutCategory.getCategory());
 	}
-	
+
 	@Test
 	public void saveExpenseBySimilarCategoryDescription() throws Exception {
 		Mockito.when(categoryClient.findByNameIgnoreCase(expense4.getCategory().getName())).thenReturn(category3);
@@ -74,8 +77,5 @@ public class ExpenseServiceImplTest {
 		Mockito.verify(categoryClient, Mockito.times(1)).findByNameIgnoreCase(expense4.getCategory().getName());
 		assertEquals(category3, expense4.getCategory());
 	}
-	
-	
-	
 
 }

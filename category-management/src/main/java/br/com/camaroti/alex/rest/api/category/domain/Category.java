@@ -30,80 +30,76 @@ import lombok.Setter;
 @Entity
 @Table(name = "category")
 @RedisHash("category")
-public @Data class Category implements Serializable{
-	
+public @Data class Category implements Serializable {
+
+	private final String KEY = "category";
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	public Category() {
-		
-	}
-	
-	public Category(int cod, String name) {
-		this.cod = cod;
-		this.name = name;
+
 	}
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cod;
 	private String name;
-	
-	
-	@Transient @Getter(value = AccessLevel.NONE) @Setter(value = AccessLevel.NONE)
+
+	@Transient
+	@Getter(value = AccessLevel.NONE)
+	@Setter(value = AccessLevel.NONE)
 	private CategoryRepository categoryRepository;
-	
-	@Transient @Getter(value = AccessLevel.NONE) @Setter(value = AccessLevel.NONE)
+
+	@Transient
+	@Getter(value = AccessLevel.NONE)
+	@Setter(value = AccessLevel.NONE)
 	private HashOperations hashOperations;
-	
-	@Transient @Getter(value = AccessLevel.NONE) @Setter(value = AccessLevel.NONE)
-	private String KEY;
-	
-	public Category(CategoryRepository categoryRepository, HashOperations hashOperations, String KEY) {
+
+	public Category(CategoryRepository categoryRepository, HashOperations hashOperations) {
 		this.categoryRepository = categoryRepository;
 		this.hashOperations = hashOperations;
-		this.KEY = KEY;
 	}
-	
+
 	public Category(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
 	}
-	
-	
+
 	public Category save(Category category) throws IOException {
 		Category newCategory = categoryRepository.save(category);
 		updateRedisCategoriesList(newCategory);
 		return newCategory;
 	}
-	
+
 	public Category findByNameIgnoreCase(String name) {
 		return categoryRepository.findByNameIgnoreCase(name);
 	}
-	
+
 	public List<Category> findByNameContaining(String name) throws IOException {
 		ObjectMapper objectMapper = checkIfRedisIsEmpty();
 		Object listCategories = hashOperations.get(KEY, "1");
 		List<Category> categoriesFound = new ArrayList<>();
 		List<Category> categories = Arrays.asList(objectMapper.readValue(listCategories.toString(), Category[].class));
 		for (Category category : categories) {
-			if(category.getName().trim().toLowerCase().contains(name.trim().toLowerCase())) {
+			if (category.getName().trim().toLowerCase().contains(name.trim().toLowerCase())) {
 				categoriesFound.add(category);
 			}
 		}
 		return categoriesFound;
 	}
-	
+
 	private void updateRedisCategoriesList(Category newCategory)
 			throws IOException, JsonParseException, JsonMappingException, JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String redisCategories = hashOperations.get(KEY, "1").toString();
-		List<Category> categories = new ArrayList<>(Arrays.asList(objectMapper.readValue(redisCategories, Category[].class)));
+		List<Category> categories = new ArrayList<>(
+				Arrays.asList(objectMapper.readValue(redisCategories, Category[].class)));
 		categories.add(newCategory);
-		String categoriesUpdated = objectMapper.writeValueAsString(categories);		
+		String categoriesUpdated = objectMapper.writeValueAsString(categories);
 		hashOperations.put(KEY, "1", categoriesUpdated);
 	}
-	
 
 	private ObjectMapper checkIfRedisIsEmpty() throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -112,8 +108,8 @@ public @Data class Category implements Serializable{
 			String json = objectMapper.writeValueAsString(categories);
 			hashOperations.put(KEY, "1", json);
 		}
-		
+
 		return objectMapper;
 	}
-	
+
 }

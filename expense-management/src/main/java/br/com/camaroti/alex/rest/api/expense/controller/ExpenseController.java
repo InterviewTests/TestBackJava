@@ -38,8 +38,6 @@ public class ExpenseController {
 			@PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Long date) {
 		Date start = new Date(date);
 		Date end = new Date(date + 86399999L);
-		System.out.println(start);
-		System.out.println(end);
 		return expenseService.findByCodUserAndDateBetweenOrderByDateDesc(codUser, start, end);
 	}
 	

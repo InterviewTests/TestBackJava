@@ -107,15 +107,4 @@ public @Data class Expense implements Serializable {
 		}
 	}
 
-
-	public Expense(int cod, String description, double value, int codUser, Date date, Category category) {
-		super();
-		this.cod = cod;
-		this.description = description;
-		this.value = value;
-		this.codUser = codUser;
-		this.date = date;
-		this.category = category;
-	}
-
 }

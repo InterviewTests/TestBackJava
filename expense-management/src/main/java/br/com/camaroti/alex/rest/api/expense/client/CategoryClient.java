@@ -12,9 +12,9 @@ import br.com.camaroti.alex.rest.api.expense.domain.Category;
 public interface CategoryClient {
 
 	@PostMapping(path="/categories")
-	public @ResponseBody Category save(@RequestParam(value="name") String name) throws Exception;
+	@ResponseBody Category save(@RequestParam(value="name") String name) throws Exception;
 
 	@GetMapping(path="/category/{name}")
-	public @ResponseBody Category findByNameIgnoreCase(@PathVariable(value="name", required = true) String name)throws Exception;
+	@ResponseBody Category findByNameIgnoreCase(@PathVariable(value="name", required = true) String name)throws Exception;
 
 }

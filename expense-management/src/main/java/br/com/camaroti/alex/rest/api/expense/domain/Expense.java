@@ -16,21 +16,16 @@ import org.springframework.data.redis.core.RedisHash;
 import br.com.camaroti.alex.rest.api.expense.client.CategoryClient;
 import br.com.camaroti.alex.rest.api.expense.repository.ExpenseRepository;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @RedisHash("expense")
-public @Data class Expense implements Serializable {
+@Getter @Setter @NoArgsConstructor
+public class Expense implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	public Expense() {
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,13 +43,10 @@ public @Data class Expense implements Serializable {
 	@Transient @Getter(value = AccessLevel.NONE) @Setter(value = AccessLevel.NONE)
 	private CategoryClient categoryClient;
 
-	
-	
 	public Expense(ExpenseRepository expenseRepository, CategoryClient categoryClient) {
 		this.expenseRepository = expenseRepository;
 		this.categoryClient = categoryClient;
 	}
-	
 	
 	public Expense save(Expense expense) throws Exception {
 		checkCategoryInformation(expense);

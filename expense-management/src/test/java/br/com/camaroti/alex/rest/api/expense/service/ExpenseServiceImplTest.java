@@ -2,15 +2,13 @@ package br.com.camaroti.alex.rest.api.expense.service;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import br.com.camaroti.alex.rest.api.expense.builder.CategoryBuilder;
 import br.com.camaroti.alex.rest.api.expense.builder.ExpenseBuilder;
@@ -19,7 +17,7 @@ import br.com.camaroti.alex.rest.api.expense.domain.Category;
 import br.com.camaroti.alex.rest.api.expense.domain.Expense;
 import br.com.camaroti.alex.rest.api.expense.repository.ExpenseRepository;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ExpenseServiceImplTest {
 
 	@InjectMocks
@@ -47,7 +45,6 @@ public class ExpenseServiceImplTest {
 		category3 = CategoryBuilder.aCategory().withCod(2).withName("Entertainment").build();
 		expense4 = ExpenseBuilder.anExpense().withCod(4).withDescription("Cinema: Shazam!").withValue(35.0).withCategory(
 				CategoryBuilder.aCategory().withCod(3).withName("Entertainment").build()).build(); 
-
 	}
 
 	@Test
@@ -77,5 +74,4 @@ public class ExpenseServiceImplTest {
 		Mockito.verify(categoryClient, Mockito.times(1)).findByNameIgnoreCase(expense4.getCategory().getName());
 		assertEquals(category3, expense4.getCategory());
 	}
-
 }

@@ -1,76 +1,89 @@
-# Show me the code
+# Springboot + Eureka + Zuul + Feign
 
-### # DESAFIO:
+API REST for Expense Management!
 
-API REST para Gestão de Gastos!
+###Enviroment Configuration
+<b>Redis: </b>  https://redis.io/download
+<b>Lombok: </b> https://projectlombok.org/setup/eclipse
+<i>Lombok Tutorial: </i> https://projectlombok.org/setup/eclipse
+<b>MySQL: </b> https://dev.mysql.com/downloads/
+<b>Postman: </b> https://www.getpostman.com/downloads/
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+Order to run the applications: 1. eurekaserver / 2. category-management / 3. expense-management / 4. zuul
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+<b>Note:</b> Before you use all endpoints, I personally suggest to add some expenses first and use the same as well to search for what you need.
+I didn't populated the base and all of the values below are merely illustrative. 
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+How to use cURL code:
+```
+1. Open postman.exe
+2. CTRL + O
+3. Choose: Past Raw Text
+4. Paste the cURL code below.
+5. Click on button send to run the endpoint.
+```
 
-### # Observações gerais
+Endpoints:
+Expense:
+```
+* Add a new expense
+POST http:localhost:8762/expense-management/expenses
+cURL:
+curl -X POST \
+  http://http:localhost:8762/expense-management/expenses \
+  -H 'Postman-Token: c79ad816-5fe0-4ea2-8647-cb4251931543' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F 'description=O homem mais rico da babilonia' \
+  -F cost=30.4 \
+  -F category=Leitura
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+* Update a new expense
+PUT http:localhost:8762/expense-management/expenses/1
+cURL:
+curl -X POST \
+  http://http:localhost:8762/expense-management/expenses/1 \
+  -H 'Postman-Token: de311b6c-9101-4133-ae76-05f9efc6578c' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F codUser=1 \
+  -F 'description=O homem mais rico da babilonia' \
+  -F cost=30.4 \
+  -F category=Leitura
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+* Search for expenses by user
+GET http:localhost:8762/expense-management/expenses/1
 
-### # Importante: não há prazo de entrega, faça com qualidade!
+* Search for expenses by user in a specific date
+http:localhost:8762/expense-management/expenses/1/2019-04-06
+```
 
-# BOA SORTE!
+
+
+Category:
+```
+* Searching for similar name: Autocomplete usability
+GET http:localhost:8762/category-management/categories/suggest?name=Roup
+* Search by exact name  
+GET http:localhost:8762/category-management/category/Comida
+* Add Category
+POST http:localhost:8762/category-management/categories
+cURL: 
+curl -X POST \
+  http://http:localhost:8762/category-management/categories \
+  -H 'Postman-Token: 87f38883-4711-4d4a-a185-87425fa7b2ac' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F name=Saques
+
+*  Update category
+http:localhost:8762/category-management/categories/1
+cURL:
+curl -X POST \
+  http://http:localhost:8762/category-management/categories/1 \
+  -H 'Postman-Token: 86de2127-2c50-4e35-9094-af4c07bbf4e8' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F name=Saques
+```
+

@@ -2,11 +2,19 @@ package br.com.brunots.testes.everis.entities;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GastoEntity {
 
+	@JsonProperty("descricao")
 	private String descricao;
+	@JsonProperty("valor")
 	private Double valor;
+	@JsonProperty("codigousuario")
 	private Integer codigousuario;
+	@JsonProperty("data")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
 	private Date data;
 
 	public String getDescricao() {
@@ -39,6 +47,12 @@ public class GastoEntity {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	@Override
+	public String toString() {
+		return "GastoEntity [descricao=" + descricao + ", valor=" + valor + ", codigousuario=" + codigousuario
+				+ ", data=" + data + "]";
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -21,14 +22,14 @@ import br.com.brunots.testes.everis.helper.MongoDBHelper;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
-	
+
 	private MongoCollection<Document> collection;
-	
+
 	@Autowired
 	private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
 	public UserDAOImpl() {
 		collection = MongoDBHelper.getDatabase().getCollection("user");
 	}
@@ -40,19 +41,16 @@ public class UserDAOImpl implements UserDAO {
 		document.put("username", entity.getUsername());
 		document.put("password", entity.getPassword());
 		collection.insertOne(document);
-		inMemoryUserDetailsManager.createUser(
-				User.withUsername(entity.getUsername())
-				.password(encoder.encode(entity.getPassword()))
-				.roles("USER").build());
+		inMemoryUserDetailsManager.createUser(User.withUsername(entity.getUsername())
+				.password(encoder.encode(entity.getPassword())).roles("USER").build());
 	}
-	
+
 	@PostConstruct
 	public void atualizarSecurityConfig() {
 		for (UserEntity user : listAll()) {
-			inMemoryUserDetailsManager.createUser(
-					User.withUsername(user.getUsername())
-					.password(encoder.encode(user.getPassword()))
-					.roles("USER").build());		}
+			inMemoryUserDetailsManager.createUser(User.withUsername(user.getUsername())
+					.password(encoder.encode(user.getPassword())).roles("USER").build());
+		}
 	}
 
 	@Override
@@ -73,7 +71,16 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public UserEntity fingByUsername(String username) {
-		return null;
+		BasicDBObject whereQuery = new BasicDBObject();
+		whereQuery.put("username", username);
+		FindIterable<Document> find = collection.find(whereQuery);
+		MongoCursor<Document> cursor = find.iterator();
+		Document next = cursor.next();
+		UserEntity entity = new UserEntity();
+		entity.setCodigousuario(next.getInteger("codigousuario"));
+		entity.setUsername(next.getString("username"));
+		entity.setPassword(next.getString("password"));
+		return entity;
 	}
 
 }

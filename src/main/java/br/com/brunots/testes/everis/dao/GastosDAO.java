@@ -10,6 +10,6 @@ public interface GastosDAO {
 
 	List<GastoEntity> listAll();
 
-	void listAllByName(String name);
+	List<GastoEntity> listAllByCodigousuario(Integer codigousuario);
 
 }

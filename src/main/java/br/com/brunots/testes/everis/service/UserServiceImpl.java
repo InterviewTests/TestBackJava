@@ -26,8 +26,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserEntity findByUsername(String username) {
-		dao.fingByUsername(username);
-		return null;
+		return dao.fingByUsername(username);
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -50,7 +51,22 @@ public class GastosDAOImpl implements GastosDAO {
 	}
 
 	@Override
-	public void listAllByName(String name) {
+	public List<GastoEntity> listAllByCodigousuario(Integer codigousuario) {
+		List<GastoEntity> ret = new ArrayList<>();
+		BasicDBObject whereQuery = new BasicDBObject();
+		whereQuery.put("codigousuario", codigousuario);
+		FindIterable<Document> find = collection.find(whereQuery);
+		MongoCursor<Document> cursor = find.iterator();
+		while (cursor.hasNext()) {
+			Document next = cursor.next();
+			GastoEntity entity = new GastoEntity();
+			entity.setDescricao(next.getString("descricao"));
+			entity.setValor(next.getDouble("valor"));
+			entity.setCodigousuario(next.getInteger("codigousuario"));
+			entity.setData(next.getDate("data"));
+			ret.add(entity);
+		}
+		return ret;
 	}
 
 }

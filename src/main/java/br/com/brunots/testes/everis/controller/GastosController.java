@@ -36,7 +36,7 @@ public class GastosController {
 	public ResponseEntity<List<GastoEntity>> listarGastos() {
 		String name = auth.getAuthentication().getName();
 		System.out.println(String.format("Usuário logado: %s", name));
-		return new ResponseEntity<List<GastoEntity>>(service.listAll(), HttpStatus.OK);
+		return new ResponseEntity<List<GastoEntity>>(service.listAllByName(name), HttpStatus.OK);
 	}
 
 }

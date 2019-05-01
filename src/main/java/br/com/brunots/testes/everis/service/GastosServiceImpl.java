@@ -7,12 +7,15 @@ import org.springframework.stereotype.Component;
 
 import br.com.brunots.testes.everis.dao.GastosDAO;
 import br.com.brunots.testes.everis.entity.GastoEntity;
+import br.com.brunots.testes.everis.entity.UserEntity;
 
 @Component
 public class GastosServiceImpl implements GastosService {
 
 	@Autowired
 	private GastosDAO dao;
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public void save(GastoEntity entity) {
@@ -26,8 +29,8 @@ public class GastosServiceImpl implements GastosService {
 
 	@Override
 	public List<GastoEntity> listAllByName(String name) {
-		dao.listAllByName(name);
-		return null;
+		UserEntity userEntity = userService.findByUsername(name);
+		return dao.listAllByCodigousuario(userEntity.getCodigousuario());
 	}
 	
 }

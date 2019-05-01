@@ -49,4 +49,8 @@ public class GastosDAOImpl implements GastosDAO {
 		return ret;
 	}
 
+	@Override
+	public void listAllByName(String name) {
+	}
+
 }

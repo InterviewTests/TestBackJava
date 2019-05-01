@@ -23,5 +23,11 @@ public class GastosServiceImpl implements GastosService {
 	public List<GastoEntity> listAll() {
 		return dao.listAll();
 	}
+
+	@Override
+	public List<GastoEntity> listAllByName(String name) {
+		dao.listAllByName(name);
+		return null;
+	}
 	
 }

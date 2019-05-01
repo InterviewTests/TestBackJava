@@ -10,4 +10,6 @@ public interface GastosService {
 
 	List<GastoEntity> listAll();
 
+	List<GastoEntity> listAllByName(String name);
+
 }

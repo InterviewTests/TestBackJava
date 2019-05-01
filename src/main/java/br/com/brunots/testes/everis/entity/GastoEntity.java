@@ -1,4 +1,4 @@
-package br.com.brunots.testes.everis.entities;
+package br.com.brunots.testes.everis.entity;
 
 import java.util.Date;
 

@@ -18,4 +18,6 @@ public interface GastosService {
 
 	void incluirCategoria(String gastoId, CategoriaEntity categoria);
 
+	GastoEntity getById(String gastoId);
+
 }

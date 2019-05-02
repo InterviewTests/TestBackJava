@@ -60,10 +60,16 @@ public class GastosController {
 		}
 	}
 	
-	@RequestMapping(value = "/{gastoId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/{gastoId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Void> incluirCategoria(@PathVariable("gastoId") String gastoId, @RequestBody CategoriaEntity categoria) {
 		service.incluirCategoria(gastoId, categoria);
 		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+
+	@RequestMapping(value = "/{gastoId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<GastoEntity> detalharGasto(@PathVariable("gastoId") String gastoId) {
+		
+		return new ResponseEntity<GastoEntity>(service.getById(gastoId), HttpStatus.OK);
 	}
 
 }

@@ -47,5 +47,10 @@ public class GastosServiceImpl implements GastosService {
 		gastoEntity.setCategoria(categoria);
 		dao.save(gastoEntity);
 	}
+
+	@Override
+	public GastoEntity getById(String gastoId) {
+		return dao.getById(Long.valueOf(gastoId));
+	}
 	
 }

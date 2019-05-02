@@ -84,7 +84,6 @@ ________________________________________________________________________________
 
 * O projeto utiliza o banco de dados MongoDB rodando localmente para persistir os dados.
 * Para rodar o projeto basta executar o método main da classe _br.com.brunots.testes.everis.Application_ 
-
 _________________________________________________________________________________________________
 
 ### # Avaliação

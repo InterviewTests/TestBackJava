@@ -14,6 +14,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 
+import br.com.brunots.testes.everis.entity.CategoriaEntity;
 import br.com.brunots.testes.everis.entity.GastoEntity;
 import br.com.brunots.testes.everis.helper.MongoDBHelper;
 
@@ -41,12 +42,23 @@ public class GastosDAOImpl implements GastosDAO {
 	@Override
 	public void save(GastoEntity entity) {
 		Document document = new Document();
-		document.put("_id", idGenerator.incrementAndGet());
 		document.put("descricao", entity.getDescricao());
 		document.put("valor", entity.getValor());
 		document.put("codigousuario", entity.getCodigousuario());
 		document.put("data", entity.getData());
-		collection.insertOne(document);
+		CategoriaEntity categoria = entity.getCategoria();
+		if (categoria != null) {
+			document.put("categoria", new Document("categoria", categoria.getCategoria()));
+		}
+		if (entity.getId() == null) {
+			document.put("_id", idGenerator.incrementAndGet());
+			collection.insertOne(document);
+		} else {
+			document.put("_id", entity.getId());
+			BasicDBObject filter = new BasicDBObject("_id", entity.getId());
+			BasicDBObject updateOperationDocument = new BasicDBObject("$set", document);
+			collection.updateOne(filter, updateOperationDocument);
+		}
 	}
 
 	@Override
@@ -111,7 +123,24 @@ public class GastosDAOImpl implements GastosDAO {
 		entity.setValor(next.getDouble("valor"));
 		entity.setCodigousuario(next.getInteger("codigousuario"));
 		entity.setData(next.getDate("data"));
+		Document categoria = (Document) next.get("categoria");
+		if (categoria != null) {
+			entity.setCategoria(new CategoriaEntity(categoria.getString("categoria")));
+		}
 		return entity;
+	}
+
+	@Override
+	public GastoEntity getById(Long id) {
+		BasicDBObject whereQuery = new BasicDBObject();
+		whereQuery.put("_id", id);
+		FindIterable<Document> find = collection.find(whereQuery);
+		MongoCursor<Document> cursor = find.iterator();
+		if (cursor.hasNext()) {
+			return getNextGastoEntity(cursor.next());
+		} else {
+			return null;
+		}
 	}
 
 }

@@ -15,4 +15,6 @@ public interface GastosDAO {
 
 	List<GastoEntity> listAllByCodigousuarioWithDate(Integer codigousuario, Date date);
 
+	GastoEntity getById(Long valueOf);
+
 }

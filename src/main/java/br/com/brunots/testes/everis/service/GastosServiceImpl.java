@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.brunots.testes.everis.dao.GastosDAO;
+import br.com.brunots.testes.everis.entity.CategoriaEntity;
 import br.com.brunots.testes.everis.entity.GastoEntity;
 import br.com.brunots.testes.everis.entity.UserEntity;
 
@@ -38,6 +39,13 @@ public class GastosServiceImpl implements GastosService {
 	public List<GastoEntity> listAllByNameWithDate(String name, Date date) {
 		UserEntity userEntity = userService.findByUsername(name);
 		return dao.listAllByCodigousuarioWithDate(userEntity.getCodigousuario(), date);
+	}
+
+	@Override
+	public void incluirCategoria(String gastoId, CategoriaEntity categoria) {
+		GastoEntity gastoEntity = dao.getById(Long.valueOf(gastoId));
+		gastoEntity.setCategoria(categoria);
+		dao.save(gastoEntity);
 	}
 	
 }

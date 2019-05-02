@@ -18,6 +18,8 @@ public class GastoEntity {
 	@JsonProperty("data")
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
 	private Date data;
+	@JsonProperty("categoria")
+	private CategoriaEntity categoria;
 
 	public Long getId() {
 		return id;
@@ -59,10 +61,12 @@ public class GastoEntity {
 		this.data = data;
 	}
 
-	@Override
-	public String toString() {
-		return "GastoEntity [descricao=" + descricao + ", valor=" + valor + ", codigousuario=" + codigousuario
-				+ ", data=" + data + "]";
+	public CategoriaEntity getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaEntity categoria) {
+		this.categoria = categoria;
 	}
 
 }

@@ -20,6 +20,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().authorizeRequests()
 		.antMatchers("/gastos/cadastrar").hasRole("CREDENCIADO")
 		.antMatchers("/gastos/listar").hasRole("USER")
+		.antMatchers("/gastos/{gastoId}").hasRole("USER")
 		.antMatchers("/users").permitAll()
 		.antMatchers("/users/new").permitAll()
 		.and().httpBasic();

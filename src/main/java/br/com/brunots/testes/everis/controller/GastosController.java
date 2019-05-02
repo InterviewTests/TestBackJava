@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.brunots.testes.everis.entity.CategoriaEntity;
 import br.com.brunots.testes.everis.entity.GastoEntity;
 import br.com.brunots.testes.everis.facade.AuthenticationFacade;
 import br.com.brunots.testes.everis.service.GastosService;
@@ -56,6 +58,12 @@ public class GastosController {
 			}
 			return new ResponseEntity<List<GastoEntity>>(service.listAllByNameWithDate(name, date), HttpStatus.OK);
 		}
+	}
+	
+	@RequestMapping(value = "/{gastoId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Void> incluirCategoria(@PathVariable("gastoId") String gastoId, @RequestBody CategoriaEntity categoria) {
+		service.incluirCategoria(gastoId, categoria);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 }

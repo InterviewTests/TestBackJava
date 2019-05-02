@@ -1,5 +1,6 @@
 package br.com.brunots.testes.everis.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.brunots.testes.everis.entity.GastoEntity;
@@ -11,5 +12,7 @@ public interface GastosDAO {
 	List<GastoEntity> listAll();
 
 	List<GastoEntity> listAllByCodigousuario(Integer codigousuario);
+
+	List<GastoEntity> listAllByCodigousuarioWithDate(Integer codigousuario, Date date);
 
 }

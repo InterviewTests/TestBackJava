@@ -1,5 +1,6 @@
 package br.com.brunots.testes.everis.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class GastosServiceImpl implements GastosService {
 	public List<GastoEntity> listAllByName(String name) {
 		UserEntity userEntity = userService.findByUsername(name);
 		return dao.listAllByCodigousuario(userEntity.getCodigousuario());
+	}
+
+	@Override
+	public List<GastoEntity> listAllByNameWithDate(String name, Date date) {
+		UserEntity userEntity = userService.findByUsername(name);
+		return dao.listAllByCodigousuarioWithDate(userEntity.getCodigousuario(), date);
 	}
 	
 }

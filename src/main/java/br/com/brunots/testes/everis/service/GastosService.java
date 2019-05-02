@@ -1,5 +1,6 @@
 package br.com.brunots.testes.everis.service;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.brunots.testes.everis.entity.GastoEntity;
@@ -11,5 +12,7 @@ public interface GastosService {
 	List<GastoEntity> listAll();
 
 	List<GastoEntity> listAllByName(String name);
+
+	List<GastoEntity> listAllByNameWithDate(String name, Date parse);
 
 }

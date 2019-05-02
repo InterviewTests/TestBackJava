@@ -34,6 +34,16 @@ public class UserDAOImpl implements UserDAO {
 		collection = MongoDBHelper.getDatabase().getCollection("user");
 	}
 
+	@PostConstruct
+	public void atualizarSecurityConfig() {
+		for (UserEntity user : listAll()) {
+			inMemoryUserDetailsManager.createUser(
+					User.withUsername(user.getUsername())
+					.password(encoder.encode(user.getPassword()))
+					.roles("USER").build());
+		}
+	}
+
 	@Override
 	public void save(UserEntity entity) {
 		Document document = new Document();
@@ -41,16 +51,10 @@ public class UserDAOImpl implements UserDAO {
 		document.put("username", entity.getUsername());
 		document.put("password", entity.getPassword());
 		collection.insertOne(document);
-		inMemoryUserDetailsManager.createUser(User.withUsername(entity.getUsername())
-				.password(encoder.encode(entity.getPassword())).roles("USER").build());
-	}
-
-	@PostConstruct
-	public void atualizarSecurityConfig() {
-		for (UserEntity user : listAll()) {
-			inMemoryUserDetailsManager.createUser(User.withUsername(user.getUsername())
-					.password(encoder.encode(user.getPassword())).roles("USER").build());
-		}
+		inMemoryUserDetailsManager.createUser(
+				User.withUsername(entity.getUsername())
+				.password(encoder.encode(entity.getPassword()))
+				.roles("USER").build());
 	}
 
 	@Override

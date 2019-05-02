@@ -30,7 +30,7 @@ public class GastosDAOImpl implements GastosDAO {
 	}
 
 	private long getLastId() {
-		MongoCursor<Document> cursor = collection.find().sort(new BasicDBObject("_id", 1)).limit(1).iterator();
+		MongoCursor<Document> cursor = collection.find().sort(new BasicDBObject("_id", -1)).limit(1).iterator();
 		if (cursor.hasNext()) {
 			return cursor.next().getLong("_id");
 		} else {

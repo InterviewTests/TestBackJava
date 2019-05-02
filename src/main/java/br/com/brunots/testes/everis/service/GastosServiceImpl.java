@@ -52,5 +52,10 @@ public class GastosServiceImpl implements GastosService {
 	public GastoEntity getById(String gastoId) {
 		return dao.getById(Long.valueOf(gastoId));
 	}
+
+	@Override
+	public List<CategoriaEntity> listarCategorias(String startsWith) {
+		return dao.listarCategorias(startsWith);
+	}
 	
 }

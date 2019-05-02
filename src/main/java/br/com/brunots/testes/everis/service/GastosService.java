@@ -20,4 +20,6 @@ public interface GastosService {
 
 	GastoEntity getById(String gastoId);
 
+	List<CategoriaEntity> listarCategorias(String startsWith);
+
 }

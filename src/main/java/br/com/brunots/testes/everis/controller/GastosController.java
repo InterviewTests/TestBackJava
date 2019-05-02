@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.websocket.server.PathParam;
 
@@ -68,8 +70,17 @@ public class GastosController {
 
 	@RequestMapping(value = "/{gastoId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<GastoEntity> detalharGasto(@PathVariable("gastoId") String gastoId) {
-		
 		return new ResponseEntity<GastoEntity>(service.getById(gastoId), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/categorias", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Set<String>> listarCategorias(@RequestBody String startsWith) {
+		Set<String> ret = new TreeSet<>();
+		List<CategoriaEntity> categorias = service.listarCategorias(startsWith);
+		for (CategoriaEntity categoriaEntity : categorias) {
+			ret.add(categoriaEntity.getCategoria());
+		}
+		return new ResponseEntity<Set<String>>(ret, HttpStatus.OK);
 	}
 
 }

@@ -1,10 +1,13 @@
 package br.com.brunots.testes.everis.dao;
 
+import static com.mongodb.client.model.Filters.regex;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
@@ -37,6 +40,20 @@ public class GastosDAOImpl implements GastosDAO {
 		} else {
 			return 0;
 		}
+	}
+
+	private GastoEntity getNextGastoEntity(Document next) {
+		GastoEntity entity = new GastoEntity();
+		entity.setId(next.getLong("_id"));
+		entity.setDescricao(next.getString("descricao"));
+		entity.setValor(next.getDouble("valor"));
+		entity.setCodigousuario(next.getInteger("codigousuario"));
+		entity.setData(next.getDate("data"));
+		Document categoria = (Document) next.get("categoria");
+		if (categoria != null) {
+			entity.setCategoria(new CategoriaEntity(categoria.getString("categoria")));
+		}
+		return entity;
 	}
 
 	@Override
@@ -116,20 +133,6 @@ public class GastosDAOImpl implements GastosDAO {
 		return ret;
 	}
 
-	private GastoEntity getNextGastoEntity(Document next) {
-		GastoEntity entity = new GastoEntity();
-		entity.setId(next.getLong("_id"));
-		entity.setDescricao(next.getString("descricao"));
-		entity.setValor(next.getDouble("valor"));
-		entity.setCodigousuario(next.getInteger("codigousuario"));
-		entity.setData(next.getDate("data"));
-		Document categoria = (Document) next.get("categoria");
-		if (categoria != null) {
-			entity.setCategoria(new CategoriaEntity(categoria.getString("categoria")));
-		}
-		return entity;
-	}
-
 	@Override
 	public GastoEntity getById(Long id) {
 		BasicDBObject whereQuery = new BasicDBObject();
@@ -141,6 +144,23 @@ public class GastosDAOImpl implements GastosDAO {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public List<CategoriaEntity> listarCategorias(String startsWith) {
+		Pattern pattern = Pattern.compile("^"+Pattern.quote(startsWith), Pattern.CASE_INSENSITIVE);
+		MongoCursor<Document> cursor = collection.find(regex("categoria.categoria", pattern)).iterator();
+		
+		List<CategoriaEntity> ret = new ArrayList<>();
+		while (cursor.hasNext()) {
+			ret.add(getNextCategoriaEntity(cursor.next()));
+		}
+		return ret;
+	}
+
+	private CategoriaEntity getNextCategoriaEntity(Document next) {
+		Document categoria = (Document) next.get("categoria");
+		return new CategoriaEntity(categoria.getString("categoria"));
 	}
 
 }

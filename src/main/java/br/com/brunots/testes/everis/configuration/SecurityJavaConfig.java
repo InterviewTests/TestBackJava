@@ -21,6 +21,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/gastos/cadastrar").hasRole("CREDENCIADO")
 		.antMatchers("/gastos/listar").hasRole("USER")
 		.antMatchers("/gastos/{gastoId}").hasRole("USER")
+		.antMatchers("/gastos/categorias").hasRole("USER")
 		.antMatchers("/users").permitAll()
 		.antMatchers("/users/new").permitAll()
 		.and().httpBasic();

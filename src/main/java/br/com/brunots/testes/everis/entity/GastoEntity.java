@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GastoEntity {
 
+	@JsonProperty("_id")
+	private Long id;
 	@JsonProperty("descricao")
 	private String descricao;
 	@JsonProperty("valor")
@@ -16,6 +18,14 @@ public class GastoEntity {
 	@JsonProperty("data")
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
 	private Date data;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getDescricao() {
 		return descricao;

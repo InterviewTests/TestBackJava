@@ -11,6 +11,9 @@ Funcionalidade: Integração de gastos por cartão
   Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
     { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
 ```
+A inclusão de gastos deve ser feita através do endpoint *POST* _/gastos/cadastrar_ utilizando autenticação *Basic Auth* utilizando o usuário _credenciado_ e senha _credenciadoPaSS_.
+O payload dessa chamada deve ser um Array contendo 1 ou mais gastos seguindo o padrão acima.
+
 ```
 Funcionalidade: Listagem de gastos*
   Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
@@ -20,6 +23,18 @@ Funcionalidade: Listagem de gastos*
 *Para esta funcionalidade é esperado 2.000 acessos por segundo.
 *O cliente espera ver gastos realizados a 5 segundos atrás.
 ```
+É necesário cadastrar os uruários através do endpoint *POST* _/users/new_. Esse endpoint não requer autenticação.
+O payload deve ser um JSON seguindo o padrão:
+```
+{
+	"codigousuario":numerico,
+	"username":"alfanumerico",
+	"password":"alfanumerico"
+}
+```
+Esse usuário será utilizado para fazer a chamada ao endpoint de listagem de gastos, *GET* _gastos/listar_ com autenticação *Basic Auth*.
+Serão listados os gastos onde o codigousuario seja igual ao do usuário autenticado.
+
 ```
 Funcionalidade: Filtro de gastos
   Dado que acesso como um cliente autenticado
@@ -27,6 +42,8 @@ Funcionalidade: Filtro de gastos
   E configure o filtro de data igual a 27/03/1992
   Então gostaria de ver meus gastos apenas deste dia.
 ```
+O mesmo endpoint da questão anterior pode ser utilizado com o parametro _data_ na URL. *GET* _gastos/listar?data=01/05/2019_
+
 ```
 Funcionalidade: Categorização de gastos
   Dado que acesso como um cliente autenticado
@@ -34,6 +51,14 @@ Funcionalidade: Categorização de gastos
   E este não possui uma categoria
   Então devo conseguir incluir uma categoria para este
 ```
+Através do endpoint *GET* _gastos/{id}_ é possível acessar os detalhes de um gasto cadastrado.
+O endpoint *POST* _gastos/{id}_ é utilizado para definir a categoria do gasto. Utilizando o payload:
+```
+{
+	"categoria":"alfanumerico"
+}
+```
+
 ```
 Funcionalidade: Sugestão de categoria
   Dado que acesso como um cliente autenticado
@@ -41,6 +66,9 @@ Funcionalidade: Sugestão de categoria
   E começo a digitar a categoria que desejo
   Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
 ```
+O endpoint *POST* _/gastos/categorias_ com o payload *text/plain*, 
+irá retornar uma lista, sem repetição e ordenada com as categorias que iniciam com o texto informado.
+
 ```
 Funcionalidade: Categorização automatica de gasto
   No processo de integração de gastos, a categoria deve ser incluida automaticamente 

@@ -13,7 +13,7 @@ Funcionalidade: Integração de gastos por cartão
 ```
 A inclusão de gastos deve ser feita através do endpoint *POST* _/gastos/cadastrar_ utilizando autenticação *Basic Auth* utilizando o usuário _credenciado_ e senha _credenciadoPaSS_.
 O payload dessa chamada deve ser um Array contendo 1 ou mais gastos seguindo o padrão acima.
-
+_________________________________________________________________________________________________
 ```
 Funcionalidade: Listagem de gastos*
   Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
@@ -34,7 +34,7 @@ O payload deve ser um JSON seguindo o padrão:
 ```
 Esse usuário será utilizado para fazer a chamada ao endpoint de listagem de gastos, *GET* _gastos/listar_ com autenticação *Basic Auth*.
 Serão listados os gastos onde o codigousuario seja igual ao do usuário autenticado.
-
+_________________________________________________________________________________________________
 ```
 Funcionalidade: Filtro de gastos
   Dado que acesso como um cliente autenticado
@@ -43,7 +43,7 @@ Funcionalidade: Filtro de gastos
   Então gostaria de ver meus gastos apenas deste dia.
 ```
 O mesmo endpoint da questão anterior pode ser utilizado com o parametro _data_ na URL. *GET* _gastos/listar?data=01/05/2019_
-
+_________________________________________________________________________________________________
 ```
 Funcionalidade: Categorização de gastos
   Dado que acesso como um cliente autenticado
@@ -58,7 +58,7 @@ O endpoint *POST* _gastos/{id}_ é utilizado para definir a categoria do gasto. 
 	"categoria":"alfanumerico"
 }
 ```
-
+_________________________________________________________________________________________________
 ```
 Funcionalidade: Sugestão de categoria
   Dado que acesso como um cliente autenticado
@@ -68,13 +68,25 @@ Funcionalidade: Sugestão de categoria
 ```
 O endpoint *POST* _/gastos/categorias_ com o payload *text/plain*, 
 irá retornar uma lista, sem repetição e ordenada com as categorias que iniciam com o texto informado.
-
+_________________________________________________________________________________________________
 ```
 Funcionalidade: Categorização automatica de gasto
   No processo de integração de gastos, a categoria deve ser incluida automaticamente 
   caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
   o mesmo deve receber esta categoria no momento da inclusão do mesmo
 ```
+
+Ao fazer a inclusão o sistema faz uma busca se já existe um gasto com a mesma descrição.
+Caso não exista nenhuma, nenhuma categoria será definida.
+Caso exista mais de uma, será utilizada a categoria do gasto mais recente (maior id).
+_________________________________________________________________________________________________
+### # DevNotes
+
+* O projeto utiliza o banco de dados MongoDB rodando localmente para persistir os dados.
+* Para rodar o projeto, basta executar o métod main da classe _br.com.brunots.testes.everis.Application_ 
+
+_________________________________________________________________________________________________
+
 ### # Avaliação
 
 Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 

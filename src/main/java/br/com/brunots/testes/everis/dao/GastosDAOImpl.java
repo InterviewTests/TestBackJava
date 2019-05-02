@@ -66,6 +66,11 @@ public class GastosDAOImpl implements GastosDAO {
 		CategoriaEntity categoria = entity.getCategoria();
 		if (categoria != null) {
 			document.put("categoria", new Document("categoria", categoria.getCategoria()));
+		} else {
+			String descricao = getCategoriaByDescricao(entity.getDescricao());
+			if (descricao != null) {
+				document.put("categoria", new Document("categoria", descricao));
+			}
 		}
 		if (entity.getId() == null) {
 			document.put("_id", idGenerator.incrementAndGet());
@@ -76,6 +81,13 @@ public class GastosDAOImpl implements GastosDAO {
 			BasicDBObject updateOperationDocument = new BasicDBObject("$set", document);
 			collection.updateOne(filter, updateOperationDocument);
 		}
+	}
+
+	private String getCategoriaByDescricao(String descricao) {
+		MongoCursor<Document> cursor = collection.find(new BasicDBObject("descricao", descricao))
+				.sort(new BasicDBObject("_id", -1)).limit(1).iterator();
+		CategoriaEntity categoriaEntity = getNextCategoriaEntity(cursor.next());
+		return categoriaEntity.getCategoria();
 	}
 
 	@Override
@@ -148,9 +160,9 @@ public class GastosDAOImpl implements GastosDAO {
 
 	@Override
 	public List<CategoriaEntity> listarCategorias(String startsWith) {
-		Pattern pattern = Pattern.compile("^"+Pattern.quote(startsWith), Pattern.CASE_INSENSITIVE);
+		Pattern pattern = Pattern.compile("^" + Pattern.quote(startsWith), Pattern.CASE_INSENSITIVE);
 		MongoCursor<Document> cursor = collection.find(regex("categoria.categoria", pattern)).iterator();
-		
+
 		List<CategoriaEntity> ret = new ArrayList<>();
 		while (cursor.hasNext()) {
 			ret.add(getNextCategoriaEntity(cursor.next()));

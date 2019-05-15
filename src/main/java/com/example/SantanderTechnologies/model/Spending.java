@@ -25,6 +25,16 @@ public class Spending {
     @JsonIgnore
     private CreditCard creditCard;
 
+    public Spending(){}
+
+    public Spending(String location, BigDecimal value, SpendingCategory category, Date date, CreditCard creditCard) {
+        this.location = location;
+        this.value = value;
+        this.category = category;
+        this.date = date;
+        this.creditCard = creditCard;
+    }
+
     public Long getId() {
         return id;
     }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +27,7 @@ public class UserCardController {
     private CreditCardRepository creditCardRepository;
 
     @PostMapping("/user/newCreditCard")
-    public ApiResponse createNewCrediCard(@CurrentUser UserPrincipal currentUser, @RequestBody CreditCardRequest creditCardRequest) {
+    public ApiResponse createNewCreditCard(@CurrentUser UserPrincipal currentUser, @RequestBody CreditCardRequest creditCardRequest) {
 
         CreditCard creditCard = new CreditCard(creditCardRequest.getClientName(),
                                                 creditCardRequest.getNumber(),
@@ -39,5 +40,12 @@ public class UserCardController {
         creditCard.setUser(optionalUser.get());
         creditCardRepository.save(creditCard);
         return new ApiResponse(true, "Credit Card created");
+    }
+
+    @GetMapping("/user/creditCards")
+    public List<CreditCard> getCreditCards(@CurrentUser UserPrincipal currentUser){
+        List<CreditCard> creditCards = creditCardRepository.findAllByUserId(currentUser.getId());
+
+        return creditCards;
     }
 }

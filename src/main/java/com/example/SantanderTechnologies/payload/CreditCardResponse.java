@@ -2,12 +2,12 @@ package com.example.SantanderTechnologies.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CreditCardResponse {
+public class CreditCardResponse extends ApiResponse{
 
     @JsonProperty("descricao")
     private String description;
@@ -21,6 +21,10 @@ public class CreditCardResponse {
 
     @JsonProperty("data")
     private Date date;
+
+    public CreditCardResponse(Boolean success, String message) {
+        super(success, message);
+    }
 
     public String getDescription() {
         return description;

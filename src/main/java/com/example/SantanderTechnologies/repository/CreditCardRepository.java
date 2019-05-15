@@ -12,6 +12,7 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long> {
 
     Optional<CreditCard> findById(Long creditCardId);
 
-    @EntityGraph(value = "CreditCard.users", type = EntityGraph.EntityGraphType.FETCH)
+    Optional<CreditCard> findByNumber(String number);
+
     List<CreditCard> findAllByUserId(Long userId);
 }

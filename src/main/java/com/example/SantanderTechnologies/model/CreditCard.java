@@ -30,6 +30,8 @@ public class CreditCard {
     @OneToMany
     private List<Spending> spendings;
 
+    public CreditCard(){}
+
     public CreditCard(String clientName, String number, Integer validationCode, Date duoDate) {
         this.clientName = clientName;
         this.number = number;

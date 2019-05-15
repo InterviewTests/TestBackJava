@@ -13,4 +13,12 @@ public class SpendingCategory {
     private Long id;
 
     private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.SantanderTechnologies.controller;
 
 import com.example.SantanderTechnologies.exception.ResourceNotFoundException;
 import com.example.SantanderTechnologies.model.User;
+import com.example.SantanderTechnologies.payload.ApiResponse;
 import com.example.SantanderTechnologies.payload.UserIdentityAvailability;
 import com.example.SantanderTechnologies.payload.UserProfile;
 import com.example.SantanderTechnologies.payload.UserSummary;

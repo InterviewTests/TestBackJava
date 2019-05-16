@@ -11,15 +11,14 @@ import com.example.SantanderTechnologies.repository.SpendingRepository;
 import com.example.SantanderTechnologies.security.CurrentUser;
 import com.example.SantanderTechnologies.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/spending")
 public class SpendingController {
 
     @Autowired
@@ -31,7 +30,7 @@ public class SpendingController {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @PostMapping("/spending")
+    @PostMapping
     public ApiResponse addNewSpending(@CurrentUser UserPrincipal currentUser, @RequestBody SpendingRequest spendingRequest){
         Optional<CreditCard> optionalCreditCard = creditCardRepository.findByNumber(spendingRequest.getCreditCardNumber());
         if(!optionalCreditCard.isPresent()){
@@ -59,5 +58,26 @@ public class SpendingController {
 
         return new ApiResponse(true, "Spending Created");
 
+    }
+
+    @GetMapping("/filterbydate/{date}")
+    public List<Spending> filterSpendingByDate(@CurrentUser UserPrincipal currentUser, @PathVariable @DateTimeFormat(pattern = "ddMMyyyy") Date date){
+
+        List<CreditCard> creditCards = creditCardRepository.findAllByUserId(currentUser.getId());
+        List<Spending> spendings = new ArrayList<>();
+        for(CreditCard c : creditCards){
+            List<Spending> s = spendingRepository.findAllByCreditCardId(c.getId());
+
+            s = s.stream().filter(
+                    p -> {
+                        Calendar cal1 = Calendar.getInstance();
+                        Calendar cal2 = Calendar.getInstance();
+                        cal1.setTime(p.getDate());
+                        cal2.setTime(date);
+                        return cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);}
+                        ).collect(Collectors.toList());
+            spendings.addAll(s);
+        }
+        return spendings;
     }
 }

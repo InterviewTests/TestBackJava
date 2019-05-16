@@ -1,60 +1,48 @@
 package com.example.SantanderTechnologies.payload;
 
-import com.example.SantanderTechnologies.model.CreditCard;
-import com.example.SantanderTechnologies.model.SpendingCategory;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class SpendingRequest {
 
-    private String location;
-
-    private BigDecimal value;
-
+    private String description;
+    private BigDecimal amount;
     private String category;
-
     private Date date;
 
     private String creditCardNumber;
 
     public SpendingRequest(){}
 
-    public SpendingRequest(BigDecimal value, String creditCardNumber) {
-        this.value = value;
+    public SpendingRequest(BigDecimal amount, String creditCardNumber) {
+        this.amount = amount;
         this.creditCardNumber = creditCardNumber;
         this.date = new Date();
-        this.location = "Default Location";
+        this.description = "Default Description";
     }
 
-    public SpendingRequest(String location, BigDecimal value, String category, Date date, String creditCardNumber) {
-        this.location = location;
-        this.value = value;
+    public SpendingRequest(String description, BigDecimal amount, String category, Date date, String creditCardNumber) {
+        this.description = description;
+        this.amount = amount;
         this.category = category;
         this.date = date;
         this.creditCardNumber = creditCardNumber;
     }
 
-    public String getLocation() {
-        return location;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public String getCategory() {

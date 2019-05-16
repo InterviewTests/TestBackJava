@@ -50,8 +50,8 @@ public class SpendingController {
         else {
             spendingCategory = optionalSpendingCategory.get();
         }
-        Spending spending = new Spending(spendingRequest.getLocation(),
-                spendingRequest.getValue(),
+        Spending spending = new Spending(spendingRequest.getDescription(),
+                spendingRequest.getAmount(),
                 spendingCategory,
                 spendingRequest.getDate(),
                 creditCard);

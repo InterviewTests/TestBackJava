@@ -12,7 +12,7 @@ public class Spending {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String location;
+    private String description;
 
     private BigDecimal value;
 
@@ -27,8 +27,8 @@ public class Spending {
 
     public Spending(){}
 
-    public Spending(String location, BigDecimal value, SpendingCategory category, Date date, CreditCard creditCard) {
-        this.location = location;
+    public Spending(String description, BigDecimal value, SpendingCategory category, Date date, CreditCard creditCard) {
+        this.description = description;
         this.value = value;
         this.category = category;
         this.date = date;
@@ -43,12 +43,12 @@ public class Spending {
         this.id = id;
     }
 
-    public String getLocation() {
-        return location;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public BigDecimal getValue() {

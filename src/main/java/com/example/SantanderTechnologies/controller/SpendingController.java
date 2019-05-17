@@ -40,7 +40,15 @@ public class SpendingController {
 
         CreditCard creditCard = optionalCreditCard.get();
         SpendingCategory spendingCategory;
-        Optional<SpendingCategory> optionalSpendingCategory = categoryRepository.findByCategoryName(spendingRequest.getCategory());
+        String spendingCategoryName = spendingRequest.getCategory();
+        if(spendingCategoryName == null || spendingRequest.getDescription() != null){
+            Optional<Spending> optionalSpending = spendingRepository.findFirstByDescription(spendingRequest.getDescription());
+            if(optionalSpending.isPresent() && optionalSpending.get().getCategory() != null){
+                spendingCategoryName = optionalSpending.get().getCategory().getCategoryName();
+            }
+        }
+
+        Optional<SpendingCategory> optionalSpendingCategory = categoryRepository.findByCategoryName(spendingCategoryName);
         if(!optionalSpendingCategory.isPresent()){
             SpendingCategory sc = new SpendingCategory();
             sc.setCategoryName(spendingRequest.getCategory());

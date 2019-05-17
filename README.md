@@ -1,3 +1,118 @@
+# Como executar
+
+# Docker-Compose
+
+Execute as seguintes linhas de comando
+
+    git clone https://github.com/ThadeuFerreira/TestBackJava
+    cd TestBackJava
+    mvn package
+    java -jar target/SantanderTechnologies-0.0.1-SNAPSHOT.jar
+    
+    docker-compose build
+    docker-compose up
+    
+ATENÇÃO!
+É possivel que na primeira vez que seja executado a aplicação java tente se conectar com o banco de dados antes dele estar funcionando.
+Nesse caso, tente novamente. Se o erro persistir, execute a aplicação e o banco de dados separadamente, proxima sessão.
+
+# Executando o banco de dados se paradamente
+
+Crie um servidor de banco de dados mysql no localhost e portas padão 3306 com senha de root "password" e nome test
+Ou execute o comando a seguir para criar o servidor e banco pelo Docker
+
+    docker run --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -p 3306:3306 -p 33060:33060 -d mysql:latest
+
+Execute a aplicação
+
+    mvn spring-boot:run
+
+# Como utilizar a API
+
+A autenticação é feita utilizando Bearer Token. Criar usuário não requer autenticação, todas as outras requisicões precisam do Token obtido no login.
+
+- Criar usuário
+    
+
+     POST localhost:8080/api/auth/signup
+     
+     Payload
+     {
+        "name": "Thadeu Costa",
+        "username": "ThadeuCosta",
+        "email":"thadeucosta@gmail.com",
+        "password":"Secret"
+    }
+    
+- Login
+
+
+
+    Post http://localhost:8080/api/auth/signin
+    Payload
+    {
+                "usernameOrEmail":"ThadeuCosta" ,
+                "password":"Secret"
+    }
+    
+- Criar novo cartão de crédito
+
+
+    POST http://localhost:8080/api/user/newCreditCard
+    Payload
+    {  
+        "number":"666 666 666 666",
+        "validationCode":"666",
+        "clientName":"Thadeu Antonio F Melo",
+        "duoDate":"2020-04-21T18:25:43-05:00"
+    }
+    
+- Adicionar gasto em um Cartão
+
+
+    POST http://localhost:8080/api/spending
+    Payload
+    {
+        "description":"Descrição",
+        "amount": 88.10,
+        "category": "Roupas",
+        "date": "2019-05-21T18:25:43-05:00",
+        "creditCardNumber":"666 666 666 666"
+    }
+
+    
+- Listar total de gastos do Cartão
+
+
+    GET http://localhost:8080/api/creditcard/details/<numero do cartão>
+    
+- Listar todos os gastos do usuário
+
+   
+    GET http://localhost:8080/api/user/creditCards
+
+- Listar gastos filtrados por dia
+
+
+    GET http://localhost:8080/api/spending/filterbydate/21052019
+    
+ - Listar gastos sem category de um Cartão
+ 
+
+    GET http://localhost:8080/api/spending/nocategory/<numero do cartão>
+    
+- Editar a categoria de um gasto
+     
+
+    POST http://localhost:8080/api/spending/edit
+    Payload
+    {
+	    "spendingId":9,
+	    "category":"Games"
+    }
+    
+    
+
 # Show me the code
 
 ### # DESAFIO:

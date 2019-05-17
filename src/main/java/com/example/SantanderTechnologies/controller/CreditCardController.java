@@ -47,7 +47,7 @@ public class CreditCardController {
         creditCardResponse.setAmount(totalSpending);
         creditCardResponse.setDate(creditCard.getDuoDate());
         creditCardResponse.setUserCode(currentUser.getId());
-        creditCardResponse.setDescription(creditCard.getClientName() + " " + creditCard.getUser());
+        creditCardResponse.setDescription(creditCard.getClientName() + " " + creditCard.getUser().getUsername());
         return creditCardResponse;
     }
 

@@ -14,6 +14,12 @@ public class SpendingCategory {
 
     private String categoryName;
 
+    public SpendingCategory(){}
+
+    public SpendingCategory(String categoryName){
+        this.categoryName = categoryName;
+    }
+
     public String getCategoryName() {
         return categoryName;
     }

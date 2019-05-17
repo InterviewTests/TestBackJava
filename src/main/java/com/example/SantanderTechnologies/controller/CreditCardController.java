@@ -40,7 +40,7 @@ public class CreditCardController {
         List<Spending> spendings = spendingRepository.findAllByCreditCardId(creditCard.getId());
         BigDecimal totalSpending = new BigDecimal(0);
         for(Spending s : spendings){
-            totalSpending = totalSpending.add(s.getValue());
+            totalSpending = totalSpending.add(s.getValue()==null?new BigDecimal(0):s.getValue());
         }
 
         CreditCardResponse creditCardResponse = new CreditCardResponse(true, "Success");

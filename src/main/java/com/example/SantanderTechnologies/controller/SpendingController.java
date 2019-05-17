@@ -4,6 +4,7 @@ import com.example.SantanderTechnologies.model.CreditCard;
 import com.example.SantanderTechnologies.model.Spending;
 import com.example.SantanderTechnologies.model.SpendingCategory;
 import com.example.SantanderTechnologies.payload.ApiResponse;
+import com.example.SantanderTechnologies.payload.EditSpendingRequest;
 import com.example.SantanderTechnologies.payload.SpendingRequest;
 import com.example.SantanderTechnologies.repository.CategoryRepository;
 import com.example.SantanderTechnologies.repository.CreditCardRepository;
@@ -58,6 +59,43 @@ public class SpendingController {
 
         return new ApiResponse(true, "Spending Created");
 
+    }
+
+    @GetMapping("/nocategory/{cardnumber}")
+    public List<Spending> getSpendingWithoutCategory(@CurrentUser UserPrincipal currentUser, @PathVariable String cardnumber){
+        Optional<CreditCard> optionalCreditCard = creditCardRepository.findByNumber(cardnumber);
+        if (!optionalCreditCard.isPresent()){
+            return null; //TODO make a default Api Response
+        }
+
+        List<Spending> spendings = spendingRepository.findAllByCreditCardId(optionalCreditCard.get().getId());
+
+        return spendings
+                .stream()
+                .filter(spending ->
+                        spending.getCategory() == null || spending.getCategory().getCategoryName() == null)
+                .collect(Collectors.toList());
+
+
+    }
+
+    @PostMapping("/edit")
+    public ApiResponse editSpending(@CurrentUser UserPrincipal currentUser, @RequestBody EditSpendingRequest editSpendingRequest){
+
+        Optional<Spending> optionalSpending = spendingRepository.findById(editSpendingRequest.getSpendingId());
+
+        if(!optionalSpending.isPresent()){
+            return new ApiResponse(false, "Could not find spending");
+        }
+
+        Spending spending = optionalSpending.get();
+        SpendingCategory newSpendingCategory = new SpendingCategory(editSpendingRequest.getCategory());
+
+        spending.setCategory(newSpendingCategory);
+        categoryRepository.save(newSpendingCategory);
+        spendingRepository.save(spending);
+
+        return new ApiResponse(true, "Spending category edited.");
     }
 
     @GetMapping("/filterbydate/{date}")

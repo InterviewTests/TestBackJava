@@ -6,7 +6,7 @@ Execute as seguintes linhas de comando
 
     git clone https://github.com/ThadeuFerreira/TestBackJava
     cd TestBackJava
-    mvn package -DskipTests=true
+    mvn package
     java -jar target/SantanderTechnologies-0.0.1-SNAPSHOT.jar
     
     docker-compose build

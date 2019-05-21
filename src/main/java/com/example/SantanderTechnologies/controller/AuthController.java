@@ -12,6 +12,7 @@ import com.example.SantanderTechnologies.payload.SignUpRequest;
 import com.example.SantanderTechnologies.repository.RoleRepository;
 import com.example.SantanderTechnologies.repository.UserRepository;
 import com.example.SantanderTechnologies.security.JwtTokenProvider;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import java.util.Collections;
  */
 @RestController
 @RequestMapping("/api/auth")
+@Api(value = "Greeting", description = "Greeting people")
 public class AuthController {
 
     @Autowired

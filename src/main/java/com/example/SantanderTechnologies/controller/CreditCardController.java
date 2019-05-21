@@ -8,6 +8,7 @@ import com.example.SantanderTechnologies.repository.CreditCardRepository;
 import com.example.SantanderTechnologies.repository.SpendingRepository;
 import com.example.SantanderTechnologies.security.CurrentUser;
 import com.example.SantanderTechnologies.security.UserPrincipal;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

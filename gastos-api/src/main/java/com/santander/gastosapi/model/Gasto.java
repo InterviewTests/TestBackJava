@@ -3,26 +3,30 @@ package com.santander.gastosapi.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.SolrDocument;
+
+@SolrDocument(solrCoreName = "gasto")
 public class Gasto implements Serializable {
 	
-	private Long id;
+	@Id
+	@Field
+	private String id;
 	
+	@Field
 	private String descricao;
 	
+	@Field
 	private Double valor;
 	
+	@Field
 	private int codigousuario;
 	
+	@Field
 	private Date data;
 	
 	public Gasto() {}
-	
-	public Gasto(Long id, String descricao, Double valor, int codigousuario) {
-		this.id = id;
-		this.descricao = descricao;
-		this.valor = valor;
-		this.codigousuario = codigousuario;
-	}
 	
 	public Gasto(String descricao, Double valor, int codigousuario, Date data) {
 		this.descricao = descricao;
@@ -37,11 +41,11 @@ public class Gasto implements Serializable {
 		this.codigousuario = codigousuario;
 	}
 	
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

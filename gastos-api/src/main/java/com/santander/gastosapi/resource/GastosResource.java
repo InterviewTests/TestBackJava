@@ -1,17 +1,16 @@
 package com.santander.gastosapi.resource;
 
-import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.santander.gastosapi.model.Categoria;
 import com.santander.gastosapi.model.Gasto;
 import com.santander.gastosapi.service.GastosService;
 
@@ -33,22 +32,17 @@ public class GastosResource {
 	}
 	
 	@RequestMapping(path="/protected/gastos/listagem/filtro", method=RequestMethod.GET)
-	public @ResponseBody List<Gasto> filtroGastos(@RequestParam Date filtro){
+	public @ResponseBody List<Gasto> filtroGastos(@RequestHeader String filtro){
 		return gastosService.filtroGastos(filtro);
 	}
 	
-	@RequestMapping(path="/protected/gastos/categoria", method=RequestMethod.POST)
-	public void categorizacaoGastos(@RequestBody Categoria categoria){
-		gastosService.categorizacaoGastos(categoria);
+	@RequestMapping(path="/protected/gastos/categoria", method=RequestMethod.PUT)
+	public void categorizacaoGastos(@RequestHeader String categoria, @RequestHeader String gastoID){
+		gastosService.categorizacaoGastos(categoria, gastoID);
 	}
 	
 	@RequestMapping(path="/protected/gastos/categoria/sugestao", method=RequestMethod.GET)
-	public @ResponseBody List<Categoria> sugestaoCategoria(){
+	public @ResponseBody LinkedHashSet<String> sugestaoCategoria(){
 		return gastosService.sugestaoCategoria();
-	}
-	
-	@RequestMapping(path="/protected/gastos/automatica", method=RequestMethod.GET)
-	public void categorizacaoAutomaticaGastos(){
-		
 	}
 }

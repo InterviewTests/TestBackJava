@@ -7,6 +7,8 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @SolrDocument(solrCoreName = "gasto")
 public class Gasto implements Serializable {
 	
@@ -24,21 +26,37 @@ public class Gasto implements Serializable {
 	private int codigousuario;
 	
 	@Field
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	private Date data;
+	
+	@Field
+	private String categoria;
 	
 	public Gasto() {}
 	
-	public Gasto(String descricao, Double valor, int codigousuario, Date data) {
+	public Gasto(String id, String descricao, Double valor, int codigousuario, Date data, String categoria) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.codigousuario = codigousuario;
+		this.data = data;
+		this.categoria = categoria;
+	}
+	
+	public Gasto(String id, String descricao, Double valor, int codigousuario, Date data) {
+		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
 		this.codigousuario = codigousuario;
 		this.data = data;
 	}
-	
-	public Gasto(String descricao, Double valor, int codigousuario) {
+
+	public Gasto(String descricao, Double valor, int codigousuario, Date data) {
 		this.descricao = descricao;
 		this.valor = valor;
 		this.codigousuario = codigousuario;
+		this.data = data;
 	}
 	
 	public String getId() {
@@ -79,5 +97,13 @@ public class Gasto implements Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+	
+	public String getCategoria() {
+		return categoria;
+	}
+	
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 }

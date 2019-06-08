@@ -1,6 +1,6 @@
 version: '3'
 services:
-  solr:
+  solrnode:
     image: solr
     ports:
      - "8983:8983"
@@ -10,5 +10,13 @@ services:
       - docker-entrypoint.sh
       - solr-precreate
       - gasto
+  gastos-api:
+    build: gastos-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ~/.m2:/root/.m2
+    links:
+      - solrnode
 volumes:
   data:

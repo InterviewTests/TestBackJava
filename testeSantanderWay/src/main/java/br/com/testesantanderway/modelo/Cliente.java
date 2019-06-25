@@ -1,9 +1,19 @@
-package br.com.testesantanderway.testeSantanderWay.modelo;
+package modelo;
 
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.SolrDocument;
+
+@SolrDocument(solrCoreName = "cliente")
 public class Cliente {
+    @Id
+    @Field
     private Long codigoUsuario;
+    @Field
     private String nome;
+    @Field
     private String email;
+    @Field
     private String senha;
 
 

@@ -1,4 +1,4 @@
-package br.com.testesantanderway.testeSantanderWay.controlle;
+package controlle;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

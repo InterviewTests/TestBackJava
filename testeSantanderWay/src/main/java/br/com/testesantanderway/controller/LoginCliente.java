@@ -1,7 +1,7 @@
-package br.com.testesantanderway.testeSantanderWay.controlle;
+package controlle;
 
-import br.com.testesantanderway.dto.ClienteDTO;
-import br.com.testesantanderway.testeSantanderWay.modelo.Cliente;
+import dto.ClienteDTO;
+import modelo.Cliente;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,7 +1,9 @@
 package io.santander.gastos.web.controller;
 
+import io.santander.gastos.dto.GastoDTO;
 import io.santander.gastos.service.GastosService;
-import io.santander.gastos.vo.GastosVO;
+import io.santander.gastos.vo.GastoVO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(GastosController.GASTOS_ENDPOINT)
@@ -22,7 +25,17 @@ public class GastosController {
     private GastosService gastosService;
 
     @GetMapping("/{codigoUsuario}")
-    PageImpl<GastosVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, final GastosVO vo, Pageable pageable){
-        return gastosService.buscaTodosOsGastoPorCliente(codigoUsuario, vo, pageable);
+    PageImpl<GastoVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, final GastoVO vo, Pageable pageable) {
+        Page<GastoDTO> dtoPage = gastosService.buscaTodosOsGastoPorCliente(codigoUsuario, vo, pageable);
+        return new PageImpl<>(dtoPage.getContent().stream().map(this::toVo).collect(Collectors.toList()), pageable, dtoPage.getTotalElements());
+    }
+
+    private GastoVO toVo(GastoDTO gastoDTO) {
+        return GastoVO.builder()
+                .codigoUsuario(gastoDTO.getCodigoUsuario())
+                .descricao(gastoDTO.getDescricao())
+                .data(gastoDTO.getData())
+                .valor(gastoDTO.getValor())
+                .build();
     }
 }

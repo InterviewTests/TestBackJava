@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class GastosVO {
+public class GastoVO {
 
     private String descricao;
     private Double valor;

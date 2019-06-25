@@ -1,1 +1,8 @@
-
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3306/gastos
+    username: gastos
+    password: gastos

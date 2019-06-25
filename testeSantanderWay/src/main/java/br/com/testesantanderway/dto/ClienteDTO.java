@@ -1,6 +1,6 @@
-package dto;
+package br.com.testesantanderway.dto;
 
-import modelo.Cliente;
+import br.com.testesantanderway.modelo.Cliente;
 
 public class ClienteDTO {
     private String nome;

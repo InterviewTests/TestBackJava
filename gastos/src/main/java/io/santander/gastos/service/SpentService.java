@@ -39,4 +39,7 @@ public class SpentService {
     public List<SpentDTO> getAllspents() {
         return spentMapper.toDTOList(spentRepository.findAll());
     }
+
+    public void saveSpent(Long numeroCartão, GastoVO vo) {
+    }
 }

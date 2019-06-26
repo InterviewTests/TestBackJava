@@ -24,6 +24,11 @@ public class SpentController {
 
     private final SpentService spentService;
 
+    @PostMapping("/{numeroCartão}")
+    void addSpent(@Valid @PathVariable final Long numeroCartão, final GastoVO vo) {
+        return spentService.saveSpent(numeroCartão,vo);
+    }
+
     @GetMapping("/{codigoUsuario}")
     PageImpl<GastoVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
         Page<SpentDTO> dtoPage = spentService.buscaTodosOsGastoPorCliente(codigoUsuario, numeroCartão, vo, pageable);

@@ -14,7 +14,6 @@ import java.util.Date;
 public class SpentDTO {
     private Long id;
     private Long userCode;
-    private String cardNumber;
     private String description;
     private Double spentValue;
     private Date spentDate;

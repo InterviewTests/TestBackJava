@@ -8,7 +8,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Builder
@@ -16,14 +15,21 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "spent")
-public class Spent implements Serializable {
+@Table(name = "client_card")
+public class ClientCard {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String description;
-    private Double spentValue;
-    private Date spentDate;
+
+    @ManyToOne
+    @JoinColumn(name = "client")
+    private Client client;
+
+    @ManyToMany
+    @JoinColumn(name = "card")
+    private CreditCard creditCard;
+
     @CreatedDate
     @Column(name = "dat_creation", updatable = false, nullable = false)
     private Date creationTime;

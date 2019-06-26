@@ -8,22 +8,23 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "spent")
-public class Spent implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "card")
+public class CreditCard {
     private Long id;
-    private String description;
-    private Double spentValue;
-    private Date spentDate;
+    @Column(unique = true)
+    private String cardNumber;
+
+    @OneToMany(mappedBy = "card", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<ClientCard> clientCards;
+
     @CreatedDate
     @Column(name = "dat_creation", updatable = false, nullable = false)
     private Date creationTime;

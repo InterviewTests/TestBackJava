@@ -21,6 +21,9 @@ public class Spent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne(mappedBy = "spent")
+    @JoinColumn
+    private CardSpent cardSpent;
     private String description;
     private Double spentValue;
     private Date spentDate;

@@ -26,7 +26,7 @@ public class ClientCard {
     @JoinColumn(name = "client")
     private Client client;
 
-    @ManyToMany
+    @OneToOne
     @JoinColumn(name = "card")
     private CreditCard creditCard;
 

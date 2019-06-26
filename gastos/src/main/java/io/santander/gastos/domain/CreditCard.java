@@ -18,12 +18,18 @@ import java.util.List;
 @Entity
 @Table(name = "card")
 public class CreditCard {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String cardNumber;
 
-    @OneToMany(mappedBy = "card", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "creditCard", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<ClientCard> clientCards;
+
+    @OneToMany(mappedBy = "creditCard", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<CardSpent> cardSpents;
 
     @CreatedDate
     @Column(name = "dat_creation", updatable = false, nullable = false)

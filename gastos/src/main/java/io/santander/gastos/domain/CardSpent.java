@@ -23,7 +23,7 @@ public class CardSpent {
 
     @ManyToOne
     @JoinColumn(name = "card")
-    private CreditCard card;
+    private CreditCard creditCard;
 
     @OneToOne
     @JoinColumn(name = "spent")

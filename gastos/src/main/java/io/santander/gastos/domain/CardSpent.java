@@ -8,7 +8,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.smartcardio.Card;
 import java.util.Date;
 
 @Builder
@@ -24,7 +23,7 @@ public class CardSpent {
 
     @ManyToOne
     @JoinColumn(name = "card")
-    private Card card;
+    private CreditCard card;
 
     @OneToOne
     @JoinColumn(name = "spent")

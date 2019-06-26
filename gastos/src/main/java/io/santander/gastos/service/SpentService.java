@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class GastosService {
@@ -20,4 +22,6 @@ public class GastosService {
     public PageImpl<GastoDTO> buscaTodosOsGastoPorCliente(final Long codigoUsuario, final GastoVO vo, final Pageable pageable) {
         return null;
     }
+
+    public List<GastoDTO> getAll
 }

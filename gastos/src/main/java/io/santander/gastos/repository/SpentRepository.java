@@ -14,7 +14,6 @@ public interface SpentRepository extends JpaRepository<Spent, Long> {
 
     @Query(value = "SELECT s FROM Spent s " +
             "WHERE s.userCode = ?1 " +
-            "AND s.cardNumber = ?2 " +
             "AND (?3 is NULL OR s.description = ?3) " +
             "AND (?4 is NULL OR s.spentValue = ?4) " +
             "AND (?5 is NULL OR s.spentDate = ?5) ")

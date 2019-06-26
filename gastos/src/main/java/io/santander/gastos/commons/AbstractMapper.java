@@ -1,4 +1,4 @@
-package commons;
+package io.santander.gastos.commons;
 
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;

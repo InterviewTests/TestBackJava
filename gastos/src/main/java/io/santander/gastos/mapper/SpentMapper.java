@@ -1,12 +1,14 @@
 package io.santander.gastos.mapper;
 
-import commons.AbstractMapper;
+import io.santander.gastos.commons.AbstractMapper;
 import io.santander.gastos.domain.Spent;
 import io.santander.gastos.dto.SpentDTO;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public class GastosMapper extends AbstractMapper<Spent, SpentDTO> {
+@Component
+public class SpentMapper extends AbstractMapper<Spent, SpentDTO> {
     @Override
     public SpentDTO toDTO(Spent entity) {
         return super.toDTO(entity);

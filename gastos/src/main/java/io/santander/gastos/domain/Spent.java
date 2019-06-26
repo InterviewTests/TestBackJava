@@ -4,25 +4,30 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "gasto")
-public class Gasto {
+@Entity
+@Table(name = "spent")
+public class Spent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long codigoUsuario;
-    private String descricao;
-    private Double valor;
-    private Date data;
+    private Long userCode;
+    @CreditCardNumber
+    private String cardNumber;
+    private String description;
+    private Double spentValue;
+    private Date spentDate;
     @CreatedDate
     @Column(name = "dat_creation", updatable = false, nullable = false)
     private Date creationTime;

@@ -11,10 +11,11 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GastoDTO {
+public class SpentDTO {
     private Long id;
-    private Long codigoUsuario;
-    private String descricao;
-    private Double valor;
-    private Date data;
+    private Long userCode;
+    private String cardNumber;
+    private String description;
+    private Double spentValue;
+    private Date spentDate;
 }

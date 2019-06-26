@@ -3,39 +3,39 @@ package io.santander.gastos.web.controller;
 import io.santander.gastos.dto.SpentDTO;
 import io.santander.gastos.service.SpentService;
 import io.santander.gastos.vo.GastoVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(GastosController.GASTOS_ENDPOINT)
+@RequestMapping(SpentController.GASTOS_ENDPOINT)
 @Validated
-public class GastosController {
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
+public class SpentController {
 
     public static final String GASTOS_ENDPOINT = "/gastos";
 
-    private SpentService gastosService;
+    private final SpentService spentService;
 
     @GetMapping("/{codigoUsuario}")
-    PageImpl<GastoVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, final GastoVO vo, Pageable pageable) {
-        Page<SpentDTO> dtoPage = gastosService.buscaTodosOsGastoPorCliente(codigoUsuario, vo, pageable);
+    PageImpl<GastoVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
+        Page<SpentDTO> dtoPage = spentService.buscaTodosOsGastoPorCliente(codigoUsuario, numeroCartão, vo, pageable);
         return new PageImpl<>(dtoPage.getContent().stream().map(this::toVo).collect(Collectors.toList()), pageable, dtoPage.getTotalElements());
     }
 
-    private GastoVO toVo(SpentDTO gastoDTO) {
+    private GastoVO toVo(SpentDTO spentDTO) {
         return GastoVO.builder()
-                .codigoUsuario(gastoDTO.getCodigoUsuario())
-                .descricao(gastoDTO.getDescricao())
-                .data(gastoDTO.getData())
-                .valor(gastoDTO.getValor())
+                .codigoUsuario(spentDTO.getUserCode())
+                .descricao(spentDTO.getDescription())
+                .data(spentDTO.getSpentDate())
+                .valor(spentDTO.getSpentValue())
                 .build();
     }
 }

@@ -1,8 +1,16 @@
+spent:
+  date-format: yyyy-MM-dd HH:mm:ss
+
 spring:
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     url: jdbc:mysql://localhost:3306/gastos
     username: gastos
     password: gastos
+    initialization-mode: EMBEDDED

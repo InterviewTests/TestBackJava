@@ -2,6 +2,8 @@ package br.com.testesantanderway.dto;
 
 import br.com.testesantanderway.modelo.Cliente;
 
+import java.util.List;
+
 public class ClienteDTO {
     private String nome;
     private String email;
@@ -11,7 +13,7 @@ public class ClienteDTO {
         this.email = email;
     }
 
-    public static ClienteDTO converter(Cliente cliente) {
+    public static List<ClienteDTO> converter(List<Cliente> cliente) {
         return new ClienteDTO(cliente.getNome(), cliente.getEmail());
     }
 

@@ -1,18 +1,20 @@
 package br.com.testesantanderway.dto;
 
 import br.com.testesantanderway.modelo.Cliente;
-import org.springframework.data.domain.Page;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 public class ClienteDTO {
     private String nome;
     private String email;
-    private LocalDateTime dataCriacao;
 
-    public ClienteDTO(Cliente cliente){
-        this.nome = cliente.getNome();
-        this.email = cliente.getEmail();
+    public ClienteDTO(String nome, String email){
+        this.nome = nome;
+        this.email = email;
+    }
+
+    public static List<ClienteDTO> converter(List<Cliente> cliente) {
+        return new ClienteDTO(cliente.getNome(), cliente.getEmail());
     }
 
     public String getNome() {
@@ -21,9 +23,5 @@ public class ClienteDTO {
 
     public String getEmail() {
         return email;
-    }
-
-    public static Page<ClienteDTO> converter(Page<Cliente> clientes) {
-        return clientes.map(ClienteDTO::new);
     }
 }

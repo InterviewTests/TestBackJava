@@ -1,12 +1,8 @@
 package br.com.testesantanderway.repository;
 
 import br.com.testesantanderway.modelo.Cliente;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.repository.SolrCrudRepository;
-import java.util.Optional;
 
-public interface ClienteRepository extends SolrCrudRepository<Cliente, String> {
-        Page<Cliente> findByNome(String nome, Pageable paginacao);
-        Optional<Cliente> findByEmail(String email);
+public interface ClienteRepository extends SolrCrudRepository <Cliente, Long> {
+    //Cliente findByNome(String nome);
 }

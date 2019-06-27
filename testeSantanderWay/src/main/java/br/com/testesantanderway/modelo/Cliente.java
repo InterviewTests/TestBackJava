@@ -19,9 +19,10 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nome, String email) {
+    public Cliente(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
+        this.senha = senha;
     }
 
     public Long getCodigoUsuario() {
@@ -49,5 +50,4 @@ public class Cliente {
 
         return result;
     }
-
 }

@@ -8,17 +8,28 @@ import javax.validation.constraints.NotNull;
 
 
 public class ClienteForm {
-    @NotNull @NotEmpty @Length(min = 25)
+    @NotNull @NotEmpty @Length(min = 2)
+    private String nome;
+    @NotNull @NotEmpty @Length(min = 11)
     private String email;
-    @NotNull @NotEmpty @Length(min = 10)
+    @NotNull @NotEmpty @Length(min = 6)
     private String senha;
 
     public ClienteForm() {
     }
 
     public ClienteForm(Cliente cliente){
+        this.nome = cliente.getNome();
         this.email = cliente.getEmail();
         this.senha = cliente.getSenha();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -38,6 +49,6 @@ public class ClienteForm {
     }
 
     public Cliente converter() {
-        return new Cliente(email, senha);
+        return new Cliente(nome, email, senha);
     }
 }

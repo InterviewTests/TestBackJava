@@ -8,9 +8,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class ClienteDTO {
-
     private String nome;
-
     private String email;
 
     public ClienteDTO(Cliente cliente){

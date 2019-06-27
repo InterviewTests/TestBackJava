@@ -16,14 +16,12 @@ public class Cliente {
     @Field
     private String senha;
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
+    public Cliente() {
+    }
 
-        result = prime * result + ((codigoUsuario == null) ? 0 : codigoUsuario.hashCode());
-
-        return result;
+    public Cliente(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
     }
 
     public Long getCodigoUsuario() {
@@ -41,4 +39,15 @@ public class Cliente {
     public String getSenha() {
         return senha;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+
+        result = prime * result + ((codigoUsuario == null) ? 0 : codigoUsuario.hashCode());
+
+        return result;
+    }
+
 }

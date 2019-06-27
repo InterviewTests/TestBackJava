@@ -1,22 +1,25 @@
 package br.com.testesantanderway.controller;
 
 
+import br.com.testesantanderway.controller.form.ClienteForm;
 import br.com.testesantanderway.dto.ClienteDTO;
 import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 @RestController
+@RequestMapping("/clientes")
 public class LoginCliente {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @GetMapping("/clientes")
+    @GetMapping
     public List<ClienteDTO> dadosLoginCliente(String nome){
         if (nome == null) {
             Iterable<Cliente> clientes = clienteRepository.findAll();
@@ -26,8 +29,13 @@ public class LoginCliente {
             return ClienteDTO.converter(clientes);
         }
     }
-//        List<Cliente> cliente = new ArrayList<>();
-//        cliente.add(new Cliente(1L, "jonatas", "jonatas.santos@zup.com.br", "zupper"));
-//        repository.saveAll(cliente);
-//    }
+
+    @PostMapping
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody ClienteForm form, UriComponentsBuilder uriBuilder){
+        Cliente clientesCadastro = form.converter();
+        clienteRepository.save(clientesCadastro);
+
+        URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(clientesCadastro.getCodigoUsuario()).toUri();
+        return ResponseEntity.created(uri).body(new ClienteDTO(clientesCadastro));
+    }
 }

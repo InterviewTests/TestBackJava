@@ -21,7 +21,7 @@ public class LoginCliente {
     private ClienteRepository clienteRepository;
 
     @GetMapping
-    public List<ClienteDTO> dadosLoginCliente(String nome){
+    public List<ClienteDTO> dadosLoginCliente(String nome) {
         if (nome == null) {
             Iterable<Cliente> clientes = clienteRepository.findAll();
             return ClienteDTO.converter(clientes);
@@ -32,11 +32,18 @@ public class LoginCliente {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody @Valid ClienteForm form, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody @Valid ClienteForm form, UriComponentsBuilder uriBuilder) {
         Cliente clientesCadastro = form.converter();
         clienteRepository.save(clientesCadastro);
 
-        URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(clientesCadastro.getCodigoUsuario()).toUri();
+        URI uri = uriBuilder.path("/{id}").buildAndExpand(clientesCadastro.getCodigoUsuario()).toUri();
         return ResponseEntity.created(uri).body(new ClienteDTO(clientesCadastro));
+    }
+
+    @GetMapping("/{id}")
+    public ClienteDTO detalhe(@PathVariable String id) {
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
+
+        return new ClienteDTO(cliente);
     }
 }

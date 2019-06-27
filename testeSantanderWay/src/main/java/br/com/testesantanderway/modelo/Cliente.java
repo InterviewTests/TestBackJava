@@ -6,9 +6,10 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 
 @SolrDocument(collection = "cliente")
 public class Cliente {
+
     @Id
     @Field
-    private Long codigoUsuario;
+    private String codigoUsuario;
     @Field
     private String nome;
     @Field
@@ -25,7 +26,7 @@ public class Cliente {
         this.senha = senha;
     }
 
-    public Long getCodigoUsuario() {
+    public String getCodigoUsuario() {
         return codigoUsuario;
     }
 

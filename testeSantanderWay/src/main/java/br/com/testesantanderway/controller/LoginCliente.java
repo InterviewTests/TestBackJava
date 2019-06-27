@@ -5,22 +5,20 @@ import br.com.testesantanderway.dto.ClienteDTO;
 import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-
 
 @RestController
 public class LoginCliente {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @RequestMapping("/clientes")
-    //@PostConstruct
+    @GetMapping("/clientes")
+    @ResponseBody
     public List<ClienteDTO> dadosLoginCliente(){
-        List<Cliente> clientes = (List<Cliente>) clienteRepository.findAll();
-
+        Iterable<Cliente> clientes = clienteRepository.findAll();
         return ClienteDTO.converter(clientes);
     }
 //        List<Cliente> cliente = new ArrayList<>();

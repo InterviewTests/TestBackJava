@@ -17,7 +17,7 @@ public class Cliente {
     private String senha;
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
 

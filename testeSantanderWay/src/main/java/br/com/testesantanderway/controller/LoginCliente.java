@@ -16,7 +16,6 @@ public class LoginCliente {
     private ClienteRepository clienteRepository;
 
     @GetMapping("/clientes")
-    @ResponseBody
     public List<ClienteDTO> dadosLoginCliente(){
         Iterable<Cliente> clientes = clienteRepository.findAll();
         return ClienteDTO.converter(clientes);
@@ -24,10 +23,5 @@ public class LoginCliente {
 //        List<Cliente> cliente = new ArrayList<>();
 //        cliente.add(new Cliente(1L, "jonatas", "jonatas.santos@zup.com.br", "zupper"));
 //        repository.saveAll(cliente);
-//    }
-
-//   @GetMapping("/logincliente/{nome}")
-//    public Cliente getClienteByName(@PathVariable String nome) {
-//        return repository.findByNome(nome);
 //    }
 }

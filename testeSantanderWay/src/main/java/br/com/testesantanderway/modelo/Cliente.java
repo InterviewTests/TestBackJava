@@ -16,6 +16,9 @@ public class Cliente {
     @Field
     private String senha;
 
+    public Cliente(){
+    }
+
     public Cliente(Long codigoUsuario, String nome, String email, String senha){
         this.codigoUsuario = codigoUsuario;
         this.nome = nome;

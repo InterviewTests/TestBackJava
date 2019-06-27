@@ -7,6 +7,9 @@ public class ClienteForm {
     private String email;
     private String senha;
 
+    public ClienteForm() {
+    }
+
     public ClienteForm(Cliente cliente){
         this.email = cliente.getEmail();
         this.senha = cliente.getSenha();

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class LoginCliente {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody ClienteForm form, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody @Valid ClienteForm form, UriComponentsBuilder uriBuilder){
         Cliente clientesCadastro = form.converter();
         clienteRepository.save(clientesCadastro);
 

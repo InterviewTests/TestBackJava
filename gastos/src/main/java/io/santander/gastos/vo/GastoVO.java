@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,5 +21,5 @@ public class GastoVO {
     private String descricao;
     private Double valor;
     private Long codigoUsuario;
-    private Date data;
+    private Long data;
 }

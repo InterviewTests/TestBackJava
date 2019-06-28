@@ -6,8 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Builder
@@ -16,7 +18,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "card_spent")
-public class CardSpent {
+@EntityListeners(AuditingEntityListener.class)
+public class CardSpent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

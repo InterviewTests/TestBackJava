@@ -24,9 +24,9 @@ public class SpentController {
 
     private final SpentService spentService;
 
-    @PostMapping("/{numeroCartão}")
-    void addSpent(@Valid @PathVariable final Long numeroCartão, final GastoVO vo) {
-        return spentService.saveSpent(numeroCartão,vo);
+    @PostMapping("/{numeroCartao}")
+    String addSpent(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo){
+        return spentService.saveSpent(numeroCartao,vo);
     }
 
     @GetMapping("/{codigoUsuario}")
@@ -39,7 +39,7 @@ public class SpentController {
         return GastoVO.builder()
                 .codigoUsuario(spentDTO.getUserCode())
                 .descricao(spentDTO.getDescription())
-                .data(spentDTO.getSpentDate())
+                .data(spentDTO.getSpentDate().getTime())
                 .valor(spentDTO.getSpentValue())
                 .build();
     }

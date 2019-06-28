@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 
 public class ClienteForm {
@@ -14,6 +15,7 @@ public class ClienteForm {
     private String email;
     @NotNull @NotEmpty @Length(min = 6)
     private String senha;
+    private LocalDateTime dataCriacao;
 
     public ClienteForm() {
     }
@@ -22,6 +24,7 @@ public class ClienteForm {
         this.nome = cliente.getNome();
         this.email = cliente.getEmail();
         this.senha = cliente.getSenha();
+        this.dataCriacao = cliente.getDataCriacao();
     }
 
     public String getNome() {
@@ -48,7 +51,15 @@ public class ClienteForm {
         this.senha = senha;
     }
 
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void LocalDateTime (LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
     public Cliente converter() {
-        return new Cliente(nome, email, senha);
+        return new Cliente(nome, email, senha, dataCriacao);
     }
 }

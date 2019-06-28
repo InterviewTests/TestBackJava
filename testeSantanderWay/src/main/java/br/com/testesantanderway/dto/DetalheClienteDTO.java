@@ -3,20 +3,19 @@ package br.com.testesantanderway.dto;
 import br.com.testesantanderway.modelo.Cliente;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
-public class ClienteDTO {
+public class DetalheClienteDTO {
+
     private String nome;
+
     private String email;
+
     private LocalDateTime dataCriacao;
 
-    public ClienteDTO(Cliente cliente){
+    public DetalheClienteDTO(Cliente cliente) {
         this.nome = cliente.getNome();
         this.email = cliente.getEmail();
+        this.dataCriacao = cliente.getDataCriacao();
     }
 
     public String getNome() {
@@ -27,7 +26,7 @@ public class ClienteDTO {
         return email;
     }
 
-    public static List<ClienteDTO> converter(Iterable<Cliente> clientes) {
-        return StreamSupport.stream(clientes.spliterator(),false).map(ClienteDTO::new).collect(Collectors.toList());
+    public LocalDateTime getDateTime() {
+        return dataCriacao;
     }
 }

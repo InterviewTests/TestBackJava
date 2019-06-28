@@ -1,41 +1,23 @@
 package br.com.testesantanderway.controller.form;
 
-import br.com.testesantanderway.dto.ClienteDTO;
 import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
-
-public class ClienteForm {
-    @NotNull @NotEmpty @Length(min = 2)
-    private String nome;
+public class AtualizacaoClienteForm {
     @NotNull @NotEmpty @Length(min = 11)
     private String email;
     @NotNull @NotEmpty @Length(min = 6)
     private String senha;
 
-    private LocalDateTime dataCriacao;
-
-    public ClienteForm() {
+    public AtualizacaoClienteForm() {
     }
 
-    public ClienteForm(Cliente cliente){
-        this.nome = cliente.getNome();
+    public AtualizacaoClienteForm(Cliente cliente) {
         this.email = cliente.getEmail();
         this.senha = cliente.getSenha();
-        this.dataCriacao = cliente.getDataCriacao();
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getEmail() {
@@ -54,15 +36,14 @@ public class ClienteForm {
         this.senha = senha;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
+    public Cliente atualizar(String id, ClienteRepository clienteRepository) {
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
 
-    public void LocalDateTime (LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+        cliente.setEmail(this.email);
+        cliente.setSenha(this.senha);
 
-    public Cliente converter() {
-        return new Cliente(nome, email, senha, dataCriacao);
+        clienteRepository.save(cliente);
+
+        return cliente;
     }
 }

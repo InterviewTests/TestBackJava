@@ -1,6 +1,7 @@
 package br.com.testesantanderway.controller;
 
 
+import br.com.testesantanderway.controller.form.AtualizacaoClienteForm;
 import br.com.testesantanderway.controller.form.ClienteForm;
 import br.com.testesantanderway.dto.ClienteDTO;
 import br.com.testesantanderway.dto.DetalheClienteDTO;
@@ -8,6 +9,7 @@ import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -48,5 +50,12 @@ public class LoginCliente {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
 
         return new DetalheClienteDTO(cliente);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO> atualizar(@PathVariable String id, @RequestBody @Valid AtualizacaoClienteForm form) {
+        Cliente cliente = form.atualizar(id, clienteRepository);
+
+        return ResponseEntity.ok(new ClienteDTO(cliente));
     }
 }

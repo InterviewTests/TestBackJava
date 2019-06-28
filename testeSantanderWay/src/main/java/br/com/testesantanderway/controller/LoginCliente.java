@@ -8,8 +8,10 @@ import br.com.testesantanderway.dto.DetalheClienteDTO;
 import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,13 +27,16 @@ public class LoginCliente {
     private ClienteRepository clienteRepository;
 
     @GetMapping
-    public List<ClienteDTO> dadosLoginCliente(String nome) {
+    public Page<ClienteDTO> dadosLoginCliente(String nome, @RequestParam int pagina,
+                                              @RequestParam int qtd) {
+        Pageable paginacao = PageRequest.of(pagina, qtd);
+
         if (nome == null || nome.isEmpty()) {
-            Iterable<Cliente> clientes = clienteRepository.findAll();
+            Page<Cliente> clientes = clienteRepository.findAll(paginacao);
 
             return ClienteDTO.converter(clientes);
         } else {
-            Iterable<Cliente> clientes = clienteRepository.findByNome(nome);
+            Page<Cliente> clientes = clienteRepository.findByNome(nome, paginacao);
 
             return ClienteDTO.converter(clientes);
         }

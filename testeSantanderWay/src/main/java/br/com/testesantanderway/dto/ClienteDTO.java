@@ -1,6 +1,7 @@
 package br.com.testesantanderway.dto;
 
 import br.com.testesantanderway.modelo.Cliente;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ClienteDTO {
         return email;
     }
 
-    public static List<ClienteDTO> converter(Iterable<Cliente> clientes) {
-        return StreamSupport.stream(clientes.spliterator(),false).map(ClienteDTO::new).collect(Collectors.toList());
+    public static Page<ClienteDTO> converter(Page<Cliente> clientes) {
+        return clientes.map(ClienteDTO::new);
     }
 }

@@ -8,6 +8,8 @@ import br.com.testesantanderway.dto.DetalheClienteDTO;
 import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,6 +30,7 @@ public class LoginCliente {
     private ClienteRepository clienteRepository;
 
     @GetMapping
+    @Cacheable(value = "listaDeCliente")
     public Page<ClienteDTO> dadosLoginCliente(@RequestParam(required = false) String nome, @PageableDefault(sort = "codigoUsuario",
                                                direction = Sort.Direction.ASC) Pageable paginacao) {
 
@@ -62,6 +65,7 @@ public class LoginCliente {
     }
 
     @PutMapping("/{id}")
+    @CacheEvict(value = "listaDeCliente", allEntries = true)
     public ResponseEntity<ClienteDTO> atualizar(@PathVariable String id, @RequestBody @Valid AtualizacaoClienteForm form) {
         Optional<Cliente> optional = clienteRepository.findById(id);
         if (optional.isPresent()) {
@@ -73,6 +77,7 @@ public class LoginCliente {
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict(value = "listaDeCliente", allEntries = true)
     public ResponseEntity<?> remover(@PathVariable String id) {
         Optional<Cliente> optional = clienteRepository.findById(id);
         if (optional.isPresent()) {

@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -25,7 +26,7 @@ public class LoginCliente {
 
     @GetMapping
     public List<ClienteDTO> dadosLoginCliente(String nome) {
-        if (nome == null) {
+        if (nome == null || nome.isEmpty()) {
             Iterable<Cliente> clientes = clienteRepository.findAll();
 
             return ClienteDTO.converter(clientes);
@@ -46,16 +47,34 @@ public class LoginCliente {
     }
 
     @GetMapping("/{id}")
-    public DetalheClienteDTO detalhe(@PathVariable String id) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
+    public ResponseEntity<DetalheClienteDTO> detalhe(@PathVariable String id) {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok(new DetalheClienteDTO(cliente.get()));
+        }
 
-        return new DetalheClienteDTO(cliente);
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteDTO> atualizar(@PathVariable String id, @RequestBody @Valid AtualizacaoClienteForm form) {
-        Cliente cliente = form.atualizar(id, clienteRepository);
+        Optional<Cliente> optional = clienteRepository.findById(id);
+        if (optional.isPresent()) {
+            Cliente cliente = form.atualizar(id, clienteRepository);
+            return ResponseEntity.ok(new ClienteDTO(cliente));
+        }
 
-        return ResponseEntity.ok(new ClienteDTO(cliente));
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> remover(@PathVariable String id) {
+        Optional<Cliente> optional = clienteRepository.findById(id);
+        if (optional.isPresent()) {
+            clienteRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

@@ -1,5 +1,6 @@
 package io.santander.gastos.web.controller;
 
+import io.santander.gastos.service.DateUTCParser;
 import io.santander.gastos.dto.SpentDTO;
 import io.santander.gastos.service.SpentService;
 import io.santander.gastos.vo.GastoVO;
@@ -23,10 +24,11 @@ public class SpentController {
     public static final String GASTOS_ENDPOINT = "/gastos";
 
     private final SpentService spentService;
+    private final DateUTCParser dateParser;
 
     @PostMapping("/{numeroCartao}")
-    String addSpent(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo){
-        return spentService.saveSpent(numeroCartao,vo);
+    String addSpent(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo) {
+        return spentService.saveSpent(numeroCartao, vo);
     }
 
     @GetMapping("/{codigoUsuario}")
@@ -39,7 +41,7 @@ public class SpentController {
         return GastoVO.builder()
                 .codigoUsuario(spentDTO.getUserCode())
                 .descricao(spentDTO.getDescription())
-                .data(spentDTO.getSpentDate().getTime())
+                .data(dateParser.toUtcDate(spentDTO.getSpentDate()))
                 .valor(spentDTO.getSpentValue())
                 .build();
     }

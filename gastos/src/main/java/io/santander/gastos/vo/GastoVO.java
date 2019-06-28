@@ -1,7 +1,7 @@
 package io.santander.gastos.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.santander.gastos.commons.DateParser;
+import io.santander.gastos.service.DateUTCParser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class GastoVO {
 
     @Autowired
-    private DateParser dateParser;
+    private DateUTCParser dateParser;
 
     private String descricao;
     private Double valor;
     private Long codigoUsuario;
-    private Long data;
+    private String data;
 }

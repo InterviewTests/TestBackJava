@@ -1,5 +1,5 @@
 spent:
-  date-format: yyyy-MM-dd HH:mm:ss
+  date-format: yyyy-MM-dd
 
 spring:
   jpa:

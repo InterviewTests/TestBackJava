@@ -31,7 +31,7 @@ public class SpentController {
         return spentService.saveSpent(numeroCartao, vo);
     }
 
-    @GetMapping("/{codigoUsuario}")
+    @GetMapping("/user/{codigoUsuario}")
     PageImpl<GastoVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
         Page<SpentDTO> dtoPage = spentService.buscaTodosOsGastoPorCliente(codigoUsuario, numeroCartão, vo, pageable);
         return new PageImpl<>(dtoPage.getContent().stream().map(this::toVo).collect(Collectors.toList()), pageable, dtoPage.getTotalElements());

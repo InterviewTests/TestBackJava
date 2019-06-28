@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -34,26 +34,21 @@ public class SpentService {
 
     public PageImpl<SpentDTO> buscaTodosOsGastoPorCliente(final Long userCode, String cardNumber, final GastoVO vo, final Pageable pageable) {
         Page<Spent> spentPage = null;
-//        spentPage = spentRepository.findAllWithFilters(
-//                userCode,
-//                cardNumber,
-//                Optional.ofNullable(vo.getDescricao()).orElse(null),
-//                Optional.ofNullable(vo.getValor()).orElse(null),
-//                Optional.ofNullable(vo.getData()).orElse(null),
-//                pageable);
-//        return new PageImpl<>(this.spentMapper.toDTOList(spentPage.getContent()), pageable, spentPage.getTotalElements());
-        return null;
-    }
-
-    public List<SpentDTO> getAllspents() {
-        return spentMapper.toDTOList(spentRepository.findAll());
+        spentPage = spentRepository.findAllWithFilters(
+                userCode,
+                cardNumber,
+                Optional.ofNullable(vo.getDescricao()).orElse(null),
+                Optional.ofNullable(vo.getValor()).orElse(null),
+                Optional.ofNullable(vo.getData()).orElse(null),
+                pageable);
+        return new PageImpl<>(this.spentMapper.toDTOList(spentPage.getContent()), pageable, spentPage.getTotalElements());
     }
 
     @Transactional
-    public String saveSpent(String numeroCartão, GastoVO vo) {
+    public String saveSpent(String numeroCartao, GastoVO vo) {
 
         if (clientService.verifyUser(vo.getCodigoUsuario())) {
-            CreditCardDTO cardDTO = cardService.findCard(numeroCartão);
+            CreditCardDTO cardDTO = cardService.findCard(numeroCartao);
             if (cardDTO == null) {
                 //TODO corrigir exeption
                 throw new RuntimeException("Cartão inexistente");

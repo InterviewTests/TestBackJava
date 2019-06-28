@@ -9,8 +9,9 @@ import br.com.testesantanderway.modelo.Cliente;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,9 +28,8 @@ public class LoginCliente {
     private ClienteRepository clienteRepository;
 
     @GetMapping
-    public Page<ClienteDTO> dadosLoginCliente(String nome, @RequestParam int pagina,
-                                              @RequestParam int qtd) {
-        Pageable paginacao = PageRequest.of(pagina, qtd);
+    public Page<ClienteDTO> dadosLoginCliente(@RequestParam(required = false) String nome, @PageableDefault(sort = "codigoUsuario",
+                                               direction = Sort.Direction.ASC) Pageable paginacao) {
 
         if (nome == null || nome.isEmpty()) {
             Page<Cliente> clientes = clienteRepository.findAll(paginacao);

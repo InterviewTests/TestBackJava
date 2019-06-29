@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
-public class LoginCliente {
+public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -46,6 +47,7 @@ public class LoginCliente {
 
     @PostMapping
     public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody @Valid ClienteForm form, UriComponentsBuilder uriBuilder) {
+        form.setSenha(new BCryptPasswordEncoder().encode(form.getSenha()));
         Cliente clientesCadastro = form.converter();
         clienteRepository.save(clientesCadastro);
         URI uri = uriBuilder.path("/{id}").buildAndExpand(clientesCadastro.getCodigoUsuario()).toUri();

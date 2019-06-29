@@ -12,5 +12,4 @@ public class TesteSantanderWayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TesteSantanderWayApplication.class, args);
 	}
-
 }

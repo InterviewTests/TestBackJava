@@ -1,10 +1,7 @@
 package br.com.testesantanderway.controller.form;
 
-import br.com.testesantanderway.dto.ClienteDTO;
 import br.com.testesantanderway.modelo.Cliente;
-import br.com.testesantanderway.repository.ClienteRepository;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;

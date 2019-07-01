@@ -14,6 +14,13 @@ public enum ErrorMessages {
         }
     },
 
+    MISSING_CARD {
+        @Override
+        public String getErrorMessage(String error) {
+            return String.format("There is no card for the customer %s", error);
+        }
+    },
+
     INTERNAL_SERVER_ERROR {
         @Override
         public String getErrorMessage(String error) {

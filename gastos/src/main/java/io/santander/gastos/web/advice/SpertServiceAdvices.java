@@ -1,6 +1,7 @@
 package io.santander.gastos.web.advice;
 
 import io.santander.gastos.enumerators.ErrorMessages;
+import io.santander.gastos.exceptions.MissingCardException;
 import io.santander.gastos.vo.ErrorResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 
 import static java.time.Instant.now;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.status;
 
 @ControllerAdvice
@@ -23,6 +25,12 @@ public class SpertServiceAdvices {
     public ResponseEntity<ErrorResponse> handleMissingFieldException(final MissingServletRequestParameterException e) {
         return status(BAD_REQUEST)
                 .body(this.constructErrorResponse(BAD_REQUEST, ErrorMessages.MISSING_PARAMETER.getErrorMessage(e.getParameterName())));
+    }
+
+    @ExceptionHandler(MissingCardException.class)
+    public ResponseEntity<ErrorResponse> handleMissingCardException(final MissingCardException e) {
+        return status(NOT_FOUND)
+                .body(this.constructErrorResponse(NOT_FOUND, ErrorMessages.MISSING_CARD.getErrorMessage(e.getMessage())));
     }
 
     private ErrorResponse constructErrorResponse(final HttpStatus httpStatus, final String... messages) {

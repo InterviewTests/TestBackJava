@@ -4,6 +4,7 @@ import io.santander.gastos.domain.Spent;
 import io.santander.gastos.dto.CardSpentDTO;
 import io.santander.gastos.dto.CreditCardDTO;
 import io.santander.gastos.dto.SpentDTO;
+import io.santander.gastos.exceptions.MissingCardException;
 import io.santander.gastos.mapper.SpentMapper;
 import io.santander.gastos.repository.SpentRepository;
 import io.santander.gastos.vo.GastoVO;
@@ -38,8 +39,7 @@ public class SpentService {
 
         List<Long> cards = clientCardService.getClientsCard(userCode, cardNumber);
         if (cards.isEmpty()) {
-            //TODO corrigir exeption
-            throw new RuntimeException("Nenhum cartão para o cliente");
+            throw new MissingCardException(userCode.toString());
         }
         spentPage = spentRepository.findAllWithFilters(
                 cards,

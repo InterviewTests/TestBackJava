@@ -1,76 +1,88 @@
-# Show me the code
+# Santander Way
+Gerenciamento de Gastos Way
 
-### # DESAFIO:
+Aplicação feita com Spring Boot, Spring Data com Banco Postgress (Permissão) e Solr(Gasto), Rest com swagger.
 
-API REST para Gestão de Gastos!
+<h1>Subindo Aplicação Completa</h1>
+
+Para rodar a aplicação deve-se criar um banco Postgress(Usuario:psotgres Senha:admin)
+
+Criar um database com nome way
+
+Deve-se também criar um banco Solr (8.1.1)
+
+Entrar na pasta bin do Solr  e rodar o comando 
 
 ```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
+.\solr start
 ```
+
+Para que o mesmo seja iniciado. Então rodar o comando :
+
 ```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
+.\solr create -c GastoSolr
+```
+
+Assim será adicionado um core chamado GastoSolr
+
+Então deve-se copiar o arquivo ./resources/Solr/managed-schema.xml e substituir o mesmo na pasta
+
+%SOLAR_INSTALATION_DIR%\server\solr\GastoSolr\conf
+
+pode ser necessário restartar o Solr
+
+``` 
+.\solr stop -p 8983
+```
+
+Depois
+
+```
+.\solr start
+```
+
+Logo após entrar na pasta do projeto rodar o comando
+
+```
+mvn spring-boot:run
+```
+
+O flyWay irá criar as tabelas necessárias 
+
+Criará também 3 usuarios
+
+Admin (Senha : admin - Id = 1) - usuario admin
+
+User (Senha : user - Id = 2 ) - Usuário do tipo cliente que pode receber inclusão de gastos
+
+Sys (Senha : sys - Id = 3) - Usuário do tipo sistema que pode incluir gastos 
  
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+aplicação estará com os endpoints disponíveis em :
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+```
+http://localhost:8080/swagger-ui.html
+```
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+<h1>Testes com Mokito</h1>
 
-### # Observações gerais
+Para rodar a classe de testes configurada com as conexão de banco mokadas (Mokito)
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+Deve-se executar o seguinte comando:
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+```
+mvn clean test -Dtest=br.com.zup.way.gasto.GastoApplicationTests
+```
 
-### # Importante: não há prazo de entrega, faça com qualidade!
+Com isso os testes dos serviços irão rodar sem necessidade de conexão com o banco.
 
-# BOA SORTE!
+<h1>Testes de Integração</h1>
+
+Deve-se executar o seguinte comando:
+
+```
+mvn clean test -Dtest=br.com.zup.way.gasto.GastoIntegrationTests
+```
+
+Irá ser criado um banco do Solr em mémoria e configurado alguns registros bases para o teste.
+
+O banco postgres já deve ter sido criado para que o mesmo possa validar as informações de usuário.

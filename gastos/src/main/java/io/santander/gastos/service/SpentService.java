@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -32,11 +33,17 @@ public class SpentService {
     private final ClientCardService clientCardService;
     private final DateUTCParser utcParser;
 
+    @Transactional
     public PageImpl<SpentDTO> buscaTodosOsGastoPorCliente(final Long userCode, String cardNumber, final GastoVO vo, final Pageable pageable) {
         Page<Spent> spentPage = null;
+
+        List<Long> cards = clientCardService.getClientsCard(userCode, cardNumber);
+        if (cardNumber.isEmpty()) {
+            //TODO corrigir exeption
+            throw new RuntimeException("Nenhum cartão para o cliente");
+        }
         spentPage = spentRepository.findAllWithFilters(
-                userCode,
-                cardNumber,
+                cards,
                 Optional.ofNullable(vo.getDescricao()).orElse(null),
                 Optional.ofNullable(vo.getValor()).orElse(null),
                 Optional.ofNullable(vo.getData()).orElse(null),

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class SpentController {
 
-    public static final String GASTOS_ENDPOINT = "/gastos";
+    public static final String GASTOS_ENDPOINT = "/spent";
 
     private final SpentService spentService;
     private final DateUTCParser dateParser;

@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class ClientCardService {
@@ -14,5 +16,9 @@ public class ClientCardService {
     public boolean verifiCardWoner(long client, long card) {
         return clientCardRepository.existsByClientAndCard(client, card);
 
+    }
+
+    public List<Long> getClientsCard(long client, String card) {
+        return clientCardRepository.findByClientAndCard(client, card);
     }
 }

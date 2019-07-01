@@ -1,6 +1,7 @@
 package br.com.testesantanderway.config.security;
 
 import br.com.testesantanderway.modelo.Cliente;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,5 +28,20 @@ public class ServicoDeToken {
                 .setIssuedAt(hoje)
                 .setExpiration(dataExpiracao)
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
+    }
+
+    public boolean isTokenValido(String token){
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public String getIdCliente(String token){
+        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return claims.getSubject();
     }
 }

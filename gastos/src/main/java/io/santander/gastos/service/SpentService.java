@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class SpentService {
         Page<Spent> spentPage = null;
 
         List<Long> cards = clientCardService.getClientsCard(userCode, cardNumber);
-        if (cardNumber.isEmpty()) {
+        if (cards.isEmpty()) {
             //TODO corrigir exeption
             throw new RuntimeException("Nenhum cartão para o cliente");
         }
@@ -46,7 +45,7 @@ public class SpentService {
                 cards,
                 Optional.ofNullable(vo.getDescricao()).orElse(null),
                 Optional.ofNullable(vo.getValor()).orElse(null),
-                Optional.ofNullable(vo.getData()).orElse(null),
+                Optional.ofNullable(utcParser.toDate(vo.getData())).orElse(null),
                 pageable);
         return new PageImpl<>(this.spentMapper.toDTOList(spentPage.getContent()), pageable, spentPage.getTotalElements());
     }
@@ -61,21 +60,16 @@ public class SpentService {
                 throw new RuntimeException("Cartão inexistente");
             } else {
                 if (clientCardService.verifiCardWoner(vo.getCodigoUsuario(), cardDTO.getId())) {
-                    try {
-                        cardSpentService.save(CardSpentDTO
-                                .builder()
-                                .creditCard(cardDTO)
-                                .spent(spentMapper.toDTO(spentRepository.save(Spent
-                                        .builder()
-                                        .description(vo.getDescricao())
-                                        .spentDate(utcParser.toDate(vo.getData()))
-                                        .spentValue(vo.getValor())
-                                        .build())))
-                                .build());
-                    } catch (ParseException e) {
-                        //TODO corrigir exeption
-                        e.printStackTrace();
-                    }
+                    cardSpentService.save(CardSpentDTO
+                            .builder()
+                            .creditCard(cardDTO)
+                            .spent(spentMapper.toDTO(spentRepository.save(Spent
+                                    .builder()
+                                    .description(vo.getDescricao())
+                                    .spentDate(utcParser.toDate(vo.getData()))
+                                    .spentValue(vo.getValor())
+                                    .build())))
+                            .build());
                     log.info("gasto registrado");
                     return "gasto registrado";
                 } else {

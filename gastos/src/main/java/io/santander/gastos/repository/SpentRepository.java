@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -18,6 +19,6 @@ public interface SpentRepository extends JpaRepository<Spent, Long> {
             "WHERE cc.id IN ?1 " +
             "AND (?2 IS NULL OR s.description = ?2) " +
             "AND (?3 IS NULL OR s.spentValue = ?3) " +
-            "AND (?4 IS NULL OR s.spentDate like ?4) ")
-    Page<Spent> findAllWithFilters(List<Long> cards, String description, Double value, String date, Pageable pageable);
+            "AND (?4 IS NULL OR s.spentDate = ?4) ")
+    Page<Spent> findAllWithFilters(List<Long> cards, String description, Double value, Date date, Pageable pageable);
 }

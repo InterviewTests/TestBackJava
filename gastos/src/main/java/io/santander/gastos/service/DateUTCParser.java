@@ -1,7 +1,6 @@
 package io.santander.gastos.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +16,13 @@ public class DateUTCParser extends SimpleDateFormat {
 
     final SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 
-    public Date toDate(String utcDate) throws ParseException {
-        return sdf.parse(utcDate);
+    public Date toDate(String utcDate) {
+        try {
+            return sdf.parse(utcDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String toUtcDate(Date date) {

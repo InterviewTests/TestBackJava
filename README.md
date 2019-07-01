@@ -5,11 +5,11 @@ Aplicação feita com Spring Boot, Spring Data com Banco Postgress (Permissão) 
 
 <h1>Subindo Aplicação Completa</h1>
 
-Para rodar a aplicação deve-se criar um banco Postgress(Usuario:posrgres Senha:admin)
+Para rodar a aplicação deve-se criar um banco Postgress(Usuario:psotgres Senha:admin)
 
 Criar um database com nome way
 
-Deve-se também criar um banco Solr 
+Deve-se também criar um banco Solr (8.1.1)
 
 Entrar na pasta bin do Solr  e rodar o comando 
 
@@ -17,12 +17,29 @@ Entrar na pasta bin do Solr  e rodar o comando
 .\solr start
 ```
 
-Para que o mesmo seja iniciado e então rodar o comando
+Para que o mesmo seja iniciado. Então rodar o comando :
 
 ```
 .\solr create -c GastoSolr
 ```
+
 Assim será adicionado um core chamado GastoSolr
+
+Então deve-se copiar o arquivo ./resources/Solr/managed-schema.xml e substituir o mesmo na pasta
+
+%SOLAR_INSTALATION_DIR%\server\solr\GastoSolr\conf
+
+pode ser necessário restartar o Solr
+
+``` 
+.\solr stop -p 8983
+```
+
+Depois
+
+```
+.\solr start
+```
 
 Logo após entrar na pasta do projeto rodar o comando
 
@@ -69,4 +86,3 @@ mvn clean test -Dtest=br.com.zup.way.gasto.GastoIntegrationTests
 Irá ser criado um banco do Solr em mémoria e configurado alguns registros bases para o teste.
 
 O banco postgres já deve ter sido criado para que o mesmo possa validar as informações de usuário.
-

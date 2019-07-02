@@ -25,7 +25,14 @@ public enum ErrorMessages {
     NONEXISTENT_CARD {
         @Override
         public String getErrorMessage(@Nullable String error) {
-            return String.format("Nonexistent card", error);
+            return String.format("This card does not belong to the user %s", error);
+        }
+    },
+
+    INVALID_HOLDER {
+        @Override
+        public String getErrorMessage(@Nullable String error) {
+            return String.format(" card", error);
         }
     },
 

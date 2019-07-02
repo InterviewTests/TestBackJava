@@ -5,7 +5,7 @@ spring:
   cache:
     type: REDIS
     redis:
-      time-to-live: 600000
+      time-to-live: 60000
   redis:
     host: localhost
     password: Redis2019!

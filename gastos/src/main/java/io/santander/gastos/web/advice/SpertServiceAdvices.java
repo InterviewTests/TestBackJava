@@ -1,6 +1,7 @@
 package io.santander.gastos.web.advice;
 
 import io.santander.gastos.enumerators.ErrorMessages;
+import io.santander.gastos.exceptions.InvalidHolderException;
 import io.santander.gastos.exceptions.NonexistentCardException;
 import io.santander.gastos.exceptions.MissingCardException;
 import io.santander.gastos.vo.ErrorResponse;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Arrays;
 
 import static java.time.Instant.now;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
 
 @ControllerAdvice
@@ -42,6 +42,14 @@ public class SpertServiceAdvices {
         return status(NOT_FOUND)
                 .body(this.constructErrorResponse(NOT_FOUND, ErrorMessages.NONEXISTENT_CARD.getErrorMessage(e.getMessage())));
     }
+
+    @ExceptionHandler(InvalidHolderException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidHolderException(final InvalidHolderException e) {
+        log.error(ErrorMessages.INVALID_HOLDER.getErrorMessage(e.getMessage()));
+        return status(CONFLICT)
+                .body(this.constructErrorResponse(CONFLICT, ErrorMessages.INVALID_HOLDER.getErrorMessage(e.getMessage())));
+    }
+
 
     private ErrorResponse constructErrorResponse(final HttpStatus httpStatus, final String... messages) {
         return ErrorResponse.builder()

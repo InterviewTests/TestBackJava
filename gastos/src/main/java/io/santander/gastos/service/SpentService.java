@@ -4,6 +4,7 @@ import io.santander.gastos.domain.Spent;
 import io.santander.gastos.dto.CardSpentDTO;
 import io.santander.gastos.dto.CreditCardDTO;
 import io.santander.gastos.dto.SpentDTO;
+import io.santander.gastos.exceptions.InvalidHolderException;
 import io.santander.gastos.exceptions.NonexistentCardException;
 import io.santander.gastos.exceptions.MissingCardException;
 import io.santander.gastos.mapper.SpentMapper;
@@ -38,7 +39,7 @@ public class SpentService {
     @Transactional
     @Cacheable("spents")
     public PageImpl<SpentDTO> buscaTodosOsGastoPorCliente(final Long userCode, String cardNumber, final GastoVO vo, final Pageable pageable) {
-        Page<Spent> spentPage = null;
+        Page<Spent> spentPage;
 
         List<Long> cards = clientCardService.getClientsCard(userCode, cardNumber);
         if (cards.isEmpty()) {
@@ -75,8 +76,7 @@ public class SpentService {
                     log.info("gasto registrado");
                     return "gasto registrado";
                 } else {
-                    //TODO corrigir exeption
-                    throw new RuntimeException("Este cartão não pertence ou esta autorizado para o usuário");
+                    throw new InvalidHolderException(vo.getCodigoUsuario().toString());
                 }
             }
 

@@ -1,5 +1,7 @@
 # Gastos
 
+App desenvolvido utilizando Spring boot, Mysql para persistência de dados e Redis para cache de requisições.
+
 ## Compilando
 
 Dentro da pasta do projeto execute o comando

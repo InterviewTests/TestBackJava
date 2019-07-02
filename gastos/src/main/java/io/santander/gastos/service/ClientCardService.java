@@ -13,7 +13,7 @@ public class ClientCardService {
 
     private final ClientCardRepository clientCardRepository;
 
-    public boolean verifiCardWoner(long client, long card) {
+    public boolean verifyCardHolder(long client, long card) {
         return clientCardRepository.existsByClientAndCard(client, card);
 
     }

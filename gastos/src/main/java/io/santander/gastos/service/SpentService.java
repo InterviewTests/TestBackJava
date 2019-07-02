@@ -4,6 +4,7 @@ import io.santander.gastos.domain.Spent;
 import io.santander.gastos.dto.CardSpentDTO;
 import io.santander.gastos.dto.CreditCardDTO;
 import io.santander.gastos.dto.SpentDTO;
+import io.santander.gastos.exceptions.NonexistentCardException;
 import io.santander.gastos.exceptions.MissingCardException;
 import io.santander.gastos.mapper.SpentMapper;
 import io.santander.gastos.repository.SpentRepository;
@@ -56,10 +57,9 @@ public class SpentService {
         if (clientService.verifyUser(vo.getCodigoUsuario())) {
             CreditCardDTO cardDTO = cardService.findCard(numeroCartao);
             if (cardDTO == null) {
-                //TODO corrigir exeption
-                throw new RuntimeException("Cartão inexistente");
+                throw new NonexistentCardException(numeroCartao);
             } else {
-                if (clientCardService.verifiCardWoner(vo.getCodigoUsuario(), cardDTO.getId())) {
+                if (clientCardService.verifyCardHolder(vo.getCodigoUsuario(), cardDTO.getId())) {
                     cardSpentService.save(CardSpentDTO
                             .builder()
                             .creditCard(cardDTO)

@@ -12,6 +12,6 @@ Será gerado um arquivo .jar dentro do diretório ```/build/libs```.
 
 Para executar a aplicação execute o seguinte comando:
 
-```java -jar <PATH>/<FILE_NAME>.jar ```
+```$ java -jar <PATH>/<FILE_NAME>.jar ```
 
 ## Executando com Docker

@@ -18,9 +18,20 @@ services:
     volumes:
       - my-db:/var/lib/mysql
 
+  redis:
+    image: redis
+    command: redis-server --requirepass Redis2019!
+    networks:
+      - net-spents
+    ports:
+      - "6379:6379"
+    expose:
+      - '6379'
+
   santander-spents:
     depends_on:
       - mysql
+      - redis
     links:
       - mysql
     environment:

@@ -2,6 +2,12 @@ spent:
   date-format: yyyy-MM-dd
 
 spring:
+  cache:
+    type: REDIS
+  redis:
+    host: localhost
+    password: Redis2019!
+    port: 6379
   jpa:
     show-sql: true
     hibernate:

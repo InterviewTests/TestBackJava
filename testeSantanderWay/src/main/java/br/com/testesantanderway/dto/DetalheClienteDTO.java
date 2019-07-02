@@ -1,15 +1,11 @@
 package br.com.testesantanderway.dto;
 
 import br.com.testesantanderway.modelo.Cliente;
-
 import java.time.LocalDateTime;
 
 public class DetalheClienteDTO {
-
     private String nome;
-
     private String email;
-
     private LocalDateTime dataCriacao;
 
     public DetalheClienteDTO(Cliente cliente) {

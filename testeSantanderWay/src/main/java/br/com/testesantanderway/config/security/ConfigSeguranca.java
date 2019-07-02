@@ -25,7 +25,6 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
     @Autowired
     private ClienteRepository clienteRepository;
 
-
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception{
@@ -42,9 +41,10 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/clientes").permitAll()
                 .antMatchers(HttpMethod.GET,"/clientes/*").permitAll()
+                .antMatchers(HttpMethod.GET,"/gastos/*").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth").permitAll()
+                .antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
                 .antMatchers(
                         "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
                         "/swagger.json")

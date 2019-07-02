@@ -31,8 +31,9 @@ public class ClienteController {
 
     @GetMapping
     @Cacheable(value = "listaDeCliente")
-    public Page<ClienteDTO> dadosLoginCliente(@RequestParam(required = false) String nome, @PageableDefault(sort = "codigoUsuario",
-                                               direction = Sort.Direction.ASC) Pageable paginacao) {
+    public Page<ClienteDTO> dadosLoginCliente(@RequestParam(required = false) String nome,
+                                              @PageableDefault(sort = "codigoUsuario",
+                                              direction = Sort.Direction.ASC) Pageable paginacao) {
 
         if (nome == null || nome.isEmpty()) {
             Page<Cliente> clientes = clienteRepository.findAll(paginacao);

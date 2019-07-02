@@ -4,11 +4,6 @@ import br.com.testesantanderway.modelo.Cliente;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class ClienteDTO {
     private String nome;

@@ -1,10 +1,6 @@
 package br.com.testesantanderway.controller.form;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 public class AuthForm {
     private String email;

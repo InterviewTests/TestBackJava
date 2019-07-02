@@ -14,7 +14,6 @@ public class ClienteForm {
     private String email;
     @NotNull @NotEmpty @Length(min = 6)
     private String senha;
-
     private LocalDateTime dataCriacao;
 
     public ClienteForm() {

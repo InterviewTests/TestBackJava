@@ -1,13 +1,10 @@
 package br.com.testesantanderway.config.security;
 
 import br.com.testesantanderway.modelo.Cliente;
-import br.com.testesantanderway.modelo.Perfil;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +28,6 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
         if (valido){
             autenticarCliente(token);
         }
-
 
         filterChain.doFilter(request, response);
     }

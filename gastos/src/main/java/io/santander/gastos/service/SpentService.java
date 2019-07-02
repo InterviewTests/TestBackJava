@@ -11,6 +11,7 @@ import io.santander.gastos.repository.SpentRepository;
 import io.santander.gastos.vo.GastoVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,6 +36,7 @@ public class SpentService {
     private final DateUTCParser utcParser;
 
     @Transactional
+    @Cacheable("spents")
     public PageImpl<SpentDTO> buscaTodosOsGastoPorCliente(final Long userCode, String cardNumber, final GastoVO vo, final Pageable pageable) {
         Page<Spent> spentPage = null;
 

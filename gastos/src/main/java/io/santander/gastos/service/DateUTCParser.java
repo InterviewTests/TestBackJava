@@ -17,11 +17,12 @@ public class DateUTCParser extends SimpleDateFormat {
     final SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 
     public Date toDate(String utcDate) {
-        try {
-            return sdf.parse(utcDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        if (utcDate != null)
+            try {
+                return sdf.parse(utcDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         return null;
     }
 

@@ -9,23 +9,31 @@ services:
       MYSQL_USER: 'gastos'
       MYSQL_PASSWORD: 'gastos'
       MYSQL_ROOT_PASSWORD: 'root'
+    networks:
+      - net-spents
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
     volumes:
       - my-db:/var/lib/mysql
 
-  redis:
-    image: redis
-    command: redis-server --requirepass Redis2019!
+  santander-spents:
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gastos"
+    networks:
+      - net-spents
+    build:
+      context: .
+    container_name: spents-app
     ports:
-      - "6379:6379"
-
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
+      - "9401:8080"
 
 volumes:
   my-db:
+
+networks:
+  net-spents:
+    driver: bridge

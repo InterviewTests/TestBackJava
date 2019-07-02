@@ -15,3 +15,7 @@ Para executar a aplicação execute o seguinte comando:
 ```$ java -jar <PATH>/<FILE_NAME>.jar ```
 
 ## Executando com Docker
+
+Para executar a aplicação execute o seguinte comando:
+
+```$ docker-compose up --build ```

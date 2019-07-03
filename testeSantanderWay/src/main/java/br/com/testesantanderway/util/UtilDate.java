@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class UtilDate {
-    private static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static String data;
 
     public static String format(LocalDateTime dataCriacao) {
-        return dataCriacao.format(DateTimeFormatter.ofPattern(PATTERN));
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+       // LocalDateTime dateTime = LocalDateTime(data, format);
+
+        return "";
     }
 }

@@ -1,5 +1,6 @@
 package br.com.testesantanderway.modelo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -16,6 +17,7 @@ public class Gasto {
     @Field
     private Double valor;
     @Field
+    @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss"/*2019-07-03T16:24:55.416Z*/)
     private LocalDateTime dataCriacao;
 
     public Gasto() {

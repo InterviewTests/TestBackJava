@@ -5,21 +5,17 @@ import br.com.testesantanderway.dto.DetalheGastosDTO;
 import br.com.testesantanderway.dto.GastosDTO;
 import br.com.testesantanderway.modelo.Gasto;
 import br.com.testesantanderway.repository.GastoRepository;
-import br.com.testesantanderway.util.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -55,8 +51,7 @@ public class GastosController {
     }
 
     @GetMapping("/{dataCriacao}")
-    public ResponseEntity<DetalheGastosDTO> detalheGastosPorData(@PathVariable LocalDateTime dataCriacao) {
-        //String utilDate = UtilDate.format(dataCriacao);
+    public ResponseEntity<DetalheGastosDTO> detalheGastosPorData(@PathVariable String dataCriacao) {
         Optional<Gasto> gasto = gastoRepository.findByDataCriacao(dataCriacao);
         if (gasto.isPresent()) {
             return ResponseEntity.ok(new DetalheGastosDTO(gasto.get()));

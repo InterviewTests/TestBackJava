@@ -1,14 +1,12 @@
 package br.com.testesantanderway.service;
 
-import br.com.testesantanderway.config.security.AutenticacaoViaTokenFilter;
-import br.com.testesantanderway.dto.GastoDTO;
 import br.com.testesantanderway.modelo.Gasto;
 import br.com.testesantanderway.repository.GastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +25,10 @@ public class GastoService {
     public List<Gasto> listarGastosMaisRecentes(String codigoUsuario) {
         LocalDateTime ultimosCincoSegundos = LocalDateTime.now().minusSeconds(5);
         return gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, ultimosCincoSegundos);
+    }
+
+    public Page<Gasto> encontrarGastosDoDia(String codigoUsuario, LocalDateTime dia, Pageable paginacao){
+        return gastoRepository.findByCodigoUsuarioAndDataCriacao(codigoUsuario, dia, paginacao);
     }
 
     private void integrarCategoria(Gasto gasto){

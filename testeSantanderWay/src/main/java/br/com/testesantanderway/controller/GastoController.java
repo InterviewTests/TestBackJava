@@ -27,17 +27,13 @@ public class GastoController {
     private ServicoDeToken servicoDeToken;
 
     @Autowired
-    private GastoRepository gastoRepository;
-
-    @Autowired
     private GastoService gastoService;
 
     //TODO permitir apenas USUARIO listar gastos
     @GetMapping
     public ResponseEntity<List<GastoDTO>> listagemDeGastos(HttpServletRequest request) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
-        LocalDateTime ultimosCincoSegundos = LocalDateTime.now().minusSeconds(5);
-        List<Gasto> gastos = gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, ultimosCincoSegundos);
+        List<Gasto> gastos = gastoService.listarGastosMaisRecentes(codigoUsuario);
         return ResponseEntity.ok(GastoDTO.converter(gastos));
     }
 
@@ -49,11 +45,14 @@ public class GastoController {
         return ResponseEntity.ok().build();
     }
 
+    //TODO permitir apenas USUARIO listar gastos
     @Cacheable("gastoUsuario")
     @GetMapping("/{dataCriacao}")
-    public Page<GastoDTO> listagemDeGastosPorData(@PathVariable String dataCriacao, @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
-        Page<Gasto> gastos = gastoRepository.findByDataCriacao(dataCriacao, paginacao);
-        return GastoDTO.converter(gastos);
+    public Page<GastoDTO> listagemDeGastosPorData(HttpServletRequest request,
+                                                  @PathVariable LocalDateTime dataCriacao,
+                                                  @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
+        String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
+        return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, dataCriacao, paginacao));
     }
 
 //    @PostMapping("/{categorizaGasto}")

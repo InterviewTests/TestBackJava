@@ -2,13 +2,14 @@ package br.com.testesantanderway.config;
 
 import br.com.testesantanderway.modelo.Gasto;
 import br.com.testesantanderway.service.GastoService;
-import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -43,6 +44,12 @@ public class TesteGasto {
     @Test
     public void testarListagemDeGastos(){
         service.listarGastosMaisRecentes(this.codigoUsuario);
+    }
+
+    @DisplayName("Testa o Serviço de Listagem de Gastos de um determinado dia")
+    @Test
+    public void testarListagemDeGastosDoDia(){
+        service.encontrarGastosDoDia(codigoUsuario, LocalDate.now(), Pageable.unpaged());
     }
 
 }

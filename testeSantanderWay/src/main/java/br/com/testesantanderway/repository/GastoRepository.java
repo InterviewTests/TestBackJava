@@ -14,7 +14,7 @@ public interface GastoRepository extends SolrCrudRepository<Gasto, String>{
         List<Gasto> findByCodigoUsuarioAndDataCriacaoAfter(String codigoUsuario, LocalDateTime dataCriacao);
 
         @Cacheable("gastoUsuario")
-        Page<Gasto> findByCodigoUsuarioAndDataCriacao(String codigoUsuario, LocalDateTime dataCriacao, Pageable paginacao);
+        Page<Gasto> findByCodigoUsuarioAndDataCriacaoBetween(String codigoUsuario, LocalDateTime inicio, LocalDateTime fim, Pageable paginacao);
 
         @Cacheable("categoria")
         Optional<String> findCategoriaByDescricao(String descricao);

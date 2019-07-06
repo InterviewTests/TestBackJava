@@ -7,7 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +29,10 @@ public class GastoService {
         return gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, ultimosCincoSegundos);
     }
 
-    public Page<Gasto> encontrarGastosDoDia(String codigoUsuario, LocalDateTime dia, Pageable paginacao){
-        return gastoRepository.findByCodigoUsuarioAndDataCriacao(codigoUsuario, dia, paginacao);
+    public Page<Gasto> encontrarGastosDoDia(String codigoUsuario, LocalDate dia, Pageable paginacao){
+        LocalDateTime inicio = dia.atStartOfDay();
+        LocalDateTime fim = dia.plusDays(1).atStartOfDay().minusNanos(1);
+        return gastoRepository.findByCodigoUsuarioAndDataCriacaoBetween(codigoUsuario, inicio, fim, paginacao);
     }
 
     private void integrarCategoria(Gasto gasto){

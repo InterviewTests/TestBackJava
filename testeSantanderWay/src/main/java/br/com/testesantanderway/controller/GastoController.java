@@ -5,7 +5,6 @@ import br.com.testesantanderway.config.security.ServicoDeToken;
 import br.com.testesantanderway.controller.form.GastoForm;
 import br.com.testesantanderway.dto.GastoDTO;
 import br.com.testesantanderway.modelo.Gasto;
-import br.com.testesantanderway.repository.GastoRepository;
 import br.com.testesantanderway.service.GastoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -49,7 +48,7 @@ public class GastoController {
     @Cacheable("gastoUsuario")
     @GetMapping("/{dataCriacao}")
     public Page<GastoDTO> listagemDeGastosPorData(HttpServletRequest request,
-                                                  @PathVariable LocalDateTime dataCriacao,
+                                                  @PathVariable LocalDate dataCriacao,
                                                   @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
         return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, dataCriacao, paginacao));

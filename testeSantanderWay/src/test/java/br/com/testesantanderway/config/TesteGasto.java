@@ -46,9 +46,9 @@ public class TesteGasto {
         service.listarGastosMaisRecentes(this.codigoUsuario);
     }
 
-    @DisplayName("Testa o Serviço de Listagem de Gastos de um determinado dia")
+    @DisplayName("Testa o Serviço que encontra os Gastos de um determinado dia")
     @Test
-    public void testarListagemDeGastosDoDia(){
+    public void testarEncontrarGastosDoDia(){
         service.encontrarGastosDoDia(codigoUsuario, LocalDate.now(), Pageable.unpaged());
     }
 

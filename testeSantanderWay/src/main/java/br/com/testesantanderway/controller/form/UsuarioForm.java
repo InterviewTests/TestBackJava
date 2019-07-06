@@ -1,36 +1,39 @@
 package br.com.testesantanderway.controller.form;
 
-import br.com.testesantanderway.modelo.Cliente;
+import br.com.testesantanderway.modelo.Usuario;
 import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-public class ClienteForm {
-    @NotNull @NotEmpty @Length(min = 2)
-    private String nomeCliente;
+public class UsuarioForm {
+    @NotNull
+    @NotEmpty
+    @Length(min = 2)
+    private String nomeUsuario;
     @NotNull @NotEmpty @Length(min = 11)
     private String email;
     @NotNull @NotEmpty @Length(min = 6)
     private String senha;
     private LocalDateTime dataCriacao;
 
-    public ClienteForm() {
+    public UsuarioForm() {
     }
 
-    public ClienteForm(Cliente cliente){
-        this.nomeCliente = cliente.getNomeCliente();
-        this.email = cliente.getEmail();
-        this.senha = cliente.getSenha();
-        this.dataCriacao = cliente.getDataCriacao();
+    public UsuarioForm(Usuario usuario) {
+        this.nomeUsuario = usuario.getNomeUsuario();
+        this.email = usuario.getEmail();
+        this.senha = usuario.getSenha();
+        this.dataCriacao = usuario.getDataCriacao();
     }
 
-    public String getNomeCliente() {
-        return nomeCliente;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
     public String getEmail() {
@@ -53,11 +56,11 @@ public class ClienteForm {
         return dataCriacao;
     }
 
-    public void LocalDateTime (LocalDateTime dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Cliente converter() {
-        return new Cliente(nomeCliente, email, senha, dataCriacao);
+    public Usuario converter() {
+        return new Usuario(nomeUsuario, email, senha, dataCriacao);
     }
 }

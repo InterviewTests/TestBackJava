@@ -1,15 +1,17 @@
 package br.com.testesantanderway.controller.form;
 
 import br.com.testesantanderway.modelo.Gasto;
-import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class GastoForm {
-    @NotNull @NotEmpty @Length(min = 11)
+    @NotNull
+    @NotEmpty
     private String descricao;
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private Double valor;
     private LocalDateTime dataCriacao;
 

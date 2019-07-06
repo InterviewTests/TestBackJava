@@ -26,8 +26,8 @@ public class GastosController {
 
     @GetMapping
     @Cacheable(value = "gastoDeCliente")
-    public Page<GastosDTO> dadosDosGastos(@RequestParam(required = false) String descricao,
-                                          @PageableDefault(sort = "codigoUsuario",
+    public Page<GastosDTO> listagemDeGastos(@RequestParam(required = false) String descricao,
+                                            @PageableDefault(sort = "codigoCliente",
                                                   direction = Sort.Direction.ASC) Pageable paginacao) {
 
         if (descricao == null || descricao.isEmpty()) {
@@ -35,28 +35,39 @@ public class GastosController {
 
             return GastosDTO.converter(gastos);
         } else {
-            Page<Gasto> gastos = gastoRepository.findByDescricao(descricao, paginacao);
+            Page<Gasto> gastos = gastoRepository.findByCategoria(descricao, paginacao);
 
             return GastosDTO.converter(gastos);
         }
     }
 
     @PostMapping
-    public ResponseEntity<GastosDTO> lancarGastos(@RequestBody GastoForm form, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<GastosDTO> lancarGastosCartao(@RequestBody GastoForm form, UriComponentsBuilder uriBuilder) {
         Gasto gastoCadastro = form.converter();
+        //TODO pesquisar nos gastos pela descrição se existe algim já categrizado e aplica essa categoria
         gastoRepository.save(gastoCadastro);
-        URI uri = uriBuilder.path("/{id}").buildAndExpand(gastoCadastro.getCodigoUsuario()).toUri();
+        URI uri = uriBuilder.path("/{id}").buildAndExpand(gastoCadastro.getCodigoGasto()).toUri();
 
         return ResponseEntity.created(uri).body(new GastosDTO(gastoCadastro));
     }
 
     @GetMapping("/{dataCriacao}")
-    public ResponseEntity<DetalheGastosDTO> detalheGastosPorData(@PathVariable String dataCriacao) {
+    public ResponseEntity<DetalheGastosDTO> listagemDeGastosPorData(@PathVariable String dataCriacao) {
         Optional<Gasto> gasto = gastoRepository.findByDataCriacao(dataCriacao);
+
         if (gasto.isPresent()) {
             return ResponseEntity.ok(new DetalheGastosDTO(gasto.get()));
         }
 
         return ResponseEntity.notFound().build();
     }
+
+//    @PostMapping("/{categorizaGasto}")
+//    public ResponseEntity<GastosDTO> categorizarGastos(@RequestBody CategoriaForm form, UriComponentsBuilder uriBuilder) {
+//        Gasto categoriaCadastro = form.converter();
+//        gastoRepository.save(categoriaCadastro);
+//        URI uri = uriBuilder.path("/{id}").buildAndExpand(categoriaCadastro.getCodigoGasto()).toUri();
+//
+//        return ResponseEntity.created(uri).body(new GastosDTO(categoriaCadastro));
+//    }
 }

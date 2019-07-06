@@ -24,7 +24,7 @@ public class ServicoDeToken {
 
         return Jwts.builder()
                 .setIssuer("Api teste way")
-                .setSubject(clienteLogado.getCodigoUsuario())
+                .setSubject(clienteLogado.getCodigoCliente())
                 .setIssuedAt(hoje)
                 .setExpiration(dataExpiracao)
                 .signWith(SignatureAlgorithm.HS256, secret).compact();

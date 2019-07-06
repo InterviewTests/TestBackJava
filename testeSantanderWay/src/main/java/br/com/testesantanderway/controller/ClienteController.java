@@ -1,6 +1,5 @@
 package br.com.testesantanderway.controller;
 
-
 import br.com.testesantanderway.controller.form.AtualizacaoClienteForm;
 import br.com.testesantanderway.controller.form.ClienteForm;
 import br.com.testesantanderway.dto.ClienteDTO;
@@ -10,8 +9,8 @@ import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +30,16 @@ public class ClienteController {
 
     @GetMapping
     @Cacheable(value = "listaDeCliente")
-    public Page<ClienteDTO> dadosLoginCliente(@RequestParam(required = false) String nome,
-                                              @PageableDefault(sort = "codigoUsuario",
+    public Page<ClienteDTO> dadosLoginCliente(@RequestParam(required = false) String nomeCliente,
+                                              @PageableDefault(sort = "codigoCliente",
                                               direction = Sort.Direction.ASC) Pageable paginacao) {
 
-        if (nome == null || nome.isEmpty()) {
+        if (nomeCliente == null || nomeCliente.isEmpty()) {
             Page<Cliente> clientes = clienteRepository.findAll(paginacao);
 
             return ClienteDTO.converter(clientes);
         } else {
-            Page<Cliente> clientes = clienteRepository.findByNome(nome, paginacao);
+            Page<Cliente> clientes = clienteRepository.findByNomeCliente(nomeCliente, paginacao);
 
             return ClienteDTO.converter(clientes);
         }
@@ -51,7 +50,7 @@ public class ClienteController {
         form.setSenha(new BCryptPasswordEncoder().encode(form.getSenha()));
         Cliente clientesCadastro = form.converter();
         clienteRepository.save(clientesCadastro);
-        URI uri = uriBuilder.path("/{id}").buildAndExpand(clientesCadastro.getCodigoUsuario()).toUri();
+        URI uri = uriBuilder.path("/{id}").buildAndExpand(clientesCadastro.getCodigoCliente()).toUri();
 
         return ResponseEntity.created(uri).body(new ClienteDTO(clientesCadastro));
     }

@@ -9,7 +9,7 @@ public class DetalheGastosDTO {
     private LocalDateTime dataCriacao;
 
     public DetalheGastosDTO(Gasto gasto) {
-        this.descricao = gasto.getDescricao();
+        this.descricao = gasto.getCategoria();
         this.valor = gasto.getValor();
         this.dataCriacao = gasto.getDataCriacao();
     }

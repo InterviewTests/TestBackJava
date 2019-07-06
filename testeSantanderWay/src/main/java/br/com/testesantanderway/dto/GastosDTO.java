@@ -11,7 +11,7 @@ public class GastosDTO {
 
     public GastosDTO(Gasto gasto) {
         this.dataCriacao = gasto.getDataCriacao();
-        this.descricao = gasto.getDescricao();
+        this.descricao = gasto.getCategoria();
         this.valor = gasto.getValor();
     }
 

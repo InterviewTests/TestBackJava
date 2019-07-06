@@ -1,6 +1,5 @@
 package br.com.testesantanderway.modelo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -11,22 +10,31 @@ public class Gasto {
 
     @Id
     @Field
-    private String codigoUsuario;
+    private String codigoGasto;
     @Field
     private String descricao;
     @Field
+    private String categoria;
+    @Field
     private Double valor;
     @Field
-    @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss"/*2019-07-03T16:24:55.416Z*/)
     private LocalDateTime dataCriacao;
 
     public Gasto() {
+    }
+
+    public Gasto(String categoria) {
+        this.categoria = categoria;
     }
 
     public Gasto(String descricao, Double valor , LocalDateTime dataCriacao) {
         this.descricao = descricao;
         this.valor = valor;
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getCodigoGasto() {
+        return codigoGasto;
     }
 
     public String getDescricao() {
@@ -37,20 +45,24 @@ public class Gasto {
         this.descricao = descricao;
     }
 
+    public void setCodigoGasto(String codigoGasto) {
+        this.codigoGasto = codigoGasto;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
     public Double getValor() {
         return valor;
     }
 
     public void setValor(Double valor) {
         this.valor = valor;
-    }
-
-    public String getCodigoUsuario() {
-        return codigoUsuario;
-    }
-
-    public void setCodigoUsuario(String codigoUsuario) {
-        this.codigoUsuario = codigoUsuario;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -66,7 +78,7 @@ public class Gasto {
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((codigoUsuario == null) ? 0 : codigoUsuario.hashCode());
+        result = prime * result + ((codigoGasto == null) ? 0 : codigoGasto.hashCode());
 
         return result;
     }

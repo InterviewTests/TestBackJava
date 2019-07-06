@@ -4,18 +4,18 @@ import br.com.testesantanderway.modelo.Cliente;
 import java.time.LocalDateTime;
 
 public class DetalheClienteDTO {
-    private String nome;
+    private String nomeCliente;
     private String email;
     private LocalDateTime dataCriacao;
 
     public DetalheClienteDTO(Cliente cliente) {
-        this.nome = cliente.getNome();
+        this.nomeCliente = cliente.getNomeCliente();
         this.email = cliente.getEmail();
         this.dataCriacao = cliente.getDataCriacao();
     }
 
     public String getNome() {
-        return nome;
+        return nomeCliente;
     }
 
     public String getEmail() {

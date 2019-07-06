@@ -7,18 +7,17 @@ import org.springframework.security.core.GrantedAuthority;
 
 @SolrDocument(collection = "perfil")
 public class Perfil implements GrantedAuthority {
-
-    public Perfil(String codigoUsuario, String nomePerfil) {
-        this.codigoUsuario = codigoUsuario;
-        this.nomePerfil = nomePerfil;
-    }
-
     @Id
     @Field
     private String codigoUsuario;
 
     @Field
     private String nomePerfil;
+
+    public Perfil(String codigoUsuario, String nomePerfil) {
+        this.codigoUsuario = codigoUsuario;
+        this.nomePerfil = nomePerfil;
+    }
 
     public String getCodigoUsuario() {
         return codigoUsuario;

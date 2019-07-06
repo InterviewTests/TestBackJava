@@ -43,6 +43,8 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/clientes/*").permitAll()
                 .antMatchers(HttpMethod.GET,"/gastos/*").permitAll()
+                .antMatchers(HttpMethod.GET,"/usuarios/*").permitAll()
+                .antMatchers(HttpMethod.POST,"/usuarios/*").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth").permitAll()
                 .antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
                 .antMatchers(

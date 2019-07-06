@@ -8,6 +8,7 @@ import org.springframework.data.solr.repository.SolrCrudRepository;
 import java.util.Optional;
 
 public interface GastoRepository extends SolrCrudRepository<Gasto, String>{
-        Page<Gasto> findByDescricao(String descricao, Pageable paginacao);
-        Optional<Gasto> findByDataCriacao(String dataCriacao);
+        Page<Gasto> findByCategoria(String categoria, Pageable paginacao);
+        Optional<Gasto> findByDataCriacao(String data);
+
 }

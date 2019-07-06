@@ -1,37 +1,29 @@
 package br.com.testesantanderway.dto;
 
 import br.com.testesantanderway.modelo.Cliente;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.data.domain.Page;
+
+import java.time.LocalDateTime;
 
 public class ClienteDTO {
-
-    private String nome;
-
+    private String nomeCliente;
     private String email;
+    private LocalDateTime dataCriacao;
 
-    public ClienteDTO(String nome, String email){
-        this.nome = nome;
-        this.email = email;
+    public ClienteDTO(Cliente cliente){
+        this.nomeCliente = cliente.getNomeCliente();
+        this.email = cliente.getEmail();
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeCliente() {
+        return nomeCliente;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public static ClienteDTO converter(Cliente cliente){
-        return new ClienteDTO(cliente.getNome(), cliente.getEmail());
-    }
-
-    public static List<ClienteDTO> converter(Iterable<Cliente> clientes) {
-        List<ClienteDTO> list = new ArrayList();
-        for (Cliente cliente : clientes) {
-            list.add(ClienteDTO.converter(cliente));
-        }
-        return list;
+    public static Page<ClienteDTO> converter(Page<Cliente> clientes) {
+        return clientes.map(ClienteDTO::new);
     }
 }

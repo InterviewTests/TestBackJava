@@ -3,8 +3,7 @@ package br.com.testesantanderway.controller;
 import br.com.testesantanderway.config.security.AutenticacaoViaTokenFilter;
 import br.com.testesantanderway.config.security.ServicoDeToken;
 import br.com.testesantanderway.controller.form.GastoForm;
-import br.com.testesantanderway.dto.DetalheGastosDTO;
-import br.com.testesantanderway.dto.GastosDTO;
+import br.com.testesantanderway.dto.GastoDTO;
 import br.com.testesantanderway.modelo.Gasto;
 import br.com.testesantanderway.repository.GastoRepository;
 import br.com.testesantanderway.service.GastoService;
@@ -18,7 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/gastos")
@@ -33,20 +33,11 @@ public class GastoController {
     private GastoService gastoService;
 
     @GetMapping
-    @Cacheable(value = "gastoDeCliente")
-    public Page<GastosDTO> listagemDeGastos(@RequestParam(required = false) String descricao,
-                                            @PageableDefault(sort = "codigoCliente",
-                                                    direction = Sort.Direction.ASC) Pageable paginacao) {
-
-        if (descricao == null || descricao.isEmpty()) {
-            Page<Gasto> gastos = gastoRepository.findAll(paginacao);
-
-            return GastosDTO.converter(gastos);
-        } else {
-            Page<Gasto> gastos = gastoRepository.findByCategoria(descricao, paginacao);
-
-            return GastosDTO.converter(gastos);
-        }
+    public Page<GastoDTO> listagemDeGastos(HttpServletRequest request) {
+        String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
+        LocalDateTime ultimosCincoSegundos = LocalDateTime.now().minusSeconds(5);
+        List<Gasto> gastos = gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, ultimosCincoSegundos);
+        return GastoDTO.converter(gastos);
     }
 
     //TODO permitir apenas SISTEMA lançar gasto
@@ -57,24 +48,20 @@ public class GastoController {
         return ResponseEntity.ok().build();
     }
 
+    @Cacheable("gastoUsuario")
     @GetMapping("/{dataCriacao}")
-    public ResponseEntity<DetalheGastosDTO> listagemDeGastosPorData(@PathVariable String dataCriacao) {
-        Optional<Gasto> gasto = gastoRepository.findByDataCriacao(dataCriacao);
-
-        if (gasto.isPresent()) {
-            return ResponseEntity.ok(new DetalheGastosDTO(gasto.get()));
-        }
-
-        return ResponseEntity.notFound().build();
+    public Page<GastoDTO> listagemDeGastosPorData(@PathVariable String dataCriacao, @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
+        Page<Gasto> gastos = gastoRepository.findByDataCriacao(dataCriacao, paginacao);
+        return GastoDTO.converter(gastos);
     }
 
 //    @PostMapping("/{categorizaGasto}")
-//    public ResponseEntity<GastosDTO> categorizarGastos(@RequestBody CategoriaForm form, UriComponentsBuilder uriBuilder) {
+//    public ResponseEntity<GastoDTO> categorizarGastos(@RequestBody CategoriaForm form, UriComponentsBuilder uriBuilder) {
 //        Gasto categoriaCadastro = form.converter();
 //        gastoRepository.save(categoriaCadastro);
 //        URI uri = uriBuilder.path("/{id}").buildAndExpand(categoriaCadastro.getCodigo()).toUri();
 //
-//        return ResponseEntity.created(uri).body(new GastosDTO(categoriaCadastro));
+//        return ResponseEntity.created(uri).body(new GastoDTO(categoriaCadastro));
 //    }
 
 }

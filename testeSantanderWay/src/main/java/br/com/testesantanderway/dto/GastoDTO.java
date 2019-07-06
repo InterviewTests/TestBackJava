@@ -2,17 +2,22 @@ package br.com.testesantanderway.dto;
 
 import br.com.testesantanderway.modelo.Gasto;
 import org.springframework.data.domain.Page;
-import java.time.LocalDateTime;
 
-public class GastosDTO {
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class GastoDTO {
     private LocalDateTime dataCriacao;
     private String descricao;
     private Double valor;
+    private String categoria;
 
-    public GastosDTO(Gasto gasto) {
+    public GastoDTO(Gasto gasto) {
         this.dataCriacao = gasto.getDataCriacao();
-        this.descricao = gasto.getCategoria();
+        this.descricao = gasto.getDescricao();
         this.valor = gasto.getValor();
+        this.categoria = gasto.getCategoria();
     }
 
     public LocalDateTime getDataCriacao() {
@@ -39,7 +44,19 @@ public class GastosDTO {
         this.valor = valor;
     }
 
-    public static Page<GastosDTO> converter(Page<Gasto> gastos) {
-        return gastos.map(GastosDTO::new);
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public static List<GastoDTO> converterLista(List<Gasto> gastos) {
+        return gastos.stream().map(GastoDTO::new).collect(Collectors.toList());
+    }
+
+    public static Page<GastoDTO> converterPagina(Page<Gasto> gastos) {
+        return gastos.map(GastoDTO::new);
     }
 }

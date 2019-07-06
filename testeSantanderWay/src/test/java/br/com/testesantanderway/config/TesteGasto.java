@@ -35,4 +35,6 @@ public class TesteGasto {
         service.lancarGastosCartao(this.gasto);
     }
 
+    //TODO testar categorizacao automatica
+
 }

@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface GastoRepository extends SolrCrudRepository<Gasto, String>{
         Page<Gasto> findByCategoria(String categoria, Pageable paginacao);
         Optional<Gasto> findByDataCriacao(String data);
-
+        Optional<String> findCategoriaByDescricao(String descricao);
 }

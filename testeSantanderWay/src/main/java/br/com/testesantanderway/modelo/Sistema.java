@@ -5,52 +5,46 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-@SolrDocument(collection = "cliente")
-public class Cliente implements UserDetails {
+import java.util.Collection;
+import java.util.Collections;
+
+@SolrDocument(collection = "sistemas")
+public class Sistema implements UserDetails {
 
     @Id
     @Field
-    private String codigoCliente;
+    private String codigo;
     @Field
-    private String nomeCliente;
+    private String nome;
     @Field
     private String email;
     @Field
     private String senha;
-    @Field
-    private LocalDateTime dataCriacao;
 
-    private List<Perfil> perfis = new ArrayList<>();
-
-    public Cliente() {
+    public Sistema() {
     }
 
-    public Cliente(String nomeCliente, String email, String senha, LocalDateTime dataCriacao) {
-        this.nomeCliente = nomeCliente;
+    public Sistema(String nome, String email, String senha) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.dataCriacao = dataCriacao;
     }
 
-    public String getCodigoCliente() {
-        return codigoCliente;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoCliente(String codigoCliente) {
-        this.codigoCliente = codigoCliente;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public String getNomeCliente() {
-        return nomeCliente;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -69,35 +63,19 @@ public class Cliente implements UserDetails {
         this.senha = senha;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public List<Perfil> getPerfis() {
-        return perfis;
-    }
-
-    public void setPerfis(List<Perfil> perfis) {
-        this.perfis = perfis;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((codigoCliente == null) ? 0 : codigoCliente.hashCode());
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 
         return result;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.perfis;
+        return Collections.emptyList();
     }
 
     @Override
@@ -107,7 +85,7 @@ public class Cliente implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.nomeCliente;
+        return this.nome;
     }
 
     @Override

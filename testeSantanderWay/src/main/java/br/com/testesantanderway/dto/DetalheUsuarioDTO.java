@@ -10,7 +10,7 @@ public class DetalheUsuarioDTO {
     private LocalDateTime dataCriacao;
 
     public DetalheUsuarioDTO(Usuario usuario) {
-        this.nomeUsuario = usuario.getNomeUsuario();
+        this.nomeUsuario = usuario.getNome();
         this.email = usuario.getEmail();
         this.dataCriacao = usuario.getDataCriacao();
     }

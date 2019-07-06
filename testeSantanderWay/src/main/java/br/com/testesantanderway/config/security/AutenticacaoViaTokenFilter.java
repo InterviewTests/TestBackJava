@@ -1,6 +1,6 @@
 package br.com.testesantanderway.config.security;
 
-import br.com.testesantanderway.modelo.Cliente;
+import br.com.testesantanderway.modelo.Sistema;
 import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
+
+    private static final String BEARER = "Bearer ";
+
     private ServicoDeToken tokenService;
     private ClienteRepository repository;
 
@@ -23,7 +26,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String token = recuperarToken(request);
+        String token = AutenticacaoViaTokenFilter.recuperarToken(request);
         boolean valido = tokenService.isTokenValido(token);
         if (valido){
             autenticarCliente(token);
@@ -33,19 +36,19 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     }
 
     private void autenticarCliente(String token) {
-        String idCliente = tokenService.getIdCliente(token);
-        Cliente cliente = repository.findById(idCliente).get();
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(cliente,
-                null, cliente.getAuthorities());
+        String idCliente = tokenService.getCodigo(token);
+        Sistema sistema = repository.findById(idCliente).get();
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(sistema,
+                null, sistema.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    private String recuperarToken(HttpServletRequest request) {
+    public static String recuperarToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty() || !token.startsWith("Bearer ")){
+        if (token == null || token.isEmpty() || !token.startsWith(BEARER)){
             return null;
         }
 
-        return token.substring(7, token.length());
+        return token.substring(BEARER.length());
     }
 }

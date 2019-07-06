@@ -1,6 +1,6 @@
 package br.com.testesantanderway.controller.form;
 
-import br.com.testesantanderway.modelo.Cliente;
+import br.com.testesantanderway.modelo.Sistema;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,11 +18,11 @@ public class ClienteForm {
     public ClienteForm() {
     }
 
-    public ClienteForm(Cliente cliente){
-        this.nomeCliente = cliente.getNomeCliente();
-        this.email = cliente.getEmail();
-        this.senha = cliente.getSenha();
-        this.dataCriacao = cliente.getDataCriacao();
+    public ClienteForm(Sistema sistema){
+        this.nomeCliente = sistema.getNome();
+        this.email = sistema.getEmail();
+        this.senha = sistema.getSenha();
+        this.dataCriacao = sistema.getDataCriacao();
     }
 
     public String getNomeCliente() {
@@ -57,7 +57,7 @@ public class ClienteForm {
         this.dataCriacao = dataCriacao;
     }
 
-    public Cliente converter() {
-        return new Cliente(nomeCliente, email, senha, dataCriacao);
+    public Sistema converter() {
+        return new Sistema(nomeCliente, email, senha, dataCriacao);
     }
 }

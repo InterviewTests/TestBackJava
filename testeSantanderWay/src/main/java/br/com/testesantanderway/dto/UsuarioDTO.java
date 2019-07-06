@@ -11,7 +11,7 @@ public class UsuarioDTO {
     private LocalDateTime dataCriacao;
 
     public UsuarioDTO(Usuario usuario) {
-        this.nomeUsuario = usuario.getNomeUsuario();
+        this.nomeUsuario = usuario.getNome();
         this.email = usuario.getEmail();
         this.dataCriacao = usuario.getDataCriacao();
     }

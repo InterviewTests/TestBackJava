@@ -22,7 +22,7 @@ public class UsuarioForm {
     }
 
     public UsuarioForm(Usuario usuario) {
-        this.nomeUsuario = usuario.getNomeUsuario();
+        this.nomeUsuario = usuario.getNome();
         this.email = usuario.getEmail();
         this.senha = usuario.getSenha();
         this.dataCriacao = usuario.getDataCriacao();

@@ -13,6 +13,11 @@ public class GastoForm {
     @NotNull
     @NotEmpty
     private Double valor;
+    @NotNull
+    @NotEmpty
+    private String codigoUsuario;
+    @NotNull
+    @NotEmpty
     private LocalDateTime dataCriacao;
 
     public GastoForm() {
@@ -22,6 +27,7 @@ public class GastoForm {
         this.descricao = gasto.getDescricao();
         this.valor = gasto.getValor();
         this.dataCriacao = gasto.getDataCriacao();
+        this.codigoUsuario = gasto.getCodigoUsuario();
     }
 
     public String getDescricao() {
@@ -48,7 +54,15 @@ public class GastoForm {
         this.dataCriacao = dataCriacao;
     }
 
-    public Gasto converter() {
-        return new Gasto(descricao, valor, dataCriacao);
+    public String getCodigoUsuario() {
+        return codigoUsuario;
+    }
+
+    public void setCodigoUsuario(String codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
+    }
+
+    public Gasto converter(String codigoSistema) {
+        return new Gasto(descricao, valor, codigoSistema, codigoUsuario, dataCriacao);
     }
 }

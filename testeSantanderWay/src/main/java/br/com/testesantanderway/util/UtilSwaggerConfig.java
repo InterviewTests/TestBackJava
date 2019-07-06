@@ -1,6 +1,6 @@
 package br.com.testesantanderway.util;
 
-import br.com.testesantanderway.modelo.Cliente;
+import br.com.testesantanderway.modelo.Sistema;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -25,7 +25,7 @@ public class UtilSwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("br.com.testesantanderway.controller"))
                 .build()
                 .apiInfo(apiInfo())
-                .ignoredParameterTypes(Cliente.class).globalOperationParameters(
+                .ignoredParameterTypes(Sistema.class).globalOperationParameters(
                         Arrays.asList(new ParameterBuilder()
                                 .name("Authorization")
                                 .description("Header for Token JWT")

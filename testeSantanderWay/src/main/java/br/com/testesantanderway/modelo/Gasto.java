@@ -10,7 +10,7 @@ public class Gasto {
 
     @Id
     @Field
-    private String codigoGasto;
+    private String codigo;
     @Field
     private String descricao;
     @Field
@@ -19,6 +19,10 @@ public class Gasto {
     private Double valor;
     @Field
     private LocalDateTime dataCriacao;
+    @Field
+    private String codigoSistema;
+    @Field
+    private String codigoUsuario;
 
     public Gasto() {
     }
@@ -27,14 +31,16 @@ public class Gasto {
         this.categoria = categoria;
     }
 
-    public Gasto(String descricao, Double valor , LocalDateTime dataCriacao) {
+    public Gasto(String descricao, Double valor, String codigoSistema, String codigoUsuario, LocalDateTime dataCriacao) {
         this.descricao = descricao;
         this.valor = valor;
+        this.codigoSistema = codigoSistema;
+        this.codigoUsuario = codigoUsuario;
         this.dataCriacao = dataCriacao;
     }
 
-    public String getCodigoGasto() {
-        return codigoGasto;
+    public String getCodigo() {
+        return codigo;
     }
 
     public String getDescricao() {
@@ -45,8 +51,8 @@ public class Gasto {
         this.descricao = descricao;
     }
 
-    public void setCodigoGasto(String codigoGasto) {
-        this.codigoGasto = codigoGasto;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getCategoria() {
@@ -73,13 +79,22 @@ public class Gasto {
         this.dataCriacao = dataCriacao;
     }
 
+    public String getCodigoSistema() { return codigoSistema; }
+
+    public void setCodigoSistema(String codigoSistema) { this.codigoSistema = codigoSistema; }
+
+    public String getCodigoUsuario() { return codigoUsuario; }
+
+    public void setCodigoUsuario(String codigoUsuario) { this.codigoUsuario = codigoUsuario; }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((codigoGasto == null) ? 0 : codigoGasto.hashCode());
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 
         return result;
     }
+
 }

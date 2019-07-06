@@ -3,16 +3,20 @@ package br.com.testesantanderway.modelo;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @SolrDocument(collection = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @Field
-    private String codigoUsuario;
+    private String codigo;
     @Field
-    private String nomeUsuario;
+    private String nome;
     @Field
     private String email;
     @Field
@@ -23,27 +27,27 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nomeUsuario, String email, String senha, LocalDateTime dataCriacao) {
-        this.nomeUsuario = nomeUsuario;
+    public Usuario(String nome, String email, String senha, LocalDateTime dataCriacao) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataCriacao = dataCriacao;
     }
 
-    public String getCodigoUsuario() {
-        return codigoUsuario;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoUsuario(String codigoUsuario) {
-        this.codigoUsuario = codigoUsuario;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public String getNomeUsuario() {
-        return nomeUsuario;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -75,8 +79,43 @@ public class Usuario {
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((codigoUsuario == null) ? 0 : codigoUsuario.hashCode());
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 
         return result;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.nome;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

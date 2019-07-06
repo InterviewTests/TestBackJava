@@ -52,4 +52,11 @@ public class TesteGasto {
         service.encontrarGastosDoDia(codigoUsuario, LocalDate.now(), Pageable.unpaged());
     }
 
+    @DisplayName("Testa o Serviço que categoriza um Gasto")
+    @Test
+    public void testarCategorizacaoDeGasto(){
+        this.gasto.setCategoria("aluguel");
+        service.categorizarGasto(this.gasto);
+    }
+
 }

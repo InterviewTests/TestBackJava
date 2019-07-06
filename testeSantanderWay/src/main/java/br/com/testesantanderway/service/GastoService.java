@@ -35,6 +35,15 @@ public class GastoService {
         return gastoRepository.findByCodigoUsuarioAndDataCriacaoBetween(codigoUsuario, inicio, fim, paginacao);
     }
 
+    public void categorizarGasto(Gasto gasto) {
+        Optional<Gasto> categoriaASerAlterada = gastoRepository.findById(gasto.getCodigoUsuario());
+        if(!categoriaASerAlterada.isPresent() || categoriaASerAlterada.get().getCategoria() != null){
+            throw new IllegalArgumentException("Operação não permitida");
+        }
+        categoriaASerAlterada.get().setCategoria(gasto.getCategoria());
+        gastoRepository.save(categoriaASerAlterada.get());
+    }
+
     private void integrarCategoria(Gasto gasto){
         if(gasto.getCategoria() == null){
             Optional<String> categoria = gastoRepository.findCategoriaByDescricao(gasto.getDescricao());

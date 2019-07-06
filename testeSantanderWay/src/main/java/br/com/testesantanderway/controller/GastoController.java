@@ -54,13 +54,11 @@ public class GastoController {
         return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, dataCriacao, paginacao));
     }
 
-//    @PostMapping("/{categorizaGasto}")
-//    public ResponseEntity<GastoDTO> categorizarGastos(@RequestBody CategoriaForm form, UriComponentsBuilder uriBuilder) {
-//        Gasto categoriaCadastro = form.converter();
-//        gastoRepository.save(categoriaCadastro);
-//        URI uri = uriBuilder.path("/{id}").buildAndExpand(categoriaCadastro.getCodigo()).toUri();
-//
-//        return ResponseEntity.created(uri).body(new GastoDTO(categoriaCadastro));
-//    }
+    //TODO permitir apenas USUARIO categorizar gasto
+    @PutMapping("/{categorizarGasto}")
+    public ResponseEntity categorizarGasto(@RequestBody Gasto gasto) {
+        gastoService.categorizarGasto(gasto);
+        return ResponseEntity.ok().build();
+    }
 
 }

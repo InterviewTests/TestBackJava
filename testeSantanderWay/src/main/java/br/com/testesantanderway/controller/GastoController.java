@@ -7,6 +7,7 @@ import br.com.testesantanderway.dto.DetalheGastosDTO;
 import br.com.testesantanderway.dto.GastosDTO;
 import br.com.testesantanderway.modelo.Gasto;
 import br.com.testesantanderway.repository.GastoRepository;
+import br.com.testesantanderway.service.GastoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -21,12 +22,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/gastos")
-public class GastosController {
+public class GastoController {
     @Autowired
     private ServicoDeToken servicoDeToken;
 
     @Autowired
     private GastoRepository gastoRepository;
+
+    @Autowired
+    private GastoService gastoService;
 
     @GetMapping
     @Cacheable(value = "gastoDeCliente")
@@ -49,8 +53,7 @@ public class GastosController {
     @PutMapping
     public ResponseEntity lancarGastosCartao(HttpServletRequest request, @RequestBody GastoForm form) {
         Gasto gasto = form.converter(servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request)));
-        integrarCategoria(gasto);
-        gastoRepository.save(gasto);
+        gastoService.lancarGastosCartao(gasto);
         return ResponseEntity.ok().build();
     }
 
@@ -74,12 +77,4 @@ public class GastosController {
 //        return ResponseEntity.created(uri).body(new GastosDTO(categoriaCadastro));
 //    }
 
-    private void integrarCategoria(Gasto gasto){
-        if(gasto.getCategoria() == null){
-            Optional<String> categoria = gastoRepository.findCategoriaByDescricao(gasto.getDescricao());
-            if(categoria.isPresent()){
-                gasto.setCategoria(categoria.get());
-            }
-        }
-    }
 }

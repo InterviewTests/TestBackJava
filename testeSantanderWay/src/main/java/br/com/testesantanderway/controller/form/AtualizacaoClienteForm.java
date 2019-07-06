@@ -1,7 +1,7 @@
 package br.com.testesantanderway.controller.form;
 
 import br.com.testesantanderway.modelo.Sistema;
-import br.com.testesantanderway.repository.ClienteRepository;
+import br.com.testesantanderway.repository.SistemaRepository;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -36,13 +36,13 @@ public class AtualizacaoClienteForm {
         this.senha = senha;
     }
 
-    public Sistema atualizar(String id, ClienteRepository clienteRepository) {
-        Sistema sistema = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
+    public Sistema atualizar(String id, SistemaRepository sistemaRepository) {
+        Sistema sistema = sistemaRepository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
 
         sistema.setEmail(this.email);
         sistema.setSenha(this.senha);
 
-        clienteRepository.save(sistema);
+        sistemaRepository.save(sistema);
 
         return sistema;
     }

@@ -1,7 +1,7 @@
 package br.com.testesantanderway.config.security;
 
 import br.com.testesantanderway.modelo.Sistema;
-import br.com.testesantanderway.repository.ClienteRepository;
+import br.com.testesantanderway.repository.SistemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class AutenticacaoService implements UserDetailsService {
 
     @Autowired
-    private ClienteRepository repository;
+    private SistemaRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

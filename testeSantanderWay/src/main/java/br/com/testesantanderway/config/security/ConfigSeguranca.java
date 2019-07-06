@@ -1,6 +1,6 @@
 package br.com.testesantanderway.config.security;
 
-import br.com.testesantanderway.repository.ClienteRepository;
+import br.com.testesantanderway.repository.SistemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
     @Autowired
     private ServicoDeToken tokenService;
     @Autowired
-    private ClienteRepository clienteRepository;
+    private SistemaRepository sistemaRepository;
 
     @Override
     @Bean
@@ -54,7 +54,7 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, clienteRepository), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, sistemaRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
     //Recursos estáticos(js, css, img, etc.)

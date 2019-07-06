@@ -1,7 +1,7 @@
 package br.com.testesantanderway.config.security;
 
 import br.com.testesantanderway.modelo.Sistema;
-import br.com.testesantanderway.repository.ClienteRepository;
+import br.com.testesantanderway.repository.SistemaRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,9 +16,9 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     private static final String BEARER = "Bearer ";
 
     private ServicoDeToken tokenService;
-    private ClienteRepository repository;
+    private SistemaRepository repository;
 
-    public AutenticacaoViaTokenFilter(ServicoDeToken tokenService, ClienteRepository repository) {
+    public AutenticacaoViaTokenFilter(ServicoDeToken tokenService, SistemaRepository repository) {
         this.tokenService = tokenService;
         this.repository = repository;
     }

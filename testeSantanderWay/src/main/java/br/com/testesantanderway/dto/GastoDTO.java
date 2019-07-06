@@ -52,11 +52,12 @@ public class GastoDTO {
         this.categoria = categoria;
     }
 
-    public static List<GastoDTO> converterLista(List<Gasto> gastos) {
+    public static List<GastoDTO> converter(List<Gasto> gastos) {
         return gastos.stream().map(GastoDTO::new).collect(Collectors.toList());
     }
 
-    public static Page<GastoDTO> converterPagina(Page<Gasto> gastos) {
+    public static Page<GastoDTO> converter(Page<Gasto> gastos) {
         return gastos.map(GastoDTO::new);
     }
+
 }

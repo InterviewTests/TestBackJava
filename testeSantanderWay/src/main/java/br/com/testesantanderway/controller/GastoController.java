@@ -32,12 +32,13 @@ public class GastoController {
     @Autowired
     private GastoService gastoService;
 
+    //TODO permitir apenas USUARIO listar gastos
     @GetMapping
-    public Page<GastoDTO> listagemDeGastos(HttpServletRequest request) {
+    public ResponseEntity<List<GastoDTO>> listagemDeGastos(HttpServletRequest request) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
         LocalDateTime ultimosCincoSegundos = LocalDateTime.now().minusSeconds(5);
         List<Gasto> gastos = gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, ultimosCincoSegundos);
-        return GastoDTO.converter(gastos);
+        return ResponseEntity.ok(GastoDTO.converter(gastos));
     }
 
     //TODO permitir apenas SISTEMA lançar gasto

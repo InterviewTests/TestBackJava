@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootTest
-public class TesteGasto {
+public class GastoTestador {
 
     @Mock
     private GastoService service;
@@ -36,27 +36,38 @@ public class TesteGasto {
 
     @DisplayName("Testa o Serviço de Lançamento de Gasto")
     @Test
-    public void testarLancamentoDeGasto(){
-        service.lancarGastosCartao(this.gasto);
+    public void testaLancamento(){
+        service.lancar(this.gasto);
     }
 
     @DisplayName("Testa o Serviço de Listagem de Gastos")
     @Test
-    public void testarListagemDeGastos(){
+    public void testarMaisRencentes(){
         service.listarGastosMaisRecentes(this.codigoUsuario);
     }
 
     @DisplayName("Testa o Serviço que encontra os Gastos de um determinado dia")
     @Test
-    public void testarEncontrarGastosDoDia(){
+    public void testarDiario(){
         service.encontrarGastosDoDia(codigoUsuario, LocalDate.now(), Pageable.unpaged());
     }
 
     @DisplayName("Testa o Serviço que categoriza um Gasto")
     @Test
-    public void testarCategorizacaoDeGasto(){
+    public void testarCategorizacao(){
         this.gasto.setCategoria("aluguel");
         service.categorizarGasto(this.gasto);
+    }
+
+    @DisplayName("Testa a inteligecia de categorizacao por descricao")
+    @Test
+    public void testarInteligencia(){
+        Gasto gastoSugerido = this.gasto;
+        this.gasto.setCategoria("aluguel");
+        service.lancar(this.gasto);
+
+        gastoSugerido.setCategoria(null);
+        service.lancar(gastoSugerido);
     }
 
 }

@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/gastos")
+@RequestMapping("gasto")
 public class GastoController {
     @Autowired
     private ServicoDeToken servicoDeToken;
@@ -30,7 +30,7 @@ public class GastoController {
 
     //TODO permitir apenas USUARIO listar gastos
     @GetMapping
-    public ResponseEntity<List<GastoDTO>> listagemDeGastos(HttpServletRequest request) {
+    public ResponseEntity<List<GastoDTO>> listar(HttpServletRequest request) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
         List<Gasto> gastos = gastoService.listarGastosMaisRecentes(codigoUsuario);
         return ResponseEntity.ok(GastoDTO.converter(gastos));
@@ -38,25 +38,25 @@ public class GastoController {
 
     //TODO permitir apenas SISTEMA lançar gasto
     @PutMapping
-    public ResponseEntity lancarGastosCartao(HttpServletRequest request, @RequestBody GastoForm form) {
+    public ResponseEntity lancar(HttpServletRequest request, @RequestBody GastoForm form) {
         Gasto gasto = form.converter(servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request)));
-        gastoService.lancarGastosCartao(gasto);
+        gastoService.lancar(gasto);
         return ResponseEntity.ok().build();
     }
 
     //TODO permitir apenas USUARIO listar gastos
     @Cacheable("gastoUsuario")
     @GetMapping("/{dataCriacao}")
-    public Page<GastoDTO> listagemDeGastosPorData(HttpServletRequest request,
-                                                  @PathVariable LocalDate dataCriacao,
-                                                  @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
+    public Page<GastoDTO> filtro(HttpServletRequest request,
+                                 @PathVariable LocalDate dataCriacao,
+                                 @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
         return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, dataCriacao, paginacao));
     }
 
     //TODO permitir apenas USUARIO categorizar gasto
-    @PutMapping("/{categorizarGasto}")
-    public ResponseEntity categorizarGasto(@RequestBody Gasto gasto) {
+    @PutMapping("categorizar")
+    public ResponseEntity categorizar(@RequestBody Gasto gasto) {
         gastoService.categorizarGasto(gasto);
         return ResponseEntity.ok().build();
     }

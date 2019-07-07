@@ -19,7 +19,7 @@ public class GastoService {
     @Autowired
     private GastoRepository gastoRepository;
 
-    public void lancarGastosCartao(Gasto gasto) {
+    public void lancar(Gasto gasto) {
         integrarCategoria(gasto);
         gastoRepository.save(gasto);
     }

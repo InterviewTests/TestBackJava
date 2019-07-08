@@ -9,27 +9,26 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "client")
+@Table(name = "client_classification")
 @EntityListeners(AuditingEntityListener.class)
-public class Client implements Serializable {
+public class ClientClassification {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<ClientCard> clientCards;
+    @ManyToOne
+    private Client client;
 
-    @OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<ClientClassification> clientClassifications;
+    @ManyToOne
+    private Classification classification;
 
     @CreatedDate
     @Column(name = "dat_creation", updatable = false, nullable = false)

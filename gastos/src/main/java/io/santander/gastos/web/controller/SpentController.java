@@ -16,12 +16,12 @@ import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(SpentController.GASTOS_ENDPOINT)
+@RequestMapping(SpentController.SPENTS_ENDPOINT)
 @Validated
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class SpentController {
 
-    public static final String GASTOS_ENDPOINT = "/spent";
+    public static final String SPENTS_ENDPOINT = "/spent";
 
     private final SpentService spentService;
     private final DateUTCParser dateParser;

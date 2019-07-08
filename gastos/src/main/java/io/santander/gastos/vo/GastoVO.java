@@ -22,4 +22,5 @@ public class GastoVO {
     private Double valor;
     private Long codigoUsuario;
     private String data;
+    private String classificacao;
 }

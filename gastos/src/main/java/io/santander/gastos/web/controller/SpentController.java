@@ -27,14 +27,19 @@ public class SpentController {
     private final DateUTCParser dateParser;
 
     @PostMapping("/{numeroCartao}")
-    String addSpent(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo) {
+    String adicionaGasto(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo) {
         return spentService.saveSpent(numeroCartao, vo);
     }
 
     @GetMapping("/user/{codigoUsuario}")
-    PageImpl<GastoVO> buscaTodosOsGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
+    PageImpl<GastoVO> buscaTodosGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
         Page<SpentDTO> dtoPage = spentService.buscaTodosOsGastoPorCliente(codigoUsuario, numeroCartão, vo, pageable);
         return new PageImpl<>(dtoPage.getContent().stream().map(this::toVo).collect(Collectors.toList()), pageable, dtoPage.getTotalElements());
+    }
+
+    @GetMapping("/user/{codigoUsuario}/{codigoGasto}")
+    PageImpl<GastoVO> buscaDestalheGastoCliente(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão) {
+        return null;
     }
 
     private GastoVO toVo(SpentDTO spentDTO) {

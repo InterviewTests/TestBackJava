@@ -7,11 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
-@SolrDocument(collection = "usuarios")
-public class Usuario implements UserDetails {
+@SolrDocument(collection = "clientes")
+public class Cliente implements UserDetails {
     @Id
     @Field
     private String codigo;
@@ -24,10 +24,10 @@ public class Usuario implements UserDetails {
     @Field
     private LocalDateTime dataCriacao;
 
-    public Usuario() {
+    public Cliente() {
     }
 
-    public Usuario(String nome, String email, String senha, LocalDateTime dataCriacao) {
+    public Cliente(String nome, String email, String senha, LocalDateTime dataCriacao) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -86,8 +86,9 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Arrays.asList(() -> "USUARIO");
     }
+
 
     @Override
     public String getPassword() {

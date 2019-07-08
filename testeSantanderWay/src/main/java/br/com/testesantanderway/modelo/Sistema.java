@@ -6,8 +6,8 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 @SolrDocument(collection = "sistemas")
 public class Sistema implements UserDetails {
@@ -75,7 +75,7 @@ public class Sistema implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Arrays.asList(() -> "SISTEMA");
     }
 
     @Override

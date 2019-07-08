@@ -12,12 +12,12 @@ import java.util.TimeZone;
 @EnableSpringDataWebSupport
 @EnableCaching
 public class TesteSantanderWayApplication {
-//	@PostConstruct
-//	void started(){
-//		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-//	}
+    @PostConstruct
+    void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(TesteSantanderWayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TesteSantanderWayApplication.class, args);
+    }
 }

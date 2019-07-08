@@ -3,7 +3,8 @@ package br.com.testesantanderway.modelo;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 @SolrDocument(collection = "gastos")
 public class Gasto {
@@ -18,7 +19,7 @@ public class Gasto {
     @Field
     private Double valor;
     @Field
-    private LocalDateTime dataCriacao;
+    private Date dataCriacao;
     @Field
     private String codigoSistema;
     @Field
@@ -31,7 +32,7 @@ public class Gasto {
         this.categoria = categoria;
     }
 
-    public Gasto(String descricao, Double valor, String codigoSistema, String codigoUsuario, LocalDateTime dataCriacao) {
+    public Gasto(String descricao, Double valor, String codigoSistema, String codigoUsuario, Date dataCriacao) {
         this.descricao = descricao;
         this.valor = valor;
         this.codigoSistema = codigoSistema;
@@ -71,11 +72,11 @@ public class Gasto {
         this.valor = valor;
     }
 
-    public LocalDateTime getDataCriacao() {
+    public Date getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
+    public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 

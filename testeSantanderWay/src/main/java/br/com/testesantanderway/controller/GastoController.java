@@ -29,7 +29,7 @@ public class GastoController {
     private GastoService gastoService;
 
     //TODO permitir apenas USUARIO listar gastos
-    @GetMapping
+    @GetMapping("user/gasto")
     public ResponseEntity<List<GastoDTO>> listar(HttpServletRequest request) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
         List<Gasto> gastos = gastoService.listarGastosMaisRecentes(codigoUsuario);
@@ -37,7 +37,7 @@ public class GastoController {
     }
 
     //TODO permitir apenas SISTEMA lançar gasto
-    @PutMapping
+    @PutMapping("sistema/gasto")
     public ResponseEntity lancar(HttpServletRequest request, @RequestBody GastoForm form) {
         Gasto gasto = form.converter(servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request)));
         gastoService.lancar(gasto);
@@ -46,16 +46,16 @@ public class GastoController {
 
     //TODO permitir apenas USUARIO listar gastos
     @Cacheable("gastoUsuario")
-    @GetMapping("/{dataCriacao}")
+    @GetMapping("user/gasto/{dataCriacao}")
     public Page<GastoDTO> filtro(HttpServletRequest request,
-                                 @PathVariable LocalDate dataCriacao,
+                                 @PathVariable String dataCriacao,
                                  @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
-        return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, dataCriacao, paginacao));
+        return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, LocalDate.parse(dataCriacao), paginacao));
     }
 
     //TODO permitir apenas USUARIO categorizar gasto
-    @PutMapping("categorizar")
+    @PutMapping("user/gasto/categorizar")
     public ResponseEntity categorizar(@RequestBody Gasto gasto) {
         gastoService.categorizarGasto(gasto);
         return ResponseEntity.ok().build();

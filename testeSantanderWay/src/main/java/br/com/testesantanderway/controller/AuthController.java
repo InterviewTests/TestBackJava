@@ -19,17 +19,30 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     @Autowired
     private AuthenticationManager authManager;
+
     @Autowired
     private ServicoDeToken servicoDeToken;
 
-    @PostMapping
-    public ResponseEntity<TokenDTO> login(@RequestBody AuthForm form){
-        UsernamePasswordAuthenticationToken dadosLogin = form.converter();
+    @PostMapping("sistema/login")
+    public ResponseEntity<TokenDTO> sistemaLogin(@RequestBody AuthForm form) {
+        UsernamePasswordAuthenticationToken dadosLogin = form.ciarAutenticacaoSistema();
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
-            String token = servicoDeToken.gerarToken(authentication);
+            String token = servicoDeToken.gerarToken(authentication, "SISTEMA");
             return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
-        } catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<TokenDTO> login(@RequestBody AuthForm form) {
+        UsernamePasswordAuthenticationToken dadosLogin = form.ciarAutenticacaoUsuario();
+        try {
+            Authentication authentication = authManager.authenticate(dadosLogin);
+            String token = servicoDeToken.gerarToken(authentication, "USUARIO");
+            return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
+        } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }
     }

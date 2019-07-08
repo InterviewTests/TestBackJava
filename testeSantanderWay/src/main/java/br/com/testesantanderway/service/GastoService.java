@@ -7,9 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
+import java.sql.Date;
+import java.time.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,14 +24,14 @@ public class GastoService {
     }
 
     public List<Gasto> listarGastosMaisRecentes(String codigoUsuario) {
-        LocalDateTime ultimosCincoSegundos = LocalDateTime.now().minusSeconds(5);
-        return gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, ultimosCincoSegundos);
+        ZonedDateTime ultimosCincoSegundos = ZonedDateTime.now().minusSeconds(5);
+        return gastoRepository.findByCodigoUsuarioAndDataCriacaoAfter(codigoUsuario, Date.from(ultimosCincoSegundos.toInstant()));
     }
 
     public Page<Gasto> encontrarGastosDoDia(String codigoUsuario, LocalDate dia, Pageable paginacao){
-        LocalDateTime inicio = dia.atStartOfDay();
-        LocalDateTime fim = dia.plusDays(1).atStartOfDay().minusNanos(1);
-        return gastoRepository.findByCodigoUsuarioAndDataCriacaoBetween(codigoUsuario, inicio, fim, paginacao);
+        ZonedDateTime inicio = dia.atStartOfDay(ZoneOffset.UTC).plusSeconds(1);
+        ZonedDateTime fim = dia.plusDays(1).atStartOfDay(ZoneOffset.UTC).minusSeconds(1);
+        return gastoRepository.findByCodigoUsuarioAndDataCriacaoBetween(codigoUsuario, Date.from(inicio.toInstant()), Date.from(fim.toInstant()), paginacao);
     }
 
     public void categorizarGasto(Gasto gasto) {

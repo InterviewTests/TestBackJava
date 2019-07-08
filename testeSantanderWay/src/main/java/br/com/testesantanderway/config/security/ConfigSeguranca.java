@@ -1,6 +1,7 @@
 package br.com.testesantanderway.config.security;
 
 import br.com.testesantanderway.repository.SistemaRepository;
+import br.com.testesantanderway.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +21,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
     @Autowired
     private AutenticacaoService autenticacaoService;
+
     @Autowired
-    private ServicoDeToken tokenService;
+    private ClienteRepository clienteRepository;
+
     @Autowired
     private SistemaRepository sistemaRepository;
 
+    @Autowired
+    private ServicoDeToken tokenService;
+
     @Override
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception{
+    protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
 
@@ -41,12 +47,9 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/clientes/*").permitAll()
-                .antMatchers(HttpMethod.GET,"/gastos/*").permitAll()
-                .antMatchers(HttpMethod.GET,"/usuarios/*").permitAll()
-                .antMatchers(HttpMethod.POST,"/usuarios/*").permitAll()
-                .antMatchers(HttpMethod.POST,"/auth").permitAll()
-                .antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                .antMatchers("/user/**").hasAnyAuthority("USUARIO")
+                .antMatchers("/sistema/**").hasAnyAuthority("SISTEMA")
                 .antMatchers(
                         "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
                         "/swagger.json")
@@ -54,7 +57,8 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, sistemaRepository), UsernamePasswordAuthenticationFilter.class);
+                .and()
+                .addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, sistemaRepository, clienteRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
     //Recursos estáticos(js, css, img, etc.)

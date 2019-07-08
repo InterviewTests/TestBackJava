@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @SpringBootTest
@@ -27,7 +27,7 @@ public class GastoTestador {
     public void setup(){
         this.codigoUsuario = UUID.randomUUID().toString();
         this.gasto = new Gasto();
-        this.gasto.setDataCriacao(LocalDateTime.now());
+        this.gasto.setDataCriacao(new Date());
         this.gasto.setDescricao("Teste Unitario");
         this.gasto.setValor(10.0);
         this.gasto.setCodigoUsuario(this.codigoUsuario);

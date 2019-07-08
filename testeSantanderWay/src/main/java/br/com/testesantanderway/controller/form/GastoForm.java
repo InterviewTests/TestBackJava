@@ -4,7 +4,7 @@ import br.com.testesantanderway.modelo.Gasto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class GastoForm {
     @NotNull
@@ -18,7 +18,7 @@ public class GastoForm {
     private String codigoUsuario;
     @NotNull
     @NotEmpty
-    private LocalDateTime dataCriacao;
+    private Date dataCriacao;
 
     public GastoForm() {
     }
@@ -46,11 +46,11 @@ public class GastoForm {
         this.valor = valor;
     }
 
-    public LocalDateTime getDataCriacao() {
+    public Date getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
+    public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 

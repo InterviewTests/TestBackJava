@@ -3,12 +3,12 @@ package br.com.testesantanderway.dto;
 import br.com.testesantanderway.modelo.Gasto;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class GastoDTO {
-    private LocalDateTime dataCriacao;
+    private Date dataCriacao;
     private String descricao;
     private Double valor;
     private String categoria;
@@ -20,11 +20,11 @@ public class GastoDTO {
         this.categoria = gasto.getCategoria();
     }
 
-    public LocalDateTime getDataCriacao() {
+    public Date getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
+    public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 

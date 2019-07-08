@@ -2,6 +2,8 @@ package br.com.testesantanderway.controller.form;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import java.util.Arrays;
+
 public class AuthForm {
     private String email;
     private String senha;
@@ -22,7 +24,11 @@ public class AuthForm {
         this.senha = senha;
     }
 
-    public UsernamePasswordAuthenticationToken converter() {
-        return new UsernamePasswordAuthenticationToken(email, senha);
+    public UsernamePasswordAuthenticationToken ciarAutenticacaoUsuario() {
+        return new UsernamePasswordAuthenticationToken(email, senha, Arrays.asList(() -> "USUARIO"));
+    }
+
+    public UsernamePasswordAuthenticationToken ciarAutenticacaoSistema() {
+        return new UsernamePasswordAuthenticationToken(email, senha, Arrays.asList(() -> "SISTEMA"));
     }
 }

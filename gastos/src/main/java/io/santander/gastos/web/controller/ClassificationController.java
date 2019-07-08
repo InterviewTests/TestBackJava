@@ -17,7 +17,7 @@ import java.util.Set;
 @Validated
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class ClassificationController {
-    public static final String ClASSIFICATION_ENDPOINT = "/classicacao";
+    public static final String ClASSIFICATION_ENDPOINT = "/classification";
 
     private final ClassificationService classificationService;
 

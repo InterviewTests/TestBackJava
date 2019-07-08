@@ -38,8 +38,8 @@ public class SpentController {
     }
 
     @GetMapping("/user/{codigoUsuario}/{codigoGasto}")
-    PageImpl<GastoVO> getSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão) {
-        return null;
+    GastoVO getSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão) {
+        return toVo(spentService.getSpentDetail(codigoUsuario, codigoGasto, numeroCartão));
     }
 
     @PutMapping("/user/{codigoUsuario}/{codigoGasto}")

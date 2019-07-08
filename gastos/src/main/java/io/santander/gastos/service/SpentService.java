@@ -5,8 +5,8 @@ import io.santander.gastos.dto.CardSpentDTO;
 import io.santander.gastos.dto.CreditCardDTO;
 import io.santander.gastos.dto.SpentDTO;
 import io.santander.gastos.exceptions.InvalidHolderException;
-import io.santander.gastos.exceptions.NonexistentCardException;
 import io.santander.gastos.exceptions.MissingCardException;
+import io.santander.gastos.exceptions.NonexistentCardException;
 import io.santander.gastos.mapper.SpentMapper;
 import io.santander.gastos.repository.SpentRepository;
 import io.santander.gastos.vo.GastoVO;
@@ -36,15 +36,21 @@ public class SpentService {
     private final ClientCardService clientCardService;
     private final DateUTCParser utcParser;
 
+
+    private List<Long> getCarHolder(final Long userCode, final String cardNumber) {
+        List<Long> cards = clientCardService.getClientsCard(userCode, cardNumber);
+        if (cards.isEmpty()) {
+            throw new MissingCardException(userCode.toString());
+        } else
+            return cards;
+    }
+
     @Transactional
     @Cacheable("spents")
     public PageImpl<SpentDTO> buscaTodosOsGastoPorCliente(final Long userCode, String cardNumber, final GastoVO vo, final Pageable pageable) {
         Page<Spent> spentPage;
 
-        List<Long> cards = clientCardService.getClientsCard(userCode, cardNumber);
-        if (cards.isEmpty()) {
-            throw new MissingCardException(userCode.toString());
-        }
+        List<Long> cards = getCarHolder(userCode, cardNumber);
         spentPage = spentRepository.findAllWithFilters(
                 cards,
                 Optional.ofNullable(vo.getDescricao()).orElse(null),
@@ -85,6 +91,14 @@ public class SpentService {
             throw new RuntimeException("Usuario inexistente");
 
         }
+
+    }
+
+    @Transactional
+    public SpentDTO getSpentDetail(Long userCode, Long codigoGasto, String cardNumber) {
+        List<Long> cards = getCarHolder(userCode, cardNumber);
+        //TODO: corrigir retorno
+        return spentMapper.toDTO(spentRepository.findById(codigoGasto).get());
 
     }
 }

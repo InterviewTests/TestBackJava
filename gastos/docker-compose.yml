@@ -28,22 +28,22 @@ services:
     expose:
       - '6379'
 
-  santander-spents:
-    depends_on:
-      - mysql
-      - redis
-    links:
-      - mysql
-    environment:
-      SPRING_REDIS_HOST: redis
-      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gastos"
-    networks:
-      - net-spents
-    build:
-      context: .
-    container_name: spents-app
-    ports:
-      - "9401:8080"
+#  santander-spents:
+#    depends_on:
+#      - mysql
+#      - redis
+#    links:
+#      - mysql
+#    environment:
+#      SPRING_REDIS_HOST: redis
+#      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gastos"
+#    networks:
+#      - net-spents
+#    build:
+#      context: .
+#    container_name: spents-app
+#    ports:
+#      - "9401:8080"
 
 volumes:
   my-db:

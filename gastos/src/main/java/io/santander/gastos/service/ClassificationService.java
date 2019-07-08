@@ -13,7 +13,7 @@ public class ClassificationService {
 
     private final ClassificationRepository classificationRepository;
 
-    Set<String> getAllClassificatios(String text) {
+    public Set<String> getAllClassificatios(String text) {
         return classificationRepository.findByText("%"+text+"%");
 
     }

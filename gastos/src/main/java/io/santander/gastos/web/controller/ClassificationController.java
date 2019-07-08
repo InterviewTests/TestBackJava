@@ -1,5 +1,6 @@
 package io.santander.gastos.web.controller;
 
+import io.santander.gastos.service.ClassificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.validation.annotation.Validated;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(ClassificationController.ClASSIFICATION_ENDPOINT)
@@ -18,8 +19,10 @@ import java.util.List;
 public class ClassificationController {
     public static final String ClASSIFICATION_ENDPOINT = "/classicacao";
 
+    private final ClassificationService classificationService;
+
     @GetMapping
-    List<String> buscaCassificacao(@RequestParam @Valid String searchText) {
-        return null;
+    Set<String> buscaCassificacao(@RequestParam @Valid String searchText) {
+        return classificationService.getAllClassificatios(searchText);
     }
 }

@@ -65,8 +65,8 @@ CREATE TABLE client_classification (
   client bigint(20) DEFAULT NULL,
   classification bigint(20) DEFAULT NULL,
   PRIMARY KEY (id),
-  KEY FK_client (client),
-  KEY FK_card_2 (card),
+  KEY FK_client_3 (client),
+  KEY FK_classification (classification),
   CONSTRAINT FK_classification FOREIGN KEY (classification) REFERENCES classification (id),
-  CONSTRAINT FK_client_2 FOREIGN KEY (client) REFERENCES client (id)
+  CONSTRAINT FK_client_3 FOREIGN KEY (client) REFERENCES client (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

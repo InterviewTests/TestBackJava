@@ -25,9 +25,11 @@ public class ClientClassification {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "client")
     private Client client;
 
     @ManyToOne
+    @JoinColumn(name = "classification")
     private Classification classification;
 
     @CreatedDate

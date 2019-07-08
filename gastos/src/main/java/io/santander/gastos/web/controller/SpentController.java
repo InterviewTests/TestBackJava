@@ -27,18 +27,23 @@ public class SpentController {
     private final DateUTCParser dateParser;
 
     @PostMapping("/{numeroCartao}")
-    String adicionaGasto(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo) {
+    String addSpent(@Valid @PathVariable("numeroCartao") final String numeroCartao, final GastoVO vo) {
         return spentService.saveSpent(numeroCartao, vo);
     }
 
     @GetMapping("/user/{codigoUsuario}")
-    PageImpl<GastoVO> buscaTodosGastoPorCliente(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
+    PageImpl<GastoVO> getAllSpents(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
         Page<SpentDTO> dtoPage = spentService.buscaTodosOsGastoPorCliente(codigoUsuario, numeroCartão, vo, pageable);
         return new PageImpl<>(dtoPage.getContent().stream().map(this::toVo).collect(Collectors.toList()), pageable, dtoPage.getTotalElements());
     }
 
     @GetMapping("/user/{codigoUsuario}/{codigoGasto}")
-    PageImpl<GastoVO> buscaDestalheGastoCliente(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão) {
+    PageImpl<GastoVO> getSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão) {
+        return null;
+    }
+
+    @PutMapping("/user/{codigoUsuario}/{codigoGasto}")
+    PageImpl<GastoVO> updateSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão, GastoVO vo) {
         return null;
     }
 

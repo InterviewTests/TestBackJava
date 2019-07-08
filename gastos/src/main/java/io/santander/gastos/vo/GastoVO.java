@@ -1,6 +1,7 @@
 package io.santander.gastos.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.santander.gastos.service.DateUTCParser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,8 @@ public class GastoVO {
     private Double valor;
     private Long codigoUsuario;
     private String data;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String classificacao;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long classificacaoId;
 }

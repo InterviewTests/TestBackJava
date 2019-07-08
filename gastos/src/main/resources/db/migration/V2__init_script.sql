@@ -25,3 +25,15 @@ INSERT INTO gastos.client (dat_creation,dat_update) VALUES
 INSERT INTO gastos.client_card (dat_creation,dat_update,client,card) VALUES
 ('1995-04-08 23:39:13.000','1995-11-09 12:21:31.000',1,1)
 ,('2015-03-23 10:51:45.000','1990-04-22 16:11:22.000',2,8);
+
+INSERT INTO gastos.classification (name,dat_creation,dat_update) VALUES
+('laboris nisi','1998-08-22 08:32:33.000','1995-02-18 19:52:51.000')
+,('Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pari','2002-04-27 22:42:05.000','2003-09-22 05:19:05.000')
+,('cupidatat non proident, sunt in culpa qui ','1999-05-27 06:31:04.000','2013-10-04 22:44:45.000')
+,('incididunt ut labore et dolore magna aliqua. Ut enim ad minim v','1999-03-31 10:09:37.000','1998-07-11 20:48:46.000')
+,('ex ea commodo consequat. Duis aute irure dolor in reprehenderit in','1980-12-02 23:23:49.000','1992-02-06 16:20:42.000')
+,('velit esse ci','2007-08-20 23:20:58.000','1980-12-19 04:56:13.000')
+,('in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Exc','2002-03-14 01:08:02.000','1994-12-28 09:17:43.000')
+,('magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ','2003-03-03 00:41:31.000','2018-06-26 20:23:33.000')
+,('Excepteur sint occaecat cu','2003-07-22 07:39:24.000','2005-08-10 07:04:08.000')
+,('dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa','1997-07-01 01:25:24.000','1983-04-13 10:37:49.000')

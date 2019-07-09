@@ -37,7 +37,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<TokenDTO> login(@RequestBody AuthForm form) {
-        UsernamePasswordAuthenticationToken dadosLogin = form.ciarAutenticacaoUsuario();
+        UsernamePasswordAuthenticationToken dadosLogin = form.criarAutenticacaoUsuario();
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
             String token = servicoDeToken.gerarToken(authentication, "USUARIO");

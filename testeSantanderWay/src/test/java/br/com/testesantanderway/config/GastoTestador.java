@@ -9,7 +9,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
@@ -49,7 +50,8 @@ public class GastoTestador {
     @DisplayName("Testa o Serviço que encontra os Gastos de um determinado dia")
     @Test
     public void testarDiario(){
-        service.encontrarGastosDoDia(codigoUsuario, LocalDate.now(), Pageable.unpaged());
+        service.encontrarGastosDoDia(codigoUsuario, LocalDateTime.parse("2019-07-08T19:11:50.400Z",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")), Pageable.unpaged());
     }
 
     @DisplayName("Testa o Serviço que categoriza um Gasto")

@@ -16,7 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -51,7 +52,8 @@ public class GastoController {
                                  @PathVariable String dataCriacao,
                                  @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
         String codigoUsuario = servicoDeToken.getCodigo(AutenticacaoViaTokenFilter.recuperarToken(request));
-        return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario, LocalDate.parse(dataCriacao), paginacao));
+        return GastoDTO.converter(gastoService.encontrarGastosDoDia(codigoUsuario,
+                LocalDateTime.parse(dataCriacao, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")), paginacao));
     }
 
     //TODO permitir apenas USUARIO categorizar gasto

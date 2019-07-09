@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Solr managed schema - automatically generated - DO NOT EDIT -->
 <schema name="default-config" version="1.6">
-  <uniqueKey>codigo</uniqueKey>
-  <fieldType name="_nest_path_" class="solr.NestPathField" maxCharsForDocValues="-1" omitNorms="true" omitTermFreqAndPositions="true" stored="false"/>
+  <uniqueKey>id</uniqueKey>
+  <fieldType name="_nest_path_" class="solr.NestPathField" omitTermFreqAndPositions="true" omitNorms="true" maxCharsForDocValues="-1" stored="false"/>
   <fieldType name="ancestor_path" class="solr.TextField">
     <analyzer type="index">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -442,13 +442,12 @@
   <field name="_root_" type="string" docValues="false" indexed="true" stored="false"/>
   <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
   <field name="_version_" type="plong" indexed="false" stored="false"/>
-  <field name="categoria" type="text_general"/>
-  <field name="codigo" type="string"/>
-  <field name="codigoSistema" type="string"/>
-  <field name="codigoUsuario" type="string"/>
+  <field name="codigo" type="text_general"/>
   <field name="dataCriacao" type="pdates"/>
-  <field name="descricao" type="text_general"/>
-  <field name="valor" type="pdoubles"/>
+  <field name="email" type="text_general"/>
+  <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="nome" type="text_general"/>
+  <field name="senha" type="text_general"/>
   <dynamicField name="*_txt_en_split_tight" type="text_en_splitting_tight" indexed="true" stored="true"/>
   <dynamicField name="*_descendent_path" type="descendent_path" indexed="true" stored="true"/>
   <dynamicField name="*_ancestor_path" type="ancestor_path" indexed="true" stored="true"/>
@@ -517,6 +516,8 @@
   <dynamicField name="*_f" type="pfloat" indexed="true" stored="true"/>
   <dynamicField name="*_d" type="pdouble" indexed="true" stored="true"/>
   <dynamicField name="*_p" type="location" indexed="true" stored="true"/>
-  <copyField source="descricao" dest="descricao_str" maxChars="256"/>
-  <copyField source="categoria" dest="categoria_str" maxChars="256"/>
+  <copyField source="senha" dest="senha_str" maxChars="256"/>
+  <copyField source="codigo" dest="codigo_str" maxChars="256"/>
+  <copyField source="nome" dest="nome_str" maxChars="256"/>
+  <copyField source="email" dest="email_str" maxChars="256"/>
 </schema>

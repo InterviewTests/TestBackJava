@@ -24,7 +24,7 @@ public class AuthForm {
         this.senha = senha;
     }
 
-    public UsernamePasswordAuthenticationToken ciarAutenticacaoUsuario() {
+    public UsernamePasswordAuthenticationToken criarAutenticacaoUsuario() {
         return new UsernamePasswordAuthenticationToken(email, senha, Arrays.asList(() -> "USUARIO"));
     }
 

@@ -48,8 +48,8 @@ public class ConfigSeguranca extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .antMatchers("/user/**").hasAnyAuthority("USUARIO")
-                .antMatchers("/sistema/**").hasAnyAuthority("SISTEMA")
+                .antMatchers("**/user/**").hasAnyAuthority("USUARIO")
+                .antMatchers("**/sistema/**").hasAnyAuthority("SISTEMA")
                 .antMatchers(
                         "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
                         "/swagger.json")

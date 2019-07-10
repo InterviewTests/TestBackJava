@@ -24,6 +24,7 @@ public class ClassificationController {
     private final ClassificationService classificationService;
 
     @GetMapping
+    @Cacheable("classification")
     List<ClassificationDTO> buscaCassificacao(@RequestParam @Valid String searchText) {
         return classificationService.getAllClassificatios(searchText);
     }

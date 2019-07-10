@@ -1,6 +1,5 @@
 package io.santander.gastos.repository;
 
-import io.santander.gastos.domain.Classification;
 import io.santander.gastos.domain.Spent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

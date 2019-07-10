@@ -17,4 +17,5 @@ public class SpentDTO {
     private String description;
     private Double spentValue;
     private Date spentDate;
+    private ClassificationDTO classification;
 }

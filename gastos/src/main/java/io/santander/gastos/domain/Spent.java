@@ -23,9 +23,13 @@ public class Spent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String description;
     private Double spentValue;
     private Date spentDate;
+    @JoinColumn(name = "classification")
+    @ManyToOne
+    private Classification classification;
     @CreatedDate
     @Column(name = "dat_creation", updatable = false, nullable = false)
     private Date creationTime;

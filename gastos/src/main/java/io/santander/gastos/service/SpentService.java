@@ -2,17 +2,18 @@ package io.santander.gastos.service;
 
 import io.santander.gastos.domain.Spent;
 import io.santander.gastos.dto.CardSpentDTO;
+import io.santander.gastos.dto.ClassificationDTO;
 import io.santander.gastos.dto.CreditCardDTO;
 import io.santander.gastos.dto.SpentDTO;
 import io.santander.gastos.exceptions.InvalidHolderException;
 import io.santander.gastos.exceptions.MissingCardException;
 import io.santander.gastos.exceptions.NonexistentCardException;
+import io.santander.gastos.mapper.ClassificationMapper;
 import io.santander.gastos.mapper.SpentMapper;
 import io.santander.gastos.repository.SpentRepository;
 import io.santander.gastos.vo.GastoVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,7 +35,10 @@ public class SpentService {
     private final CardSpentService cardSpentService;
     private final ClientService clientService;
     private final ClientCardService clientCardService;
+    private final ClassificationService classificationService;
     private final DateUTCParser utcParser;
+
+    private final ClassificationMapper classificationMapper;
 
 
     private List<Long> getCarHolder(final Long userCode, final String cardNumber) {
@@ -46,7 +50,6 @@ public class SpentService {
     }
 
     @Transactional
-    @Cacheable("spents")
     public PageImpl<SpentDTO> buscaTodosOsGastoPorCliente(final Long userCode, String cardNumber, final GastoVO vo, final Pageable pageable) {
         Page<Spent> spentPage;
 
@@ -58,6 +61,12 @@ public class SpentService {
                 Optional.ofNullable(utcParser.toDate(vo.getData())).orElse(null),
                 pageable);
         return new PageImpl<>(this.spentMapper.toDTOList(spentPage.getContent()), pageable, spentPage.getTotalElements());
+    }
+
+    @Transactional
+    public ClassificationDTO getSpentClassification(final Long userCode, final String decription) {
+        List<Long> cards = clientCardService.getCardsByClient(userCode);
+        return classificationService.getClassification(cards, decription);
     }
 
     @Transactional
@@ -77,6 +86,7 @@ public class SpentService {
                                     .description(vo.getDescricao())
                                     .spentDate(utcParser.toDate(vo.getData()))
                                     .spentValue(vo.getValor())
+                                    .classification(Optional.ofNullable(classificationMapper.toEntity(getSpentClassification(vo.getCodigoUsuario(), vo.getDescricao()))).orElse(null))
                                     .build())))
                             .build());
                     log.info("gasto registrado");
@@ -89,8 +99,19 @@ public class SpentService {
         } else {
             //TODO corrigir exeption
             throw new RuntimeException("Usuario inexistente");
-
         }
+
+    }
+
+    @Transactional
+    public void updateSpendDatail(final Long userCode, final Long spentId, String cardNumber, final String description, final Long classificationId) {
+
+        SpentDTO spentDTO = getSpentDetail(userCode, spentId, cardNumber);
+
+        Optional.ofNullable(description).ifPresent(s -> spentDTO.setDescription(s));
+        Optional.of(classificationId).ifPresent(aLong -> spentDTO.setClassification(classificationService.getById(aLong)));
+
+        spentRepository.save(spentMapper.toEntity(spentDTO));
 
     }
 
@@ -99,6 +120,5 @@ public class SpentService {
         List<Long> cards = getCarHolder(userCode, cardNumber);
         //TODO: corrigir retorno
         return spentMapper.toDTO(spentRepository.findById(codigoGasto).get());
-
     }
 }

@@ -5,6 +5,7 @@ import io.santander.gastos.service.DateUTCParser;
 import io.santander.gastos.service.SpentService;
 import io.santander.gastos.vo.GastoVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,27 +33,32 @@ public class SpentController {
     }
 
     @GetMapping("/user/{codigoUsuario}")
+    @Cacheable("spents")
     PageImpl<GastoVO> getAllSpents(@Valid @PathVariable final Long codigoUsuario, @RequestParam final String numeroCartão, final GastoVO vo, Pageable pageable) {
         Page<SpentDTO> dtoPage = spentService.buscaTodosOsGastoPorCliente(codigoUsuario, numeroCartão, vo, pageable);
         return new PageImpl<>(dtoPage.getContent().stream().map(this::toVo).collect(Collectors.toList()), pageable, dtoPage.getTotalElements());
     }
 
     @GetMapping("/user/{codigoUsuario}/{codigoGasto}")
+    @Cacheable("spent-datail")
     GastoVO getSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão) {
         return toVo(spentService.getSpentDetail(codigoUsuario, codigoGasto, numeroCartão));
     }
 
     @PutMapping("/user/{codigoUsuario}/{codigoGasto}")
-    PageImpl<GastoVO> updateSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão, GastoVO vo) {
+    GastoVO updateSpentDatail(@Valid @PathVariable final Long codigoUsuario, @Valid @PathVariable final Long codigoGasto, @RequestParam final String numeroCartão, @RequestParam(required = false) final String description, @RequestParam(required = false) final Long classification) {
+        spentService.updateSpendDatail(codigoUsuario, codigoGasto, numeroCartão, description, classification);
         return null;
     }
 
     private GastoVO toVo(SpentDTO spentDTO) {
         return GastoVO.builder()
+                .id(spentDTO.getId())
                 .codigoUsuario(spentDTO.getUserCode())
                 .descricao(spentDTO.getDescription())
                 .data(dateParser.toUtcDate(spentDTO.getSpentDate()))
                 .valor(spentDTO.getSpentValue())
+                .classificacao(spentDTO.getClassification().getName())
                 .build();
     }
 }

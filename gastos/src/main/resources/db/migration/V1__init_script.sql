@@ -10,7 +10,8 @@ CREATE TABLE card (
 CREATE TABLE spent (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   dat_creation datetime NOT NULL,
-  description varchar(255) DEFAULT NULL,
+  description varchar(255) NOT NULL,
+  classification bigint(20) DEFAULT NULL,
   spent_date datetime DEFAULT NULL,
   spent_value double DEFAULT NULL,
   dat_update datetime NOT NULL,

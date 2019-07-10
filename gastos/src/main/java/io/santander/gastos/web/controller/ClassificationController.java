@@ -3,6 +3,7 @@ package io.santander.gastos.web.controller;
 import io.santander.gastos.dto.ClassificationDTO;
 import io.santander.gastos.service.ClassificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

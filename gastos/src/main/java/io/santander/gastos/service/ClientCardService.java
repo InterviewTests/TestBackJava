@@ -21,4 +21,8 @@ public class ClientCardService {
     public List<Long> getClientsCard(long client, String card) {
         return clientCardRepository.findByClientAndCard(client, card);
     }
+
+    public List<Long> getCardsByClient(Long userCode) {
+        return clientCardRepository.findAllCardByClient(userCode);
+    }
 }

@@ -20,4 +20,10 @@ public interface ClientCardRepository extends JpaRepository<ClientCard, Long> {
             "INNER JOIN clic.client cli " +
             "WHERE cli.id = ?1 AND cc.cardNumber = ?2")
     List<Long> findByClientAndCard(long client, String card);
+
+    @Query(value = "SELECT cc.id FROM ClientCard clic " +
+            "INNER JOIN clic.creditCard cc " +
+            "INNER JOIN clic.client cli " +
+            "WHERE cli.id = ?1")
+    List<Long> findAllCardByClient(Long userCode);
 }

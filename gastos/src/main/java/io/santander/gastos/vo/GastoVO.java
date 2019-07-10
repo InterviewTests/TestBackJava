@@ -19,6 +19,7 @@ public class GastoVO {
     @Autowired
     private DateUTCParser dateParser;
 
+    private Long id;
     private String descricao;
     private Double valor;
     private Long codigoUsuario;

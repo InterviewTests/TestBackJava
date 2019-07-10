@@ -11,4 +11,12 @@ import java.util.List;
 public interface ClassificationRepository extends JpaRepository<Classification, Long> {
     @Query(value = "FROM Classification c WHERE c.name LIKE ?1 ")
     List<Classification> findByText(String text);
+
+    @Query(value = "SELECT cla FROM CardSpent cs " +
+            "INNER JOIN cs.creditCard cc " +
+            "INNER JOIN cs.spent s " +
+            "INNER JOIN s.classification cla " +
+            "WHERE cc.id IN ?1 " +
+            "AND s.description = ?2 ")
+    Classification findSpendClassification(List<Long> cards, String description);
 }

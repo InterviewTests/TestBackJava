@@ -23,7 +23,7 @@ public class ClassificationService {
     }
 
     @Transactional
-    public void getClassificationByDescription(final Long userCode, final String description) {
+    public void saveClassificationToClient(final Long userCode, final String description) {
         spentService.getSpentClassification(userCode, description);
     }
 

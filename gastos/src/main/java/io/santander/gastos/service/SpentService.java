@@ -104,6 +104,7 @@ public class SpentService {
     }
 
     @Transactional
+    //TODO: salvar classificação que não exista no banco e associar ao usuario
     public void updateSpendDatail(final Long userCode, final Long spentId, String cardNumber, final String description, final Long classificationId) {
 
         SpentDTO spentDTO = getSpentDetail(userCode, spentId, cardNumber);

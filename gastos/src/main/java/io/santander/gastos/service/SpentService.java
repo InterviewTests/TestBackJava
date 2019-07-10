@@ -109,7 +109,8 @@ public class SpentService {
         SpentDTO spentDTO = getSpentDetail(userCode, spentId, cardNumber);
 
         Optional.ofNullable(description).ifPresent(s -> spentDTO.setDescription(s));
-        Optional.of(classificationId).ifPresent(aLong -> spentDTO.setClassification(classificationService.getById(aLong)));
+        Optional.of(classificationId).ifPresentOrElse(aLong -> spentDTO.setClassification(classificationService.getById(aLong)),
+                () -> spentDTO.setClassification(getSpentClassification(userCode, description)));
 
         spentRepository.save(spentMapper.toEntity(spentDTO));
 

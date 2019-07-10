@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public abstract class AlertBaseTest {
+public abstract class SpentBaseTest {
 
     protected static final String PATH_TEMPLATE = "./src/test/resources/json/%s.json";
 

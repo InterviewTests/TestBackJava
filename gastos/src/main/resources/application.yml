@@ -1,0 +1,24 @@
+spent:
+  date-format: yyyy-MM-dd
+
+spring:
+  cache:
+    type: REDIS
+    redis:
+      time-to-live: 60000
+  redis:
+    host: localhost
+    password: Redis2019!
+    port: 6379
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/gastos
+    username: gastos
+    password: gastos
+    initialization-mode: EMBEDDED

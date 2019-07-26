@@ -1,5 +1,18 @@
 # Show me the code
 
+### # Como rodar:
+
+Primeiramente, ir na pasta raiz do projeto e compilar com o maven
+```
+ ./mvnw clean install
+```
+
+Depois executar o Docker
+
+```
+ docker-compose up --build
+```
+
 ### # DESAFIO:
 
 API REST para Gestão de Gastos!

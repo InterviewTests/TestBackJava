@@ -5,17 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import dev.wellison.santander.domain.Expense;
+import dev.wellison.santander.service.ExpenseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,6 +36,9 @@ public class ApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	@MockBean
+	ExpenseService expenseService;
+
 	@Test
 	public void shouldReturnDefaultMessage() throws Exception {
 		this.mockMvc.perform(get("/healthcheck")).andDo(print()).andExpect(status().isOk())
@@ -44,7 +50,7 @@ public class ApplicationTests {
 
 		Expense expense = getSampleExpense();
 
-		String requestBody = transformObjectToJson(expense);
+		String requestBody = asJsonString(expense);
 
 		mockMvc.perform(post("/expense/add").with(httpBasic("invalidUser","oooo")).contentType(APPLICATION_JSON).content(requestBody)).andExpect(status().isUnauthorized()).andReturn();
 	}
@@ -54,15 +60,20 @@ public class ApplicationTests {
 
 		Expense expense = getSampleExpense();
 
-		String requestBody = transformObjectToJson(expense);
-		mockMvc.perform(post("/expense/add").with(httpBasic("admin","admin")).contentType(APPLICATION_JSON).content(requestBody)).andExpect(status().isOk()).andReturn();
+		String requestBody = asJsonString(expense);
+		mockMvc.perform(post("/expense/add")
+				.with(httpBasic("admin","admin"))
+				.contentType(APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isOk());
 	}
 
-	private String transformObjectToJson(Object obj) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		return ow.writeValueAsString(obj);
+	public static String asJsonString(final Object obj) {
+		try {
+			return new ObjectMapper().writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private Expense getSampleExpense() throws ParseException {
@@ -71,7 +82,7 @@ public class ApplicationTests {
 		expense.setValue(46.0);
 		expense.setUserCode(Long.valueOf("1234") );
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		java.sql.Date data = new java.sql.Date(sdf.parse("2019-06-10").getTime());
+		Date data = new Date(sdf.parse("2019-06-10").getTime());
 		expense.setDate(data);
 		return expense;
 	}

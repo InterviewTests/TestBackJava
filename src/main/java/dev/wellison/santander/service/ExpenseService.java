@@ -8,8 +8,9 @@ import java.util.List;
 public interface ExpenseService {
 
     Expense saveExpense(Expense expense);
-    List<Expense> getAllEmployees();
+    List<Expense> getAllExpenses();
     List<Expense> findExpenseByUserCodeAndDate(Long userCode, String date) throws ParseException;
+    List<Expense> findExpenseByUserCode(Long userCode);
     String deleteExpense(String id);
     Expense updateExpense(Expense expense);
     Expense addCategoryAutomatically (Expense expense);

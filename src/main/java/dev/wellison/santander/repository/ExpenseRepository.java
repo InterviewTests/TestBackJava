@@ -9,4 +9,5 @@ import java.util.List;
 public interface ExpenseRepository extends CrudRepository<Expense,String> {
     List<Expense> findByUserCodeAndDate(Long userCode, Date date);
 
+    List<Expense> findByUserCodeOrderByDateAsc(Long userCode);
 }

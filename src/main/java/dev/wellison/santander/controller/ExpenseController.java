@@ -5,6 +5,7 @@ import dev.wellison.santander.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import dev.wellison.santander.service.ExpenseService;
 
@@ -23,6 +24,7 @@ public class ExpenseController{
 
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public Expense addExpense(@RequestBody Expense expense)
     {
         return expenseService.saveExpense(expense);
@@ -30,9 +32,10 @@ public class ExpenseController{
 
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Expense> getAllExpenses()
     {
-        return expenseService.getAllEmployees();
+        return expenseService.getAllExpenses();
     }
 
     @GetMapping(value = "/find/{userCode}/{date}", produces = "application/json; charset=utf-8")
@@ -42,7 +45,15 @@ public class ExpenseController{
         return ResponseEntity.status(HttpStatus.OK).body(expenses);
     }
 
+    @GetMapping(value = "/find/{userCode}", produces = "application/json; charset=utf-8")
+    public ResponseEntity<List<Expense>> findExpenseByUserCode(@PathVariable Long userCode) throws ParseException {
+
+        List<Expense> expenses = expenseService.findExpenseByUserCode(userCode);
+        return ResponseEntity.status(HttpStatus.OK).body(expenses);
+    }
+
     @DeleteMapping(value = "/{id}", produces = "application/json; charset=utf-8")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteExpense(@PathVariable String id) {
         return expenseService.deleteExpense(id);
     }

@@ -32,7 +32,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> getAllEmployees() {
+    public List<Expense> getAllExpenses() {
         Iterable<Expense> result = expenseRepository.findAll();
         List<Expense> employeesList = new ArrayList<Expense>();
         result.forEach(employeesList::add);
@@ -48,6 +48,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<Expense> findExpenseByUserCode(Long userCode){
+        return expenseRepository.findByUserCodeOrderByDateAsc(userCode);
+    }
+
+    @Override
     public String deleteExpense(String id) {
         boolean result = expenseRepository.existsById(id);
         expenseRepository.deleteById(id);
@@ -59,9 +64,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.findById(expense.getId()).map(recordedExpense -> {
             recordedExpense.setCategory(expense.getCategory());
 
-            Expense updatedExpense = expenseRepository.save(recordedExpense);
-
-            return updatedExpense;
+            return expenseRepository.save(recordedExpense);
         }).orElse(null);
     }
 

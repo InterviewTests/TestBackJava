@@ -22,4 +22,8 @@ public class Expense implements Serializable {
     private @Indexed    Long userCode;
     private @Indexed    Date date;
     private             Category category;
+
+
+    public Expense() {
+    }
 }

@@ -1,14 +1,13 @@
-package santander.api.controller;
+package dev.wellison.santander.controller;
 
+import dev.wellison.santander.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import santander.api.domain.Category;
-import santander.api.domain.repository.CategoryRepository;
+import dev.wellison.santander.service.CategoryService;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/category")
@@ -16,20 +15,18 @@ public class CategoryController {
 
 
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
 
     @PostMapping("/add")
     public Category addCategory(@RequestBody Category request){
-        String id = String.valueOf(new Random().nextInt());
-        Category category = new Category(id,request.getDescription());
-        return categoryRepository.save(category);
+        return categoryService.addCategory(request);
     }
 
 
     @GetMapping(value = "/find/{searchCategory}", produces = "application/json; charset=utf-8")
     public ResponseEntity<List<Category>> searchCategoryByDescription(@PathVariable String searchCategory) {
 
-        List<Category> categories = categoryRepository.findByDescription(searchCategory);
+        List<Category> categories = categoryService.searchCategoryByDescription(searchCategory);
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 

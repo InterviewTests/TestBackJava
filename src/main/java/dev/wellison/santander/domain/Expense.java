@@ -1,8 +1,7 @@
-package santander.api.domain;
+package dev.wellison.santander.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

@@ -1,7 +1,7 @@
-package santander.api.domain.repository;
+package dev.wellison.santander.repository;
 
+import dev.wellison.santander.domain.Expense;
 import org.springframework.data.repository.CrudRepository;
-import santander.api.domain.Expense;
 
 import java.util.Date;
 import java.util.List;

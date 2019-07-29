@@ -1,4 +1,4 @@
-package santander.api.domain;
+package dev.wellison.santander.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

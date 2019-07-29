@@ -1,7 +1,7 @@
-package santander.api.domain.repository;
+package dev.wellison.santander.repository;
 
+import dev.wellison.santander.domain.Category;
 import org.springframework.data.repository.CrudRepository;
-import santander.api.domain.Category;
 
 import java.util.List;
 

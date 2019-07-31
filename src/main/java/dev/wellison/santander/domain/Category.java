@@ -16,4 +16,7 @@ public class Category {
 
     private @Id String id;
     private @Indexed String description;
+
+    public Category() {
+    }
 }

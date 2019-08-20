@@ -3,9 +3,12 @@ package com.santander;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.santander.model.Gasto;
 import com.santander.repository.GastoRepositoy;
+import com.santander.repository.filter.GastoFilter;
 import com.santander.service.GastoService;
 import com.santander.service.IGastoService;
 
@@ -32,7 +36,6 @@ public class IntegracaoGastosTest {
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
-
 
 	@Before
 	public void setUp() {
@@ -64,11 +67,11 @@ public class IntegracaoGastosTest {
 
 		gastoService.salvar(gasto);
 		gastoService.salvar(gasto2);
-		
+
 		verify(gastoRepository, times(2)).save(gasto);
 
 	}
-	
+
 	@Test
 	public void deveSalvarCemMilGastosPorSegundoNoRepositorio() {
 
@@ -83,6 +86,17 @@ public class IntegracaoGastosTest {
 
 		verify(gastoRepository, times(100000)).save(gasto);
 		assertTrue(tempo <= 1000);
+
+	}
+
+	@Test
+	public void deveTrazerGastoParaDia() throws Exception {
+		GastoFilter filter = new GastoFilter();
+
+		filter.setData(LocalDate.of(2019, 9, 29));
+		when(gastoRepository.filtrar(filter, gasto.getCodigoUsuario())).thenReturn(new ArrayList<Gasto>());
+		gastoService.filtrar(filter, gasto.getCodigoUsuario());
+		verify(gastoRepository).filtrar(filter, gasto.getCodigoUsuario());
 
 	}
 

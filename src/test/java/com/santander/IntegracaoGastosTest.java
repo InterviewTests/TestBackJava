@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,7 +47,7 @@ public class IntegracaoGastosTest {
 		gasto.setValor(new BigDecimal(1.0));
 		gasto.setCodigoUsuario(1);
 		gasto.setData(LocalDateTime.now());
-
+		gasto.setCategoria("teste");
 		gastoService = new GastoService(gastoRepository);
 	}
 
@@ -66,8 +68,8 @@ public class IntegracaoGastosTest {
 		gasto2.setData(LocalDateTime.now());
 
 		gastoService.salvar(gasto);
-		gastoService.salvar(gasto2);
 
+		gastoService.salvar(gasto2);
 		verify(gastoRepository, times(2)).save(gasto);
 
 	}
@@ -93,11 +95,10 @@ public class IntegracaoGastosTest {
 	public void deveTrazerGastoParaDia() throws Exception {
 		GastoFilter filter = new GastoFilter();
 
-		filter.setData(LocalDate.of(2019, 9, 29));
+		filter.setData(LocalDate.now());
 		when(gastoRepository.filtrar(filter, gasto.getCodigoUsuario())).thenReturn(new ArrayList<Gasto>());
 		gastoService.filtrar(filter, gasto.getCodigoUsuario());
 		verify(gastoRepository).filtrar(filter, gasto.getCodigoUsuario());
-
 	}
 
 }

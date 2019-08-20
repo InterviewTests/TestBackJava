@@ -11,4 +11,6 @@ public interface IGastoService {
 
 	public List<Gasto> filtrar(GastoFilter filter, int codigoUsuario);
 
+	public Gasto alterarCategoria(Long idGasto, String categoria);
+
 }

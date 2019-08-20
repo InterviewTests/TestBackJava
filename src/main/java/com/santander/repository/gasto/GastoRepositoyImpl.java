@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.util.StringUtils;
 
 import com.santander.model.Gasto;
+import com.santander.model.dto.GastoDTO;
 import com.santander.repository.filter.GastoFilter;
 
 public class GastoRepositoyImpl implements GastoRepositoyQuery {
@@ -57,6 +58,16 @@ public class GastoRepositoyImpl implements GastoRepositoyQuery {
 			predicates.add(builder.equal(root.get("codigoUsuario"), codigoUsuario));
 		}
 		return predicates.toArray(new Predicate[predicates.size()]);
+	}
+
+	@Override
+	public List<GastoDTO> buscarPorCategoria(String categoria) {
+		String jpql = "select new com.santander.model.dto.GastoDTO(categoria) "
+				+ "from Gasto where lower(categoria) like lower(:categoria)";
+
+		List<GastoDTO> categoriasFiltradas = manager.createQuery(jpql, GastoDTO.class)
+				.setParameter("categoria", categoria + "%").getResultList();
+		return categoriasFiltradas;
 	}
 
 

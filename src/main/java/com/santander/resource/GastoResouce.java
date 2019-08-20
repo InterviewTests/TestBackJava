@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.santander.model.Gasto;
+import com.santander.model.dto.GastoDTO;
+import com.santander.repository.GastoRepositoy;
 import com.santander.repository.filter.GastoFilter;
 import com.santander.service.GastoService;
 
@@ -27,6 +30,8 @@ public class GastoResouce {
 
 	@Autowired
 	private GastoService gastoService;
+	@Autowired
+	private GastoRepositoy gastoRepository;
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Gasto> criarGasto(@Valid @RequestBody Gasto gasto) {
@@ -48,6 +53,11 @@ public class GastoResouce {
 	@PutMapping("/{codigo}/categoria")
 	public void alterarCategoria(@PathVariable Long codigo, @RequestBody String categoria) {
 		gastoService.alterarCategoria(codigo, categoria);
+	}
+	
+	@GetMapping("/categoria/filtro")
+	public @ResponseBody List<GastoDTO> pesquisarCategoria(String categoria) {
+		return gastoRepository.buscarPorCategoria(categoria);
 	}
 	
 }

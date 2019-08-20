@@ -1,7 +1,5 @@
 package com.santander.service;
 
-import java.util.List;
-
 import com.santander.model.Gasto;
 import com.santander.repository.GastoRepositoy;
 
@@ -14,12 +12,8 @@ public class GastoService implements IGastoService {
 	}
 
 	@Override
-	public void salvar(List<Gasto> listGasto) {
-
-		for (Gasto gasto : listGasto) {
-			gastosRepository.save(gasto);
-		}
-
+	public Gasto salvar(Gasto gasto) {
+		return gastosRepository.save(gasto);
 	}
 
 }

@@ -4,9 +4,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,18 +29,17 @@ public class IntegracaoGastosTest {
 	private IGastoService gastoService;
 
 	private Gasto gasto;
-	private List<Gasto> listGasto;
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
+
 	@Before
 	public void setUp() {
-		listGasto = new ArrayList<Gasto>();
 
 		gasto = new Gasto();
-		gasto.setDescricao("Primeiro Gsato");
-		gasto.setValor(1.0);
+		gasto.setDescricao("Primeiro Gasto");
+		gasto.setValor(new BigDecimal(1.0));
 		gasto.setCodigoUsuario(1);
 		gasto.setData(LocalDateTime.now());
 
@@ -50,39 +48,40 @@ public class IntegracaoGastosTest {
 
 	@Test
 	public void deveSalvarGastosNoRepositorio() {
-
-		listGasto.add(gasto);
-
-		gastoService.salvar(listGasto);
+		gastoService.salvar(gasto);
 		verify(gastoRepository).save(gasto);
 	}
 
 	@Test
 	public void deveSalvar2GastosNoRepositorio() throws Exception {
 
-		listGasto.add(gasto);
-		listGasto.add(gasto);
-		gastoService.salvar(listGasto);
+		Gasto gasto2 = new Gasto();
+		gasto2.setCategoria(null);
+		gasto2.setDescricao("Segundo Gsato");
+		gasto2.setValor(new BigDecimal(10.00));
+		gasto2.setCodigoUsuario(2);
+		gasto2.setData(LocalDateTime.now());
 
+		gastoService.salvar(gasto);
+		gastoService.salvar(gasto2);
+		
 		verify(gastoRepository, times(2)).save(gasto);
 
 	}
-
+	
 	@Test
 	public void deveSalvarCemMilGastosPorSegundoNoRepositorio() {
 
 		long inicio = System.currentTimeMillis();
 
 		for (int i = 0; i <= 100000 - 1; i++) {
-			listGasto.add(gasto);
+			gastoService.salvar(gasto);
 		}
 
 		long fim = System.currentTimeMillis();
 		long tempo = fim - inicio;
 
-		gastoService.salvar(listGasto);
 		verify(gastoRepository, times(100000)).save(gasto);
-
 		assertTrue(tempo <= 1000);
 
 	}

@@ -1,12 +1,11 @@
 package com.santander.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import com.santander.model.Gasto;
 
-public interface GastoRepositoy {
-
-	public Gasto save(Gasto gasto);
-
-	public Integer count();
-
+@Repository
+public interface GastoRepositoy extends JpaRepository<Gasto, Long> {
 
 }

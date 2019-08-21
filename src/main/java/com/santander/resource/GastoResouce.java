@@ -43,21 +43,21 @@ public class GastoResouce {
 
 		return ResponseEntity.created(uri).body(gastoSalvo);
 	}
-	
+
 	@GetMapping("/{codigoUsuario}/listagemGasto")
 	public ResponseEntity<List<Gasto>> buscarGastoPor(GastoFilter filter, @PathVariable int codigoUsuario) {
 		List<Gasto> gasto = gastoService.filtrar(filter, codigoUsuario);
 		return !gasto.isEmpty() ? ResponseEntity.ok(gasto) : ResponseEntity.notFound().build();
 	}
-	
+
 	@PutMapping("/{codigo}/categoria")
 	public void alterarCategoria(@PathVariable Long codigo, @RequestBody String categoria) {
 		gastoService.alterarCategoria(codigo, categoria);
 	}
-	
+
 	@GetMapping("/categoria/filtro")
 	public @ResponseBody List<GastoDTO> pesquisarCategoria(String categoria) {
 		return gastoRepository.buscarPorCategoria(categoria);
 	}
-	
+
 }

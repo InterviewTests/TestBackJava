@@ -38,6 +38,16 @@ public class GastoRepositoyImpl implements GastoRepositoyQuery {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<GastoDTO> buscarPorCategoria(String categoria) {
+		String jpql = "select new com.santander.model.dto.GastoDTO(categoria) "
+				+ "from Gasto where lower(categoria) like lower(:categoria)";
+
+		List<GastoDTO> categoriasFiltradas = manager.createQuery(jpql, GastoDTO.class)
+				.setParameter("categoria", categoria + "%").getResultList();
+		return categoriasFiltradas;
+	}
+
 	private Predicate[] criarRestricoes(GastoFilter gastoFilter, int codigoUsuario, CriteriaBuilder builder,
 			Root<Gasto> root) {
 
@@ -59,16 +69,5 @@ public class GastoRepositoyImpl implements GastoRepositoyQuery {
 		}
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
-
-	@Override
-	public List<GastoDTO> buscarPorCategoria(String categoria) {
-		String jpql = "select new com.santander.model.dto.GastoDTO(categoria) "
-				+ "from Gasto where lower(categoria) like lower(:categoria)";
-
-		List<GastoDTO> categoriasFiltradas = manager.createQuery(jpql, GastoDTO.class)
-				.setParameter("categoria", categoria + "%").getResultList();
-		return categoriasFiltradas;
-	}
-
 
 }

@@ -1,6 +1,7 @@
 package com.santander.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,6 +24,14 @@ public class GastoService implements IGastoService {
 
 	@Override
 	public Gasto salvar(Gasto gasto) {
+		
+		if (StringUtils.isEmpty(gasto.getCategoria())) {
+			Optional<Gasto> descricaoOptional = gastosRepository.findByDescricao(gasto.getDescricao());
+			if (descricaoOptional.isPresent()) {
+				Gasto gastoSalvo = descricaoOptional.get();
+				gasto.setCategoria(gastoSalvo.getCategoria());
+			}
+		}
 		return gastosRepository.save(gasto);
 	}
 

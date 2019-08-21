@@ -2,6 +2,32 @@
 
 ### # DESAFIO:
 
+Instruções para rodar a Api.
+
+0- Primeiramente, ir na pasta raiz do projeto e compile com o maven
+    ```./mvnw clean install```
+1- Na pasta Targat Clique 2x no TestBackJava-1.jar
+2- A api está usando segurança Oauth 2
+  Então é necessario fazer um POST primeiro no endpoint:
+    ```http://localhost:8000/gasto/oauth/token```
+    Como Authorization basic, deve-se passar o username e passaword que nesse caso é "cliente".
+    No Body da requisição deve se passar;
+      chave       Valor
+      client      cliente
+      username    admin
+      password    admin
+      grant_type  password
+    na resposta existe um access_token o qual deve ser copiado e passado no header do http para as outras requisições.
+3- A api responde os seguinte endPoonts;
+    ```
+    POST http://localhost:8000/gasto/  --> Para a inclusão de gastos
+    GET  http://localhost:8000/gasto/{idUsuario}/listagemGasto e http://localhost:8000/gasto/{idUsuario}/listagemGasto?data=2019-09-20 --> Para consulta de gastos
+    PUT  http://localhost:8000/gasto/{idGasto}/categoria --> Altera uma categoria caso ela possa ser alterada
+    GET  http://localhost:8000/gasto/categoria/filtro?categoria={caracter} --> lista categorias que iniciam com um caracter
+    ```
+
+### # DESAFIO:
+
 API REST para Gestão de Gastos!
 
 ```

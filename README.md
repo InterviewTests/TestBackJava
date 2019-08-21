@@ -3,11 +3,15 @@
 ### # Instruções para rodar a Api.
 
 <p>1- Primeiramente, ir na pasta raiz do projeto e compile com o maven</p>
-    ```./mvnw clean install```  
-2- Na pasta Targat Clique 2x no TestBackJava-1.jar  
-3- A api está usando segurança Oauth 2  
-  Então é necessario fazer um POST primeiro no endpoint:  
-    ```http://localhost:8000/gasto/oauth/token```  
+    
+    ./mvnw clean install 
+    
+<p>2- Na pasta Targat Clique 2x no TestBackJava-1.jar</p>
+<p>3- A api está usando segurança Oauth 2
+  Então é necessario fazer um POST primeiro no endpoint:</p>
+    
+      http://localhost:8000/gasto/oauth/token
+    
     Como Authorization basic, deve-se passar o username e passaword que nesse caso é "cliente".  
     No Body da requisição deve se passar;  
       chave       Valor  

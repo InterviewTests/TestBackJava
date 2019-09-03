@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface ExpenseService {
     public void addNewExpense(Expense expense);
-    public List<Expense> getListExpenses();
+    public List<Expense> findExpenseByCodigoUsuario(long codigoUsuario);
     public List<Expense> findExpenseByCodigoUsuarioAndData();
-    public List<Expense> findExpenseByCodigoUsuario();
     public void updateExpense(Expense expense);
 }

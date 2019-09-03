@@ -6,6 +6,8 @@ import com.santander.interview.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,17 +25,19 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> getListExpenses() {
-        return expenseRepository.findAll();
+    public List<Expense> findExpenseByCodigoUsuario(long codigoUsuario) {
+        List<Expense> expenses = expenseRepository.findByCodigoUsuario(codigoUsuario);
+        Collections.sort(expenses, new Comparator<Expense>() {
+            @Override
+            public int compare(Expense expense1, Expense expense2) {
+                return expense2.getData().compareTo(expense1.getData());
+            }
+        });
+        return expenses;
     }
 
     @Override
     public List<Expense> findExpenseByCodigoUsuarioAndData() {
-        return null;
-    }
-
-    @Override
-    public List<Expense> findExpenseByCodigoUsuario() {
         return null;
     }
 

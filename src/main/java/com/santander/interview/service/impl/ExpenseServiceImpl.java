@@ -6,10 +6,12 @@ import com.santander.interview.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -37,8 +39,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> findExpenseByCodigoUsuarioAndData() {
-        return null;
+    public List<Expense> findExpenseByCodigoUsuarioAndData(long codigoUsuario, String data) throws ParseException {
+        Date startDate = new SimpleDateFormat("ddMMyyyy").parse(data);
+        Date endDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
+        return expenseRepository.findByCodigoUsuarioAndDataBetween(codigoUsuario, startDate, endDate);
     }
 
     @Override

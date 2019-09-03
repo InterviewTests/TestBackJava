@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ExpenseRepository extends MongoRepository<Expense, String> {
     public List<Expense> findByCodigoUsuario(long codigoUsuario);
-    public List<Expense> findByCodigoUsuarioAndData(long codigoUsuario, Date date);
+    public List<Expense> findByCodigoUsuarioAndDataBetween(long codigoUsuario, Date startData, Date endData);
 }

@@ -1,15 +1,21 @@
 package com.santander.interview.domain;
 
 public class Response {
-    private String statusCode;
+    private long statusCode;
     private String message;
     private Object data;
 
     public Response() { }
 
-    public String getStatusCode() { return statusCode; }
+    public Response(long statusCode, String message, Object data) {
+        this.statusCode = statusCode;
+        this.message = message;
+        this.data = data;
+    }
 
-    public void setStatusCode(String statusCode) { this.statusCode = statusCode; }
+    public long getStatusCode() { return statusCode; }
+
+    public void setStatusCode(long statusCode) { this.statusCode = statusCode; }
 
     public String getMessage() { return message; }
 

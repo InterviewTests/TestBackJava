@@ -9,7 +9,7 @@ public class Expense {
     private String id;
     private String descricao;
     private double valor;
-    private int codigousuario;
+    private long codigoUsuario;
     private Date data;
 
     public Expense() { }
@@ -26,11 +26,19 @@ public class Expense {
 
     public void setValor(double valor) { this.valor = valor; }
 
-    public int getCodigousuario() { return codigousuario; }
+    public long getCodigoUsuario() { return codigoUsuario; }
 
-    public void setCodigousuario(int codigousuario) { this.codigousuario = codigousuario; }
+    public void setCodigoUsuario(long codigoUsuario) { this.codigoUsuario = codigoUsuario; }
 
     public Date getData() { return data; }
 
     public void setData(Date data) { this.data = data; }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Expense[id=%s, descricao=%s, valor=%f, codigoUsuario=%d, data=%s]",
+                this.id, this.descricao, this.valor, this.codigoUsuario, this.data.toString()
+        );
+    }
 }

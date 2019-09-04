@@ -1,3 +1,7 @@
+## IMPORTANTE
+Devido a falta de inteligência minha(Mais conhecida como burrice) acabei fazendo o projeto sem fazer o Fork com o repositório do teste. Então estou publicando apenas o resultado final do teste. Para visualizar todo o histórico de commits por favor acesse o repositório https://github.com/ValdeciJunior/santander
+Desculpe-me a burrice.
+
 ### PROJETO PARA SELEÇÃO SANTANDER
 
 #### Antes de executar o projeto você precisa:

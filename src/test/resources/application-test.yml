@@ -1,0 +1,7 @@
+server:
+  port: 8081
+spring:
+ datasource:
+   url: jdbc:postgresql://localhost:5432/santander?compatible=7.2
+   username: postgres
+   password: postgres

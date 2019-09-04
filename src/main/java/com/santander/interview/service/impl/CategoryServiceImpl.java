@@ -6,6 +6,7 @@ import com.santander.interview.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -18,6 +19,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void saveCategory(Category category) {
         category.setId(generateUuid());
-        categoryRepository.save(category);
+        this.categoryRepository.save(category);
+    }
+
+    @Override
+    public List<Category> searchCategoryByDetailPrefix(String detailPrefix) {
+        return this.categoryRepository.findByDetailLike(detailPrefix);
     }
 }

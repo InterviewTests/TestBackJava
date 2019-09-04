@@ -6,9 +6,9 @@ import com.santander.interview.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class CategoryApi {
@@ -22,6 +22,16 @@ public class CategoryApi {
 
         return new ResponseEntity<>(
                 new Response(HttpStatus.OK.value(), "Categoria criada.", null),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/category/detail/{detailPrefix}")
+    public ResponseEntity<Response> suggestionCategory(@PathVariable String detailPrefix) {
+        List<Category> categories = this.categoryService.searchCategoryByDetailPrefix(detailPrefix);
+
+        return new ResponseEntity<>(
+                new Response(HttpStatus.OK.value(), "Resultado da busca de categorias", categories),
                 HttpStatus.OK
         );
     }

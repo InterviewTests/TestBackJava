@@ -11,6 +11,7 @@ public class Expense {
     private double valor;
     private long codigoUsuario;
     private Date data;
+    private Category category;
 
     public Expense() { }
 
@@ -33,6 +34,10 @@ public class Expense {
     public Date getData() { return data; }
 
     public void setData(Date data) { this.data = data; }
+
+    public Category getCategory() { return category; }
+
+    public void setCategory(Category category) { this.category = category; }
 
     @Override
     public String toString() {

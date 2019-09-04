@@ -1,6 +1,8 @@
 package com.santander.interview.service.impl;
 
+import com.santander.interview.domain.Category;
 import com.santander.interview.domain.Expense;
+import com.santander.interview.repository.CategoryRepository;
 import com.santander.interview.repository.ExpenseRepository;
 import com.santander.interview.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,23 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Autowired
     ExpenseRepository expenseRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     private String generateUuid() {  return UUID.randomUUID().toString(); }
+
+    private Category automaticCategorization(Expense expense) {
+        Category category = expense.getCategory();
+        if(category != null && category.getDetail() != null) {
+            return categoryRepository.findByDetail(category.getDetail()).get(0);
+        }
+
+        return null;
+    }
 
     @Override
     public void addNewExpense(Expense expense) {
+        expense.setCategory(this.automaticCategorization(expense));
         expense.setId(this.generateUuid());
         this.expenseRepository.save(expense);
     }
@@ -40,8 +55,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<Expense> findExpenseByCodigoUsuarioAndData(long codigoUsuario, String data) throws ParseException {
+        long oneDayInMilliseconds = 1000 * 60 * 60 * 24;
         Date startDate = new SimpleDateFormat("ddMMyyyy").parse(data);
-        Date endDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
+        Date endDate = new Date(startDate.getTime() + oneDayInMilliseconds);
         return this.expenseRepository.findByCodigoUsuarioAndDataBetween(codigoUsuario, startDate, endDate);
     }
 

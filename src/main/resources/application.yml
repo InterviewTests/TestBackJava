@@ -1,0 +1,33 @@
+server:
+  port: 8081
+
+jwt:
+  secret: quero-ir-para-sao-paulo
+  expire: 90000000
+  
+spring:
+ datasource:
+   url: jdbc:postgresql://localhost:5432/santander?compatible=7.2
+   username: postgres
+   password: postgres
+ flyway:
+   url: jdbc:postgresql://localhost:5432/santander?compatible=7.2
+   schemas: public
+   user: postgres
+   password: postgres
+   baselineOnMigrate: true
+ 
+ jpa:
+   properties:
+     hibernate:
+       dialect: org.hibernate.dialect.PostgreSQL9Dialect
+       use_sql_comments: true
+       format_sql: true
+       type: trace
+       show_sql: true
+       use_jdbc_metadata_defaults: false
+       jdbc.lob.non_contextual_creation: true
+   hibernate:
+     ddl-auto: update
+ application:
+   name: santander 

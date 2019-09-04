@@ -23,7 +23,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public void addNewExpense(Expense expense) {
         expense.setId(this.generateUuid());
-        expenseRepository.save(expense);
+        this.expenseRepository.save(expense);
     }
 
     @Override
@@ -42,11 +42,16 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<Expense> findExpenseByCodigoUsuarioAndData(long codigoUsuario, String data) throws ParseException {
         Date startDate = new SimpleDateFormat("ddMMyyyy").parse(data);
         Date endDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
-        return expenseRepository.findByCodigoUsuarioAndDataBetween(codigoUsuario, startDate, endDate);
+        return this.expenseRepository.findByCodigoUsuarioAndDataBetween(codigoUsuario, startDate, endDate);
     }
 
     @Override
-    public void updateExpense(Expense expense) {
-
+    public void updateExpense(String id, Expense expense) {
+        this.expenseRepository.findById(id).ifPresent(
+                searchResult -> {
+                    expense.setId(searchResult.getId());
+                    this.expenseRepository.save(expense);
+                }
+        );
     }
 }

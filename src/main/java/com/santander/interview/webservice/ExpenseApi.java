@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 public class ExpenseApi {
+
     @Autowired
     ExpenseService expenseService;
 
@@ -50,6 +51,15 @@ public class ExpenseApi {
                     HttpStatus.BAD_REQUEST
             );
         }
+    }
 
+    @PutMapping("/expense/{id}")
+    public ResponseEntity<Response> updateExpense(@PathVariable String id, @RequestBody Expense expense) {
+        this.expenseService.updateExpense(id, expense);
+
+        return new ResponseEntity<>(
+                new Response(HttpStatus.OK.value(), "Dado atualizado", null),
+                HttpStatus.OK
+        );
     }
 }

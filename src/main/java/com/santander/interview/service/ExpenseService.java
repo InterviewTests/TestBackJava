@@ -9,5 +9,5 @@ public interface ExpenseService {
     public void addNewExpense(Expense expense);
     public List<Expense> findExpenseByCodigoUsuario(long codigoUsuario);
     public List<Expense> findExpenseByCodigoUsuarioAndData(long codigoUsuario, String data) throws ParseException;
-    public void updateExpense(Expense expense);
+    public void updateExpense(String id, Expense expense);
 }

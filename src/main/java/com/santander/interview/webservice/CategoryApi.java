@@ -1,5 +1,7 @@
 package com.santander.interview.webservice;
 
+import static com.santander.interview.enums.ResponseMessageEnum.*;
+
 import com.santander.interview.domain.Category;
 import com.santander.interview.domain.Response;
 import com.santander.interview.service.CategoryService;
@@ -21,7 +23,7 @@ public class CategoryApi {
         categoryService.saveCategory(category);
 
         return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), "Categoria criada.", null),
+                new Response(HttpStatus.OK.value(), ADD_CATEGORY_SUCCESS.getMessage(), null),
                 HttpStatus.OK
         );
     }
@@ -31,7 +33,7 @@ public class CategoryApi {
         List<Category> categories = this.categoryService.searchCategoryByDetailPrefix(detailPrefix);
 
         return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), "Resultado da busca de categorias", categories),
+                new Response(HttpStatus.OK.value(), SUGGESTION_CATEGORY_SUCCESS.getMessage(), categories),
                 HttpStatus.OK
         );
     }

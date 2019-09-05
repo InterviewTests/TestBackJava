@@ -42,7 +42,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> findExpenseByCodigoUsuario(long codigoUsuario) {
+    public List<Expense> findExpensesByCodigoUsuario(long codigoUsuario) {
         List<Expense> expenses = expenseRepository.findByCodigoUsuario(codigoUsuario);
         Collections.sort(expenses, new Comparator<Expense>() {
             @Override
@@ -54,7 +54,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> findExpenseByCodigoUsuarioAndData(long codigoUsuario, String data) throws ParseException {
+    public List<Expense> findExpensesByCodigoUsuarioAndData(long codigoUsuario, String data) throws ParseException {
         long oneDayInMilliseconds = 1000 * 60 * 60 * 24;
         Date startDate = new SimpleDateFormat("ddMMyyyy").parse(data);
         Date endDate = new Date(startDate.getTime() + oneDayInMilliseconds);

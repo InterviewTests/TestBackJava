@@ -1,5 +1,7 @@
 package com.santander.interview.webservice;
 
+import static com.santander.interview.enums.ResponseMessageEnum.*;
+
 import com.santander.interview.domain.Expense;
 import com.santander.interview.domain.Response;
 import com.santander.interview.service.ExpenseService;
@@ -21,16 +23,16 @@ public class ExpenseApi {
     public ResponseEntity<Response> addExpense(@RequestBody Expense expense) {
         this.expenseService.addNewExpense(expense);
         return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), "Criado com sucesso", null),
+                new Response(HttpStatus.OK.value(), ADD_EXPENSE_SUCCESS.getMessage(), null),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/expense/userCode/{userCode}")
     public ResponseEntity<Response> getExpenseByUserCode(@PathVariable long userCode) {
-        List<Expense> expensesByUserCode = this.expenseService.findExpenseByCodigoUsuario(userCode);
+        List<Expense> expensesByUserCode = this.expenseService.findExpensesByCodigoUsuario(userCode);
         return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), "Busca por código do usuário realizada com sucesso",
+                new Response(HttpStatus.OK.value(), SEARCH_EXPENSE_BY_USER_CODE_SUCCESS.getMessage(),
                         expensesByUserCode),
                 HttpStatus.OK
         );
@@ -39,15 +41,15 @@ public class ExpenseApi {
     @GetMapping("/expense/userCode/{userCode}/date/{date}")
     public ResponseEntity<Response> getExpenseByUserCodeAndDate(@PathVariable long userCode, @PathVariable String date) {
         try {
-            List<Expense> expensesByUserCodeAndDate = this.expenseService.findExpenseByCodigoUsuarioAndData(userCode, date);
+            List<Expense> expensesByUserCodeAndDate = this.expenseService.findExpensesByCodigoUsuarioAndData(userCode, date);
             return new ResponseEntity<>(
-                    new Response(HttpStatus.OK.value(), "Busca por código do usuário e pela data realizada com sucesso",
+                    new Response(HttpStatus.OK.value(), SEARCH_EXPENSE_BY_USER_CODE_AND_DATE_SUCCESS.getMessage(),
                             expensesByUserCodeAndDate),
                     HttpStatus.OK
             );
         } catch (ParseException pe){
             return new ResponseEntity<>(
-                    new Response(HttpStatus.BAD_REQUEST.value(), "Data mal formatada", null),
+                    new Response(HttpStatus.BAD_REQUEST.value(), ERROR_BADLY_FORMATTED_DATE.getMessage(), null),
                     HttpStatus.BAD_REQUEST
             );
         }
@@ -58,7 +60,7 @@ public class ExpenseApi {
         this.expenseService.updateExpense(id, expense);
 
         return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), "Dado atualizado", null),
+                new Response(HttpStatus.OK.value(), UPDATE_EXPENSE_SUCCESS.getMessage(), null),
                 HttpStatus.OK
         );
     }

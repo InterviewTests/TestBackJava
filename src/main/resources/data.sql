@@ -7,3 +7,12 @@ INSERT INTO CATEGORIA(descricao) VALUES ('Saude');
 
 INSERT INTO GASTO(id_usuario, data, valor, descricao, categoria_id)
 VALUES (1, '2019-05-05 18:00:00', 149.99, 'Compras Mensais Extra', 2);
+
+INSERT INTO GASTO(id_usuario, data, valor, descricao, categoria_id)
+VALUES (1, '2019-08-04 18:00:00', 29.99, 'Compras Lojas Americanas', 2);
+
+INSERT INTO GASTO(id_usuario, data, valor, descricao, categoria_id)
+VALUES (1, '2019-08-04 10:00:00', 333.00, 'Compra Mi Band', 2);
+
+INSERT INTO GASTO(id_usuario, data, valor, descricao, categoria_id)
+VALUES (1, '2019-08-04 22:00:00', 80.00, 'Ifood', 2);

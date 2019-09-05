@@ -25,6 +25,18 @@ public class Gasto {
 	@ManyToOne
 	private Categoria categoria;
 	
+	
+	public Gasto(){
+		
+	}
+	
+	public Gasto(Long idUsuario, LocalDateTime data, double valor, String descricao, Categoria categoria) {
+		this.idUsuario = idUsuario;
+		this.data = data;
+		this.valor = valor;
+		this.descricao = descricao;
+		this.categoria = categoria;
+	}
 
 	public Long getId() {
 		return Id;

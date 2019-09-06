@@ -20,5 +20,5 @@ public interface GastoRepository extends JpaRepository<Gasto, Long> {
 	@Query("SELECT g FROM Gasto g WHERE g.idUsuario = :idUsuario AND g.id = :idGasto")
 	Optional<Gasto> findById(@Param("idUsuario") Long idUsuario, @Param("idGasto") Long idGasto);
 
-	
+	Optional<Gasto> findFirstByDescricao(String descricao);
 }

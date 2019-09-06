@@ -17,7 +17,7 @@ import br.com.santander.gastos.repository.GastoRepository;
 
 @Service
 public class GastoServiceImpl implements GastoService {
-
+	
 	Date date = new Date();
 	Date dateFim = new Date();
 	
@@ -66,6 +66,14 @@ public class GastoServiceImpl implements GastoService {
 
 	@Override
 	public void save(Gasto novoGasto) {
+		
+		if(novoGasto.getDescricao() != null && !novoGasto.getDescricao().isEmpty()) {
+			
+			Optional<Gasto> listaGasto = gastoRepository.findFirstByDescricao(novoGasto.getDescricao());
+	
+			listaGasto.ifPresent(g -> novoGasto.setCategoria(g.getCategoria()));
+		}
+		
 		gastoRepository.save(novoGasto);
 	}
 

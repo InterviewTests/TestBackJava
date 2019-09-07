@@ -1,4 +1,4 @@
-package com.santander.interview.webservice;
+package com.santander.interview.controller;
 
 import static com.santander.interview.enums.ResponseMessageEnum.*;
 
@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @RestController
-public class ExpenseApi {
+public class ExpenseController {
 
     @Autowired
     ExpenseService expenseService;

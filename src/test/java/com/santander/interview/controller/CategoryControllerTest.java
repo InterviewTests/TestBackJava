@@ -1,4 +1,4 @@
-package com.santander.interview.webservice;
+package com.santander.interview.controller;
 
 import com.santander.interview.domain.Category;
 import com.santander.interview.domain.Response;
@@ -14,13 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
-public class CategoryApiTest {
+public class CategoryControllerTest {
     private static final String CATEGORY_ID = "12asd";
     private static final String CATEGORY_DETAIL = "Detail";
     private Category category;
 
     @InjectMocks
-    CategoryApi categoryApi = new CategoryApi();
+    CategoryController categoryController = new CategoryController();
 
     @Mock
     CategoryService categoryService;
@@ -35,14 +35,14 @@ public class CategoryApiTest {
     public void suggestionCategoryTest() {
         String detailPrefix = "teste";
         Mockito.when(categoryService.searchCategoryByDetailPrefix(detailPrefix)).thenReturn(null);
-        ResponseEntity<Response> response = categoryApi.suggestionCategory(detailPrefix);
+        ResponseEntity<Response> response = categoryController.suggestionCategory(detailPrefix);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertNull(response.getBody().getData());
     }
 
     @Test
     public void addCategoryTest() {
-        ResponseEntity<Response> response = categoryApi.addCategory(category);
+        ResponseEntity<Response> response = categoryController.addCategory(category);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertNull(response.getBody().getData());
     }

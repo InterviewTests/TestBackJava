@@ -1,4 +1,4 @@
-package com.santander.interview.webservice;
+package com.santander.interview.controller;
 
 import com.santander.interview.domain.Expense;
 import com.santander.interview.domain.Response;
@@ -19,14 +19,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class ExpenseApiTest {
+public class ExpenseControllerTest {
     private static final String DESCRICAO = "descricao";
     private static final Double VALOR = 198.23;
     private static final long CODIGO_USUARIO = 129;
     private static final Date DATA = new Date();
 
     @InjectMocks
-    ExpenseApi expenseApi = new ExpenseApi();
+    ExpenseController expenseController = new ExpenseController();
 
     @Mock
     ExpenseService expenseService;
@@ -50,7 +50,7 @@ public class ExpenseApiTest {
 
     @Test
     public void addExpenseTest() {
-        ResponseEntity<Response> response = this.expenseApi.addExpense(this.expense);
+        ResponseEntity<Response> response = this.expenseController.addExpense(this.expense);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
         Assert.assertNull(response.getBody().getData());
@@ -64,7 +64,7 @@ public class ExpenseApiTest {
 
         Mockito.when(expenseService.findExpensesByCodigoUsuario(userCode)).thenReturn(list);
 
-        ResponseEntity<Response> response = this.expenseApi.getExpenseByUserCode(userCode);
+        ResponseEntity<Response> response = this.expenseController.getExpenseByUserCode(userCode);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
         Assert.assertEquals(response.getBody().getData(), list);
@@ -78,7 +78,7 @@ public class ExpenseApiTest {
         list.add(this.expense);
 
         Mockito.when(this.expenseService.findExpensesByCodigoUsuarioAndData(userCode, date)).thenReturn(list);
-        ResponseEntity<Response> response = this.expenseApi.getExpenseByUserCodeAndDate(userCode, date);
+        ResponseEntity<Response> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
         Assert.assertEquals(response.getBody().getData(), list);
@@ -90,7 +90,7 @@ public class ExpenseApiTest {
         String date = "121251";
         Mockito.when(this.expenseService.findExpensesByCodigoUsuarioAndData(userCode, date))
                 .thenThrow(ParseException.class);
-        ResponseEntity<Response> response = this.expenseApi.getExpenseByUserCodeAndDate(userCode, date);
+        ResponseEntity<Response> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.BAD_REQUEST.value());
     }
@@ -98,7 +98,7 @@ public class ExpenseApiTest {
     @Test
     public void updateExpenseTest() {
         String id = this.uuid;
-        ResponseEntity<Response> response = this.expenseApi.updateExpense(id, expense);
+        ResponseEntity<Response> response = this.expenseController.updateExpense(id, expense);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
     }

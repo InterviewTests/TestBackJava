@@ -1,4 +1,4 @@
-package com.santander.interview.webservice;
+package com.santander.interview.controller;
 
 import static com.santander.interview.enums.ResponseMessageEnum.*;
 
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class CategoryApi {
+public class CategoryController {
 
     @Autowired
     CategoryService categoryService;

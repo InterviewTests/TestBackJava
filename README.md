@@ -1,51 +1,88 @@
 # Show me the code
 
-### # DESAFIO:
+### # Instruções para rodar o Projeto:
 
-API REST para Gestão de Gastos!
+Baixar o projeto na máquina local.
+No CMD navegar até a pasta do projeto.
+rodar o comando mvn spring-boot:run
+(É necessário ter o maven instalado no computador).
 
+A Aplicação irá iniciar e já estará pronta para receber requisiões.
+(O banco utilizado foi o banco em memória H2 para facilitar o uso. Não é necessária configuração).
+
+Funcionalidade: Login
+EndPoint: (POST) /auth:
+(Irá retornar o Bearer Token necessário para todas próximas requisições)
 ```
+Exemplo de JSON:
+{
+	"email": "user@email.com",
+	"password": "123456"
+}
+```
+
 Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
+EndPoint: (POST) "/gastos":
+(Retorna status 200 OK)
+
 ```
+  Exemplo de JSON: 
+[
+	{ 
+		"descricao": "Novo Gasto", 
+		"valor": 999.99,
+		"codigousuario": 1,
+		"data": "2013-08-12T18:00:00"
+	},
+	{
+		"descricao": "Compras Mensais Extra", 
+		"valor": 29.99,
+		"codigousuario": 1,
+		"data": "1999-08-12T18:00:00"
+	}
+] 
 ```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
+
+Funcionalidade: Detalhes do Gasto
+EndPoint: (GET) "/gastos/{id}":
+(Retorna Dados do gasto do usuário autenticado conforme id passado)
 ```
+Não é necessário passar nehum dado no corpo da requisição 
 ```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
+
+Funcionalidade: Listagem de gastos
+EndPoint: (GET) "/gastos":
+(Retorna JSON com Gastos do Usuário que fez a requisição)
 ```
+Não é necessário passar nehum dado no corpo da requisição
 ```
+
+Funcionalidade: Filtro de gastos por Data
+EndPoint: GET "/gastos?data"
+(Retorna JSON com Gastos do Usuário para a data passada)
+```
+Exemplo de Requisição: "/gastos?data=2019-08-04"
+```
+
 Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
+EndPoint: (POST) "/gastos/{id}" (id do gasto)
+(Retorna status 200 OK)
 ```
+  Exemplo de JSON:
+{
+	"descricao": "Alimentacao"
+}
 ```
 Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
+EndPoint: (GET) "/categorias/{descricao}" (descricao da categoria. Não é neccesário a descrição completa.)
+(Retorna sugestão de categoria)
 ```
+Não é necessário passar nehum dado no corpo da requisição
 ```
+
 Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
+```
+Está implementada no momento de integração dos gastos
 ```
 ### # Avaliação
 

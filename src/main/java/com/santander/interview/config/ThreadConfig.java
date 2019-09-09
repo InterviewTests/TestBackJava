@@ -12,10 +12,12 @@ import java.util.concurrent.Executor;
 public class ThreadConfig {
     public static final String THREAD_NAME_PREFIX = "interview";
 
-    @Value("#{environment['ASYNC_CORE_POOL_SIZE']}")
+//    @Value("#{environment['ASYNC_CORE_POOL_SIZE']}")
+    @Value("${thread.async_core_pool_size}")
     private String ASYNC_CORE_POOL_SIZE;
 
-    @Value("#{environment['ASYNC_MAX_POOL_SIZE']}")
+//    @Value("#{environment['ASYNC_MAX_POOL_SIZE']}")
+    @Value("${thread.async_max_pool_size}")
     private String ASYNC_MAX_POOL_SIZE;
 
     @Bean

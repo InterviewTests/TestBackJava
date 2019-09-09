@@ -8,13 +8,16 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 
 @Configuration
 public class MongoConfig extends AbstractMongoConfiguration {
-    @Value("#{environment['MONGO_HOST']}")
+//    @Value("#{environment['MONGO_HOST']}")
+    @Value("${mongo.host}")
     private String MONGO_HOST;
 
-    @Value("#{environment['MONGO_PORT']}")
+//    @Value("#{environment['MONGO_PORT']}")
+    @Value("${mongo.port}")
     private int MONGO_PORT;
 
-    @Value("#{environment['MONGO_DATABASE']}")
+//    @Value("#{environment['MONGO_DATABASE']}")
+    @Value("${mongo.database}")
     private String MONGO_DATABASE;
 
     @Bean

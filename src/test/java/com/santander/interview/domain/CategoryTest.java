@@ -12,7 +12,7 @@ public class CategoryTest {
     private static final String DETAIL = "teste";
 
     @Test
-    public void CategoryTest() {
+    public void categoryTest() {
         Category category = new Category();
         category.setId(ID);
         category.setDetail(DETAIL);
@@ -22,9 +22,8 @@ public class CategoryTest {
     }
 
     @Test
-    public void CategoryConstructorWithParamsTest() {
-        Category category = new Category(ID, DETAIL);
-        Assert.assertEquals(category.getId(), ID);
+    public void categoryConstructorWithParamsTest() {
+        Category category = new Category(DETAIL);
         Assert.assertEquals(category.getDetail(), DETAIL);
     }
 }

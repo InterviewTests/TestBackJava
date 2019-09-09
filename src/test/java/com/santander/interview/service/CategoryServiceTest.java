@@ -18,6 +18,8 @@ import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceTest {
+    private static final String CATEGORY_DETAIL = "Detalhe";
+
     @InjectMocks
     CategoryServiceImpl categoryService = new CategoryServiceImpl();
 
@@ -30,7 +32,7 @@ public class CategoryServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.category = new Category("123", "Detalhe");
+        this.category = new Category(CATEGORY_DETAIL);
         this.categoriesResult = new ArrayList<>();
         this.categoriesResult.add(this.category);
     }
@@ -50,8 +52,8 @@ public class CategoryServiceTest {
     public void searchCategoryByDetailPrefixTest() {
         Mockito.when(categoryRepository.findByDetailLike(this.category.getDetail())).thenReturn(this.categoriesResult);
 
-        String prefix = this.category.getDetail();
-        List<Category> result = this.categoryService.searchCategoryByDetailPrefix(prefix);
+        String substring = this.category.getDetail();
+        List<Category> result = this.categoryService.searchCategoryByDetailSubstring(substring);
         Assert.assertEquals(result, categoriesResult);
     }
 }

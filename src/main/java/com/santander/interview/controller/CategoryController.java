@@ -3,6 +3,7 @@ package com.santander.interview.controller;
 import static com.santander.interview.enums.ResponseMessageEnum.*;
 
 import com.santander.interview.domain.Category;
+import com.santander.interview.domain.Response;
 import com.santander.interview.domain.ResponseObject;
 import com.santander.interview.enums.ResponseMessageEnum;
 import com.santander.interview.service.CategoryService;
@@ -27,7 +28,7 @@ public class CategoryController {
 
     @ApiOperation("Adicionar uma nova categoria")
     @PostMapping("/categories")
-    public ResponseEntity<?> addCategory(
+    public ResponseEntity<Response> addCategory(
             @ApiParam(value = "Nova categoria", required = true) @RequestBody Category category
     ) {
         categoryService.saveCategory(category);

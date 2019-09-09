@@ -1,7 +1,11 @@
 package com.santander.interview.controller;
 
+import static com.santander.interview.enums.ResponseMessageEnum.*;
+
 import com.santander.interview.domain.Expense;
 import com.santander.interview.domain.Response;
+import com.santander.interview.domain.ResponseObject;
+import com.santander.interview.exception.ExpenseException;
 import com.santander.interview.service.ExpenseService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,17 +17,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class ExpenseControllerTest {
-    private static final String DESCRICAO = "descricao";
-    private static final Double VALOR = 198.23;
-    private static final long CODIGO_USUARIO = 129;
-    private static final Date DATA = new Date();
+    private static final String DESCRIPTION = "descricao";
+    private static final Double VALUE = 198.23;
+    private static final long USER_CODE = 129;
+    private static final Date DATE = new Date();
 
     @InjectMocks
     ExpenseController expenseController = new ExpenseController();
@@ -33,19 +35,10 @@ public class ExpenseControllerTest {
 
     Expense expense;
 
-    String uuid;
-
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        this.uuid = UUID.randomUUID().toString();
-        this.expense = new Expense();
-        this.expense.setId(uuid);
-        this.expense.setDescricao(DESCRICAO);
-        this.expense.setValor(VALOR);
-        this.expense.setCodigoUsuario(CODIGO_USUARIO);
-        this.expense.setData(DATA);
-        this.expense.setCategory(null);
+        this.expense = new Expense(DESCRIPTION, VALUE, USER_CODE, DATE);
     }
 
     @Test
@@ -53,53 +46,66 @@ public class ExpenseControllerTest {
         ResponseEntity<Response> response = this.expenseController.addExpense(this.expense);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
-        Assert.assertNull(response.getBody().getData());
+        Assert.assertEquals(response.getBody().getInternalMessage(), ADD_EXPENSE_SUCCESS.getInternalMessage());
+        Assert.assertEquals(response.getBody().getUserMessage(), ADD_EXPENSE_SUCCESS.getUserMessage());
     }
 
     @Test
     public void getExpenseByUserCodeTest() {
-        long userCode = CODIGO_USUARIO;
+        long userCode = USER_CODE;
         List<Expense> list = new ArrayList<>();
         list.add(this.expense);
 
-        Mockito.when(expenseService.findExpensesByCodigoUsuario(userCode)).thenReturn(list);
+        Mockito.when(expenseService.findExpensesByUserCode(userCode)).thenReturn(list);
 
-        ResponseEntity<Response> response = this.expenseController.getExpenseByUserCode(userCode);
+        ResponseEntity<ResponseObject> response = this.expenseController.getExpenseByUserCode(userCode);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
         Assert.assertEquals(response.getBody().getData(), list);
+        Assert.assertEquals(response.getBody().getInternalMessage(), SEARCH_EXPENSE_BY_USER_CODE_SUCCESS.getInternalMessage());
+        Assert.assertEquals(response.getBody().getUserMessage(), SEARCH_EXPENSE_BY_USER_CODE_SUCCESS.getUserMessage());
     }
 
     @Test
-    public void getExpenseByUserCodeAndDateTest() throws ParseException {
-        long userCode = CODIGO_USUARIO;
-        String date = DATA.toString();
+    public void getExpenseByUserCodeAndDateTest() throws ExpenseException {
+        long userCode = USER_CODE;
+        String date = DATE.toString();
         List<Expense> list = new ArrayList<>();
         list.add(this.expense);
 
-        Mockito.when(this.expenseService.findExpensesByCodigoUsuarioAndData(userCode, date)).thenReturn(list);
-        ResponseEntity<Response> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
+        Mockito.when(this.expenseService.findExpensesByUserCodeAndDate(userCode, date)).thenReturn(list);
+
+        ResponseEntity<?> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
-        Assert.assertEquals(response.getBody().getData(), list);
+        Assert.assertNotNull(response.getBody());
     }
 
     @Test
-    public void getExpenseByUserCodeAndDate_WithDataIncorrectTest() throws ParseException {
-        long userCode = CODIGO_USUARIO;
+    public void getExpenseByUserCodeAndDate_WithDataIncorrectTest() throws ExpenseException {
+        long userCode = USER_CODE;
         String date = "121251";
-        Mockito.when(this.expenseService.findExpensesByCodigoUsuarioAndData(userCode, date))
-                .thenThrow(ParseException.class);
-        ResponseEntity<Response> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
+        Mockito.when(this.expenseService.findExpensesByUserCodeAndDate(userCode, date))
+                .thenThrow(new ExpenseException(HttpStatus.BAD_REQUEST, EXPENSE_BADLY_FORMATTED_DATE));
+        ResponseEntity<?> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-        Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.BAD_REQUEST.value());
+        Assert.assertNotNull(response.getBody());
     }
 
     @Test
     public void updateExpenseTest() {
-        String id = this.uuid;
-        ResponseEntity<Response> response = this.expenseController.updateExpense(id, expense);
+        String id = expense.getId();
+        ResponseEntity<?> response = this.expenseController.updateExpense(id, expense);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assert.assertEquals(response.getBody().getStatusCode(), HttpStatus.OK.value());
+        Assert.assertNotNull(response.getBody());
+    }
+
+    @Test
+    public void updateExpense_ExpenseWithoutIdTest() throws ExpenseException {
+        String id = expense.getId();
+        Mockito.doThrow(new ExpenseException(HttpStatus.NOT_FOUND, EXPENSE_NOT_FOUND))
+                .when(this.expenseService).updateExpense(id, expense);
+        ResponseEntity<?> response = this.expenseController.updateExpense(id, expense);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+        Assert.assertNotNull(response.getBody());
     }
 }

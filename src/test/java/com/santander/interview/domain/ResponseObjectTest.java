@@ -6,28 +6,32 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ResponsePostTest {
+public class ResponseObjectTest {
     private static final long STATUS_CODE = 123;
-    private static final String MESSAGE = "Teste";
+    private static final String USER_MESSAGE = "userMessage";
+    private static final String INTERNAL_MESSAGE = "internalMessage";
     private static final Object DATA = new Object();
 
     @Test
-    public void ResponseTest() {
-        ResponsePost responsePost = new ResponsePost();
-        responsePost.setData(DATA);
-        responsePost.setUserMessage(MESSAGE);
-        responsePost.setStatusCode(STATUS_CODE);
+    public void responseEmptyConstTest() {
+        ResponseObject responseObject = new ResponseObject();
+        responseObject.setData(DATA);
+        responseObject.setUserMessage(USER_MESSAGE);
+        responseObject.setInternalMessage(INTERNAL_MESSAGE);
+        responseObject.setStatusCode(STATUS_CODE);
 
-        Assert.assertEquals(responsePost.getData(), DATA);
-        Assert.assertEquals(responsePost.getUserMessage(), MESSAGE);
-        Assert.assertEquals(responsePost.getStatusCode(), STATUS_CODE);
+        Assert.assertEquals(responseObject.getData(), DATA);
+        Assert.assertEquals(responseObject.getUserMessage(), USER_MESSAGE);
+        Assert.assertEquals(responseObject.getInternalMessage(), INTERNAL_MESSAGE);
+        Assert.assertEquals(responseObject.getStatusCode(), STATUS_CODE);
     }
 
     @Test
-    public void ResponseConstructorWithParamsTest() {
-        ResponsePost responsePost = new ResponsePost(STATUS_CODE, MESSAGE, DATA);
-        Assert.assertEquals(responsePost.getStatusCode(), STATUS_CODE);
-        Assert.assertEquals(responsePost.getUserMessage(), MESSAGE);
-        Assert.assertEquals(responsePost.getData(), DATA);
+    public void responseConstructorWithParamsTest() {
+        ResponseObject responseObject = new ResponseObject(STATUS_CODE, USER_MESSAGE, INTERNAL_MESSAGE, DATA);
+        Assert.assertEquals(responseObject.getStatusCode(), STATUS_CODE);
+        Assert.assertEquals(responseObject.getUserMessage(), USER_MESSAGE);
+        Assert.assertEquals(responseObject.getInternalMessage(), INTERNAL_MESSAGE);
+        Assert.assertEquals(responseObject.getData(), DATA);
     }
 }

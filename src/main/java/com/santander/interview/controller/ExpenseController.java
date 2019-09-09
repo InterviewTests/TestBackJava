@@ -4,6 +4,7 @@ import static com.santander.interview.enums.ResponseMessageEnum.*;
 
 import com.santander.interview.domain.Expense;
 import com.santander.interview.domain.Response;
+import com.santander.interview.domain.ResponseObject;
 import com.santander.interview.exception.ExpenseException;
 import com.santander.interview.service.ExpenseService;
 import com.santander.interview.utils.ExpenseManagementUtils;
@@ -35,7 +36,7 @@ public class ExpenseController {
 
     @ApiOperation("Buscar gastos por usuário")
     @GetMapping("/expense/userCode/{userCode}")
-    public ResponseEntity<?> getExpenseByUserCode(
+    public ResponseEntity<ResponseObject> getExpenseByUserCode(
             @ApiParam(value = "Código do cliente", required = true) @PathVariable long userCode
     ) {
         List<Expense> expensesByUserCode = this.expenseService.findExpensesByUserCode(userCode);

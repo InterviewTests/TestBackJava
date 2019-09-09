@@ -2,15 +2,19 @@ package com.santander.interview.domain;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.UUID;
+
 public class Category {
     @Id
     private String id;
     private String detail;
 
+    private String generateID() { return UUID.randomUUID().toString(); }
+
     public Category() { }
 
-    public Category(String id, String detail) {
-        this.id = id;
+    public Category(String detail) {
+        this.id = this.generateID();
         this.detail = detail;
     }
 

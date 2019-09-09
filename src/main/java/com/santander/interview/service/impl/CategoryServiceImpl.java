@@ -7,19 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    private String generateUuid() {  return UUID.randomUUID().toString(); }
-
     @Override
     public void saveCategory(Category category) {
-        category.setId(generateUuid());
-        this.categoryRepository.save(category);
+        Category newCategory = new Category(category.getDetail());
+        this.categoryRepository.save(newCategory);
     }
 
     @Override

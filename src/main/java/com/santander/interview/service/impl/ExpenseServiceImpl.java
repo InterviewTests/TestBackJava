@@ -10,6 +10,7 @@ import com.santander.interview.repository.ExpenseRepository;
 import com.santander.interview.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -37,6 +38,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         return null;
     }
 
+//    @Async
     @Override
     public void addNewExpense(Expense expense) {
         Expense newExpense = new Expense(

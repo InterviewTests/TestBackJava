@@ -24,10 +24,10 @@ public class ThreadConfig {
     public Executor asyncExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setCorePoolSize(
-                ExpenseManagementUtils.expenseManagementUtils(10, ASYNC_CORE_POOL_SIZE)
+                ExpenseManagementUtils.convertStringtoInt(10, ASYNC_CORE_POOL_SIZE)
         );
         threadPoolTaskExecutor.setMaxPoolSize(
-                ExpenseManagementUtils.expenseManagementUtils(100, ASYNC_MAX_POOL_SIZE)
+                ExpenseManagementUtils.convertStringtoInt(100, ASYNC_MAX_POOL_SIZE)
         );
         threadPoolTaskExecutor.setQueueCapacity(Integer.MAX_VALUE);
         threadPoolTaskExecutor.setThreadNamePrefix(THREAD_NAME_PREFIX);

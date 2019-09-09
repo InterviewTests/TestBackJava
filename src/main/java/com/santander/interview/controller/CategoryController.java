@@ -3,8 +3,10 @@ package com.santander.interview.controller;
 import static com.santander.interview.enums.ResponseMessageEnum.*;
 
 import com.santander.interview.domain.Category;
-import com.santander.interview.domain.Response;
+import com.santander.interview.domain.ResponseObject;
+import com.santander.interview.enums.ResponseMessageEnum;
 import com.santander.interview.service.CategoryService;
+import com.santander.interview.utils.ExpenseManagementUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -25,28 +27,22 @@ public class CategoryController {
 
     @ApiOperation("Adicionar uma nova categoria")
     @PostMapping("/categories")
-    public ResponseEntity<Response> addCategory(
+    public ResponseEntity<?> addCategory(
             @ApiParam(value = "Nova categoria", required = true) @RequestBody Category category
     ) {
         categoryService.saveCategory(category);
 
-        return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), ADD_CATEGORY_SUCCESS.getMessage(), null),
-                HttpStatus.OK
-        );
+        return ExpenseManagementUtils.responseWithoutData(ADD_CATEGORY_SUCCESS, HttpStatus.OK);
     }
 
     @ApiOperation("Sugestão de categoria")
-    @GetMapping("/category/detail/{detailPrefix}")
-    public ResponseEntity<Response> suggestionCategory(
-            @ApiParam(value = "Prefixo da categoria", required = true) @PathVariable String detailPrefix
+    @GetMapping("/category/detail/{detailSubstring}")
+    public ResponseEntity<ResponseObject> suggestionCategory(
+            @ApiParam(value = "Substring da categoria", required = true) @PathVariable String detailSubstring
     ) {
-        List<Category> categories = this.categoryService.searchCategoryByDetailPrefix(detailPrefix);
+        List<Category> categories = this.categoryService.searchCategoryByDetailSubstring(detailSubstring);
 
-        return new ResponseEntity<>(
-                new Response(HttpStatus.OK.value(), SUGGESTION_CATEGORY_SUCCESS.getMessage(), categories),
-                HttpStatus.OK
-        );
+        return ExpenseManagementUtils.responseWithData(SUGGESTION_CATEGORY_SUCCESS, HttpStatus.OK, categories);
     }
 
 }

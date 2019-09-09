@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> searchCategoryByDetailPrefix(String detailPrefix) {
-        return this.categoryRepository.findByDetailLike(detailPrefix);
+    public List<Category> searchCategoryByDetailSubstring(String detailSubstring) {
+        return this.categoryRepository.findByDetailLike(detailSubstring);
     }
 }

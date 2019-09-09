@@ -29,7 +29,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     private Category automaticCategorization(Expense expense) {
         Category category = expense.getCategory();
         if(category != null && category.getDetail() != null) {
-            return categoryRepository.findByDetail(category.getDetail()).get(0);
+            List<Category> list = categoryRepository.findByDetail(category.getDetail());
+            if (list.size() > 0)
+                return list.get(0);
         }
 
         return null;

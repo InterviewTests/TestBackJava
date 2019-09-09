@@ -25,3 +25,5 @@ mongo.database=app1
 thread.async_core_pool_size=5
 thread.async_max_pool_size=50
 ```
+
+O arquivo *InterviewSantanderJava-soapui-project.xml* contém exemplos de chamadas para este projeto.

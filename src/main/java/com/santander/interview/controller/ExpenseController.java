@@ -39,7 +39,7 @@ public class ExpenseController {
     public ResponseEntity<ResponseObject> getExpenseByUserCode(
             @ApiParam(value = "Código do cliente", required = true) @PathVariable long userCode
     ) {
-        List<Expense> expensesByUserCode = this.expenseService.findExpensesByUserCode(userCode);
+        List<Expense> expensesByUserCode = this.expenseService.searchExpensesByUserCode(userCode);
 
         return ExpenseManagementUtils.responseWithData(SEARCH_EXPENSE_BY_USER_CODE_SUCCESS,
                                                         HttpStatus.OK, expensesByUserCode);
@@ -53,7 +53,7 @@ public class ExpenseController {
     ) {
         List<Expense> expensesByUserCodeAndDate;
         try {
-            expensesByUserCodeAndDate = this.expenseService.findExpensesByUserCodeAndDate(userCode, date);
+            expensesByUserCodeAndDate = this.expenseService.searchExpensesByUserCodeAndDate(userCode, date);
             return ExpenseManagementUtils.responseWithData(SEARCH_EXPENSE_BY_USER_CODE_AND_DATE_SUCCESS,
                                                             HttpStatus.OK, expensesByUserCodeAndDate);
         } catch (ExpenseException ee){

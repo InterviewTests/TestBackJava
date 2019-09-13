@@ -1,10 +1,17 @@
 package com.santander.interview.domain;
 
+import com.santander.interview.repository.CategoryRepository;
+import com.santander.interview.repository.ExpenseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+
+@Component
 public class Expense {
     @Id
     private String id;
@@ -13,6 +20,12 @@ public class Expense {
     private long userCode;
     private Date date;
     private Category category;
+
+    @Autowired
+    ExpenseRepository expenseRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     private String generateID() { return UUID.randomUUID().toString(); }
 
@@ -58,6 +71,59 @@ public class Expense {
     public Category getCategory() { return category; }
 
     public void setCategory(Category category) { this.category = category; }
+
+    private Category automaticCategorization(Expense expense) {
+        Category category = expense.getCategory();
+        if(category != null && category.getDetail() != null) {
+            List<Category> list = categoryRepository.findByDetail(category.getDetail());
+            if (list.size() > 0)
+                return list.get(0);
+        }
+        return null;
+    }
+
+    public void add(Expense expense) {
+        Expense newExpense = new Expense(
+                expense.getDescription(),
+                expense.getValue(),
+                expense.getUserCode(),
+                expense.getDate()
+        );
+        newExpense.setCategory(this.automaticCategorization(expense));
+        this.expenseRepository.save(newExpense);
+    }
+
+    public List<Expense> searchByUserCode(long userCode) {
+        List<Expense> expenses = expenseRepository.findByUserCode(userCode);
+        Collections.sort(expenses, new Comparator<Expense>() {
+            @Override
+            public int compare(Expense expense1, Expense expense2) {
+                return expense2.getDate().compareTo(expense1.getDate());
+            }
+        });
+        return expenses;
+    }
+
+    public List<Expense> searchByUserCodeAndDate(long userCode, String date) throws ParseException {
+        long oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+
+        Date startDate = new SimpleDateFormat("ddMMyyyy").parse(date);
+        Date endDate = new Date(startDate.getTime() + oneDayInMilliseconds);
+        return this.expenseRepository.findByUserCodeAndDateBetween(userCode, startDate, endDate);
+
+    }
+
+    public boolean update(String id, Expense expense) {
+        Optional<Expense> existExpense = this.expenseRepository.findById(id);
+        if(existExpense.isPresent()) {
+            Expense expenseFound = existExpense.get();
+            expense.setId(expenseFound.getId());
+            expense.setCategory(this.automaticCategorization(expense));
+            this.expenseRepository.save(expense);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {

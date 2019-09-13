@@ -1,11 +1,8 @@
 package com.santander.interview.service;
 
-import com.santander.interview.domain.Category;
 import com.santander.interview.domain.Expense;
 import com.santander.interview.enums.ResponseMessageEnum;
 import com.santander.interview.exception.ExpenseException;
-import com.santander.interview.repository.CategoryRepository;
-import com.santander.interview.repository.ExpenseRepository;
 import com.santander.interview.service.impl.ExpenseServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;

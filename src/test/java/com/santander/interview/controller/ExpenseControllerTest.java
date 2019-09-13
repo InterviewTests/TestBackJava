@@ -26,6 +26,7 @@ public class ExpenseControllerTest {
     private static final Double VALUE = 198.23;
     private static final long USER_CODE = 129;
     private static final Date DATE = new Date();
+    private static final String INCORRECT_DATE = "121251";
 
     @InjectMocks
     ExpenseController expenseController = new ExpenseController();
@@ -56,7 +57,7 @@ public class ExpenseControllerTest {
         List<Expense> list = new ArrayList<>();
         list.add(this.expense);
 
-        Mockito.when(expenseService.findExpensesByUserCode(userCode)).thenReturn(list);
+        Mockito.when(expenseService.searchExpensesByUserCode(userCode)).thenReturn(list);
 
         ResponseEntity<ResponseObject> response = this.expenseController.getExpenseByUserCode(userCode);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -73,7 +74,7 @@ public class ExpenseControllerTest {
         List<Expense> list = new ArrayList<>();
         list.add(this.expense);
 
-        Mockito.when(this.expenseService.findExpensesByUserCodeAndDate(userCode, date)).thenReturn(list);
+        Mockito.when(this.expenseService.searchExpensesByUserCodeAndDate(userCode, date)).thenReturn(list);
 
         ResponseEntity<?> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -83,8 +84,8 @@ public class ExpenseControllerTest {
     @Test
     public void getExpenseByUserCodeAndDate_WithDataIncorrectTest() throws ExpenseException {
         long userCode = USER_CODE;
-        String date = "121251";
-        Mockito.when(this.expenseService.findExpensesByUserCodeAndDate(userCode, date))
+        String date = INCORRECT_DATE;
+        Mockito.when(this.expenseService.searchExpensesByUserCodeAndDate(userCode, date))
                 .thenThrow(new ExpenseException(HttpStatus.BAD_REQUEST, EXPENSE_BADLY_FORMATTED_DATE));
         ResponseEntity<?> response = this.expenseController.getExpenseByUserCodeAndDate(userCode, date);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);

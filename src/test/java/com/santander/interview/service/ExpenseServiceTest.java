@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 
+import java.text.ParseException;
 import java.util.*;
 
 import static com.santander.interview.enums.ResponseMessageEnum.EXPENSE_BADLY_FORMATTED_DATE;
@@ -29,73 +30,33 @@ public class ExpenseServiceTest {
     private static final double VALUE = 124.2;
     private static final String DESCRIPTION = "Teste";
     private static final String DETAIL = "Detalhes";
+    List<Expense> expensesResult;
 
     @InjectMocks
     ExpenseServiceImpl expenseService = new ExpenseServiceImpl();
 
     @Mock
-    ExpenseRepository expenseRepository;
-
-    @Mock
-    CategoryRepository categoryRepository;
+    Expense expenseDomain;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+        this.expensesResult = new ArrayList<>();
+        this.expensesResult.add(new Expense());
     }
 
     @Test
-    public void addNewExpenseWithCategoryNullTest() {
-        List<Expense> expenses = new ArrayList<>();
-        Expense expense = new Expense(DESCRIPTION, VALUE, USER_CODE, DATE);
-        expenses.add(expense);
-
-        Mockito.when(this.expenseRepository.findByUserCode(USER_CODE)).thenReturn(expenses);
-
-        this.expenseService.addNewExpense(expense);
-        List<Expense> result = this.expenseService.findExpensesByUserCode(USER_CODE);
-        Assert.assertEquals(result, expenses);
-    }
-
-    @Test
-    public void addNewExpenseWithCategoryTest() {
-        boolean isOk = true;
-        Expense expense = new Expense(DESCRIPTION, VALUE, USER_CODE, DATE);
-        Category category = new Category();
-        List<Category> categories = new ArrayList<>();
-        category.setDetail(DETAIL);
-        expense.setCategory(category);
-        categories.add(new Category(DETAIL));
-
-        Mockito.when(categoryRepository.findByDetail(category.getDetail())).thenReturn(categories);
-        try {
-            this.expenseService.addNewExpense(expense);
-        } catch (Exception e) {
-            isOk = false;
-        }
-
-        Assert.assertTrue(isOk);
-    }
-
-    @Test
-    public void findExpensesByCodigoUsuarioAndDataTest() throws ExpenseException {
-        List<Expense> expenses = new ArrayList<>();
-        Expense expense = new Expense(DESCRIPTION, VALUE, USER_CODE, DATE);
-        expenses.add(expense);
-
-        Assert.assertNotNull(this.expenseService.findExpensesByUserCodeAndDate(USER_CODE, DATE_STRING));
-    }
-
-    @Test
-    public void findExpensesByCodigoUsuarioAndData_InvalidDataTest() {
+    public void searchExpensesByUserCodeAndDate_InvalidDataTest() throws ParseException {
         List<Expense> expenses = new ArrayList<>();
         ResponseMessageEnum responseMessageEnumExpected = EXPENSE_BADLY_FORMATTED_DATE;
         HttpStatus httpStatusExpected = HttpStatus.BAD_REQUEST;
         Expense expense = new Expense(DESCRIPTION, VALUE, USER_CODE, DATE);
         expenses.add(expense);
+        Mockito.when(this.expenseDomain.searchByUserCodeAndDate(USER_CODE, DATE_STRING_INVALID))
+                .thenThrow(ParseException.class);
 
         try {
-            this.expenseService.findExpensesByUserCodeAndDate(USER_CODE, DATE_STRING_INVALID);
+            this.expenseService.searchExpensesByUserCodeAndDate(USER_CODE, DATE_STRING_INVALID);
         } catch (ExpenseException ee) {
             ResponseMessageEnum responseMessageEnum = ee.getResponseMessageEnum();
             Assert.assertEquals(responseMessageEnum.getInternalMessage(), responseMessageEnumExpected.getInternalMessage());
@@ -105,16 +66,25 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    public void updateExpense_FoundExpenseTest() throws ExpenseException {
+    public void searchExpensesByUserCodeTest() {
+        Mockito.when(this.expenseDomain.searchByUserCode(USER_CODE)).thenReturn(this.expensesResult);
+        Assert.assertEquals(
+                this.expenseService.searchExpensesByUserCode(USER_CODE),
+                this.expensesResult
+        );
+    }
+
+
+    @Test
+    public void updateExpenseTest() {
         boolean isOk = true;
         String uuid = UUID.randomUUID().toString();
         Expense expense = new Expense();
-        Optional<Expense> optionalExpense = Optional.of(expense);
-        Mockito.when(this.expenseRepository.findById(uuid)).thenReturn(optionalExpense);
+        Mockito.when(this.expenseDomain.update(uuid, expense)).thenReturn(true);
 
         try {
             this.expenseService.updateExpense(uuid, expense);
-        } catch (Exception e) {
+        } catch (ExpenseException e) {
             isOk = false;
         }
 
@@ -127,8 +97,7 @@ public class ExpenseServiceTest {
         ResponseMessageEnum responseMessageEnum = EXPENSE_NOT_FOUND;
         String uuid = UUID.randomUUID().toString();
         Expense expense = new Expense();
-        Optional<Expense> optionalExpense = Optional.empty();
-        Mockito.when(this.expenseRepository.findById(uuid)).thenReturn(optionalExpense);
+        Mockito.when(this.expenseDomain.update(uuid, expense)).thenReturn(false);
 
         try {
             this.expenseService.updateExpense(uuid, expense);

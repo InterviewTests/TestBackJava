@@ -1,7 +1,6 @@
 package com.santander.interview.service;
 
 import com.santander.interview.domain.Category;
-import com.santander.interview.repository.CategoryRepository;
 import com.santander.interview.service.impl.CategoryServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,30 +17,30 @@ import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceTest {
-    private static final String CATEGORY_DETAIL = "Detalhe";
+    private static final String DETAIL = "teste";
 
     @InjectMocks
     CategoryServiceImpl categoryService = new CategoryServiceImpl();
 
     @Mock
-    CategoryRepository categoryRepository;
+    Category categoryDomain;
 
-    Category category;
+    Category categoryObject;
     List<Category> categoriesResult;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.category = new Category(CATEGORY_DETAIL);
+        this.categoryObject = new Category(DETAIL);
         this.categoriesResult = new ArrayList<>();
-        this.categoriesResult.add(this.category);
+        this.categoriesResult.add(this.categoryObject);
     }
 
     @Test
     public void saveCategoryTest() {
         boolean isOk = true;
         try {
-            this.categoryService.saveCategory(this.category);
+            this.categoryService.saveCategory(categoryObject);
         } catch (Exception e) {
             isOk = false;
         }
@@ -49,11 +48,12 @@ public class CategoryServiceTest {
     }
 
     @Test
-    public void searchCategoryByDetailPrefixTest() {
-        Mockito.when(categoryRepository.findByDetailLike(this.category.getDetail())).thenReturn(this.categoriesResult);
+    public void searchCategoryByDetailSubstringTest() {
+        Mockito.when(categoryDomain.searchByDetailSubstring(DETAIL))
+                .thenReturn(this.categoriesResult);
 
-        String substring = this.category.getDetail();
-        List<Category> result = this.categoryService.searchCategoryByDetailSubstring(substring);
-        Assert.assertEquals(result, categoriesResult);
+        List<Category> categories = this.categoryService.searchCategoryByDetailSubstring(DETAIL);
+        Assert.assertEquals(categories, this.categoriesResult);
     }
+
 }

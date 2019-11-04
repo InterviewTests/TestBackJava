@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gabrieldemery.gestaogastos.entities.Gasto;
+import com.gabrieldemery.gestaogastos.entities.Usuario;
 import com.gabrieldemery.gestaogastos.repositories.GastosRepository;
 
 @Service
@@ -19,14 +20,14 @@ public class GastosService {
 	@Autowired
 	private CategoriasService categoriasService;
 
-	public void inserir(Gasto gasto) {
+	public Gasto inserir(Gasto gasto) {
 		if( gasto.getCategoria() == null || gasto.getCategoria().isEmpty() ) {
 			Optional<Gasto> gastoCategorizado = this.gastosRepository.findFirstByDescricaoAndCategoriaIsNotNull(gasto.getDescricao());
 			if (gastoCategorizado.isPresent()) {
 				gasto.setCategoria(gastoCategorizado.get().getCategoria());
 			}
 		}
-		this.gastosRepository.save(gasto);
+		return this.gastosRepository.save(gasto);
 	}
 	
 	public void inserirLista(List<Gasto> gastos) {
@@ -36,20 +37,20 @@ public class GastosService {
 		});
 	}
 	
-	public List<Gasto> listar(Optional<String> data) {
+	public List<Gasto> listar(Usuario usuario, Optional<String> data) {
 		List<Gasto> lista = new ArrayList<Gasto>();
 		
 		if (data.isPresent()) {
-			lista = this.gastosRepository.findByData(data.get());
+			lista = this.gastosRepository.findByCodigousuarioAndData(usuario.getCodigo(), data.get());
 		} else {
-			lista = this.gastosRepository.findAll();
+			lista = this.gastosRepository.findByCodigousuario(usuario.getCodigo());
 		}
 		
 		return lista;
 	}
 	
-	public Gasto detalhar(Long codigo) {
-		return this.gastosRepository.findByCodigo(codigo);
+	public Gasto detalhar(Usuario usuario, Long codigo) {
+		return this.gastosRepository.findByCodigoAndCodigousuario(codigo, usuario.getCodigo());
 	}
 	
 	public void categorizar(Long codigo, String categoria) throws Exception {

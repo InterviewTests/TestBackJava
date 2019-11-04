@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "127adba5-ead4-4039-9c07-29914d165973",
+		"name": "TestBackJava",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Categorias",
+			"item": [
+				{
+					"name": "Consultar Categorias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/categorias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Gastos",
+			"item": [
+				{
+					"name": "Inserir Gasto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"descricao\": \"PRIMEIRO GASTO\",\n\t\"valor\": 0.01,\n\t\"codigousuario\": 1,\n\t\"data\": \"2019-10-30T15:31:43Z\"\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gastos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gastos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inserir Lista de Gastos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"descricao\": \"PRIMEIRO GASTO\",\n        \"valor\": 0.03,\n        \"codigousuario\": 2,\n        \"data\": \"2019-10-30T15:31:43Z\"\n    },\n    {\n        \"descricao\": \"SEGUNDO GASTO\",\n        \"valor\": 0.02,\n        \"codigousuario\": 2,\n        \"data\": \"2019-10-30T15:31:43Z\"\n    },\n    {\n        \"descricao\": \"TERCEIRO GASTO\",\n        \"valor\": 0.15,\n        \"codigousuario\": 2,\n        \"data\": \"2019-10-30T15:31:43Z\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/gastos/lista",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gastos",
+								"lista"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Gastos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gastos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gastos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Gastos por Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gastos?data=29/10/2019",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gastos"
+							],
+							"query": [
+								{
+									"key": "data",
+									"value": "29/10/2019"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhar Gasto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/gastos/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gastos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Categorizar Gasto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "Transporte"
+						},
+						"url": {
+							"raw": "http://localhost:8080/gastos/3/categorizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"gastos",
+								"3",
+								"categorizar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login - SISTEMA",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

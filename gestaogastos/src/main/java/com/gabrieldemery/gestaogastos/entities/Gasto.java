@@ -43,5 +43,18 @@ public class Gasto {
 	
 	public Double getValor() { return valor; }
 	public void setValor(Double valor) { this.valor = valor; }
+	
+	@Override
+	public String toString() {
+		return new StringBuilder("Gasto[")
+				.append("codigo="+this.codigo+",")
+				.append("codigousuario="+this.codigousuario+",")
+				.append("data="+this.data+",")
+				.append("categoria="+this.categoria+",")
+				.append("descricao="+this.descricao+",")
+				.append("valor="+this.valor)
+				.append("]")
+				.toString();
+	}
 
 }

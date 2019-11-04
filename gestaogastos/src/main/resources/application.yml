@@ -8,18 +8,12 @@ spring:
     platform: mysql
     url: jdbc:mysql://localhost:3306/testbackjava?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
-    #initialization-mode: always
-    #hikari:
-      #maximum-pool-size: 30
-      #connectionTimeout: 30000
-      #idleTimeout: 600000
-      #maxLifetime: 1800000
   jpa:
       database-platform: org.hibernate.dialect.MySQL8Dialect
       generate-ddl: true
       hibernate:
           ddl-auto: update
       show-sql: true
-      
-  #jackson:
-    #default-property-inclusion: NON_NULL
+  redis:
+    host: localhost
+    port: 6374

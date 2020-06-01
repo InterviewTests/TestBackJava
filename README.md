@@ -1,76 +1,63 @@
-# Show me the code
+Desafio Gestão de Gastos (Processo seletivo GFT)
 
-### # DESAFIO:
+Para rodar aplicação é necessário subir os serviços na seguinte ordem: 
 
-API REST para Gestão de Gastos!
+Na IDE STS, Eclipse ou IntelliJ.
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+1° Subir o serviço do Eureka -> Serice Discovery registra todos os serviços da aplicação
+	No pacote package br.com.microservice.eureka;
+	Executar a Class EurekaApplication no RUN AS Spring Boot APP
+	
+2° Subir o serviço do Zuul -> API Gateway
+	No pacote package br.com.microservice.zuul;
+	Executar a Class ZuulApplication no RUN AS Spring Boot APP
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+3° Subir o serviço Auth -> Serviço de autentaticação de usuário com TOKEN
+	No pacote package br.com.microservice.auth;
+	Executar a Class AuthApplication no RUN AS Spring Boot APP
+	
+4° Subir o serviço Cliente
+	No pacote package br.com.gft.clientes;
+	Executar a Class ClientesApplication no RUN AS Spring Boot APP
+	
+4° Subir o serviço Gastos
+	No pacote package br.com.gft.gastos;
+	Executar a Class GastosApplication no RUN AS Spring Boot APP
+	
+Os teste realizados com o Postman.
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+Exemplos de end points na pasta /endpoint
 
-### # Observações gerais
+Banco de Dados:
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
+O banco de dados utilizado foi o H2 em memória.
 
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+Observação: os dados são removidos quando a aplicação é reiniciada.
 
-### # Importante: não há prazo de entrega, faça com qualidade!
+Segue links da interface dos bancos:
 
-# BOA SORTE!
+Gastos:
+http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:file:~/test
+
+Clientes:
+http://localhost:8081/h2-console
+JDBC URL: jdbc:h2:file:~/teste
+
+
+Para cada serviço foi criado um repositório no GitHub segue links para maiores informações:
+
+Auth:
+https://github.com/BrunoRFernandes/desafio-gestao-de-gastos-auth
+
+Clientes:
+https://github.com/BrunoRFernandes/desafio-gestao-de-gastos-clientes
+	
+Eureka: 
+https://github.com/BrunoRFernandes/desafio-gestao-de-gastos-eureka
+
+Gastos:
+https://github.com/BrunoRFernandes/desafio-gestao-de-gastos-zuul
+
+Zuul:
+https://github.com/BrunoRFernandes/desafio-gestao-de-gastos-zuul

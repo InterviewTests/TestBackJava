@@ -50,15 +50,15 @@ http://localhost:8088/oauth/token
 
 Passarr no body form/data 
 
-scope - web
-grant_type - password
-username - bruno 
-password - pwd
+scope: web -
+grant_type: password -
+username: bruno -
+password: pwd
 
 Passar no Authorization 
 
-usename - cliente
-password - clientepwd
+usename: cliente -
+password: clientepwd
 
 Autenticar user: 
 

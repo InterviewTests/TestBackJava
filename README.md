@@ -44,6 +44,29 @@ Clientes:
 http://localhost:8081/h2-console
 JDBC URL: jdbc:h2:file:~/teste
 
+Para todos o request para a aplicação é necessário passar o token:
+
+http://localhost:8088/oauth/token
+
+Passarr no body form/data 
+
+scope - web
+grant_type - password
+username - bruno 
+password - pwd
+
+Passar no Authorization 
+
+usename - cliente
+password - clientepwd
+
+Autenticar user: 
+
+http://localhost:8088/user
+
+Passar o Token nas requisições:
+
+Authorization OAuth 2.0 incluir o token gerado
 
 Para cada serviço foi criado um repositório no GitHub segue links para maiores informações:
 

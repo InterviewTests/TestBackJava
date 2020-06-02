@@ -28,3 +28,8 @@ logging:
     org.hibernate:
       SQL: INFO
       type.descriptor.sql.BasicBinder: TRACE
+      
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8088/user

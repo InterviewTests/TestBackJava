@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "716b1a84-57a7-4e9c-a6ce-9733acaf1028",
+		"name": "Teste gft",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "listar gastos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/gastos/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gastos",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/clientes/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clientes",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar gastos por cliente",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/clientes/listarGastos/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clientes",
+						"listarGastos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eureka",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8761/eureka/apps",
+					"host": [
+						"localhost"
+					],
+					"port": "8761",
+					"path": [
+						"eureka",
+						"apps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "zuul",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5555/clientes/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"clientes",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "zuul routes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5555/actuator/routes",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"actuator",
+						"routes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authorization",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "clientepwd",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "cliente",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "scope",
+							"value": "web",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "bruno",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "pwd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8088/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "web",
+							"disabled": true
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"disabled": true
+						},
+						{
+							"key": "username",
+							"value": "bruno",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pwd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Valid User",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "00b85bc9-e22b-4f19-ae3a-d1b3adef866a",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "queryParams",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "web",
+							"disabled": true
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"disabled": true
+						},
+						{
+							"key": "username",
+							"value": "bruno",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pwd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "novo gasto",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "00b85bc9-e22b-4f19-ae3a-d1b3adef866a",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "queryParams",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\t\n\t\"descricao\" : \"teste\",\n\t\"valor\" : 101.0,\n\t\"codigoUsuario\" : 3,\n\t\"data\" :  \"30-05-2020\",\n\t\"cliente\" : 1,\n\t\"categoria\" : {\n\t\t\"categoria\" : \"alimentacao\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/gastos",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gastos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nova categoria",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"categoria\" : \"alimentacao\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/categorias",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "novo cliente",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "00b85bc9-e22b-4f19-ae3a-d1b3adef866a",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "queryParams",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Bruno\",\n\t\"login\" : \"brfernandes\",\n\t\"password\" : \"1234\",\n\t\"tipoUsuario\" : 0\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/clientes",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

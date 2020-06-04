@@ -1,76 +1,56 @@
-# Show me the code
+# Teste Java Back-end
 
-### # DESAFIO:
+## Dados do candidato
+**Nome:** Dennis Ryudi Takano  
+**Empresa emcaminhadora:** Altran  
 
-API REST para Gestão de Gastos!
+## Execução do projeto
+O projeto Spring Boot é inicializado através da execução do método main localizado em Aplicacao.java, classe localizada no pacote Test.BackJava  
+**Versão do Java utilizada:**: JavaSE-1.8 (jre1.8.0_241)  
+**OBS:** O banco de dados interno está pré-definido com alguns gastos para facilitar os testes. Os dados desses gastos pode ser consultado no log do programa logo após a inicialização.  
 
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
+## Funcionalidades
 
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
+### Integração de gastos
+**Descrição:** Inclui um novo gasto para qualquer usuário. Os dados do gasto devem estar em formato JSON no corpo da requisição.  
+**Método:** POST  
+**URL:** http://localhost:8080/integracao  
+**Body (Parâmetros de exemplo):**  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"descricao": "Novo gasto",  
+&nbsp;&nbsp;&nbsp;&nbsp;"valor": 1.00,  
+&nbsp;&nbsp;&nbsp;&nbsp;"codigousuario": 1,  
+&nbsp;&nbsp;&nbsp;&nbsp;"data": "2020-06-04 10:10:10"  
+}  
 
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
+### Listagem de gastos
+**Descrição:** Lista todos os gastos relacionados a um usuário. O código do usuário deve ser passado por parâmetro no cabeçalho da requisição.  
+**Método:** GET  
+**URL:** http://localhost:8080/listagem  
+**Header (Parâmetros de exemplo):**  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"codigousuario": 1  
+}  
 
-### # Observações gerais
+### Filtro de gastos
+**Descrição:** Lista todos os gastos relacionados a um usuário e a uma data. O código do usuário deve ser passado por parâmetro no cabeçalho da requisição e a data (dia, mês a ano) devem ser passados no endereço.  
+**Método:** GET  
+**URL (Parâmetros de exemplo):** http://localhost:8080/filtro?dia=3&mes=6&ano=2020  
+**Header (Parâmetros de exemplo):**  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"codigousuario": 1  
+}  
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
-
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
-
-### # Importante: não há prazo de entrega, faça com qualidade!
-
-# BOA SORTE!
+### Categorização de gastos
+**Descrição:** Define a categoria para um gasto de um usuário. O código do usuário deve ser passado por parâmetro no cabeçalho da requisição, o id do gasto e a categoria devem estar em formato JSON no corpo da requisição.  
+**Método:** POST  
+**URL:** http://localhost:8080/categorizacao  
+**Header (Parâmetros de exemplo):**  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"codigousuario": 1  
+}  
+**Body (Parâmetros de exemplo):**  
+{  
+&nbsp;&nbsp;&nbsp;&nbsp;"idgasto": 2,  
+&nbsp;&nbsp;&nbsp;&nbsp;"categoria": "Alimentacao"  
+}  

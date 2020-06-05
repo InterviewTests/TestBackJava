@@ -30,7 +30,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
                 .withClient("admin")
                 .secret(passwordEncoder.encode("admin"))
                 .authorizedGrantTypes("password")
-                .scopes("web");
+                .scopes("any");
     }
 
     @Override

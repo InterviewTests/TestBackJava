@@ -12,6 +12,6 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/clientes/**").hasRole("USER_ACESS");
+                .antMatchers("/**,swagger-ui").hasRole("USER_ACESS");
     }
 }

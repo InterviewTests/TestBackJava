@@ -11,6 +11,7 @@ Utilizado
     Mysql 
 ``` 
 Iniciar os projetos 
+ - managerauth
  - Cliente
  - operadoraintegracao
 
@@ -44,10 +45,21 @@ Iniciar os projetos
 ### Get: Listar gastos por cliente
    http://localhost:8083/clientes/gastosCliente/1
 
-### Get: Listar gastos por cliente por data
+### Get: Listar gastos por cliente e data
    http://localhost:8083/clientes/gastosCliente/1/05-11-2020
 
+### Post: Criar Categoria
+   http://localhost:8083/clientes/categoria/
+   - Ex Body: {"categoria": "Geral","descricao": "Mercado" }
+
+
+### Get: Listar categorias criadas
+   http://localhost:8083/clientes/categoria
+
+
 API REST para Gestão de Gastos!
+
+
 
 ```
 Funcionalidade: Integração de gastos por cartão

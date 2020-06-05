@@ -52,11 +52,8 @@ public class ClienteService {
         return billingRepository.findByData(id, data);
     }
 
-    public Categoria criarCategoria(Long id, String descricao, String categoria) {
-        Categoria saveCategoria  = new Categoria();
-        saveCategoria.setDescricao(descricao);
-        saveCategoria.setCategoria(categoria);
-        return categoriaRepository.save(saveCategoria);
+    public Categoria criarCategoria(Categoria categoria) {
+        return categoriaRepository.save(categoria);
     }
 
     public List<Categoria> listarCategoria() {

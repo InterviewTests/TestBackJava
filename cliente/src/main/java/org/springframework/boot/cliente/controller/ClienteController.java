@@ -40,15 +40,17 @@ public class ClienteController {
         return clienteService.listaGastosClienteData(id,data);
     }
 
-    @PostMapping("criarCategoria/{id}/{descricao}/{categoria}")
-    public Categoria criarCategoria(@PathVariable Long id, @PathVariable String  descricao, @PathVariable String categoria ){
-        return clienteService.criarCategoria(id, descricao, categoria);
+    @PostMapping("categoria")
+    public Categoria criarCategoria(@RequestBody Categoria categoria){
+        return clienteService.criarCategoria(categoria);
     }
 
-    @GetMapping("listarCategoria")
+
+    @GetMapping("categoria")
     public List<Categoria> criarCategoria(){
         return clienteService.listarCategoria();
     }
+
 
 
 }

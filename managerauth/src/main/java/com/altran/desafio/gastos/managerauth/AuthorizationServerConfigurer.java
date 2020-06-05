@@ -2,7 +2,6 @@ package com.altran.desafio.gastos.managerauth;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +29,8 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         clients.inMemory()
                 .withClient("admin")
                 .secret(passwordEncoder.encode("admin"))
-                .authorizedGrantTypes("password");
+                .authorizedGrantTypes("password")
+                .scopes("web");
     }
 
     @Override

@@ -27,6 +27,7 @@ public class OperadoraintegracaoApplication {
                 }
 
                 OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
+                System.out.println("detais "+ authentication.getDetails());
                 template.header("Authorization", "Bearer" + details.getTokenValue());
             }
         };

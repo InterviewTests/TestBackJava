@@ -1,6 +1,51 @@
-# Show me the code
+# Empresa Altran
 
-### # DESAFIO:
+### # Kaique Nogueira
+
+Iniciar projeto: 
+ - docker-compose build
+ - docker-compose up -d
+```         
+Utilizado 
+    Kafka
+    Mysql 
+``` 
+Iniciar os projetos 
+ - Cliente
+ - operadoraintegracao
+
+### Post: Gerar Token de Acesso
+   http://localhost:8081/oauth/token     
+   -- user:admin 
+   -- password admin
+    
+ -  Body: form-data
+       - grant_type:password
+       - username:client
+       - password:clientpwd
+ 
+### Post: URL de Acesso 
+   - http://localhost:8081/usuario
+   - Header
+   -- Authorization
+   -- Bearer  :Token
+    
+### Post: Inclusão de Gastos  
+   http://localhost:8082/orders
+   - Ex Body: { "descricao": "Mercado", "valor": "180" , "codigousuario": "1" , "data": "05-11-2020"}
+
+### Post: Criar Cliente
+   http://localhost:8083/clientes
+   - Ex Body: {"name":"Kaique","cpf":"02512502825","password":"123456"}
+
+### Get: Listar Cliente
+   http://localhost:8083/clientes/listar  
+
+### Get: Listar gastos por cliente
+   http://localhost:8083/clientes/gastosCliente/1
+
+### Get: Listar gastos por cliente por data
+   http://localhost:8083/clientes/gastosCliente/1/05-11-2020
 
 API REST para Gestão de Gastos!
 
@@ -10,6 +55,8 @@ Funcionalidade: Integração de gastos por cartão
   É esperado um volume de 100.000 inclusões por segundo
   Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
     { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
+
+
 ```
 ```
 Funcionalidade: Listagem de gastos*

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="managerauth" />
+        <module name="authmanager" />
+        <module name="cliente" />
+        <module name="operadoraintegracao" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="authjwt" target="14" />
+      <module name="authmanager" target="14" />
+      <module name="cliente" target="14" />
+      <module name="integracaooperadora" target="14" />
+      <module name="jwtauth" target="14" />
+      <module name="managerauth" target="14" />
+      <module name="operadoraintegracao" target="14" />
+      <module name="serverouath" target="14" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="authjwt" options="-parameters" />
+      <module name="authmanager" options="-parameters" />
+      <module name="cliente" options="-parameters" />
+      <module name="integracaooperadora" options="-parameters" />
+      <module name="jwtauth" options="-parameters" />
+      <module name="managerauth" options="-parameters" />
+      <module name="operadoraintegracao" options="-parameters" />
+      <module name="serverouath" options="-parameters" />
+    </option>
+  </component>
+</project>

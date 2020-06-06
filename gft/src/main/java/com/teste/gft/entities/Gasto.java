@@ -35,4 +35,6 @@ public class Gasto {
 	@Setter
 	@ManyToOne
 	private Categoria categoria;
+	
+
 }

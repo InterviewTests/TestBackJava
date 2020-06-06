@@ -11,8 +11,6 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 
-
-
 public class User {
 	@Id
 	@GeneratedValue

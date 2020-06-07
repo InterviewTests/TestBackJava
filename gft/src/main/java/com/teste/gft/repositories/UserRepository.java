@@ -7,5 +7,5 @@ import com.teste.gft.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
+	public User findByUsernameAndPassword(String username, String password);
 }

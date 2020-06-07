@@ -1,5 +1,6 @@
 package com.teste.gft.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,22 @@ public class GastoService {
 		Long idUsuario = userService.autenticar(user);
 		if (idUsuario == id) {
 			List<Gasto> lista = gastoRepository.findAllByCodigoUsuario(id);
+			if (lista == null) {
+				throw new ResourceNotFoundException("Não existem gastos desse usuário");
+			}
+			return lista;
+		}
+		return null;
+
+	}
+
+	public List<Gasto> listarGastosPorData(Long id, String email, String senha, LocalDate data) {
+		User user = new User();
+		user.setUsername(email);
+		user.setPassword(senha);
+		Long idUsuario = userService.autenticar(user);
+		if (idUsuario == id) {
+			List<Gasto> lista = gastoRepository.findAllByCodigoUsuarioAndData(id,data);
 			if (lista == null) {
 				throw new ResourceNotFoundException("Não existem gastos desse usuário");
 			}

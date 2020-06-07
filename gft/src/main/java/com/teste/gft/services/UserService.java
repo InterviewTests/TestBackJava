@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.teste.gft.entities.User;
-import com.teste.gft.exceptions.ResourceNotFoundException;
+
 import com.teste.gft.repositories.UserRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class UserService {
 		User newUser = userRepository.findByUsernameAndPassword(usuario, senha);
 
 		if (newUser == null) {
-			throw new ResourceNotFoundException("Usuario não autenticado");
+			return null;
 		}
 		return newUser.getId();
 

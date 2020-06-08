@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "ba5aaea9-18c2-41f9-b204-136c69a111bd",
+		"name": "TesteGft",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Gasto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"descricao\": \"Compra do mercado\",\n\t\"valor\": 20.10,\n\t\"codigoUsuario\" : 1,\n\t\"data\" : \"27/03/1992\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/gasto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gasto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Gasto - Categoria Automática",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"descricao\": \"Primeira Descrição\",\n\t\"valor\": 20.10,\n\t\"codigoUsuario\" : 1,\n\t\"data\" : \"27/03/1992\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/gasto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gasto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Gasto By ID Usuario",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "Guilherme",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "senha",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/gasto/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gasto",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Gasto By Data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "Guilherme",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "senha",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/gasto/1?data=27/03/1992",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gasto",
+						"1"
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "27/03/1992"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Gasto By Id Gasto",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "username",
+						"value": "Guilherme",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "senha",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nome\": \"Teste\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/gasto/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gasto",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

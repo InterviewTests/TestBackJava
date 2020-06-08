@@ -10,11 +10,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teste.gft.entities.Categoria;
 import com.teste.gft.entities.Gasto;
 import com.teste.gft.services.GastoService;
 
@@ -34,27 +36,36 @@ public class GastoController {
 
 	@GetMapping("/gasto/{id}")
 	public ResponseEntity<List<Gasto>> listById(@PathVariable Long id, @RequestHeader("username") String username,
-			@RequestHeader("password") String password) {
-		List<Gasto> lista = gastoServices.listarGastosUsuario(id, username, password);
-		if (lista == null) {
-			return ResponseEntity.noContent().build();
-		}
-		return ResponseEntity.ok().body(lista);
+			@RequestHeader("password") String password, @RequestParam(required = false) String data) {
+		if (data == null) {
+			List<Gasto> lista = gastoServices.listarGastosUsuario(id, username, password);
+			if (lista == null) {
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.ok().body(lista);
+		} else {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate dataPesquisa = LocalDate.parse(data, formatter);
 
+			List<Gasto> lista = gastoServices.listarGastosPorData(id, username, password, dataPesquisa);
+			if (lista == null) {
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.ok().body(lista);
+		}
 	}
 
-	@GetMapping("/gastos/{id}")
-	public ResponseEntity<List<Gasto>> listByIdAndData(@PathVariable Long id,
-			@RequestHeader("username") String username, @RequestHeader("password") String password,
-			@RequestParam("data") String data) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dataPesquisa = LocalDate.parse(data, formatter);
 
-		List<Gasto> lista = gastoServices.listarGastosPorData(id, username, password, dataPesquisa);
-		if (lista == null) {
+
+	@PutMapping("/gasto/{idGasto}")
+	public ResponseEntity<Gasto> atualizarCategoriaGasto(@PathVariable Long idGasto,
+			@RequestHeader("username") String username, @RequestHeader("password") String password,
+			@RequestBody Categoria categoria) {
+		Gasto gasto = gastoServices.atualizarCategoriaGasto(categoria, idGasto, username, password);
+		if (gasto == null) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok().body(lista);
+		return ResponseEntity.ok().body(gasto);
 
 	}
 }

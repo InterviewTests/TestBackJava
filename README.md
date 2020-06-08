@@ -1,76 +1,33 @@
-# Show me the code
+# TesteBackJava
+Projeto criado para o teste de backend Java Altran
 
-### # DESAFIO:
+## Tecnlogias usadas:
+* [Spring Boot](https://spring.io/projects/spring-boot)
+* [Spring Cloud Netflix](https://spring.io/projects/spring-cloud-netflix)
+* [MySQL](https://www.mysql.com/)
+* [Maven](https://maven.apache.org/)
+* [Docker](https://www.docker.com/)
+* [Flyway](https://flywaydb.org/)
+## Execução pelo Maven:
+1. Faça o clone do projeto;
+2. Em seu banco de dados MYSQL crie 3 databases(db_usuarios,db_gastos,db_categorias) com o comando SQL 'create database db_usuarios';
+3. Com um editor de texto ou IDE, confirme as credenciais de acesso a base pelo jpa e flyway nos projetos(GASTO,AUTH,CATEGORIA e USUARIO);
+4. Pelo terminal ou cmd, acesse o diretório do projeto;
+5. Entre no diretorio do Eureka(cd ./eureka) e execute o comando ('mvn spring-boot:run');
+6. Entre no diretorio do Usuario(cd ./usuario) e execute o comando ('mvn spring-boot:run');
+7. Entre no diretorio do Gasto(cd ./gasto) e execute o comando ('mvn spring-boot:run');
+8. Entre no diretorio do Auth(cd ./auth) e execute o comando ('mvn spring-boot:run');
+9. Entre no diretorio do Categoria(cd ./categoria) e execute o comando ('mvn spring-boot:run');
+10. Entre no diretorio do Zuul(cd ./zuul) e execute o comando ('mvn spring-boot:run').
+## Execução pelo Docker
+1. Faça o clone do projeto;
+2. Entre no diretorio do Eureka(cd ./eureka) e execute o comando ('mvn install');
+3. Entre no diretorio do Usuario(cd ./usuario) e execute o comando ('mvn install');
+4. Entre no diretorio do Gasto(cd ./gasto) e execute o comando ('mvn install');
+5. Entre no diretorio do Auth(cd ./auth) e execute o comando ('mvn install');
+6. Entre no diretorio do Categoria(cd ./categoria) e execute o comando ('mvn install');
+7. Entre no diretorio do Zuul(cd ./zuul) e execute o comando ('mvn install').
+8. Dentro do diretório do projeto execute o comando 'docker-compose build';
+9. Após o build, execute o comando 'docker-compose up' para travar o terminal com os logs, caso queira executar em modo Detach execute o comando 'docker-compose up -d';
+10. Aguarde o carregamento de todos os containers, alguns podem demorar por conta do banco de dados, acompanhe pelo 'docker ps' pelo status.
 
-API REST para Gestão de Gastos!
-
-```
-Funcionalidade: Integração de gastos por cartão
-  Apenas sistemas credenciados poderão incluir novos gastos
-  É esperado um volume de 100.000 inclusões por segundo
-  Os gastos, serão informados atraves do protoloco JSON, seguindo padrão:
-    { "descricao": "alfanumerico", "valor": double americano, "codigousuario": numerico, "data": Data dem formato UTC }
-```
-```
-Funcionalidade: Listagem de gastos*
-  Dado que acesso como um cliente autenticado que pode visualizar os gastos do cartão
-  Quando acesso a interface de listagem de gastos
-  Então gostaria de ver meus gastos mais atuais.
- 
-*Para esta funcionalidade é esperado 2.000 acessos por segundo.
-*O cliente espera ver gastos realizados a 5 segundos atrás.
-```
-```
-Funcionalidade: Filtro de gastos
-  Dado que acesso como um cliente autenticado
-  E acessei a interface de listagem de gastos
-  E configure o filtro de data igual a 27/03/1992
-  Então gostaria de ver meus gastos apenas deste dia.
-```
-```
-Funcionalidade: Categorização de gastos
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe de um gasto
-  E este não possui uma categoria
-  Então devo conseguir incluir uma categoria para este
-```
-```
-Funcionalidade: Sugestão de categoria
-  Dado que acesso como um cliente autenticado
-  Quando acesso o detalhe do gasto que não possui categoria
-  E começo a digitar a categoria que desejo
-  Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
-```
-```
-Funcionalidade: Categorização automatica de gasto
-  No processo de integração de gastos, a categoria deve ser incluida automaticamente 
-  caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
-  o mesmo deve receber esta categoria no momento da inclusão do mesmo
-```
-### # Avaliação
-
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
-
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
-
-### # Observações gerais
-
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
-
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
-
-### # Importante: não há prazo de entrega, faça com qualidade!
-
-# BOA SORTE!

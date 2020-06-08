@@ -1,0 +1,19 @@
+server:
+  port: 5000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-service:8761/eureka
+      
+      
+spring:
+  application:
+    name: "zuul"
+    
+        
+zuul:
+  sensitive-headers:
+  - Cookie, Authorization            

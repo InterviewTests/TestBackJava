@@ -1,0 +1,35 @@
+server:
+  port: 8083
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-service:8761/eureka
+
+spring:
+  profiles:
+    active: default      
+  datasource: 
+    username: root
+    password: root
+    url: jdbc:mysql://mysql-usuarios:3306/db_usuarios 
+  application:
+    name: 'usuarios'
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+      
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://auth-service:8090/user
+      
+     
+flyway:
+   url: jdbc:mysql://mysql-usuarios:3306/db_usuarios 
+   schemas: db_usuarios
+   user: "root"
+   password: "root"           

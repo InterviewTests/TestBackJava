@@ -40,6 +40,8 @@ Funcionalidade: Sugestão de categoria
   Quando acesso o detalhe do gasto que não possui categoria
   E começo a digitar a categoria que desejo
   Então uma lista de sugestões de categoria deve ser exibida, estas baseadas em categorias já informadas por outro usuários.
+
+  ### # Essa funcionalidade não foi implementada por conta da arquitetura que escolhi, de um banco de dados relacional
 ```
 ```
 Funcionalidade: Categorização automatica de gasto
@@ -47,29 +49,12 @@ Funcionalidade: Categorização automatica de gasto
   caso a descrição de um gasto seja igual a descrição de qualquer outro gasto já categorizado pelo cliente
   o mesmo deve receber esta categoria no momento da inclusão do mesmo
 ```
-### # Avaliação
-
-Você será avaliado pela usabilidade, por respeitar o design e pela arquitetura da API. 
-É esperado que você consiga explicar as decisões que tomou durante o desenvolvimento através de commits.
-
-* Springboot - Java - Maven (preferêncialmente) ([https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/))
-* RESTFul ([https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/](https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/))
-* DDD ([https://airbrake.io/blog/software-design/domain-driven-design](https://airbrake.io/blog/software-design/domain-driven-design))
-* Microservices ([https://martinfowler.com/microservices/](https://martinfowler.com/microservices/))
-* Testes unitários, teste o que achar importante (De preferência JUnit + Mockito). Mas pode usar o que você tem mais experiência, só nos explique o que ele tem de bom.
-* SOAPUI para testes de carga ([https://www.soapui.org/load-testing/concept.html](https://www.soapui.org/load-testing/concept.html))
-* Uso de diferentes formas de armazenamento de dados (REDIS, Cassandra, Solr/Lucene)
-* Uso do git
-* Diferencial: Criptografia de comunicação, com troca de chaves. ([http://noiseprotocol.org/](http://noiseprotocol.org/))
-* Diferencial: CQRS ([https://martinfowler.com/bliki/CQRS.html](https://martinfowler.com/bliki/CQRS.html)) 
-* Diferencial: Docker File + Docker Compose (com dbs) para rodar seus jars.
 
 ### # Observações gerais
 
-Adicione um arquivo [README.md](http://README.md) com os procedimentos para executar o projeto.
-Pedimos que trabalhe sozinho e não divulgue o resultado na internet.
-
-Faça um fork desse desse repositório em seu Github e nos envie um Pull Request com o resultado, por favor informe por qual empresa você esta se candidatando.
+Para o projeto funcionar corretamente, importe o projeto em alguma IDE, rode o Maven Install.
+Após isso, localize  a pasta de testes e no pacote com.teste.gft.services, rode os dois testes JUnit que estão disponíveis para popular o banco com algumas informações e comprovar a funcionalidade dos serviços.
+Após isso, rode a classe GftApplication que irá startar a API na porta 8080, e então, testar as URI's da API através da coleção postman disponibilizada.
 
 ### # Importante: não há prazo de entrega, faça com qualidade!
 

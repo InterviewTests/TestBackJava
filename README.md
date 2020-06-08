@@ -33,3 +33,27 @@ Projeto criado para o teste de backend Java Altran
 9. Após o build, execute o comando 'docker-compose up' para travar o terminal com os logs, caso queira executar em modo Detach execute o comando 'docker-compose up -d';
 10. Aguarde o carregamento de todos os containers, alguns podem demorar por conta do banco de dados, acompanhe pelo 'docker ps' pelo status.
 
+## Teste
+1. Disponibilizado uma collection para postman
+## Usuários cadastrados
+1. Acesso: paulo senha: 123
+2. Acesso: sistema senha: 123
+3. Acesso: leandro senha: 123
+4. Acesso: sistema2 senha: 123
+5. Acesso: bruno senha: 123
+## Cliente Basic auth (Geração de token)
+1. Username: cliente password: clientepwd
+2. Username: loja password: lojapwd
+## Portas Docker
+1. Projeto Auth: 8090:8090
+2. Projeto Eureka: 8761:8761
+3. Projeto Categoria: 8081:8081
+4. Projeto Gasto: 8082:8082
+5. Projeto Usuario: 8083:8083
+6. Projeto Zuul: 5000:5000
+7. MYSQL DB_GASTOS: 6033:3306
+8. MYSQL DB_USUARIOS: 6034:3306
+9. MYSQL DB_CATEGORIAS: 6035:3306
+
+
+

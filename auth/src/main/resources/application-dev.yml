@@ -1,0 +1,15 @@
+server:
+  port: 8090
+
+spring:
+  profiles:
+    active: default      
+  datasource: 
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:6033/db_usuarios 
+  application:
+    name: 'auth'
+  jpa:
+    hibernate:
+      ddl-auto: none

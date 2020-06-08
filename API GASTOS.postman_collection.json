@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "7974da07-5646-4f44-88dd-fa290fe134d3",
+		"name": "API GASTOS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "OBTER TOKEN",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "clientepwd",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "cliente",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "paulo",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "cliente",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlauth}}/oauth/token",
+							"host": [
+								"{{urlauth}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OBTER DADOS USUARIO",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "69bb5a84-4169-4549-a43b-74cce0225dca",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8090/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GASTO",
+			"item": [
+				{
+					"name": "CADASTRAR GASTO",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "fb5ac789-a9a0-4c36-94ce-a0d878a1ab88",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Mercado Extra\",\n    \"valor\": 256.98,\n    \"codigousuario\": 3,\n    \"data\": \"2020-06-07T18:12:03\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/gastos/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"gastos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ATRIBUIR CATEGORIA AO GASTO",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "e79e7e47-fb1c-4c81-ab19-4417ad0877c3",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "MERCADOS TESTE"
+						},
+						"url": {
+							"raw": "{{url}}/gastos/2/categoria",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"gastos",
+								"2",
+								"categoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR GASTO",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "fb5ac789-a9a0-4c36-94ce-a0d878a1ab88",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/gastos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"gastos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR GASTOS POR DATA",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "fb5ac789-a9a0-4c36-94ce-a0d878a1ab88",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/gastos/pesquisa/data?data=2016-07-08",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"gastos",
+								"pesquisa",
+								"data"
+							],
+							"query": [
+								{
+									"key": "data",
+									"value": "2016-07-08"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CATEGORIA",
+			"item": [
+				{
+					"name": "CADASTRA CATEGORIA",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "e79e7e47-fb1c-4c81-ab19-4417ad0877c3",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome\":\"Conta Domiciliar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/categorias/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"categorias",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR CATEGORIAS",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "e79e7e47-fb1c-4c81-ab19-4417ad0877c3",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/categorias?nome=cont",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"categorias"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "cont"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR CATEGORIA PELO NOME",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "e79e7e47-fb1c-4c81-ab19-4417ad0877c3",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/categorias/pesquisa/nome?termo=Conta Domiciliar",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"categorias",
+								"pesquisa",
+								"nome"
+							],
+							"query": [
+								{
+									"key": "termo",
+									"value": "Conta Domiciliar"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "USUARIO",
+			"item": [
+				{
+					"name": "BUSCAR ID USUARIO",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "e79e7e47-fb1c-4c81-ab19-4417ad0877c3",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/usuarios/pesquisa/acesso?termo=paulos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"usuarios",
+								"pesquisa",
+								"acesso"
+							],
+							"query": [
+								{
+									"key": "termo",
+									"value": "paulos"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,189 @@
+version: "3.3"
+
+services:
+ 
+    mysql_usuario:
+        container_name: mysql-usuarios
+        image: paulo/mysql-usuarios
+        build: 
+            dockerfile: ./docker/mysqlusuarios.dockerfile
+            context: .
+        restart: always     
+        ports:
+            - "6034:3306"
+        networks: 
+            - prod-network
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 100M
+                reservations:
+                    cpus: '0.25'
+                    memory: 50M    
+    mysql_gasto:
+        container_name: mysql-gastos
+        image: paulo/mysql-gastos
+        build: 
+            dockerfile: ./docker/mysqlgastos.dockerfile
+            context: .
+        restart: always     
+        ports:
+            - "6033:3306"
+        networks: 
+            - prod-network
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 100M
+                reservations:
+                    cpus: '0.25'
+                    memory: 50M 
+    mysql_categoria:
+        container_name: mysql-categorias
+        image: paulo/mysql-categorias
+        build: 
+            dockerfile: ./docker/mysqlcategorias.dockerfile
+            context: .
+        restart: always     
+        ports:
+            - "6035:3306"
+        networks: 
+            - prod-network
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 100M
+                reservations:
+                    cpus: '0.25'
+                    memory: 50M 
+    eureka:
+        container_name: eureka-service
+        image: eureka-server
+        build: 
+            dockerfile: ./docker/eureka.dockerfile
+            context: .                
+        restart: always
+        ports: 
+            - "8761:8761"        
+        networks: 
+            - prod-network
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M 
+    usuario:
+        container_name: usuario-service
+        image: usuario-server
+        build: 
+            dockerfile: ./docker/usuario.dockerfile
+            context: .
+        restart: always
+        networks: 
+            - prod-network
+        ports: 
+            - "8083:8083"
+        depends_on: 
+            - "mysql_usuario"
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M 
+    gasto:
+        container_name: gasto-service
+        image: gasto-server
+        build: 
+            dockerfile: ./docker/gasto.dockerfile
+            context: .
+        restart: always
+        networks: 
+            - prod-network
+        ports: 
+            - "8082:8082"
+        depends_on: 
+            - "mysql_gasto"
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M 
+    categoria:
+        container_name: categoria-service
+        image: categoria-server
+        build: 
+            dockerfile: ./docker/categoria.dockerfile
+            context: .
+        restart: always
+        networks: 
+            - prod-network
+        ports: 
+            - "8081:8081"
+        depends_on: 
+            - "mysql_categoria"  
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M 
+    auth:
+        container_name: auth-service
+        image: auth-server
+        build: 
+            dockerfile: ./docker/auth.dockerfile
+            context: .
+        restart: always
+        networks: 
+            - prod-network
+        ports: 
+            - "8090:8090"
+        depends_on: 
+            - "mysql_usuario"                
+            - "usuario"
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M 
+    zuul:
+        container_name: zuul-service
+        image: zuul-server
+        build: 
+            dockerfile: ./docker/zuul.dockerfile
+            context: .
+        restart: always
+        networks: 
+            - prod-network
+        ports: 
+            - "5000:5000"
+        depends_on: 
+            - "eureka"
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 500M
+                reservations:
+                    cpus: '0.25'
+                    memory: 250M 
+networks: 
+    prod-network:
+        driver: bridge

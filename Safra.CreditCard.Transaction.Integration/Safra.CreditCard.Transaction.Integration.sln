@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Safra.CreditCard.Transaction.Integration", "Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration.csproj", "{1AAD2231-ED17-4FE3-888B-C75B24D08DD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Safra.CreditCard.Transaction.Integration", "Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration.csproj", "{1AAD2231-ED17-4FE3-888B-C75B24D08DD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Safra.CreditCard.Transaction.Application", "Safra.CreditCard.Transaction.Application\Safra.CreditCard.Transaction.Application.csproj", "{81444AF8-A35C-4B0A-B89D-891174F7C2FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - TransactionApi", "1 - TransactionApi", "{DDEF8BCC-8D5F-44D8-8A64-5161AF66875A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{020C2EE5-C8A6-49FE-9BA2-C70FAC0F7FBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,17 @@ Global
 		{1AAD2231-ED17-4FE3-888B-C75B24D08DD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AAD2231-ED17-4FE3-888B-C75B24D08DD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AAD2231-ED17-4FE3-888B-C75B24D08DD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81444AF8-A35C-4B0A-B89D-891174F7C2FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81444AF8-A35C-4B0A-B89D-891174F7C2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81444AF8-A35C-4B0A-B89D-891174F7C2FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81444AF8-A35C-4B0A-B89D-891174F7C2FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AAD2231-ED17-4FE3-888B-C75B24D08DD5} = {DDEF8BCC-8D5F-44D8-8A64-5161AF66875A}
+		{81444AF8-A35C-4B0A-B89D-891174F7C2FF} = {020C2EE5-C8A6-49FE-9BA2-C70FAC0F7FBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03BFEE74-3F5C-474E-9CF6-9BAD2D14A0EC}

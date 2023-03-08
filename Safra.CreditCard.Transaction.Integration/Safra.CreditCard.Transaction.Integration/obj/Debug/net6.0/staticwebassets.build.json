@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ssZA8BE4iJVOLbQ2PTNE4S5XuW2vutiVMfyGEJ1KFSc=",
+  "Source": "Safra.CreditCard.Transaction.Integration",
+  "BasePath": "_content/Safra.CreditCard.Transaction.Integration",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

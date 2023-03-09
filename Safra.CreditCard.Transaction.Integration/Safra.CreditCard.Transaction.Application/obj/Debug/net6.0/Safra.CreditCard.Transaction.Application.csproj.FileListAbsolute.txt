@@ -1,0 +1,12 @@
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\bin\Debug\net6.0\Safra.CreditCard.Transaction.Application.deps.json
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\bin\Debug\net6.0\Safra.CreditCard.Transaction.Application.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\bin\Debug\net6.0\Safra.CreditCard.Transaction.Application.pdb
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.csproj.AssemblyReference.cache
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.AssemblyInfoInputs.cache
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.AssemblyInfo.cs
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.csproj.CoreCompileInputs.cache
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\refint\Safra.CreditCard.Transaction.Application.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\Safra.CreditCard.Transaction.Application.pdb
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Application\obj\Debug\net6.0\ref\Safra.CreditCard.Transaction.Application.dll

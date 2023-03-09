@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Safra.CreditCard.Transaction.Integration.props" />
+</Project>

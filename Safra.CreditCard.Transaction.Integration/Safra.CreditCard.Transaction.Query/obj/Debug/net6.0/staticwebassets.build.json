@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CM1YKvxLaoljbzBBA0Lky2tIF/mAbnC+WeSeSqY1g2o=",
+  "Source": "Safra.CreditCard.Transaction.Query",
+  "BasePath": "_content/Safra.CreditCard.Transaction.Query",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

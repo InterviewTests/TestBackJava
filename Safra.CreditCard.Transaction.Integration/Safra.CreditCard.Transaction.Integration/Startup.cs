@@ -17,6 +17,7 @@ namespace Safra.CreditCard.Transaction.Integration
 
          public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RabbitMQOptions>(Configuration.GetSection("RabbitMq"));
             services.Configure<DataBaseConfiguration>(Configuration.GetSection("ConnectionString"));
             services.AddControllers();
             services.AddEndpointsApiExplorer();
@@ -24,6 +25,7 @@ namespace Safra.CreditCard.Transaction.Integration
             services.AddLogging();
             services.AddApplication();
             services.AddFeatures();
+            services.AddRabbitMq();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

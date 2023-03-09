@@ -1,0 +1,7 @@
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.csproj.AssemblyReference.cache
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.GeneratedMSBuildEditorConfig.editorconfig
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.AssemblyInfoInputs.cache
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.AssemblyInfo.cs
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.csproj.CoreCompileInputs.cache
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.MvcApplicationPartsAssemblyInfo.cs
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Category\obj\Debug\net6.0\Safra.CreditCard.Transaction.Category.MvcApplicationPartsAssemblyInfo.cache

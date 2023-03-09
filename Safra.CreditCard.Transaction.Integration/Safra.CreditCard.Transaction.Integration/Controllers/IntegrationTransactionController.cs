@@ -1,9 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Safra.CreditCard.Transaction.Application.Features.GetAllCategoryIntegrationTransaction.Models;
-using Safra.CreditCard.Transaction.Application.Features.InsertCategoryIntegrationTransaction.Models;
 using Safra.CreditCard.Transaction.Application.Features.IntegrationTransaction.Models;
-using Safra.CreditCard.Transaction.Application.Features.UpdateCategoryIntegrationTransaction.Models;
 using System.Threading;
 using System.Threading.Tasks;
 

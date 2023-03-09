@@ -5,21 +5,25 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Safra.CreditCard.Transaction.Integration", "Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration.csproj", "{1AAD2231-ED17-4FE3-888B-C75B24D08DD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Safra.CreditCard.Transaction.Application", "Safra.CreditCard.Transaction.Application\Safra.CreditCard.Transaction.Application.csproj", "{81444AF8-A35C-4B0A-B89D-891174F7C2FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Safra.CreditCard.Transaction.Application", "Safra.CreditCard.Transaction.Application\Safra.CreditCard.Transaction.Application.csproj", "{81444AF8-A35C-4B0A-B89D-891174F7C2FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Integration", "1 - Integration", "{DDEF8BCC-8D5F-44D8-8A64-5161AF66875A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Integration", "1-Integration", "{DDEF8BCC-8D5F-44D8-8A64-5161AF66875A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{020C2EE5-C8A6-49FE-9BA2-C70FAC0F7FBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apresentation", "Apresentation", "{B15932D3-2A60-455C-A584-30181F762F5F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 -Query", "2 -Query", "{7020CA01-A0BF-4352-B6D4-B39865D6B536}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Query", "2-Query", "{7020CA01-A0BF-4352-B6D4-B39865D6B536}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Safra.CreditCard.Transaction.Query", "Safra.CreditCard.Transaction.Query\Safra.CreditCard.Transaction.Query.csproj", "{8AB5C7ED-34AF-48BA-8123-04C9FCCF5ED6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Category", "3 - Category", "{1F037C1A-6934-4224-B6E4-34B5E2F7D6BB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Category", "3-Category", "{1F037C1A-6934-4224-B6E4-34B5E2F7D6BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Safra.CreditCard.Transaction.Category", "Safra.CreditCard.Transaction.Category\Safra.CreditCard.Transaction.Category.csproj", "{343B6B66-86D4-400B-9B96-636705540FA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{B7258127-47E4-4FBE-B4AF-4947DFB6D5D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Safra.CreditCard.Transaction.UnitTest", "Safra.CreditCard.Transaction.UnitTest\Safra.CreditCard.Transaction.UnitTest.csproj", "{CE2B5262-5C03-4CFD-8708-55029B14E2D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,10 @@ Global
 		{343B6B66-86D4-400B-9B96-636705540FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{343B6B66-86D4-400B-9B96-636705540FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{343B6B66-86D4-400B-9B96-636705540FA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE2B5262-5C03-4CFD-8708-55029B14E2D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2B5262-5C03-4CFD-8708-55029B14E2D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2B5262-5C03-4CFD-8708-55029B14E2D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2B5262-5C03-4CFD-8708-55029B14E2D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{8AB5C7ED-34AF-48BA-8123-04C9FCCF5ED6} = {7020CA01-A0BF-4352-B6D4-B39865D6B536}
 		{1F037C1A-6934-4224-B6E4-34B5E2F7D6BB} = {B15932D3-2A60-455C-A584-30181F762F5F}
 		{343B6B66-86D4-400B-9B96-636705540FA6} = {1F037C1A-6934-4224-B6E4-34B5E2F7D6BB}
+		{CE2B5262-5C03-4CFD-8708-55029B14E2D1} = {B7258127-47E4-4FBE-B4AF-4947DFB6D5D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03BFEE74-3F5C-474E-9CF6-9BAD2D14A0EC}

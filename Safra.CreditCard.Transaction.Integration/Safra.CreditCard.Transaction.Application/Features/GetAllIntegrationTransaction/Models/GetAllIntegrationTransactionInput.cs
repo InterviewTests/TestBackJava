@@ -11,9 +11,7 @@ namespace Safra.CreditCard.Transaction.Application.Features.GetAllIntegrationTra
     {
         public DateTime? TransactionDate{ get; set; }
 
-
-        [JsonIgnore]
-        public FilterDefinition<TransactionDto> Filter 
+        public FilterDefinition<TransactionDto> Filter()
             => !TransactionDate.HasValue ? Builders<TransactionDto>.Filter.Gt("DateTransaction", DateTime.Now.AddSeconds(-5)) : Builders<TransactionDto>.Filter.Gt("DateTransaction", TransactionDate?.Date) & Builders<TransactionDto>.Filter.Lt("DateTransaction", TransactionDate?.AddDays(1).Date);
     }
 }

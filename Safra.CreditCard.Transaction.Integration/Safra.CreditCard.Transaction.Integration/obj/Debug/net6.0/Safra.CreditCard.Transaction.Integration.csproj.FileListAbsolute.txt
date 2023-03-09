@@ -12,6 +12,9 @@ C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.In
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\AWSSDK.SecurityToken.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\DnsClient.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MassTransit.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MassTransit.Abstractions.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MassTransit.RabbitMqTransport.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MediatR.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MediatR.Contracts.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MediatR.Extensions.dll
@@ -22,11 +25,15 @@ C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.In
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Versioning.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.Diagnostics.HealthChecks.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MongoDB.Bson.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MongoDB.Driver.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MongoDB.Driver.Core.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\RabbitMQ.Client.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Serilog.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\SharpCompress.dll
@@ -36,6 +43,7 @@ C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.In
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\System.IO.Packaging.dll
+C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\System.Text.Json.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\ZstdSharp.dll
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
@@ -63,11 +71,3 @@ C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.In
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\obj\Debug\net6.0\Safra.CreditCard.Transaction.Integration.pdb
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\obj\Debug\net6.0\Safra.CreditCard.Transaction.Integration.genruntimeconfig.cache
 C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\obj\Debug\net6.0\ref\Safra.CreditCard.Transaction.Integration.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MassTransit.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MassTransit.Abstractions.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\MassTransit.RabbitMqTransport.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.Diagnostics.HealthChecks.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\RabbitMQ.Client.dll
-C:\repo\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\Safra.CreditCard.Transaction.Integration\bin\Debug\net6.0\System.Text.Json.dll

@@ -9,11 +9,11 @@ namespace Safra.CreditCard.Transaction.Query.Controllers
 {
     [ApiController]
     [Route("transaction")]
-    public class IntegrationTransactionController : ControllerBase
+    public class IntegrationQueryController : ControllerBase
     {
         private readonly IMediator _mediator;
         
-        public IntegrationTransactionController(
+        public IntegrationQueryController(
             IMediator mediator)
         {
             _mediator = mediator;

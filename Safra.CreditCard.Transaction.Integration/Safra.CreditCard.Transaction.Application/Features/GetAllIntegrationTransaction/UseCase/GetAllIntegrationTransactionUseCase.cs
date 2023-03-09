@@ -17,7 +17,7 @@ namespace Safra.CreditCard.Transaction.Application.Features.GetAllIntegrationTra
         }
 
         public async Task<List<TransactionDto>> Handle(GetAllIntegrationTransactionInput request, CancellationToken cancellationToken)
-            => await _GetAllIntegrationTransactionRepository.GetAllIntegrationTransactionAsync(request.Filter);
+            => await _GetAllIntegrationTransactionRepository.GetAllIntegrationTransactionAsync(request.Filter());
            
     }
 }
